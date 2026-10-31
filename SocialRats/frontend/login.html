@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SocialRats · Entrar</title>
+  <meta name="description" content="Acesse o SocialRats e acompanhe momentos e rotinas dos seus amigos na arena.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       INSTAGRAM SPLIT LOGIN (REFERÊNCIA EXATA DO USUÁRIO)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-left-bg: #0b0913;
+      --color-right-bg: #14111e;
+      --color-input-bg: #1c1728;
+      --color-input-border: #30263e;
+      --color-input-focus: #ff32b8;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      --color-brand-pink: #ff32b8;
+      --color-brand-purple: #923bff;
+      --color-brand-orange: #ff713f;
+      --color-btn-blue: #ff32b8;
+      --color-btn-blue-hover: #e028a0;
+      --color-btn-dark: #1c1728;
+      --color-btn-dark-hover: #251e36;
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --radius-input: 14px;
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      height: 100%;
+      background-color: var(--color-left-bg);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* Split Screen Container */
+    .split-layout {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       LEFT COLUMN: BRAND ICON + HEADLINE + LAYERED MOCKUP SHOWCASE
+       ──────────────────────────────────────────────────────────── */
+    .left-panel {
+      flex: 1.25;
+      background-color: var(--color-left-bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 44px 56px 36px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Brand Logo / Icon at Top-Left */
+    .brand-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      z-index: 2;
+    }
+
+    .brand-icon-img {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+    }
+
+    .gradient-text {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Center Content on Left */
+    .left-center-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: auto 0;
+      z-index: 2;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* Big Headline */
+    .hero-headline {
+      font-family: var(--font-heading);
+      font-size: 34px;
+      font-weight: 800;
+      line-height: 1.25;
+      color: #ffffff;
+      margin-bottom: 24px;
+      max-width: 480px;
+      letter-spacing: -0.6px;
+    }
+
+    .hl-pink {
+      color: var(--color-brand-pink);
+    }
+
+    .hl-brand {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Showcase Visual (Trio feed posts and stories cards) */
+    .showcase-container {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .showcase-img {
+      width: 250%;
+      height: auto;
+      max-height: 900px;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 45px rgba(255, 42, 109, 0.15));
+      user-select: none;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
+
+    @keyframes floatBadge {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+
+      100% {
+        transform: translateY(-8px) scale(1.03);
+      }
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       RIGHT COLUMN: CHARCOAL PANEL WITH AUTH FORM
+       ──────────────────────────────────────────────────────────── */
+    .right-panel {
+      flex: 1;
+      max-width: 520px;
+      background-color: var(--color-right-bg);
+      border-left: 1px solid #222222;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Title on Form */
+    .form-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      letter-spacing: -0.2px;
+      text-align: left;
+    }
+
+    /* Inputs */
+    .ig-input-group {
+      position: relative;
+      width: 100%;
+      margin-bottom: 12px;
+    }
+
+    .ig-input {
+      width: 100%;
+      height: 48px;
+      background-color: var(--color-input-bg);
+      border: 1px solid var(--color-input-border);
+      border-radius: var(--radius-input);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 0 44px 0 16px;
+      outline: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .ig-input::placeholder {
+      color: var(--color-text-muted);
+      font-size: 13px;
+    }
+
+    .ig-input:focus {
+      border-color: var(--color-input-focus);
+      background-color: #202020;
+    }
+
+    .btn-toggle-pwd {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-toggle-pwd:hover {
+      color: #ffffff;
+    }
+
+    /* Primary Submit Button */
+    .btn-submit {
+      width: 100%;
+      height: 44px;
+      background-color: var(--color-btn-blue);
+      border: none;
+      border-radius: var(--radius-input);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 6px;
+      margin-bottom: 20px;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--color-btn-blue-hover);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.99);
+    }
+
+    /* Forgot Password Link */
+    .forgot-link {
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffffff;
+      text-decoration: none;
+      text-align: center;
+      margin-bottom: 50px;
+      transition: opacity 0.15s ease;
+    }
+
+    .forgot-link:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+
+    /* Secondary Action: Entrar com o Google */
+    .btn-social-google {
+      width: 100%;
+      height: 44px;
+      background-color: var(--color-btn-dark);
+      border: 1px solid #333333;
+      border-radius: var(--radius-input);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn-social-google:hover {
+      background-color: var(--color-btn-dark-hover);
+      border-color: #444444;
+    }
+
+    .google-icon-svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    /* Outline Button: Criar nova conta */
+    .btn-create-account {
+      width: 100%;
+      height: 44px;
+      background-color: transparent;
+      border: 1px solid var(--color-brand-pink);
+      border-radius: var(--radius-input);
+      color: var(--color-brand-pink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      margin-bottom: 36px;
+    }
+
+    .btn-create-account:hover {
+      background-color: rgba(255, 42, 109, 0.12);
+      border-color: #ff4d88;
+      color: #ffffff;
+    }
+
+    /* Bottom Meta Logo */
+    .bottom-meta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+    }
+
+    .bottom-meta i {
+      font-size: 16px;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background-color: #1c1728;
+      border: 1px solid #30263e;
+      border-radius: 9999px;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      z-index: 100;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast.success i {
+      color: #34d399;
+    }
+
+    .toast.error i {
+      color: #ff4d6d;
+    }
+
+    /* Modal Recuperação de Senha */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 90;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background-color: #14111e;
+      border: 1px solid #30263e;
+      border-radius: 16px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      transform: translateY(20px);
+      transition: transform 0.25s ease;
+      text-align: center;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .modal-desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    .btn-modal-cancel {
+      display: inline-block;
+      margin-top: 14px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-modal-cancel:hover {
+      color: #ffffff;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       RESPONSIVE DESIGN (Telas < 900px e Mobile)
+       ──────────────────────────────────────────────────────────── */
+    @media (max-width: 900px) {
+      .split-layout {
+        flex-direction: column;
+      }
+
+      .left-panel {
+        flex: none;
+        padding: 32px 24px 20px;
+        align-items: center;
+      }
+
+      .hero-headline {
+        font-size: 26px;
+        margin-bottom: 16px;
+      }
+
+      .showcase-container {
+        max-width: 340px;
+      }
+
+      .showcase-img {
+        max-height: 320px;
+      }
+
+      .right-panel {
+        flex: none;
+        max-width: 100%;
+        border-left: none;
+        border-top: 1px solid #222222;
+        padding: 40px 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="split-layout">
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- LEFT PANEL: LOGO + HEADLINE + STORIES SHOWCASE   -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <section class="left-panel">
+      <!-- Top Brand Icon & Name -->
+      <a href="../index.html">
+        <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" class="brand-icon-img">
+      </a>
+
+
+      <!-- Center Headline + Mockup Show -->
+      <div class="left-center-content">
+        <h1 class="hero-headline">
+          Sua evolução não precisa ser solitária. Acenda o fogo, <span class="hl-pink">compartilhe</span> sua jornada e
+          <span class="hl-brand">evolua junto</span>.
+        </h1>
+
+        <!-- Image Showcase Container (Stories & Feed Posts) -->
+        <div class="showcase-container">
+          <img src="../images/socialrats-feed-showcase.png" alt="SocialRats Feed e Stories" class="showcase-img">
+        </div>
+      </div>
+
+      <!-- Bottom Spacer to balance layout -->
+      <div style="height: 20px;"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════ -->
+    <!-- RIGHT PANEL: INSTAGRAM AUTH PANEL               -->
+    <!-- ═══════════════════════════════════════════════ -->
+    <section class="right-panel">
+      <div class="form-container">
+
+        <!-- Form Title (Entrar no SocialRats) -->
+        <h2 class="form-title">Entrar no SocialRats</h2>
+
+        <!-- Login Form -->
+        <form id="login-form" novalidate>
+          <!-- Input 1: Número de celular, nome de usuário ou email -->
+          <div class="ig-input-group">
+            <input type="text" id="login-identifier" class="ig-input"
+              placeholder="Número de celular, nome de usuário ou email" autocomplete="username" required>
+          </div>
+
+          <!-- Input 2: Senha -->
+          <div class="ig-input-group">
+            <input type="password" id="login-password" class="ig-input" placeholder="Senha"
+              autocomplete="current-password" required>
+            <button type="button" id="btn-toggle-pwd" class="btn-toggle-pwd" aria-label="Mostrar ou ocultar senha">
+              <i class="fa-regular fa-eye" id="pwd-icon"></i>
+            </button>
+          </div>
+
+          <!-- Primary Submit Button: Entrar -->
+          <button type="submit" id="btn-submit" class="btn-submit">
+            <span>Entrar</span>
+          </button>
+        </form>
+
+        <!-- Forgot Password Link -->
+        <a href="#" id="open-forgot-modal" class="forgot-link">Esqueceu a senha?</a>
+
+        <!-- Entrar com o Google -->
+        <button type="button" id="btn-google-login" class="btn-social-google" aria-label="Entrar com o Google">
+          <svg class="google-icon-svg" viewBox="0 0 24 24">
+            <path
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              fill="#4285F4" />
+            <path
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              fill="#34A853" />
+            <path
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              fill="#FBBC05" />
+            <path
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              fill="#EA4335" />
+          </svg>
+          <span>Entrar com o Google</span>
+        </button>
+
+        <!-- Criar nova conta (Outlined button) -->
+        <a href="register.html" class="btn-create-account">
+          <span>Criar nova conta</span>
+        </a>
+
+
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- MODAL: RECUPERAÇÃO DE SENHA                     -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div id="forgot-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+      <h2 id="modal-title" class="modal-title">Esqueceu sua senha?</h2>
+      <p class="modal-desc">Insira seu email, telefone ou nome de usuário para enviarmos um link de acesso à sua conta.
+      </p>
+
+      <form id="forgot-form" novalidate>
+        <div class="ig-input-group" style="margin-bottom: 14px;">
+          <input type="text" id="forgot-identifier" class="ig-input"
+            placeholder="Número de celular, nome de usuário ou email" required>
+        </div>
+        <button type="submit" class="btn-submit" style="margin-bottom: 10px;">
+          <span>Enviar link de login</span>
+        </button>
+      </form>
+
+      <button type="button" id="close-forgot-modal" class="btn-modal-cancel">Voltar ao login</button>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+    <span id="toast-message">Mensagem</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- JAVASCRIPT: AUTHENTICATION INTERACTION          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <script>
+    // 1. Password Toggle Visibility
+    const pwdInput = document.getElementById('login-password');
+    const togglePwdBtn = document.getElementById('btn-toggle-pwd');
+    const pwdIcon = document.getElementById('pwd-icon');
+
+    if (pwdInput && togglePwdBtn) {
+      togglePwdBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.getAttribute('type') === 'password';
+        pwdInput.setAttribute('type', isPassword ? 'text' : 'password');
+        pwdIcon.className = isPassword ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye';
+      });
+    }
+
+    // 2. Toast Notification Helper
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    let toastTimeout = null;
+
+    function showToast(message, type = 'success') {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastMsg.textContent = message;
+      toast.className = `toast show ${type}`;
+
+      if (type === 'success') {
+        toastIcon.className = 'fa-solid fa-circle-check';
+      } else if (type === 'error') {
+        toastIcon.className = 'fa-solid fa-triangle-exclamation';
+      } else {
+        toastIcon.className = 'fa-solid fa-circle-info';
+      }
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // 3. Login Submit Simulation
+    const loginForm = document.getElementById('login-form');
+    const btnSubmit = document.getElementById('btn-submit');
+    const identifierInput = document.getElementById('login-identifier');
+
+    if (loginForm) {
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const id = identifierInput.value.trim();
+        const pwd = pwdInput.value;
+
+        if (!id || !pwd) {
+          showToast('Preencha seu usuário/email e sua senha.', 'error');
+          return;
+        }
+
+        const originalText = btnSubmit.innerHTML;
+        btnSubmit.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+        btnSubmit.disabled = true;
+
+        setTimeout(() => {
+          btnSubmit.innerHTML = originalText;
+          btnSubmit.disabled = false;
+          try {
+            localStorage.setItem('socialrats_user', id);
+          } catch (err) {}
+          showToast(`Conectado como ${id}! Redirecionando para o feed...`, 'success');
+          setTimeout(() => {
+            window.location.href = 'feed.html';
+          }, 800);
+        }, 900);
+      });
+    }
+
+    // 4. Google Sign-In Simulation
+    const btnGoogle = document.getElementById('btn-google-login');
+    if (btnGoogle) {
+      btnGoogle.addEventListener('click', () => {
+        showToast('Conectando com o Google... (Demonstração)', 'success');
+        setTimeout(() => {
+          try {
+            localStorage.setItem('socialrats_user', 'Gabriel');
+          } catch (err) {}
+          showToast('Autenticado com sucesso via Google! Redirecionando...', 'success');
+          setTimeout(() => {
+            window.location.href = 'feed.html';
+          }, 800);
+        }, 1100);
+      });
+    }
+
+    // 5. Forgot Password Modal
+    const openForgot = document.getElementById('open-forgot-modal');
+    const closeForgot = document.getElementById('close-forgot-modal');
+    const forgotModal = document.getElementById('forgot-modal');
+    const forgotForm = document.getElementById('forgot-form');
+
+    if (openForgot && forgotModal) {
+      openForgot.addEventListener('click', (e) => {
+        e.preventDefault();
+        forgotModal.classList.add('active');
+        document.getElementById('forgot-identifier').focus();
+      });
+    }
+
+    if (closeForgot && forgotModal) {
+      closeForgot.addEventListener('click', () => {
+        forgotModal.classList.remove('active');
+      });
+    }
+
+    if (forgotModal) {
+      forgotModal.addEventListener('click', (e) => {
+        if (e.target === forgotModal) forgotModal.classList.remove('active');
+      });
+    }
+
+    if (forgotForm) {
+      forgotForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const idVal = document.getElementById('forgot-identifier').value.trim();
+        if (!idVal) {
+          showToast('Preencha o campo de email ou usuário.', 'error');
+          return;
+        }
+        forgotModal.classList.remove('active');
+        showToast('Link de recuperação enviado com sucesso!', 'success');
+      });
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && forgotModal.classList.contains('active')) {
+        forgotModal.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+
+</html>

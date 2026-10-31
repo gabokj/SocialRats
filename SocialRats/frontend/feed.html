@@ -1,0 +1,2831 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Feed</title>
+  <meta name="description" content="Feed oficial do SocialRats. Compartilhe sua evolução, momentos e desafios com a comunidade.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN TOKENS — SOCIALRATS DARK FEED
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-border-subtle: #30263e;
+      
+      --bg-canvas: #0b0913;
+      --bg-mobile-app: #0b0913;
+      --bg-card: #14111e;
+      --bg-card-hover: #1c1728;
+      --bg-elevated: #1c1728;
+      --border-card: #30263e;
+      --border-subtle: #30263e;
+      
+      --text-primary: #ffffff;
+      --text-secondary: #b7b0c5;
+      --text-body: #f1f1f5;
+      --text-muted: #6f6780;
+      
+      --color-brand-purple: #923bff;
+      --color-brand-violet: #923bff;
+      --color-brand-pink: #ff32b8;
+      --color-brand-orange: #ff713f;
+      --color-heart-red: #ff3355;
+      --color-success: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #ff4d6d;
+      
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      
+      --card-radius: 20px;
+      --media-radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR (Visible on >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050e;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #ffffff;
+    }
+
+    .brand-logo-text .brand-rats {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-brand-purple);
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a {
+      background: rgba(255, 50, 184, 0.12);
+      color: var(--color-brand-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active a i {
+      color: var(--color-brand-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--color-brand-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    /* Desktop User Profile Card (Bottom of Sidebar) */
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      margin-top: auto;
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-brand-pink);
+    }
+
+    .desktop-user-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desktop-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px;
+    }
+
+    .desktop-user-handle {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .btn-logout-sidebar {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-sidebar:hover {
+      color: #ff4d6d;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN FEED CONTAINER (MOBILE & WEB ADAPTED)
+       ═══════════════════════════════════════════════════════════════ */
+    .feed-center-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--border-subtle);
+      border-right: 1px solid var(--border-subtle);
+      padding-bottom: 90px; /* Space for bottom dock */
+    }
+
+    /* Optional Desktop Phone Mockup Frame toggle */
+    .app-viewport.mockup-mode {
+      background-color: #0c0d12;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .feed-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f212d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(139, 92, 246, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .feed-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* View Mode Switcher Pill (Desktop Floating) */
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #181922;
+      border: 1px solid var(--border-subtle);
+      border-radius: 30px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: #222430;
+      border-color: var(--color-brand-purple);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       TOP APP BAR (IDENTICAL TO SCREENSHOT)
+       ──────────────────────────────────────────────────────────── */
+    .top-app-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      background-color: var(--color-background);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .feed-brand-title {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .feed-brand-title .logo-rats {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-brand-purple);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-notification-bell {
+      position: relative;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: transform 0.15s ease;
+    }
+
+    .btn-notification-bell:active {
+      transform: scale(0.92);
+    }
+
+    .bell-badge-dot {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      width: 9px;
+      height: 9px;
+      background-color: var(--color-brand-pink);
+      border-radius: 50%;
+      border: 2px solid var(--color-background);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       STORIES TRAY (HORIZONTAL SCROLL — IDENTICAL TO SCREENSHOT)
+       ──────────────────────────────────────────────────────────── */
+    .stories-container {
+      width: 100%;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 10px 16px 18px;
+    }
+
+    .stories-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .stories-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      width: max-content;
+    }
+
+    .story-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      text-decoration: none;
+      outline: none;
+      user-select: none;
+    }
+
+    .story-avatar-wrap {
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Gradient Story Ring for other users */
+    .story-item:not(.your-story) .story-avatar-wrap {
+      background: var(--gradient-story);
+      padding: 2.5px;
+    }
+
+    .story-item:not(.your-story) .story-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--bg-mobile-app);
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .story-item:hover .story-avatar-img {
+      transform: scale(1.04);
+    }
+
+    /* "Your Story" has purple '+' badge */
+    .story-item.your-story .story-avatar-wrap {
+      border: 1.5px solid rgba(255, 255, 255, 0.15);
+      padding: 2px;
+    }
+
+    .your-story-plus-badge {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      width: 21px;
+      height: 21px;
+      background-color: var(--color-brand-pink);
+      border: 2px solid var(--color-background);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .story-username {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #e5e5ea;
+      max-width: 68px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.2px;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       FEED POSTS LIST (IDENTICAL TO SCREENSHOT)
+       ──────────────────────────────────────────────────────────── */
+    .feed-posts-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 12px;
+    }
+
+    /* Post Card */
+    .post-card {
+      background-color: var(--bg-card);
+      border-radius: var(--card-radius);
+      padding: 14px 14px 16px;
+      border: 1px solid var(--border-card);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .post-card:hover {
+      background-color: var(--bg-card-hover);
+      border-color: rgba(255, 50, 184, 0.2);
+    }
+
+    /* Post Header */
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .post-author-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .post-author-avatar-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .post-author-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .post-author-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .post-author-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+    }
+
+    .post-timestamp {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+
+    .btn-post-options {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      padding: 6px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-post-options:hover {
+      color: #ffffff;
+    }
+
+    /* Post Media (Image) */
+    .post-media-container {
+      width: 100%;
+      border-radius: var(--media-radius);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background-color: #0b0c10;
+      position: relative;
+    }
+
+    .post-media-img {
+      width: 100%;
+      height: auto;
+      max-height: 360px;
+      display: block;
+      object-fit: cover;
+      border-radius: var(--media-radius);
+      user-select: none;
+    }
+
+    /* Post Text Body (Text-only posts) */
+    .post-text-body {
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--text-body);
+      font-weight: 400;
+      margin-bottom: 14px;
+      word-break: break-word;
+    }
+
+    /* Post Actions Row */
+    .post-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+
+    .post-actions-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 2px 0;
+      transition: transform 0.1s ease, color 0.15s ease;
+    }
+
+    .action-btn:active {
+      transform: scale(0.92);
+    }
+
+    .action-btn i {
+      font-size: 18px;
+    }
+
+    /* Like Button Active (Red heart in screenshot) */
+    .like-btn.liked {
+      color: #ffffff;
+    }
+
+    .like-btn.liked i {
+      color: var(--color-heart-red);
+    }
+
+    .like-btn:not(.liked) i {
+      color: #ffffff;
+    }
+
+    .like-btn.pop-anim i {
+      animation: heartBeatPop 0.35s ease;
+    }
+
+    @keyframes heartBeatPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.35); }
+      100% { transform: scale(1); }
+    }
+
+    /* Bookmark button (right side) */
+    .bookmark-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 0;
+      transition: transform 0.1s ease, color 0.15s ease;
+    }
+
+    .bookmark-btn:active {
+      transform: scale(0.9);
+    }
+
+    .bookmark-btn.saved {
+      color: var(--color-brand-pink);
+    }
+
+    /* Post Caption / Description */
+    .post-caption {
+      font-size: 13px;
+      line-height: 1.45;
+      color: var(--text-body);
+      font-weight: 400;
+      padding: 0 2px;
+      word-break: break-word;
+    }
+
+    .caption-more-btn {
+      color: var(--color-brand-pink);
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 2px;
+    }
+
+    .caption-more-btn:hover {
+      text-decoration: underline;
+    }
+
+    .caption-expanded-text {
+      display: none;
+    }
+
+    .caption-expanded-text.show {
+      display: inline;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       BOTTOM NAVIGATION DOCK (FIXED — IDENTICAL TO SCREENSHOT)
+       ──────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(14, 11, 22, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #b0b3b8;
+    }
+
+    /* Active Tab: Home (Orange in screenshot) */
+    .nav-tab-btn.active .nav-tab-icon {
+      color: var(--color-brand-orange);
+    }
+
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--color-brand-orange);
+      font-weight: 700;
+    }
+
+    /* Floating Action Button (FAB) for Creating Posts */
+    .feed-fab-create-btn {
+      position: fixed;
+      bottom: 78px;
+      right: calc(50% - 250px + 18px);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff713f 0%, #ff2a6d 50%, #923bff 100%);
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 90;
+      box-shadow: 0 8px 24px rgba(255, 42, 109, 0.45), 0 0 16px rgba(255, 113, 63, 0.35);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+    }
+
+    .feed-fab-create-btn:hover {
+      transform: scale(1.08) translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 42, 109, 0.6), 0 0 20px rgba(255, 113, 63, 0.5);
+    }
+
+    .feed-fab-create-btn:active {
+      transform: scale(0.94);
+    }
+
+    @media (max-width: 500px) {
+      .feed-fab-create-btn {
+        right: 18px;
+      }
+    }
+
+    .app-viewport.mockup-mode .feed-fab-create-btn {
+      position: absolute;
+      bottom: 82px;
+      right: 22px;
+    }
+
+    /* Carousel Pagination Dots Overlay */
+    .carousel-dots-pill {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 5px 12px;
+      border-radius: 20px;
+    }
+
+    .carousel-dots-pill .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #38bdf8;
+      opacity: 0.6;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-dots-pill .dot.dot-orange {
+      background: #ff713f;
+      opacity: 0.9;
+    }
+
+    .carousel-dots-pill .dot.dot-pink {
+      background: #ff2a6d;
+    }
+
+    .carousel-dots-pill .dot.active {
+      width: 14px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #ff713f 0%, #ff2a6d 100%);
+      opacity: 1;
+    }
+
+    /* Mobile Bottom Home Indicator Bar (White pill in screenshot) */
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: 9999px;
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP AUXILIARY SIDEBAR (RIGHT COLUMN ON WIDE SCREENS)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #07050e;
+      border-left: 1px solid var(--border-subtle);
+    }
+
+    .sidebar-widget-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .widget-link {
+      font-size: 12px;
+      color: var(--color-brand-pink);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Suggested Users */
+    .suggested-user-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .suggested-user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .suggested-user-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .suggested-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .suggested-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .suggested-user-status {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .btn-follow-compact {
+      background: rgba(255, 50, 184, 0.12);
+      border: 1px solid rgba(255, 50, 184, 0.3);
+      color: var(--color-brand-pink);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-follow-compact:hover {
+      background: var(--color-brand-pink);
+      color: #ffffff;
+    }
+
+    .btn-follow-compact.following {
+      background: #222430;
+      border-color: #333644;
+      color: var(--text-secondary);
+    }
+
+    /* Desktop Footer links */
+    .desktop-footer-text {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .desktop-footer-text a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-right: 6px;
+    }
+
+    .desktop-footer-text a:hover {
+      color: var(--text-secondary);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTERACTIVE MODALS: STORY VIEWER, NEW POST, OPTIONS, NOTIFS
+       ═══════════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Instagram-Style Notifications Modal Card */
+    .notif-modal-card {
+      width: 92%;
+      max-width: 440px;
+      max-height: 80vh;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15);
+      animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes notifModalIn {
+      from { transform: scale(0.94) translateY(12px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+    .notif-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-elevated);
+    }
+    .notif-modal-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .notif-modal-badge {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+    .btn-notif-action {
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-notif-action:hover {
+      background: var(--color-surface-hover);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+    .btn-close-modal:hover { color: #ffffff; }
+    .notif-modal-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.4);
+      background: var(--color-background);
+      overflow-x: auto;
+    }
+    .notif-modal-tab {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .notif-modal-tab.active {
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+    .notif-modal-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
+    }
+    .notif-modal-list::-webkit-scrollbar { display: none; }
+    .notif-modal-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.25);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
+    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
+    .notif-item-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .notif-item-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .notif-item-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #ffffff;
+      border: 1.5px solid var(--color-surface);
+    }
+    .notif-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .notif-item-text {
+      font-size: 12.5px;
+      color: var(--color-text-primary);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+    .notif-item-time {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .btn-notif-follow {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+    .btn-notif-follow.following {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+    }
+    .notif-item-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-subtle);
+    }
+    .notif-medal-pill {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 113, 63, 0.12);
+      border: 1px solid rgba(255, 113, 63, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent-orange);
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .btn-notif-modal-full {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--color-surface-elevated);
+      border-top: 1px solid var(--color-border-subtle);
+      color: var(--color-accent-pink);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .btn-notif-modal-full:hover {
+      background: var(--color-surface-hover);
+      color: #ffffff;
+    }
+
+    /* Story Viewer Modal */
+    .story-viewer-content {
+      width: 100%;
+      max-width: 400px;
+      height: 82vh;
+      max-height: 720px;
+      background-color: #12131a;
+      border-radius: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .story-progress-bar {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      overflow: hidden;
+      z-index: 20;
+    }
+
+    .story-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #ffffff;
+      transition: width 0.1s linear;
+    }
+
+    .story-viewer-header {
+      position: absolute;
+      top: 22px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 20;
+    }
+
+    .story-viewer-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-viewer-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+    }
+
+    .story-viewer-author {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .btn-close-story {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .story-viewer-body {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #090a0f;
+    }
+
+    .story-viewer-body img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Enhanced Create Post Modal Window */
+    .create-post-modal {
+      width: 92%;
+      max-width: 500px;
+      background: #12131c;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .create-post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 12px;
+    }
+
+    .create-post-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .create-post-user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .create-post-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-brand-purple);
+      object-fit: cover;
+    }
+
+    .create-post-user-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .create-post-user-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .create-post-audience-badge {
+      font-size: 11px;
+      color: #8e8e93;
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 8px;
+      border-radius: 12px;
+      width: fit-content;
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .create-post-textarea {
+      width: 100%;
+      min-height: 110px;
+      background: #181924;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      padding: 14px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .create-post-textarea:focus {
+      border-color: #ff2a6d;
+    }
+
+    .create-post-char-count {
+      text-align: right;
+      font-size: 11px;
+      color: #636366;
+      margin-top: -6px;
+    }
+
+    /* Preset Category Chips */
+    .create-post-tags-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .create-post-tags-row::-webkit-scrollbar { display: none; }
+
+    .post-tag-chip {
+      background: #1c1e2b;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      color: #8e8e93;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .post-tag-chip.active {
+      background: rgba(255, 42, 109, 0.15);
+      border-color: #ff2a6d;
+      color: #ff2a6d;
+    }
+
+    /* Image Preview Box */
+    .post-image-preview-wrap {
+      display: none;
+      position: relative;
+      width: 100%;
+      max-height: 220px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .post-image-preview-wrap.show {
+      display: block;
+    }
+
+    .post-image-preview-img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-remove-preview-img {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .create-post-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 12px;
+    }
+
+    .create-post-media-tools {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-media-tool {
+      background: transparent;
+      border: none;
+      color: #8e8e93;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 10px;
+      border-radius: 8px;
+      gap: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      transition: all 0.15s ease;
+    }
+
+    .btn-media-tool:hover {
+      color: #ff2a6d;
+      background: rgba(255, 42, 109, 0.1);
+    }
+
+    .btn-submit-post {
+      background: linear-gradient(135deg, #ff713f 0%, #ff2a6d 50%, #923bff 100%);
+      border: none;
+      color: #ffffff;
+      font-weight: 700;
+      padding: 10px 22px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 16px rgba(255, 42, 109, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-submit-post:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 42, 109, 0.5);
+    }
+
+    .btn-submit-post:active {
+      transform: scale(0.96);
+    }
+
+    /* Options Sheet Modal */
+    .options-sheet {
+      width: 90%;
+      max-width: 360px;
+      background: #181923;
+      border-radius: 18px;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+
+    .options-sheet-item {
+      width: 100%;
+      padding: 14px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .options-sheet-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .options-sheet-item.danger {
+      color: #ff3b5c;
+    }
+
+    /* Floating Toast */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #1e202b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-pill i {
+      color: var(--color-brand-purple);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS (MEDIA QUERIES)
+       ═══════════════════════════════════════════════════════════════ */
+    @media (min-width: 992px) {
+      .desktop-sidebar {
+        display: flex;
+      }
+
+      .view-mode-toggle {
+        display: flex;
+      }
+
+      /* In standard desktop mode without phone mockup, hide bottom dock on large screen and show navigation in left sidebar */
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+
+      .app-viewport:not(.mockup-mode) .feed-center-container {
+        padding-bottom: 30px;
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .feed-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+
+      .bottom-nav-dock {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" style="width: 42px; height: 42px; object-fit: contain;">
+          <span class="brand-logo-text">Social<span class="brand-rats">Rats</span></span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item active">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="handleNavigation('Buscar')">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="openNotificationsModal()">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill" style="background:#ff3b5c;">2</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="openCreatePostModal()">
+          <i class="fa-solid fa-plus"></i>
+          <span>Nova Publicação</span>
+        </button>
+      </div>
+
+      <!-- Logged User Card -->
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar" id="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name" id="desktop-user-name">Gabriel</span>
+            <span class="desktop-user-handle" id="desktop-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CENTER FEED COLUMN (EXACT SCREENSHOT RECREATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="feed-center-container" id="feed-container">
+
+      <!-- 1. Top Bar: Brand Logo & Notification Bell -->
+      <header class="top-app-bar">
+        <a href="feed.html" class="feed-brand-title">
+          Social<span class="logo-rats">Rats</span>
+        </a>
+        <div class="top-actions">
+          <button type="button" class="btn-notification-bell" aria-label="Notificações" onclick="openNotificationsModal()">
+            <i class="fa-regular fa-bell"></i>
+            <span class="bell-badge-dot"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. Horizontal Stories Tray -->
+      <section class="stories-container" aria-label="Histórias Recentes">
+        <div class="stories-track">
+
+          <!-- Story 1: Your story -->
+          <div class="story-item your-story" onclick="openStoryViewer('Your story', '../images/avatar-your-story.png', '../images/post-sunset-crop.png', true)">
+            <div class="story-avatar-wrap">
+              <img src="../images/avatar-your-story.png" alt="Your story" class="story-avatar-img">
+              <div class="your-story-plus-badge" title="Adicionar ao story">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+            </div>
+            <span class="story-username">Your story</span>
+          </div>
+
+          <!-- Story 2: rijalxp -->
+          <div class="story-item" onclick="openStoryViewer('rijalxp', '../images/avatar-rijalxp.png', '../images/post-blue-orange.png')">
+            <div class="story-avatar-wrap">
+              <div class="story-avatar-inner">
+                <img src="../images/avatar-rijalxp.png" alt="rijalxp" class="story-avatar-img">
+              </div>
+            </div>
+            <span class="story-username">rijalxp</span>
+          </div>
+
+          <!-- Story 3: broyin -->
+          <div class="story-item" onclick="openStoryViewer('broyin', '../images/avatar-broyin.png', '../images/post-sunset-crop.png')">
+            <div class="story-avatar-wrap">
+              <div class="story-avatar-inner">
+                <img src="../images/avatar-broyin.png" alt="broyin" class="story-avatar-img">
+              </div>
+            </div>
+            <span class="story-username">broyin</span>
+          </div>
+
+          <!-- Story 4: den.a -->
+          <div class="story-item" onclick="openStoryViewer('den.a', '../images/avatar-dena.png', '../images/post-sunset.png')">
+            <div class="story-avatar-wrap">
+              <div class="story-avatar-inner">
+                <img src="../images/avatar-dena.png" alt="den.a" class="story-avatar-img">
+              </div>
+            </div>
+            <span class="story-username">den.a</span>
+          </div>
+
+          <!-- Story 5: chrex -->
+          <div class="story-item" onclick="openStoryViewer('chrex', '../images/avatar-chrex.png', '../images/post-blue-orange.png')">
+            <div class="story-avatar-wrap">
+              <div class="story-avatar-inner">
+                <img src="../images/avatar-chrex.png" alt="chrex" class="story-avatar-img">
+              </div>
+            </div>
+            <span class="story-username">chrex</span>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- 3. Vertical Feed Posts List -->
+      <section class="feed-posts-list" id="posts-list" aria-label="Publicações do Feed">
+
+        <!-- ───────────────────────────────────────────
+             POST 1: rijalxp (Blue Orange Citrus Fruit)
+             ─────────────────────────────────────────── -->
+        <article class="post-card" id="post-1">
+          <!-- Post Header -->
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="../images/avatar-rijalxp.png" alt="rijalxp avatar" class="post-author-avatar-img">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">rijalxp</span>
+                <span class="post-timestamp">1 hour ago</span>
+              </div>
+            </div>
+            <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('rijalxp')">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+
+          <!-- Post Media Image -->
+          <div class="post-media-container" ondblclick="triggerDoubleTapLike('like-btn-1', 'post-1')">
+            <img src="../images/post-blue-orange.png" alt="Pastel blue orange on cyan background" class="post-media-img" loading="eager">
+            <div class="carousel-dots-pill">
+              <span class="dot"></span>
+              <span class="dot"></span>
+              <span class="dot dot-orange"></span>
+              <span class="dot dot-pink active"></span>
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+
+          <!-- Post Actions Bar -->
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <!-- Like button (Red filled heart) -->
+              <button type="button" class="action-btn like-btn liked" id="like-btn-1" onclick="toggleLike(this, '2k', '1.9k')">
+                <i class="fa-solid fa-heart"></i>
+                <span class="action-count">2k</span>
+              </button>
+
+              <!-- Comment button -->
+              <button type="button" class="action-btn" onclick="openCommentsModal('rijalxp')">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span class="action-count">202</span>
+              </button>
+
+              <!-- Repost button -->
+              <button type="button" class="action-btn" onclick="toggleRepost(this, '300', '301')">
+                <i class="fa-solid fa-repeat"></i>
+                <span class="action-count">300</span>
+              </button>
+            </div>
+
+            <!-- Bookmark button -->
+            <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
+              <i class="fa-regular fa-bookmark"></i>
+              <span class="action-count" style="font-size:13.5px; font-weight:600; margin-left:4px;">2k</span>
+            </button>
+          </div>
+
+          <!-- Post Caption with collapsible "... more" -->
+          <div class="post-caption">
+            If your favorite shades are light blue and pale pink, you can say that you prefer pastels. Pastel is also an adjective describing a soft color, like a pastel shade of green or a pastel lavender<span id="caption-more-1" class="caption-expanded-text">, calming your visual senses and harmonizing with modern vibrant contrasts.</span>... <span class="caption-more-btn" onclick="toggleCaptionMore(1, this)">more</span>
+          </div>
+        </article>
+
+        <!-- ───────────────────────────────────────────
+             POST 2: chrex (Text Post)
+             ─────────────────────────────────────────── -->
+        <article class="post-card" id="post-2">
+          <!-- Post Header -->
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="../images/avatar-chrex.png" alt="chrex avatar" class="post-author-avatar-img">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">chrex</span>
+                <span class="post-timestamp">1 hour ago</span>
+              </div>
+            </div>
+            <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('chrex')">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+
+          <!-- Post Text Content (Identical to Screenshot) -->
+          <div class="post-text-body">
+            Yesterday, I met this girl near my house and she asked for a way and of course i did tell her but, after 10 minutes she come back again and asking for my number! my god, she's so cute💕
+          </div>
+
+          <!-- Post Actions Bar -->
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <!-- Like button (Red filled heart) -->
+              <button type="button" class="action-btn like-btn liked" id="like-btn-2" onclick="toggleLike(this, '1k', '999')">
+                <i class="fa-solid fa-heart"></i>
+                <span class="action-count">1k</span>
+              </button>
+
+              <!-- Comment button -->
+              <button type="button" class="action-btn" onclick="openCommentsModal('chrex')">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span class="action-count">2k</span>
+              </button>
+
+              <!-- Repost button -->
+              <button type="button" class="action-btn" onclick="toggleRepost(this, '1k', '1.1k')">
+                <i class="fa-solid fa-repeat"></i>
+                <span class="action-count">1k</span>
+              </button>
+            </div>
+
+            <!-- Bookmark button -->
+            <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
+              <i class="fa-regular fa-bookmark"></i>
+              <span class="action-count" style="font-size:13.5px; font-weight:600; margin-left:4px;">1k</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- ───────────────────────────────────────────
+             POST 3: den.a (Sunset Twilight Cityscape)
+             ─────────────────────────────────────────── -->
+        <article class="post-card" id="post-3">
+          <!-- Post Header -->
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="../images/avatar-dena.png" alt="den.a avatar" class="post-author-avatar-img">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">den.a</span>
+                <span class="post-timestamp">2 hours ago</span>
+              </div>
+            </div>
+            <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('den.a')">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+
+          <!-- Post Media Image (Sunset) -->
+          <div class="post-media-container" ondblclick="triggerDoubleTapLike('like-btn-3', 'post-3')">
+            <img src="../images/post-sunset.png" alt="Purple sunset over city skyline" class="post-media-img" loading="lazy">
+          </div>
+
+          <!-- Post Actions Bar -->
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <!-- Like button -->
+              <button type="button" class="action-btn like-btn liked" id="like-btn-3" onclick="toggleLike(this, '3.4k', '3.3k')">
+                <i class="fa-solid fa-heart"></i>
+                <span class="action-count">3.4k</span>
+              </button>
+
+              <!-- Comment button -->
+              <button type="button" class="action-btn" onclick="openCommentsModal('den.a')">
+                <i class="fa-regular fa-comment"></i>
+                <span class="action-count">412</span>
+              </button>
+
+              <!-- Repost button -->
+              <button type="button" class="action-btn" onclick="toggleRepost(this, '890', '891')">
+                <i class="fa-solid fa-repeat"></i>
+                <span class="action-count">890</span>
+              </button>
+            </div>
+
+            <!-- Bookmark button -->
+            <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
+              <i class="fa-regular fa-bookmark"></i>
+            </button>
+          </div>
+
+          <!-- Post Caption -->
+          <div class="post-caption">
+            Golden hour and purple twilight over the skyline ✨ Nothing beats this view after a long workout session... <span class="caption-more-btn" onclick="toggleCaptionMore(3, this)">more</span>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Floating Action Button (FAB) for Creating Posts -->
+      <button type="button" class="feed-fab-create-btn" id="feed-fab-btn" onclick="openCreatePostModal()" aria-label="Criar nova publicação" title="Criar nova publicação">
+        <i class="fa-solid fa-pencil"></i>
+      </button>
+
+      <!-- 4. Fixed Bottom Navigation Dock (Identical to Screenshot) -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <!-- 1. Home (Active: Purple House) -->
+          <button type="button" class="nav-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Home</span>
+          </button>
+
+          <!-- 2. Buscar -->
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <!-- 3. Métricas -->
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <!-- 4. Direct -->
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <!-- 5. Perfil -->
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <!-- Mobile Bottom Home Indicator (White pill bar) -->
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         RIGHT DESKTOP SIDEBAR (SUGGESTIONS & COMMUNITY)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Sugestões e Rankings">
+
+      <!-- Widget: Desafios SocialRats -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">🔥 Seus Desafios</span>
+          <a href="#" class="widget-link" onclick="showToast('Abrindo ranking dos desafios...'); return false;">Ver ranking</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff; font-weight:600;">Sequência de Treino</span>
+            <span style="color:var(--color-brand-orange); font-weight:700;">14 Dias 🔥</span>
+          </div>
+          <div style="width:100%; height:6px; background:#1f212c; border-radius:10px; overflow:hidden;">
+            <div style="width:75%; height:100%; background:var(--gradient-brand); border-radius:10px;"></div>
+          </div>
+          <span style="font-size:11px; color:var(--text-secondary);">3 treinos restantes para subir para Rato Alfa!</span>
+        </div>
+      </div>
+
+      <!-- Widget: Sugestões para Você -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Sugestões para você</span>
+          <a href="#" class="widget-link" onclick="showToast('Atualizando sugestões...'); return false;">Ver tudo</a>
+        </div>
+
+        <div class="suggested-user-list">
+          <div class="suggested-user-item">
+            <div class="suggested-user-left">
+              <img src="../images/avatar-rijalxp.png" alt="rijalxp" class="suggested-user-avatar">
+              <div>
+                <div class="suggested-user-name">rijalxp</div>
+                <div class="suggested-user-status">Segue você</div>
+              </div>
+            </div>
+            <button type="button" class="btn-follow-compact" onclick="toggleFollow(this)">Seguir</button>
+          </div>
+
+          <div class="suggested-user-item">
+            <div class="suggested-user-left">
+              <img src="../images/avatar-broyin.png" alt="broyin" class="suggested-user-avatar">
+              <div>
+                <div class="suggested-user-name">broyin</div>
+                <div class="suggested-user-status">Amigo em comum</div>
+              </div>
+            </div>
+            <button type="button" class="btn-follow-compact" onclick="toggleFollow(this)">Seguir</button>
+          </div>
+
+          <div class="suggested-user-item">
+            <div class="suggested-user-left">
+              <img src="../images/avatar-dena.png" alt="den.a" class="suggested-user-avatar">
+              <div>
+                <div class="suggested-user-name">den.a</div>
+                <div class="suggested-user-status">Novo no SocialRats</div>
+              </div>
+            </div>
+            <button type="button" class="btn-follow-compact" onclick="toggleFollow(this)">Seguir</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Footer -->
+      <footer class="desktop-footer-text">
+        <a href="#">Sobre</a> · <a href="#">Ajuda</a> · <a href="#">Imprensa</a> · <a href="#">Carreiras</a> · <a href="#">Privacidade</a> · <a href="#">Termos</a><br>
+        <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Feito para quem não desiste</span>
+      </footer>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       DESKTOP VIEW MODE TOGGLE BUTTON (MOCKUP VS EXPANDED)
+       ═══════════════════════════════════════════════════════════════ -->
+  <button type="button" class="view-mode-toggle" id="btn-toggle-view" onclick="toggleViewMode()">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-label">Ver em Moldura Mobile</span>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INTERACTIVE STORY VIEWER MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="story-viewer-modal" role="dialog" aria-modal="true" aria-label="Visualizador de Histórias">
+    <div class="story-viewer-content">
+      <div class="story-progress-bar">
+        <div class="story-progress-fill" id="story-progress-fill"></div>
+      </div>
+      <div class="story-viewer-header">
+        <div class="story-viewer-user">
+          <img src="" alt="" class="story-viewer-avatar" id="story-modal-avatar">
+          <span class="story-viewer-author" id="story-modal-author">username</span>
+        </div>
+        <button type="button" class="btn-close-story" onclick="closeStoryViewer()" aria-label="Fechar história">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="story-viewer-body">
+        <img src="" alt="Story media" id="story-modal-img">
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       CREATE POST MODAL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="create-post-modal" role="dialog" aria-modal="true" aria-label="Criar nova publicação">
+    <div class="create-post-modal">
+      <div class="create-post-header">
+        <h3 class="create-post-title">
+          <i class="fa-solid fa-pen-to-square" style="color:var(--color-brand-orange);"></i>
+          Criar Publicação
+        </h3>
+        <button type="button" class="btn-close-story" onclick="closeCreatePostModal()" aria-label="Fechar janela">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- User Identification -->
+      <div class="create-post-user-row">
+        <img src="../images/avatar-your-story.png" alt="Gabriel" class="create-post-user-avatar" id="modal-user-avatar">
+        <div class="create-post-user-meta">
+          <span class="create-post-user-name" id="modal-user-name">Gabriel</span>
+          <span class="create-post-audience-badge">
+            <i class="fa-solid fa-earth-americas"></i> Público
+          </span>
+        </div>
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="create-post-tags-row">
+        <button type="button" class="post-tag-chip active" onclick="togglePostTag(this, 'Geral')">✨ Geral</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Treino')">💪 Treino</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Desafio')">🔥 Desafio</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Dieta')">🥗 Dieta</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Novo PR')">🏆 Novo PR</button>
+      </div>
+
+      <!-- Post Text Input Area -->
+      <textarea class="create-post-textarea" id="new-post-content" placeholder="O que você realizou no treino hoje? Conte para a comunidade SocialRats..." oninput="handlePostTextInput(this)"></textarea>
+      <div class="create-post-char-count" id="post-char-counter">0 / 280</div>
+
+      <!-- Image Preview Container -->
+      <div class="post-image-preview-wrap" id="post-image-preview-wrap">
+        <img src="" alt="Preview da imagem" class="post-image-preview-img" id="post-preview-img">
+        <button type="button" class="btn-remove-preview-img" onclick="removeSelectedImage()" title="Remover foto">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Hidden File Input -->
+      <input type="file" id="post-file-input" accept="image/*" style="display:none;" onchange="handleImageFileSelect(event)">
+
+      <!-- Media Toolbar & Submit Button -->
+      <div class="create-post-toolbar">
+        <div class="create-post-media-tools">
+          <button type="button" class="btn-media-tool" onclick="document.getElementById('post-file-input').click()" title="Adicionar Foto">
+            <i class="fa-regular fa-image" style="color:var(--color-brand-pink); font-size:16px;"></i>
+            <span>Foto</span>
+          </button>
+          <button type="button" class="btn-media-tool" onclick="selectSampleImage('../images/post-sunset.png')" title="Usar imagem de pôr do sol">
+            <i class="fa-solid fa-camera-retro" style="color:var(--color-brand-orange); font-size:16px;"></i>
+            <span>Amostra</span>
+          </button>
+        </div>
+
+        <button type="button" class="btn-submit-post" onclick="submitNewPost()">
+          <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i>
+          Publicar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       POST OPTIONS BOTTOM SHEET
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="options-modal" role="dialog" aria-modal="true">
+    <div class="options-sheet">
+      <button type="button" class="options-sheet-item" onclick="sharePost()">
+        <i class="fa-solid fa-share-nodes" style="margin-right:8px;"></i> Compartilhar publicação
+      </button>
+      <button type="button" class="options-sheet-item" onclick="copyPostLink()">
+        <i class="fa-solid fa-link" style="margin-right:8px;"></i> Copiar link
+      </button>
+      <button type="button" class="options-sheet-item" onclick="showToast('Você deixou de receber novidades deste autor.'); closeOptionsModal();">
+        <i class="fa-regular fa-bell-slash" style="margin-right:8px;"></i> Silenciar autor
+      </button>
+      <button type="button" class="options-sheet-item danger" onclick="showToast('Publicação denunciada para moderação.'); closeOptionsModal();">
+        <i class="fa-solid fa-triangle-exclamation" style="margin-right:8px;"></i> Denunciar
+      </button>
+      <button type="button" class="options-sheet-item" onclick="closeOptionsModal()" style="border-bottom:none;">
+        Cancelar
+      </button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INSTAGRAM-STYLE NOTIFICATIONS MODAL / DRAWER
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="notif-modal" role="dialog" aria-modal="true" aria-label="Notificações">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title">Notificações</h3>
+          <span class="notif-modal-badge" id="modal-notif-badge">4 novas</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-notif-action" onclick="markModalNotifsAsRead()" title="Marcar como lidas">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <a href="notifications.html" class="btn-notif-action" title="Abrir página cheia">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNotificationsModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Categories -->
+      <div class="notif-modal-tabs">
+        <button type="button" class="notif-modal-tab active" onclick="filterModalNotifs('all', this)">Todas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('likes', this)">Curtidas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('follows', this)">Seguidores</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('prs', this)">Recordes</button>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="notif-modal-list" id="modal-notif-list">
+        <!-- Item 1: Follow -->
+        <div class="notif-modal-item unread" data-cat="follows" onclick="window.location.href='profile.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-gabriel.png" alt="Marina" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-user-plus"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>marina_fitness</strong> começou a seguir você.</p>
+            <span class="notif-item-time">há 12 min</span>
+          </div>
+          <button type="button" class="btn-notif-follow" onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
+        </div>
+
+        <!-- Item 2: PR Record -->
+        <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Novo Recorde!</strong> 110 kg no Supino Reto (+50 XP).</p>
+            <span class="notif-item-time" style="color:var(--color-accent-orange);">🔥 há 45 min</span>
+          </div>
+          <div class="notif-medal-pill"><i class="fa-solid fa-medal"></i></div>
+        </div>
+
+        <!-- Item 3: Like -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-ana.png" alt="Carlos" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>carlos_iron</strong> e +18 curtiram seu treino.</p>
+            <span class="notif-item-time">há 2h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 4: Comment -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-felipe.png" alt="Lucas" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i class="fa-solid fa-comment"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>lucas_bodybuilder</strong> comentou: <em>"Carga monstra! 🔥"</em></p>
+            <span class="notif-item-time">há 3h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 5: Streak -->
+        <div class="notif-modal-item" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Streak" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-fire"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Sequência de 21 Dias!</strong> Foco mantido.</p>
+            <span class="notif-item-time">ontem</span>
+          </div>
+          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        </div>
+      </div>
+
+      <!-- Footer Button: Open Full Page -->
+      <a href="notifications.html" class="btn-notif-modal-full">
+        <span>Ver todas as notificações no Hub</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATION PILL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: INTERACTIVE FEED LOGIC & APP BEHAVIORS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // 1. Recover Logged User from localStorage (if logged via login.html)
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const savedUser = localStorage.getItem('socialrats_user');
+        if (savedUser) {
+          const cleanName = savedUser.split('@')[0].trim();
+          document.getElementById('desktop-user-name').textContent = cleanName;
+          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
+        }
+      } catch (e) {}
+    });
+
+    // 2. Toast System
+    const toast = document.getElementById('toast-pill');
+    const toastText = document.getElementById('toast-text');
+    let toastTimer = null;
+
+    function showToast(message) {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // 3. Heart / Like Interactive Toggle
+    function toggleLike(button, likedVal, unlikedVal) {
+      const isLiked = button.classList.contains('liked');
+      const countSpan = button.querySelector('.action-count');
+
+      button.classList.add('pop-anim');
+      setTimeout(() => button.classList.remove('pop-anim'), 350);
+
+      if (isLiked) {
+        button.classList.remove('liked');
+        if (countSpan) countSpan.textContent = unlikedVal || '0';
+        showToast('Curtida removida.');
+      } else {
+        button.classList.add('liked');
+        if (countSpan) countSpan.textContent = likedVal || '1';
+        showToast('Você curtiu esta publicação! ❤️');
+      }
+    }
+
+    // Double tap on image like trigger
+    function triggerDoubleTapLike(btnId, postId) {
+      const btn = document.getElementById(btnId);
+      if (btn && !btn.classList.contains('liked')) {
+        toggleLike(btn, '2k', '1.9k');
+      }
+    }
+
+    // 4. Bookmark / Save Interactive Toggle
+    function toggleBookmark(button) {
+      const isSaved = button.classList.contains('saved');
+      const icon = button.querySelector('i');
+
+      if (isSaved) {
+        button.classList.remove('saved');
+        icon.className = 'fa-regular fa-bookmark';
+        showToast('Publicação removida dos seus salvos.');
+      } else {
+        button.classList.add('saved');
+        icon.className = 'fa-solid fa-bookmark';
+        showToast('Salvo nos seus favoritos! 📌');
+      }
+    }
+
+    // 5. Repost Interactive Toggle
+    function toggleRepost(button, normalVal, repostedVal) {
+      const isReposted = button.classList.contains('reposted');
+      const countSpan = button.querySelector('.action-count');
+
+      if (isReposted) {
+        button.classList.remove('reposted');
+        button.style.color = '#ffffff';
+        if (countSpan) countSpan.textContent = normalVal;
+        showToast('Repost cancelado.');
+      } else {
+        button.classList.add('reposted');
+        button.style.color = '#34d399';
+        if (countSpan) countSpan.textContent = repostedVal;
+        showToast('Publicação repostada no seu perfil! 🔁');
+      }
+    }
+
+    // 6. Caption "... more" Expansion
+    function toggleCaptionMore(id, btn) {
+      const extraSpan = document.getElementById(`caption-more-${id}`);
+      if (extraSpan) {
+        const isShown = extraSpan.classList.contains('show');
+        if (isShown) {
+          extraSpan.classList.remove('show');
+          btn.textContent = 'more';
+        } else {
+          extraSpan.classList.add('show');
+          btn.textContent = 'less';
+        }
+      }
+    }
+
+    // 7. Interactive Story Viewer
+    const storyModal = document.getElementById('story-viewer-modal');
+    const storyAvatar = document.getElementById('story-modal-avatar');
+    const storyAuthor = document.getElementById('story-modal-author');
+    const storyImg = document.getElementById('story-modal-img');
+    const storyProgress = document.getElementById('story-progress-fill');
+    let storyInterval = null;
+
+    function openStoryViewer(author, avatarSrc, mediaSrc, isYourStory = false) {
+      storyAuthor.textContent = isYourStory ? 'Seu Story' : author;
+      storyAvatar.src = avatarSrc;
+      storyImg.src = mediaSrc;
+
+      storyModal.classList.add('active');
+      storyProgress.style.width = '0%';
+
+      let progress = 0;
+      if (storyInterval) clearInterval(storyInterval);
+      storyInterval = setInterval(() => {
+        progress += 2;
+        storyProgress.style.width = progress + '%';
+        if (progress >= 100) {
+          clearInterval(storyInterval);
+          setTimeout(closeStoryViewer, 300);
+        }
+      }, 100);
+    }
+
+    function closeStoryViewer() {
+      if (storyInterval) clearInterval(storyInterval);
+      storyModal.classList.remove('active');
+    }
+
+    // 8. Follow Button Toggle
+    function toggleFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+        showToast('Você deixou de seguir.');
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Seguindo com sucesso!');
+      }
+    }
+
+    // 9. Options Bottom Sheet
+    const optionsModal = document.getElementById('options-modal');
+    let currentPostAuthor = '';
+
+    function openOptionsModal(author) {
+      currentPostAuthor = author;
+      optionsModal.classList.add('active');
+    }
+
+    function closeOptionsModal() {
+      optionsModal.classList.remove('active');
+    }
+
+    function copyPostLink() {
+      navigator.clipboard?.writeText(window.location.href);
+      showToast('Link da publicação copiado!');
+      closeOptionsModal();
+    }
+
+    function sharePost() {
+      if (navigator.share) {
+        navigator.share({ title: 'SocialRats', url: window.location.href }).catch(() => {});
+      } else {
+        showToast('Link compartilhado com a sua área de transferência!');
+      }
+      closeOptionsModal();
+    }
+
+    // 10. Create Post Modal & Submission
+    const createPostModal = document.getElementById('create-post-modal');
+    const newPostContent = document.getElementById('new-post-content');
+    const postsList = document.getElementById('posts-list');
+    let selectedImageSrc = '';
+    let selectedPostTag = 'Geral';
+
+    function openCreatePostModal() {
+      createPostModal.classList.add('active');
+      newPostContent.focus();
+    }
+
+    function closeCreatePostModal() {
+      createPostModal.classList.remove('active');
+    }
+
+    function handlePostTextInput(textarea) {
+      const len = textarea.value.length;
+      document.getElementById('post-char-counter').textContent = `${len} / 280`;
+    }
+
+    function togglePostTag(btn, tag) {
+      document.querySelectorAll('.post-tag-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      selectedPostTag = tag;
+    }
+
+    function insertEmoji(emoji) {
+      newPostContent.value += emoji;
+      handlePostTextInput(newPostContent);
+      newPostContent.focus();
+    }
+
+    function handleImageFileSelect(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        selectedImageSrc = evt.target.result;
+        document.getElementById('post-preview-img').src = selectedImageSrc;
+        document.getElementById('post-image-preview-wrap').classList.add('show');
+        showToast('Foto adicionada à publicação!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function selectSampleImage(src) {
+      selectedImageSrc = src;
+      document.getElementById('post-preview-img').src = selectedImageSrc;
+      document.getElementById('post-image-preview-wrap').classList.add('show');
+      showToast('Imagem de amostra anexada!');
+    }
+
+    function removeSelectedImage() {
+      selectedImageSrc = '';
+      document.getElementById('post-preview-img').src = '';
+      document.getElementById('post-image-preview-wrap').classList.remove('show');
+      const fileInput = document.getElementById('post-file-input');
+      if (fileInput) fileInput.value = '';
+    }
+
+    function submitNewPost() {
+      const text = newPostContent.value.trim();
+      if (!text && !selectedImageSrc) {
+        showToast('Digite uma mensagem ou adicione uma foto para publicar!');
+        return;
+      }
+
+      const userName = document.getElementById('desktop-user-name')?.textContent || 'Gabriel';
+      const userAvatar = document.getElementById('desktop-user-avatar')?.src || '../images/avatar-your-story.png';
+      const postId = 'post-user-' + Date.now();
+
+      const newArticle = document.createElement('article');
+      newArticle.className = 'post-card';
+      newArticle.id = postId;
+      newArticle.style.animation = 'fadeIn 0.3s ease';
+
+      let mediaHtml = '';
+      if (selectedImageSrc) {
+        mediaHtml = `
+          <div class="post-media-container" ondblclick="triggerDoubleTapLike('like-btn-${postId}', '${postId}')">
+            <img src="${selectedImageSrc}" alt="Mídia da publicação" class="post-media-img" loading="eager">
+          </div>
+        `;
+      }
+
+      let tagBadge = selectedPostTag !== 'Geral' ? `<span style="font-size:11px; font-weight:700; color:var(--color-brand-pink); background:rgba(255,42,109,0.12); padding:2px 8px; border-radius:12px; margin-left:6px;">#${selectedPostTag}</span>` : '';
+
+      newArticle.innerHTML = `
+        <div class="post-header">
+          <div class="post-author-group">
+            <div class="post-author-avatar-wrap">
+              <img src="${userAvatar}" alt="${userName}" class="post-author-avatar-img">
+            </div>
+            <div class="post-author-details">
+              <span class="post-author-name">${userName} ${tagBadge}</span>
+              <span class="post-timestamp">Agora mesmo</span>
+            </div>
+          </div>
+          <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('${userName}')">
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+        </div>
+        ${mediaHtml}
+        ${text ? `<div class="post-text-body">${text}</div>` : ''}
+        <div class="post-actions-row">
+          <div class="post-actions-left">
+            <button type="button" class="action-btn like-btn" id="like-btn-${postId}" onclick="toggleLike(this, '1', '0')">
+              <i class="fa-regular fa-heart"></i>
+              <span class="action-count">0</span>
+            </button>
+            <button type="button" class="action-btn" onclick="openCommentsModal('${userName}')">
+              <i class="fa-regular fa-comment-dots"></i>
+              <span class="action-count">0</span>
+            </button>
+            <button type="button" class="action-btn" onclick="toggleRepost(this, '0', '1')">
+              <i class="fa-solid fa-repeat"></i>
+              <span class="action-count">0</span>
+            </button>
+          </div>
+          <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
+            <i class="fa-regular fa-bookmark"></i>
+            <span class="action-count" style="font-size:13.5px; font-weight:600; margin-left:4px;">0</span>
+          </button>
+        </div>
+      `;
+
+      postsList.prepend(newArticle);
+      newPostContent.value = '';
+      removeSelectedImage();
+      document.getElementById('post-char-counter').textContent = '0 / 280';
+      closeCreatePostModal();
+      showToast('Publicado com sucesso no SocialRats! 🔥');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 11. Notifications Modal
+    function openNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function filterModalNotifs(cat, tab) {
+      document.querySelectorAll('.notif-modal-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const items = document.querySelectorAll('.notif-modal-item');
+      items.forEach(it => {
+        if (cat === 'all' || it.getAttribute('data-cat') === cat) {
+          it.style.display = 'flex';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    function markModalNotifsAsRead() {
+      document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
+      const badge = document.getElementById('modal-notif-badge');
+      if (badge) {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+      const bellDot = document.querySelector('.bell-badge-dot');
+      if (bellDot) bellDot.style.display = 'none';
+      showToast('Notificações marcadas como lidas.');
+    }
+
+    function toggleModalFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Você agora segue este usuário!');
+      }
+    }
+
+    function openCommentsModal(author) {
+      showToast(`Comentários de @${author} abertos.`);
+    }
+
+    function handleNavigation(tabName) {
+      if (tabName === 'Buscar') {
+        window.location.href = 'search.html';
+        return;
+      }
+      if (tabName === 'Métricas') {
+        window.location.href = 'metrics.html';
+        return;
+      }
+      showToast(`Aba "${tabName}" selecionada.`);
+    }
+
+    // 12. Logout
+    function handleLogout() {
+      try {
+        localStorage.removeItem('socialrats_user');
+      } catch (e) {}
+      showToast('Desconectando...');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 700);
+    }
+
+    // 13. View Mode Toggle (Desktop Mockup Phone Frame vs Full Web)
+    const appViewport = document.getElementById('app-viewport');
+    const viewModeLabel = document.getElementById('view-mode-label');
+
+    function toggleViewMode() {
+      const isMockup = appViewport.classList.contains('mockup-mode');
+      if (isMockup) {
+        appViewport.classList.remove('mockup-mode');
+        viewModeLabel.textContent = 'Ver em Moldura Mobile';
+        showToast('Modo Web Expandido ativado.');
+      } else {
+        appViewport.classList.add('mockup-mode');
+        viewModeLabel.textContent = 'Modo Web Completo';
+        showToast('Visualização na moldura mobile ativada! 📱');
+      }
+    }
+
+    // Close modals on overlay click or Escape
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.remove('active');
+          if (storyInterval) clearInterval(storyInterval);
+        }
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay').forEach(modal => modal.classList.remove('active'));
+        if (storyInterval) clearInterval(storyInterval);
+      }
+    });
+  </script>
+</body>
+
+</html>
+

@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Buscar</title>
+  <meta name="description" content="Explore comunidades em alta, assuntos do momento e conecte-se com novos grupos no SocialRats.">
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-border-subtle: #30263e;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      --color-accent-pink: #ff32b8;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.12);
+      --color-accent-purple: #923bff;
+      --color-accent-purple-soft: rgba(146, 59, 255, 0.12);
+      --color-accent-orange: #ff713f;
+      --color-accent-orange-soft: rgba(255, 113, 63, 0.12);
+      --color-success: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #ff4d6d;
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+      --shadow-glow-pink: 0 0 16px rgba(255, 50, 184, 0.35);
+      --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body { min-height: 100%; background-color: var(--color-background); color: var(--color-text-primary); font-family: var(--font-body); overflow-x: hidden; }
+    .app-viewport { display: flex; justify-content: center; min-height: 100vh; width: 100%; position: relative; }
+    .desktop-sidebar { display: none; width: 250px; padding: 28px 20px 24px; flex-direction: column; justify-content: space-between; border-right: 1px solid var(--color-border-subtle); position: sticky; top: 0; height: 100vh; background-color: #07050e; z-index: 100; }
+    .desktop-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; margin-bottom: 32px; padding-left: 6px; }
+    .brand-logo-text { font-family: var(--font-heading); font-size: 26px; font-weight: 800; letter-spacing: -0.6px; color: #ffffff; }
+    .brand-logo-text .brand-rats { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--color-accent-pink); }
+    .desktop-nav-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .desktop-nav-item a, .desktop-nav-item button { display: flex; align-items: center; gap: 16px; padding: 12px 16px; border-radius: 14px; color: var(--color-text-secondary); text-decoration: none; font-size: 15px; font-weight: 500; background: transparent; border: none; width: 100%; text-align: left; cursor: pointer; transition: all 0.15s ease; }
+    .desktop-nav-item a:hover, .desktop-nav-item button:hover { background: rgba(255, 255, 255, 0.05); color: #ffffff; transform: translateX(3px); }
+    .desktop-nav-item.active a, .desktop-nav-item.active button { background: var(--color-accent-pink-soft); color: var(--color-accent-pink); font-weight: 700; }
+    .desktop-nav-item.active i { color: var(--color-accent-pink); }
+    .desktop-nav-item i { font-size: 20px; width: 24px; text-align: center; }
+    .nav-badge-pill { margin-left: auto; background: var(--color-accent-pink); color: #ffffff; font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 10px; }
+    .btn-create-post-sidebar { margin-top: 16px; width: 100%; padding: 13px; background: var(--gradient-brand); border: none; border-radius: 14px; color: #ffffff; font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; cursor: pointer; box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35); transition: transform 0.15s ease, box-shadow 0.15s ease; }
+    .btn-create-post-sidebar:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45); }
+    .desktop-user-pill { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-radius: 14px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); margin-top: auto; }
+    .desktop-user-info { display: flex; align-items: center; gap: 10px; overflow: hidden; }
+    .desktop-user-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; border: 1.5px solid var(--color-accent-pink); }
+    .desktop-user-name { font-size: 13px; font-weight: 700; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
+    .desktop-user-handle { font-size: 11px; color: var(--color-text-secondary); }
+    .btn-logout-sidebar { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 16px; padding: 6px; transition: color 0.15s ease; }
+    .btn-logout-sidebar:hover { color: var(--color-error); }
+
+    /* MAIN SEARCH CONTAINER */
+    .search-center-container { width: 100%; max-width: 500px; min-height: 100vh; background-color: var(--color-background); display: flex; flex-direction: column; position: relative; border-left: 1px solid var(--color-border-subtle); border-right: 1px solid var(--color-border-subtle); padding-bottom: 90px; }
+    .app-viewport.mockup-mode { background-color: #0c0d12; padding: 24px 0; align-items: center; }
+    .app-viewport.mockup-mode .search-center-container { max-width: 430px; height: 900px; min-height: unset; border-radius: 44px; border: 8px solid #1f212d; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 50, 184, 0.15); overflow-y: auto; scrollbar-width: none; }
+    .app-viewport.mockup-mode .search-center-container::-webkit-scrollbar { display: none; }
+    .view-mode-toggle { display: none; position: fixed; bottom: 24px; right: 24px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 30px; padding: 6px 14px; color: #ffffff; font-size: 13px; font-weight: 600; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); z-index: 999; cursor: pointer; align-items: center; gap: 8px; transition: all 0.2s ease; }
+    .view-mode-toggle:hover { background: var(--color-surface-elevated); border-color: var(--color-accent-pink); transform: translateY(-2px); }
+
+    /* TOP BAR */
+    .top-search-bar { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px 10px; background-color: var(--color-background); position: sticky; top: 0; z-index: 50; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .search-brand-title { font-family: var(--font-heading); font-size: 26px; font-weight: 800; letter-spacing: -0.5px; text-decoration: none; user-select: none; color: #ffffff; display: inline-block; }
+    .search-brand-title .brand-rats { background: var(--gradient-brand); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: var(--color-accent-pink); }
+    .btn-notification-bell { position: relative; background: transparent; border: none; color: #ffffff; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 4px; transition: transform 0.15s ease; }
+    .btn-notification-bell:active { transform: scale(0.92); }
+    .bell-badge-dot { position: absolute; top: 3px; right: 4px; width: 9px; height: 9px; background-color: var(--color-accent-pink); border-radius: 50%; border: 2px solid var(--color-background); }
+
+    /* SEARCH INPUT */
+    .search-input-wrapper { padding: 4px 18px 12px; }
+    .search-input-box { width: 100%; height: 46px; background-color: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md); display: flex; align-items: center; padding: 0 14px; gap: 12px; transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease; }
+    .search-input-box:focus-within { border-color: var(--color-accent-pink); background-color: var(--color-surface-elevated); box-shadow: 0 0 16px rgba(255, 50, 184, 0.2); }
+    .search-icon-lens { color: var(--color-text-muted); font-size: 15px; flex-shrink: 0; }
+    .search-native-input { width: 100%; background: transparent; border: none; outline: none; color: #ffffff; font-family: var(--font-body); font-size: 14px; }
+    .search-native-input::placeholder { color: var(--color-text-muted); font-size: 14px; }
+    .btn-clear-search { background: transparent; border: none; color: var(--color-text-muted); font-size: 14px; cursor: pointer; display: none; padding: 4px; }
+    .btn-clear-search.show { display: block; }
+
+    /* TABS */
+    .search-tabs-container { width: 100%; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 0 18px 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); }
+    .search-tabs-container::-webkit-scrollbar { display: none; }
+    .search-tabs-track { display: flex; align-items: center; gap: 24px; width: max-content; }
+    .search-tab-btn { background: transparent; border: none; color: var(--color-text-secondary); font-family: var(--font-body); font-size: 14px; font-weight: 500; cursor: pointer; position: relative; padding-bottom: 8px; transition: color 0.15s ease; white-space: nowrap; }
+    .search-tab-btn:hover { color: #ffffff; }
+    .search-tab-btn.active { color: #ffffff; font-weight: 700; }
+    .search-tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; border-radius: 2px; background: var(--gradient-brand); }
+
+    /* SECTIONS */
+    .section-block { margin-top: 22px; }
+    .section-header-row { display: flex; align-items: center; justify-content: space-between; padding: 0 18px 14px; }
+    .section-title-wrap { display: flex; align-items: center; gap: 8px; }
+    .section-header-title { font-size: 16px; font-weight: 700; color: #ffffff; letter-spacing: -0.2px; }
+    .section-header-link { font-size: 13px; font-weight: 600; color: var(--color-accent-pink); text-decoration: none; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: opacity 0.15s ease; }
+    .section-header-link:hover { opacity: 0.85; }
+
+    /* COMMUNITIES CARDS */
+    .communities-cards-track { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none; padding: 0 18px 4px; }
+    .communities-cards-track::-webkit-scrollbar { display: none; }
+    .community-card { width: 110px; min-width: 110px; background-color: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); padding: 16px 8px 14px; display: flex; flex-direction: column; align-items: center; text-align: center; cursor: pointer; transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease; }
+    .community-card:hover { transform: translateY(-2px); background-color: var(--color-surface-elevated); border-color: rgba(255, 50, 184, 0.4); }
+    .comm-icon-circle { width: 44px; height: 44px; border-radius: 50%; background-color: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 16px; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); }
+    .comm-card-name { font-size: 12.5px; font-weight: 700; color: #ffffff; line-height: 1.25; max-width: 95px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .comm-card-members { font-size: 10.5px; color: var(--color-text-secondary); margin-top: 3px; margin-bottom: 10px; }
+    .btn-comm-join { background-color: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: #ffffff; font-size: 11px; font-weight: 600; padding: 4px 16px; border-radius: var(--radius-full); cursor: pointer; transition: all 0.15s ease; width: 78px; }
+    .btn-comm-join:hover { background-color: #271f3a; border-color: var(--color-accent-pink); }
+    .btn-comm-join.joined { background: var(--color-accent-pink-soft); border-color: var(--color-accent-pink); color: var(--color-accent-pink); }
+
+    /* RECENT SEARCHES */
+    .recent-searches-list { display: flex; flex-direction: column; padding: 4px 18px 0; }
+    .recent-search-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; cursor: pointer; transition: background-color 0.15s ease; }
+    .recent-search-left { display: flex; align-items: center; gap: 14px; flex: 1; }
+    .recent-search-lens { color: var(--color-text-muted); font-size: 14px; }
+    .recent-search-query { font-size: 14px; color: #ffffff; font-weight: 400; }
+    .btn-remove-recent { background: transparent; border: none; color: var(--color-text-muted); font-size: 14px; cursor: pointer; padding: 4px 6px; display: flex; align-items: center; justify-content: center; transition: color 0.15s ease, transform 0.15s ease; }
+    .btn-remove-recent:hover { color: var(--color-error); transform: scale(1.15); }
+    .recent-empty-text { font-size: 13px; color: var(--color-text-muted); padding: 8px 0; display: none; }
+
+    /* SUGGESTIONS */
+    .suggestions-list { display: flex; flex-direction: column; gap: 6px; padding: 4px 18px 0; }
+    .suggestion-item-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 8px; border-radius: var(--radius-md); cursor: pointer; transition: background-color 0.15s ease, transform 0.1s ease; }
+    .suggestion-item-row:hover { background-color: var(--color-surface); transform: translateX(2px); }
+    .suggestion-left-wrap { display: flex; align-items: center; gap: 14px; }
+    .suggestion-icon-circle { width: 42px; height: 42px; border-radius: 50%; background-color: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 15px; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); }
+    .suggestion-text-wrap { display: flex; flex-direction: column; }
+    .suggestion-title { font-size: 14px; font-weight: 600; color: #ffffff; letter-spacing: -0.1px; }
+    .suggestion-members-count { font-size: 11.5px; color: var(--color-text-secondary); margin-top: 2px; }
+    .suggestion-chevron { color: var(--color-text-muted); font-size: 13px; padding-right: 4px; }
+
+    /* FAB */
+    .fab-create-btn { position: fixed; bottom: 84px; right: 20px; width: 56px; height: 56px; border-radius: 50%; background: var(--gradient-brand); border: none; color: #ffffff; font-size: 22px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 20px rgba(255, 50, 184, 0.45); z-index: 95; transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease; }
+    .app-viewport.mockup-mode .fab-create-btn { position: absolute; bottom: 84px; right: 20px; }
+    .fab-create-btn:hover { transform: scale(1.08) rotate(90deg); box-shadow: 0 8px 25px rgba(255, 50, 184, 0.65); }
+    .fab-create-btn:active { transform: scale(0.95); }
+
+    /* BOTTOM DOCK */
+    .bottom-nav-dock { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 500px; background-color: rgba(14, 11, 22, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 1px solid var(--color-border-subtle); display: flex; flex-direction: column; z-index: 100; padding-top: 8px; }
+    .app-viewport.mockup-mode .bottom-nav-dock { position: absolute; max-width: 100%; border-bottom-left-radius: 36px; border-bottom-right-radius: 36px; }
+    .bottom-nav-items { display: flex; align-items: center; justify-content: space-around; width: 100%; padding: 0 8px; }
+    .nav-tab-btn { background: transparent; border: none; display: flex; flex-direction: column; align-items: center; gap: 4px; color: #ffffff; text-decoration: none; cursor: pointer; padding: 6px 12px; flex: 1; transition: transform 0.15s ease; }
+    .nav-tab-btn:active { transform: scale(0.92); }
+    .nav-tab-icon { font-size: 20px; height: 22px; display: flex; align-items: center; justify-content: center; color: var(--color-text-secondary); }
+    .nav-tab-label { font-size: 10.5px; font-weight: 500; color: var(--color-text-secondary); }
+    .nav-tab-btn.active .nav-tab-icon { color: var(--color-accent-pink); text-shadow: 0 0 10px rgba(255, 50, 184, 0.4); }
+    .nav-tab-btn.active .nav-tab-label { color: var(--color-accent-pink); font-weight: 700; }
+    .mobile-home-indicator { width: 134px; height: 4px; background-color: #ffffff; border-radius: 9999px; margin: 8px auto 6px; opacity: 0.9; }
+
+    /* RIGHT SIDEBAR */
+    .desktop-right-sidebar { display: none; width: 320px; padding: 28px 24px 24px; flex-direction: column; gap: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; background-color: #07050e; border-left: 1px solid var(--color-border-subtle); }
+    .sidebar-widget-card { background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 18px; padding: 18px; }
+    .widget-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .widget-title { font-size: 14px; font-weight: 700; color: #ffffff; }
+    .widget-link { font-size: 12px; color: var(--color-accent-pink); text-decoration: none; font-weight: 600; }
+    .trend-item-row { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.04); cursor: pointer; }
+    .trend-item-row:last-child { border-bottom: none; }
+    .trend-category { font-size: 11px; color: var(--color-text-muted); }
+    .trend-topic { font-size: 13px; font-weight: 700; color: #ffffff; }
+    .trend-count { font-size: 11px; color: var(--color-text-secondary); }
+    .desktop-footer-text { font-size: 11.5px; color: var(--color-text-muted); line-height: 1.6; }
+    .desktop-footer-text a { color: var(--color-text-muted); text-decoration: none; margin-right: 6px; }
+    .desktop-footer-text a:hover { color: var(--color-text-secondary); }
+
+    /* TOAST & MODALS */
+    .toast-pill { position: fixed; top: 24px; left: 50%; transform: translateX(-50%) translateY(-30px); background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: #ffffff; padding: 10px 20px; border-radius: 30px; font-size: 13.5px; font-weight: 600; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7); opacity: 0; pointer-events: none; transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); z-index: 2000; }
+    .toast-pill.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+    .toast-pill i { color: var(--color-accent-pink); }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .simple-dialog-modal { width: 90%; max-width: 440px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 20px; padding: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85); }
+    .dialog-title-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+
+    /* Instagram-Style Notifications Modal Card */
+    .notif-modal-card { width: 92%; max-width: 440px; max-height: 80vh; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15); animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes notifModalIn { from { transform: scale(0.94) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+    .notif-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-elevated); }
+    .notif-modal-title { font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: #ffffff; }
+    .notif-modal-badge { background: var(--gradient-brand); color: #ffffff; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .btn-notif-action { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
+    .btn-notif-action:hover { background: var(--color-surface-hover); color: #ffffff; border-color: var(--color-accent-pink); }
+    .btn-close-modal { background: transparent; border: none; color: var(--color-text-secondary); font-size: 16px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; transition: color 0.15s ease; }
+    .btn-close-modal:hover { color: #ffffff; }
+    .notif-modal-tabs { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.4); background: var(--color-background); overflow-x: auto; }
+    .notif-modal-tab { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+    .notif-modal-tab.active { background: var(--color-accent-pink); color: #ffffff; border-color: var(--color-accent-pink); }
+    .notif-modal-list { flex: 1; overflow-y: auto; padding: 4px 0; scrollbar-width: none; }
+    .notif-modal-list::-webkit-scrollbar { display: none; }
+    .notif-modal-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.25); cursor: pointer; transition: background 0.15s ease; }
+    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
+    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
+    .notif-item-avatar-wrap { position: relative; flex-shrink: 0; }
+    .notif-item-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .notif-item-badge { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #ffffff; border: 1.5px solid var(--color-surface); }
+    .notif-item-info { flex: 1; min-width: 0; }
+    .notif-item-text { font-size: 12.5px; color: var(--color-text-primary); line-height: 1.35; word-break: break-word; }
+    .notif-item-time { font-size: 11px; color: var(--color-text-muted); display: block; margin-top: 2px; }
+    .btn-notif-follow { background: var(--gradient-brand); border: none; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; transition: all 0.15s ease; }
+    .btn-notif-follow.following { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+    .notif-item-thumb { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--color-border-subtle); }
+    .notif-medal-pill { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 113, 63, 0.12); border: 1px solid rgba(255, 113, 63, 0.3); display: flex; align-items: center; justify-content: center; color: var(--color-accent-orange); font-size: 15px; flex-shrink: 0; }
+    .btn-notif-modal-full { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--color-surface-elevated); border-top: 1px solid var(--color-border-subtle); color: var(--color-accent-pink); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: background 0.15s ease; }
+    .btn-notif-modal-full:hover { background: var(--color-surface-hover); color: #ffffff; }
+
+    /* RESPONSIVE */
+    @media (min-width: 992px) {
+      .desktop-sidebar { display: flex; }
+      .view-mode-toggle { display: flex; }
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock { display: none; }
+      .app-viewport:not(.mockup-mode) .search-center-container { padding-bottom: 30px; max-width: 540px; }
+      .app-viewport:not(.mockup-mode) .fab-create-btn { display: none; }
+    }
+    @media (min-width: 1280px) { .desktop-right-sidebar { display: flex; } }
+    @media (max-width: 768px) {
+      .search-center-container { max-width: 100%; border-left: none; border-right: none; }
+      .bottom-nav-dock { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- LEFT DESKTOP SIDEBAR -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" style="width: 42px; height: 42px; object-fit: contain;">
+          <span class="brand-logo-text">Social<span class="brand-rats">Rats</span></span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="openNotificationsModal()">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill">2</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <a href="comunidades.html" class="btn-create-post-sidebar" style="text-decoration:none;">
+          <i class="fa-solid fa-plus"></i>
+          <span>Criar Comunidade</span>
+        </a>
+      </div>
+
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar" id="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name" id="desktop-user-name">Gabriel</span>
+            <span class="desktop-user-handle" id="desktop-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CENTER SEARCH SCREEN -->
+    <main class="search-center-container" id="search-container">
+
+      <!-- 1. Top Bar -->
+      <header class="top-search-bar">
+        <a href="feed.html" class="search-brand-title">
+          Social<span class="brand-rats">Rats</span>
+        </a>
+        <button type="button" class="btn-notification-bell" aria-label="Notificações" onclick="openNotificationsModal()">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-badge-dot"></span>
+        </button>
+      </header>
+
+      <!-- 2. Search Input Box -->
+      <div class="search-input-wrapper">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass search-icon-lens"></i>
+          <input type="text" id="search-input" class="search-native-input" placeholder="Buscar no SocialRats..." autocomplete="off">
+          <button type="button" class="btn-clear-search" id="btn-clear-search" onclick="clearSearchInput()" aria-label="Limpar busca">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Horizontal Navigation Tabs -->
+      <nav class="search-tabs-container" aria-label="Abas de busca">
+        <div class="search-tabs-track">
+          <button type="button" class="search-tab-btn active" onclick="switchTab(this, 'all')">Explorar</button>
+          <button type="button" class="search-tab-btn" onclick="switchTab(this, 'topics')">Assuntos do momento</button>
+          <button type="button" class="search-tab-btn" onclick="switchTab(this, 'Pessoas')">Pessoas</button>
+          <button type="button" class="search-tab-btn" onclick="switchTab(this, 'tech')">Comunidades</button>
+        </div>
+      </nav>
+
+      <!-- 4. Comunidades em Alta -->
+      <section class="section-block">
+        <div class="section-header-row">
+          <div class="section-title-wrap">
+            <h2 class="section-header-title">Comunidades em alta</h2>
+          </div>
+          <a href="comunidades.html" class="section-header-link" title="Ver todas as comunidades">
+            <span>Ver tudo</span>
+            <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i>
+          </a>
+        </div>
+
+        <div class="communities-cards-track" id="communities-track">
+          <div class="community-card" onclick="openCommunity('Flutter Devs')">
+            <div class="comm-icon-circle" style="color:#02569B; background:rgba(2,86,155,0.15); border-color:rgba(2,86,155,0.3);">
+              <i class="fa-brands fa-flutter"></i>
+            </div>
+            <span class="comm-card-name">Flutter Devs</span>
+            <span class="comm-card-members">14.2k membros</span>
+            <button type="button" class="btn-comm-join" onclick="toggleJoinCommunity(event, this)">Entrar</button>
+          </div>
+
+          <div class="community-card" onclick="openCommunity('Calistenia')">
+            <div class="comm-icon-circle" style="color:var(--color-accent-orange); background:var(--color-accent-orange-soft); border-color:rgba(255,113,63,0.3);">
+              <i class="fa-solid fa-person-walking"></i>
+            </div>
+            <span class="comm-card-name">Calistenia</span>
+            <span class="comm-card-members">8.9k membros</span>
+            <button type="button" class="btn-comm-join joined" onclick="toggleJoinCommunity(event, this)">Membro</button>
+          </div>
+
+          <div class="community-card" onclick="openCommunity('Design UI/UX')">
+            <div class="comm-icon-circle" style="color:var(--color-accent-pink); background:var(--color-accent-pink-soft); border-color:rgba(255,50,184,0.3);">
+              <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <span class="comm-card-name">Design UI/UX</span>
+            <span class="comm-card-members">21.5k membros</span>
+            <button type="button" class="btn-comm-join" onclick="toggleJoinCommunity(event, this)">Entrar</button>
+          </div>
+
+          <div class="community-card" onclick="openCommunity('Python Devs')">
+            <div class="comm-icon-circle" style="color:#4B8BBE; background:rgba(75,139,190,0.15); border-color:rgba(75,139,190,0.3);">
+              <i class="fa-brands fa-python"></i>
+            </div>
+            <span class="comm-card-name">Python Devs</span>
+            <span class="comm-card-members">32.1k membros</span>
+            <button type="button" class="btn-comm-join" onclick="toggleJoinCommunity(event, this)">Entrar</button>
+          </div>
+
+          <div class="community-card" onclick="openCommunity('Bodybuilding')">
+            <div class="comm-icon-circle" style="color:var(--color-accent-purple); background:var(--color-accent-purple-soft); border-color:rgba(146,59,255,0.3);">
+              <i class="fa-solid fa-dumbbell"></i>
+            </div>
+            <span class="comm-card-name">Bodybuilding</span>
+            <span class="comm-card-members">45.0k membros</span>
+            <button type="button" class="btn-comm-join joined" onclick="toggleJoinCommunity(event, this)">Membro</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Buscas Recentes -->
+      <section class="section-block" id="recent-section">
+        <div class="section-header-row">
+          <div class="section-title-wrap">
+            <h2 class="section-header-title">Buscas recentes</h2>
+          </div>
+          <a class="section-header-link" onclick="clearAllRecents()">
+            <span>Limpar tudo</span>
+          </a>
+        </div>
+
+        <div class="recent-searches-list" id="recent-searches-list">
+          <div class="recent-search-row" onclick="executeSearch('supino 140kg')">
+            <div class="recent-search-left">
+              <i class="fa-solid fa-clock-rotate-left recent-search-lens"></i>
+              <span class="recent-search-query">supino 140kg</span>
+            </div>
+            <button type="button" class="btn-remove-recent" onclick="removeRecentItem(event, this)" aria-label="Remover busca">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="recent-search-row" onclick="executeSearch('treino de ombro deltóide')">
+            <div class="recent-search-left">
+              <i class="fa-solid fa-clock-rotate-left recent-search-lens"></i>
+              <span class="recent-search-query">treino de ombro deltóide</span>
+            </div>
+            <button type="button" class="btn-remove-recent" onclick="removeRecentItem(event, this)" aria-label="Remover busca">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="recent-search-row" onclick="executeSearch('@rijalxp')">
+            <div class="recent-search-left">
+              <i class="fa-solid fa-clock-rotate-left recent-search-lens"></i>
+              <span class="recent-search-query">@rijalxp</span>
+            </div>
+            <button type="button" class="btn-remove-recent" onclick="removeRecentItem(event, this)" aria-label="Remover busca">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <p class="recent-empty-text" id="recent-empty-text">Nenhuma busca recente gravada.</p>
+        </div>
+      </section>
+
+      <!-- 6. Sugestões e Tendências -->
+      <section class="section-block" style="margin-bottom: 24px;">
+        <div class="section-header-row">
+          <div class="section-title-wrap">
+            <h2 class="section-header-title">Sugestões para você</h2>
+          </div>
+        </div>
+
+        <div class="suggestions-list" id="suggestions-list">
+          <div class="suggestion-item-row" onclick="executeSearch('#Desafio30Dias')">
+            <div class="suggestion-left-wrap">
+              <div class="suggestion-icon-circle" style="color:var(--color-accent-pink);">
+                <i class="fa-solid fa-fire"></i>
+              </div>
+              <div class="suggestion-text-wrap">
+                <span class="suggestion-title">#Desafio30Dias</span>
+                <span class="suggestion-members-count">24.5k pessoas treinando</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right suggestion-chevron"></i>
+          </div>
+
+          <div class="suggestion-item-row" onclick="executeSearch('Nutrição Esportiva')">
+            <div class="suggestion-left-wrap">
+              <div class="suggestion-icon-circle" style="color:var(--color-success);">
+                <i class="fa-solid fa-apple-whole"></i>
+              </div>
+              <div class="suggestion-text-wrap">
+                <span class="suggestion-title">Nutrição & Dieta Flexível</span>
+                <span class="suggestion-members-count">19.8k membros na comunidade</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right suggestion-chevron"></i>
+          </div>
+
+          <div class="suggestion-item-row" onclick="executeSearch('Powerlifting Brasil')">
+            <div class="suggestion-left-wrap">
+              <div class="suggestion-icon-circle" style="color:var(--color-accent-orange);">
+                <i class="fa-solid fa-trophy"></i>
+              </div>
+              <div class="suggestion-text-wrap">
+                <span class="suggestion-title">Powerlifting Brasil</span>
+                <span class="suggestion-members-count">11.3k atletas participando</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right suggestion-chevron"></i>
+          </div>
+
+          <div class="suggestion-item-row" onclick="executeSearch('Creatina e Suplementação')">
+            <div class="suggestion-left-wrap">
+              <div class="suggestion-icon-circle" style="color:var(--color-accent-purple);">
+                <i class="fa-solid fa-capsules"></i>
+              </div>
+              <div class="suggestion-text-wrap">
+                <span class="suggestion-title">Guia de Suplementação</span>
+                <span class="suggestion-members-count">8.4k tópicos criados</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-chevron-right suggestion-chevron"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Floating Action Button '+' (FAB) -->
+      <a href="comunidades.html" class="fab-create-btn" aria-label="Criar comunidade ou postagem" title="Criar" style="text-decoration:none;">+</a>
+
+      <!-- 8. Standard Bottom Navigation Dock (5 Tabs) -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Principal Móvel">
+        <div class="bottom-nav-items">
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Início</span>
+          </a>
+
+          <button type="button" class="nav-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-current="page">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </button>
+
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- RIGHT DESKTOP SIDEBAR -->
+    <aside class="desktop-right-sidebar" aria-label="Tendências e Comunidades">
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Tendências no Brasil</span>
+          <a href="#" class="widget-link" onclick="showToast('Atualizando tendências...'); return false;">Ver tudo</a>
+        </div>
+        <div>
+          <div class="trend-item-row" onclick="executeSearch('#Desafio30Dias')">
+            <span class="trend-category">Fitness · Em alta</span>
+            <span class="trend-topic">#Desafio30Dias</span>
+            <span class="trend-count">24.5k publicações</span>
+          </div>
+          <div class="trend-item-row" onclick="executeSearch('Supino 140kg')">
+            <span class="trend-category">Comunidade · Recordes</span>
+            <span class="trend-topic">Supino 140kg</span>
+            <span class="trend-count">18.2k discussões</span>
+          </div>
+          <div class="trend-item-row" onclick="executeSearch('Remai AI Coach')">
+            <span class="trend-category">SocialRats · Novidade</span>
+            <span class="trend-topic">Remai AI Coach</span>
+            <span class="trend-count">9.8k interações</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Comunidades Ativas</span>
+          <a href="#" class="widget-link" onclick="showToast('Explorando rankings...'); return false;">Rankings</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff;">1. Bodybuilding Alfa</span>
+            <span style="color:var(--color-accent-pink); font-weight:700;">+3.4k hoje</span>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff;">2. Calistenia Brasil</span>
+            <span style="color:var(--color-accent-orange); font-weight:700;">+2.1k hoje</span>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff;">3. Nutrição & Suplementos</span>
+            <span style="color:var(--color-accent-purple); font-weight:700;">+1.8k hoje</span>
+          </div>
+        </div>
+      </div>
+
+      <footer class="desktop-footer-text">
+        <a href="#">Sobre</a> · <a href="#">Ajuda</a> · <a href="#">Imprensa</a> · <a href="#">Carreiras</a> · <a href="#">Privacidade</a> · <a href="#">Termos</a><br>
+        <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Comunidades e evolução</span>
+      </footer>
+    </aside>
+
+  </div>
+
+  <!-- DESKTOP VIEW MODE TOGGLE -->
+  <button type="button" class="view-mode-toggle" id="btn-toggle-view" onclick="toggleViewMode()">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-label">Ver em Moldura Mobile</span>
+  </button>
+
+
+  <!-- INSTAGRAM-STYLE NOTIFICATIONS MODAL / DRAWER -->
+  <div class="modal-overlay" id="notif-modal" role="dialog" aria-modal="true" aria-label="Notificações">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title">Notificações</h3>
+          <span class="notif-modal-badge" id="modal-notif-badge">4 novas</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-notif-action" onclick="markModalNotifsAsRead()" title="Marcar como lidas">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <a href="notifications.html" class="btn-notif-action" title="Abrir página cheia">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNotificationsModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Categories -->
+      <div class="notif-modal-tabs">
+        <button type="button" class="notif-modal-tab active" onclick="filterModalNotifs('all', this)">Todas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('likes', this)">Curtidas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('follows', this)">Seguidores</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('prs', this)">Recordes</button>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="notif-modal-list" id="modal-notif-list">
+        <!-- Item 1: Follow -->
+        <div class="notif-modal-item unread" data-cat="follows" onclick="window.location.href='profile.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-gabriel.png" alt="Marina" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-user-plus"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>marina_fitness</strong> começou a seguir você.</p>
+            <span class="notif-item-time">há 12 min</span>
+          </div>
+          <button type="button" class="btn-notif-follow" onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
+        </div>
+
+        <!-- Item 2: PR Record -->
+        <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Novo Recorde!</strong> 110 kg no Supino Reto (+50 XP).</p>
+            <span class="notif-item-time" style="color:var(--color-accent-orange);">🔥 há 45 min</span>
+          </div>
+          <div class="notif-medal-pill"><i class="fa-solid fa-medal"></i></div>
+        </div>
+
+        <!-- Item 3: Like -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-ana.png" alt="Carlos" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>carlos_iron</strong> e +18 curtiram seu treino.</p>
+            <span class="notif-item-time">há 2h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 4: Comment -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-felipe.png" alt="Lucas" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i class="fa-solid fa-comment"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>lucas_bodybuilder</strong> comentou: <em>"Carga monstra! 🔥"</em></p>
+            <span class="notif-item-time">há 3h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 5: Streak -->
+        <div class="notif-modal-item" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Streak" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-fire"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Sequência de 21 Dias!</strong> Foco mantido.</p>
+            <span class="notif-item-time">ontem</span>
+          </div>
+          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        </div>
+      </div>
+
+      <!-- Footer Button: Open Full Page -->
+      <a href="notifications.html" class="btn-notif-modal-full">
+        <span>Ver todas as notificações no Hub</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION PILL -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const savedUser = localStorage.getItem('socialrats_user');
+        if (savedUser) {
+          const cleanName = savedUser.split('@')[0].trim();
+          document.getElementById('desktop-user-name').textContent = cleanName;
+          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
+        }
+      } catch (e) {}
+    });
+
+    const toast = document.getElementById('toast-pill');
+    const toastText = document.getElementById('toast-text');
+    let toastTimer = null;
+
+    function showToast(message) {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    const searchInput = document.getElementById('search-input');
+    const btnClearSearch = document.getElementById('btn-clear-search');
+    const suggestionRows = document.querySelectorAll('.suggestion-item-row');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        btnClearSearch.classList.toggle('show', query.length > 0);
+
+        suggestionRows.forEach(row => {
+          const title = row.querySelector('.suggestion-title').textContent.toLowerCase();
+          row.style.display = title.includes(query) ? 'flex' : 'none';
+        });
+      });
+
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const query = searchInput.value.trim();
+          if (query) executeSearch(query);
+        }
+      });
+    }
+
+    function clearSearchInput() {
+      searchInput.value = '';
+      btnClearSearch.classList.remove('show');
+      suggestionRows.forEach(row => row.style.display = 'flex');
+      searchInput.focus();
+    }
+
+    function executeSearch(query) {
+      searchInput.value = query;
+      btnClearSearch.classList.add('show');
+      addRecentSearch(query);
+      showToast(`Buscando por: "${query}"...`);
+    }
+
+    const recentList = document.getElementById('recent-searches-list');
+    const recentEmptyText = document.getElementById('recent-empty-text');
+
+    function addRecentSearch(query) {
+      const existing = Array.from(recentList.children).find(row =>
+        row.querySelector && row.querySelector('.recent-search-query') &&
+        row.querySelector('.recent-search-query').textContent.toLowerCase() === query.toLowerCase()
+      );
+
+      if (existing) {
+        recentList.prepend(existing);
+        return;
+      }
+
+      const row = document.createElement('div');
+      row.className = 'recent-search-row';
+      row.onclick = () => executeSearch(query);
+      row.innerHTML = `
+        <div class="recent-search-left">
+          <i class="fa-solid fa-clock-rotate-left recent-search-lens"></i>
+          <span class="recent-search-query">${escapeHTML(query)}</span>
+        </div>
+        <button type="button" class="btn-remove-recent" onclick="removeRecentItem(event, this)" aria-label="Remover busca">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      `;
+
+      recentEmptyText.style.display = 'none';
+      recentList.prepend(row);
+    }
+
+    function removeRecentItem(event, btn) {
+      event.stopPropagation();
+      const row = btn.closest('.recent-search-row');
+      if (row) {
+        row.remove();
+        checkRecentsEmpty();
+        showToast('Item removido do histórico');
+      }
+    }
+
+    function clearAllRecents() {
+      const rows = recentList.querySelectorAll('.recent-search-row');
+      rows.forEach(r => r.remove());
+      checkRecentsEmpty();
+      showToast('Histórico de buscas limpo');
+    }
+
+    function checkRecentsEmpty() {
+      const remaining = recentList.querySelectorAll('.recent-search-row');
+      if (remaining.length === 0) {
+        recentEmptyText.style.display = 'block';
+      }
+    }
+
+    function switchTab(btn, category) {
+      document.querySelectorAll('.search-tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showToast(`Filtrando por: ${btn.textContent}`);
+    }
+
+    function toggleJoinCommunity(event, btn) {
+      event.stopPropagation();
+      const isJoined = btn.classList.contains('joined');
+      if (isJoined) {
+        btn.classList.remove('joined');
+        btn.textContent = 'Entrar';
+        showToast('Você saiu da comunidade');
+      } else {
+        btn.classList.add('joined');
+        btn.textContent = 'Membro';
+        showToast('Você entrou na comunidade! 🎉');
+      }
+    }
+
+    function openCommunity(commName) {
+      showToast(`Abrindo comunidade: ${commName}`);
+    }
+
+    function openCreateModal() {
+      window.location.href = 'comunidades.html';
+    }
+
+    function openNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function filterModalNotifs(cat, tab) {
+      document.querySelectorAll('.notif-modal-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const items = document.querySelectorAll('.notif-modal-item');
+      items.forEach(it => {
+        if (cat === 'all' || it.getAttribute('data-cat') === cat) {
+          it.style.display = 'flex';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    function markModalNotifsAsRead() {
+      document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
+      const badge = document.getElementById('modal-notif-badge');
+      if (badge) {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+      const bellDot = document.querySelector('.bell-badge-dot');
+      if (bellDot) bellDot.style.display = 'none';
+      showToast('Notificações marcadas como lidas.');
+    }
+
+    function toggleModalFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Você agora segue este usuário!');
+      }
+    }
+
+    function handleLogout() {
+      if (confirm('Deseja realmente sair da sua conta?')) {
+        localStorage.removeItem('socialrats_token');
+        localStorage.removeItem('socialrats_user');
+        window.location.href = 'login.html';
+      }
+    }
+
+    function toggleViewMode() {
+      const viewport = document.getElementById('app-viewport');
+      const label = document.getElementById('view-mode-label');
+      const isMockup = viewport.classList.toggle('mockup-mode');
+
+      label.textContent = isMockup ? 'Ver em Modo Expandido' : 'Ver em Moldura Mobile';
+      showToast(isMockup ? 'Modo Moldura Mobile ativado' : 'Modo Web Expandido ativado');
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g,
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>

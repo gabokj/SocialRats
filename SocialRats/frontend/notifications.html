@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Notificações</title>
+  <meta name="description" content="Central de notificações, atividades, curtidas, comentários e conquistas no SocialRats.">
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-surface-hover: #231d32;
+      --color-border-subtle: #30263e;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      --color-accent-pink: #ff32b8;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.12);
+      --color-accent-purple: #923bff;
+      --color-accent-purple-soft: rgba(146, 59, 255, 0.12);
+      --color-accent-orange: #ff713f;
+      --color-accent-orange-soft: rgba(255, 113, 63, 0.12);
+      --color-success: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #ff4d6d;
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 18px;
+      --radius-full: 9999px;
+      --shadow-glow-pink: 0 0 16px rgba(255, 50, 184, 0.35);
+      --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.45);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP SIDEBAR (LEFT)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050e;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #ffffff;
+    }
+
+    .brand-logo-text .brand-rats {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a, .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover, .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a, .desktop-nav-item.active button {
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      margin-top: auto;
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-accent-pink);
+    }
+
+    .desktop-user-text {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .desktop-user-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .desktop-user-handle {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .btn-logout-sidebar {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-sidebar:hover {
+      color: var(--color-error);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       CENTER NOTIFICATIONS CONTAINER
+       ═══════════════════════════════════════════════════════════════ */
+    .center-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      border-left: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      background-color: var(--color-background);
+      padding-bottom: 90px;
+      position: relative;
+    }
+
+    /* 1. TOP BAR */
+    .top-app-bar {
+      position: sticky;
+      top: 0;
+      background-color: rgba(11, 9, 19, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 90;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-back-nav {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background 0.15s ease;
+    }
+
+    .btn-back-nav:active {
+      transform: scale(0.92);
+      background: var(--color-surface-hover);
+    }
+
+    .top-page-title-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .top-page-title {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .unread-counter-badge {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .top-page-subtitle {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-mark-all-read {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-mark-all-read:hover {
+      background: var(--color-surface-elevated);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+
+    .btn-mark-all-read:active {
+      transform: scale(0.95);
+    }
+
+    /* 2. FILTER PILLS (Instagram-style category chips) */
+    .filter-pills-bar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.5);
+      background-color: var(--color-background);
+    }
+    .filter-pills-bar::-webkit-scrollbar { display: none; }
+
+    .filter-pill {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+
+    .filter-pill:hover {
+      background: var(--color-surface-elevated);
+      color: #ffffff;
+    }
+
+    .filter-pill.active {
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.4);
+    }
+
+    .filter-pill i {
+      font-size: 12px;
+    }
+
+    /* 3. SECTION GROUP HEADER */
+    .notif-section-header {
+      padding: 16px 16px 8px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .notif-section-count {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-family: var(--font-body);
+      font-weight: 500;
+    }
+
+    /* 4. NOTIFICATION LIST & ITEM */
+    .notif-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .notif-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.35);
+      background: transparent;
+      transition: background 0.15s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .notif-item:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .notif-item.unread {
+      background: rgba(255, 50, 184, 0.04);
+    }
+
+    .notif-item.unread::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--color-accent-pink);
+      box-shadow: 0 0 6px var(--color-accent-pink);
+    }
+
+    .notif-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .notif-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .notif-icon-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: #ffffff;
+      border: 2px solid var(--color-background);
+    }
+
+    .badge-like { background: var(--color-accent-pink); }
+    .badge-comment { background: var(--color-accent-purple); }
+    .badge-follow { background: var(--color-accent-orange); }
+    .badge-pr { background: linear-gradient(135deg, #ff713f, #ff32b8); }
+    .badge-streak { background: var(--color-accent-orange); }
+    .badge-mention { background: #3b82f6; }
+
+    .notif-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-text {
+      font-size: 13.5px;
+      line-height: 1.4;
+      color: var(--color-text-primary);
+      word-break: break-word;
+    }
+
+    .notif-username {
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .notif-comment-snippet {
+      color: var(--color-text-secondary);
+      font-style: italic;
+    }
+
+    .notif-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 3px;
+    }
+
+    .notif-time {
+      font-size: 11.5px;
+      color: var(--color-text-muted);
+    }
+
+    .notif-tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--color-surface-elevated);
+      color: var(--color-text-secondary);
+    }
+
+    /* RIGHT ACTIONS IN NOTIFICATION ITEM (Follow Button or Post Thumbnail) */
+    .notif-right-action {
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    .btn-follow-toggle {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      min-width: 90px;
+      text-align: center;
+    }
+
+    .btn-follow-toggle.following {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+    }
+
+    .btn-follow-toggle:active {
+      transform: scale(0.94);
+    }
+
+    .notif-post-thumb {
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .notif-pr-award-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 113, 63, 0.12);
+      border: 1px solid rgba(255, 113, 63, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent-orange);
+      font-size: 18px;
+    }
+
+    /* EMPTY STATE */
+    .notif-empty-state {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .empty-state-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: var(--color-text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .empty-state-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+    }
+
+    .empty-state-desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      max-width: 280px;
+      line-height: 1.4;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP WIDGET SIDEBAR (RIGHT)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-widgets {
+      display: none;
+      width: 320px;
+      padding: 24px 20px;
+      border-left: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      flex-direction: column;
+      gap: 20px;
+      scrollbar-width: none;
+    }
+    .desktop-widgets::-webkit-scrollbar { display: none; }
+
+    .widget-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+    }
+
+    .widget-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .widget-suggested-user {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.4);
+    }
+    .widget-suggested-user:last-child { border-bottom: none; }
+
+    .suggested-user-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .suggested-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .suggested-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .suggested-user-handle {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-suggested-follow {
+      background: transparent;
+      border: 1px solid var(--color-accent-pink);
+      color: var(--color-accent-pink);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-suggested-follow:hover {
+      background: var(--color-accent-pink);
+      color: #ffffff;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MOBILE BOTTOM DOCK NAVIGATION (5 TABS)
+       ═══════════════════════════════════════════════════════════════ */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      height: 64px;
+      background: rgba(11, 9, 19, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      z-index: 100;
+      padding: 0 8px;
+    }
+
+    .dock-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 12px;
+      transition: color 0.15s ease;
+      position: relative;
+    }
+
+    .dock-nav-item i {
+      font-size: 20px;
+    }
+
+    .dock-nav-item.active {
+      color: var(--color-accent-pink);
+    }
+
+    .dock-badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 14px;
+      width: 7px;
+      height: 7px;
+      background: var(--color-accent-pink);
+      border-radius: 50%;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MOCKUP VIEW CONTROLS & FLOATING TOGGLE
+       ═══════════════════════════════════════════════════════════════ */
+    .view-mode-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--gradient-brand);
+      color: #ffffff;
+      border: none;
+      border-radius: var(--radius-full);
+      padding: 12px 20px;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 700;
+      box-shadow: 0 8px 24px rgba(255, 50, 184, 0.4);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 1100;
+      transition: transform 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      transform: translateY(-3px) scale(1.02);
+    }
+
+    @media (min-width: 992px) {
+      .desktop-sidebar { display: flex; }
+      .desktop-widgets { display: flex; }
+      .bottom-nav-dock { display: none; }
+      .view-mode-toggle { display: flex; }
+      
+      .app-viewport:not(.mockup-mode) .center-container {
+        max-width: 540px;
+        padding-bottom: 30px;
+      }
+    }
+
+    /* Mockup Mode Container Simulation */
+    body.mockup-active {
+      background-color: #040307;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    body.mockup-active .app-viewport {
+      max-width: 430px;
+      height: 880px;
+      background: var(--color-background);
+      border-radius: 44px;
+      border: 8px solid #2a2238;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 50, 184, 0.2);
+      overflow: hidden;
+      position: relative;
+    }
+
+    body.mockup-active .desktop-sidebar,
+    body.mockup-active .desktop-widgets {
+      display: none !important;
+    }
+
+    body.mockup-active .bottom-nav-dock {
+      display: flex !important;
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    body.mockup-active .center-container {
+      max-width: 100%;
+      border: none;
+      height: 100%;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    body.mockup-active .center-container::-webkit-scrollbar { display: none; }
+
+    /* TOAST FEEDBACK */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-accent-pink);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow-glow-pink);
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast-pill i {
+      color: var(--color-accent-pink);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP SIDEBAR (LEFT)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar">
+      <div>
+        <!-- Brand Title -->
+        <a href="feed.html" class="desktop-brand">
+          <span class="brand-logo-text">Social<span class="brand-rats">Rats</span></span>
+        </a>
+
+        <!-- Navigation Links -->
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="notifications.html">
+              <i class="fa-solid fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill" id="desktop-nav-badge">4</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="window.location.href='feed.html'">
+          <i class="fa-solid fa-plus"></i>
+          <span>Novo Treino</span>
+        </button>
+      </div>
+
+      <!-- Logged User Pill -->
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar" id="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name" id="desktop-user-name">Gabriel Ricca</span>
+            <span class="desktop-user-handle" id="desktop-user-handle">@gabrielricca</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CENTER NOTIFICATIONS CONTAINER
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="center-container" id="center-container">
+
+      <!-- 1. Top App Bar -->
+      <header class="top-app-bar">
+        <div class="top-bar-left">
+          <button type="button" class="btn-back-nav" onclick="history.back()" aria-label="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div class="top-page-title-wrap">
+            <h1 class="top-page-title">
+              Notificações
+              <span class="unread-counter-badge" id="unread-counter-badge">4 novas</span>
+            </h1>
+            <span class="top-page-subtitle">Atividades e interações da sua rede</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button type="button" class="btn-mark-all-read" onclick="markAllAsRead()" title="Marcar todas como lidas">
+            <i class="fa-solid fa-check-double"></i>
+            <span>Lidas</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. Filter Pills Bar (Instagram-style activity categories) -->
+      <nav class="filter-pills-bar" aria-label="Filtro de notificações">
+        <button type="button" class="filter-pill active" onclick="setNotifFilter('all', this)">
+          <i class="fa-solid fa-layer-group"></i> Todas
+        </button>
+        <button type="button" class="filter-pill" onclick="setNotifFilter('likes', this)">
+          <i class="fa-solid fa-heart"></i> Curtidas
+        </button>
+        <button type="button" class="filter-pill" onclick="setNotifFilter('comments', this)">
+          <i class="fa-solid fa-comment"></i> Comentários
+        </button>
+        <button type="button" class="filter-pill" onclick="setNotifFilter('follows', this)">
+          <i class="fa-solid fa-user-plus"></i> Seguidores
+        </button>
+        <button type="button" class="filter-pill" onclick="setNotifFilter('prs', this)">
+          <i class="fa-solid fa-trophy"></i> PRs & XP
+        </button>
+      </nav>
+
+      <!-- 3. Notifications Feed Groups -->
+      <div id="notifications-wrapper">
+
+        <!-- GROUP: HOJE -->
+        <section class="notif-group" data-group="today">
+          <div class="notif-section-header">
+            <span>Hoje</span>
+            <span class="notif-section-count">4 novas</span>
+          </div>
+          <div class="notif-list">
+
+            <!-- Item 1: Follow (Unread) -->
+            <article class="notif-item unread" data-category="follows" onclick="handleNotifClick('profile', 'marina_fitness')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-gabriel.png" alt="Marina" class="notif-avatar">
+                <span class="notif-icon-badge badge-follow"><i class="fa-solid fa-user-plus"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">marina_fitness</span> começou a seguir você.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">há 12 min</span>
+                  <span class="notif-tag">Atleta</span>
+                </div>
+              </div>
+              <div class="notif-right-action" onclick="event.stopPropagation()">
+                <button type="button" class="btn-follow-toggle" onclick="toggleFollowBtn(this)">Seguir de volta</button>
+              </div>
+            </article>
+
+            <!-- Item 2: PR Record (Unread) -->
+            <article class="notif-item unread" data-category="prs" onclick="handleNotifClick('metrics', 'supino_pr')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats System" class="notif-avatar" style="background:#14111e; padding:4px;">
+                <span class="notif-icon-badge badge-pr"><i class="fa-solid fa-trophy"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">Recorde Pessoal!</span> Você atingiu <strong>110 kg</strong> no Supino Reto. Ganhou <strong>+50 XP</strong>.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">há 45 min</span>
+                  <span class="notif-tag" style="color:var(--color-accent-orange);">🔥 Novo PR</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <div class="notif-pr-award-badge" title="Recorde Pessoal">
+                  <i class="fa-solid fa-medal"></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Item 3: Post Likes (Unread) -->
+            <article class="notif-item unread" data-category="likes" onclick="handleNotifClick('feed', 'post_1')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-ana.png" alt="Carlos Iron" class="notif-avatar">
+                <span class="notif-icon-badge badge-like"><i class="fa-solid fa-heart"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">carlos_iron</span> e <span class="notif-username">outras 18 pessoas</span> curtiram seu treino de Peitoral.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">há 2h</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <img src="../images/post-supino-real.png" alt="Thumbnail do Treino" class="notif-post-thumb">
+              </div>
+            </article>
+
+            <!-- Item 4: Comment (Unread) -->
+            <article class="notif-item unread" data-category="comments" onclick="handleNotifClick('feed', 'comment_1')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-felipe.png" alt="Lucas Bodybuilder" class="notif-avatar">
+                <span class="notif-icon-badge badge-comment"><i class="fa-solid fa-comment"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">lucas_bodybuilder</span> comentou: <span class="notif-comment-snippet">"Carga monstra irmão! Execução impecável 👏🔥"</span>
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">há 3h</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <img src="../images/post-supino-real.png" alt="Thumbnail do Treino" class="notif-post-thumb">
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- GROUP: ESTA SEMANA -->
+        <section class="notif-group" data-group="week">
+          <div class="notif-section-header">
+            <span>Esta Semana</span>
+            <span class="notif-section-count">4 itens</span>
+          </div>
+          <div class="notif-list">
+
+            <!-- Item 5: Streak Alert -->
+            <article class="notif-item" data-category="prs" onclick="handleNotifClick('metrics', 'streak_21')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Streak" class="notif-avatar" style="background:#14111e; padding:4px;">
+                <span class="notif-icon-badge badge-streak"><i class="fa-solid fa-fire"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">Sequência de 21 Dias!</span> O fogo continua aceso 🔥 Você completou 3 semanas sem faltar.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">ontem</span>
+                  <span class="notif-tag" style="color:var(--color-accent-pink);">Consistência</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <div class="notif-pr-award-badge" style="color:var(--color-accent-pink); background:rgba(255,50,184,0.12); border-color:rgba(255,50,184,0.35);">
+                  <i class="fa-solid fa-fire-flame-curved"></i>
+                </div>
+              </div>
+            </article>
+
+            <!-- Item 6: Mention in Comment -->
+            <article class="notif-item" data-category="comments" onclick="handleNotifClick('feed', 'mention_1')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-your-story.png" alt="Rafael Nutri" class="notif-avatar">
+                <span class="notif-icon-badge badge-mention"><i class="fa-solid fa-at"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">rafael_nutri</span> mencionou você: <span class="notif-comment-snippet">"@gabrielricca a divisão ABC tá trazendo muita densidade!"</span>
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">2d</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <img src="../images/post-workout.png" alt="Thumbnail" class="notif-post-thumb">
+              </div>
+            </article>
+
+            <!-- Item 7: Follow (Already following) -->
+            <article class="notif-item" data-category="follows" onclick="handleNotifClick('profile', 'felipe_calistenia')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-felipe.png" alt="Felipe Calistenia" class="notif-avatar">
+                <span class="notif-icon-badge badge-follow"><i class="fa-solid fa-user-plus"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">felipe_calistenia</span> começou a seguir você.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">3d</span>
+                </div>
+              </div>
+              <div class="notif-right-action" onclick="event.stopPropagation()">
+                <button type="button" class="btn-follow-toggle following" onclick="toggleFollowBtn(this)">Seguindo</button>
+              </div>
+            </article>
+
+            <!-- Item 8: Like on comment -->
+            <article class="notif-item" data-category="likes" onclick="handleNotifClick('feed', 'comment_like')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-ana.png" alt="Camila Runner" class="notif-avatar">
+                <span class="notif-icon-badge badge-like"><i class="fa-solid fa-heart"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">camila_runner</span> curtiu seu comentário: <span class="notif-comment-snippet">"Treino concluído, sem desculpas!"</span>
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">4d</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <img src="../images/post-workout.png" alt="Thumbnail" class="notif-post-thumb">
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <!-- GROUP: ESTE MÊS -->
+        <section class="notif-group" data-group="month">
+          <div class="notif-section-header">
+            <span>Este Mês</span>
+            <span class="notif-section-count">2 itens</span>
+          </div>
+          <div class="notif-list">
+
+            <!-- Item 9: Community Invite -->
+            <article class="notif-item" data-category="prs" onclick="handleNotifClick('search', 'comunidade_calistenia')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/avatar-felipe.png" alt="Calistenia Brutal" class="notif-avatar">
+                <span class="notif-icon-badge badge-streak"><i class="fa-solid fa-users"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  Você foi convidado para a comunidade <span class="notif-username">Calistenia Brutal Brasil</span>.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">2 sem</span>
+                  <span class="notif-tag">Comunidade</span>
+                </div>
+              </div>
+              <div class="notif-right-action" onclick="event.stopPropagation()">
+                <button type="button" class="btn-follow-toggle" onclick="toggleJoinCommunity(this)">Entrar</button>
+              </div>
+            </article>
+
+            <!-- Item 10: Performance Recap -->
+            <article class="notif-item" data-category="prs" onclick="handleNotifClick('metrics', 'recap_outubro')">
+              <div class="notif-avatar-wrap">
+                <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Relatório" class="notif-avatar" style="background:#14111e; padding:4px;">
+                <span class="notif-icon-badge badge-pr"><i class="fa-solid fa-chart-line"></i></span>
+              </div>
+              <div class="notif-content">
+                <p class="notif-text">
+                  <span class="notif-username">Resumo Mensal Disponível!</span> Você registrou <strong>24 treinos</strong> este mês e evoluiu <strong>+14.2%</strong> no Hustle Score.
+                </p>
+                <div class="notif-meta">
+                  <span class="notif-time">3 sem</span>
+                  <span class="notif-tag" style="color:var(--color-success);">+14.2%</span>
+                </div>
+              </div>
+              <div class="notif-right-action">
+                <div class="notif-pr-award-badge" style="color:var(--color-success); background:rgba(52,211,153,0.12); border-color:rgba(52,211,153,0.35);">
+                  <i class="fa-solid fa-arrow-trend-up"></i>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Empty State for Filters -->
+      <div class="notif-empty-state" id="notif-empty-state">
+        <div class="empty-state-icon">
+          <i class="fa-regular fa-bell-slash"></i>
+        </div>
+        <h2 class="empty-state-title">Nenhuma notificação aqui</h2>
+        <p class="empty-state-desc">Você ainda não tem atividades nessa categoria. Continue treinando e interagindo com a comunidade!</p>
+      </div>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP WIDGET SIDEBAR (RIGHT)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-widgets">
+
+      <!-- Widget: Atletas Sugeridos -->
+      <div class="widget-card">
+        <div class="widget-title">
+          <span>Sugestões para Você</span>
+          <a href="search.html" style="font-size:12px; color:var(--color-accent-pink); text-decoration:none;">Ver mais</a>
+        </div>
+        <div class="widget-suggested-user">
+          <div class="suggested-user-meta">
+            <img src="../images/avatar-ana.png" alt="Ana Paula" class="suggested-user-avatar">
+            <div>
+              <div class="suggested-user-name">Ana Paula</div>
+              <div class="suggested-user-handle">@anapaula.fit</div>
+            </div>
+          </div>
+          <button type="button" class="btn-suggested-follow" onclick="toggleSidebarFollow(this)">Seguir</button>
+        </div>
+        <div class="widget-suggested-user">
+          <div class="suggested-user-meta">
+            <img src="../images/avatar-felipe.png" alt="Felipe Costa" class="suggested-user-avatar">
+            <div>
+              <div class="suggested-user-name">Felipe Costa</div>
+              <div class="suggested-user-handle">@felipe.iron</div>
+            </div>
+          </div>
+          <button type="button" class="btn-suggested-follow" onclick="toggleSidebarFollow(this)">Seguir</button>
+        </div>
+        <div class="widget-suggested-user">
+          <div class="suggested-user-meta">
+            <img src="../images/avatar-gabriel.png" alt="Bruna Cross" class="suggested-user-avatar">
+            <div>
+              <div class="suggested-user-name">Bruna Cross</div>
+              <div class="suggested-user-handle">@brunacross</div>
+            </div>
+          </div>
+          <button type="button" class="btn-suggested-follow" onclick="toggleSidebarFollow(this)">Seguir</button>
+        </div>
+      </div>
+
+      <!-- Widget: Destaque de Desempenho -->
+      <div class="widget-card" style="background: linear-gradient(145deg, #1c1728, #14111e); border-color: rgba(255, 50, 184, 0.3);">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+          <i class="fa-solid fa-fire" style="color:var(--color-accent-orange); font-size:22px;"></i>
+          <span style="font-family:var(--font-heading); font-size:15px; font-weight:800; color:#ffffff;">Hustle Score: 842</span>
+        </div>
+        <p style="font-size:12.5px; color:var(--color-text-secondary); line-height:1.4; margin-bottom:12px;">
+          Sua consistência semanal está no topo <strong>Top 5%</strong> da comunidade SocialRats.
+        </p>
+        <button type="button" onclick="window.location.href='metrics.html'" style="width:100%; padding:9px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:var(--radius-md); color:#ffffff; font-size:12.5px; font-weight:700; cursor:pointer; transition:all 0.15s ease;" onmouseover="this.style.borderColor='var(--color-accent-pink)'" onmouseout="this.style.borderColor='var(--color-border-subtle)'">
+          Ver Meu Desempenho
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MOBILE BOTTOM DOCK NAVIGATION (5 TABS)
+         ═══════════════════════════════════════════════════════════════ -->
+    <nav class="bottom-nav-dock" aria-label="Navegação móvel principal">
+      <a href="feed.html" class="dock-nav-item">
+        <i class="fa-solid fa-house"></i>
+        <span>Início</span>
+      </a>
+      <a href="search.html" class="dock-nav-item">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <span>Buscar</span>
+      </a>
+      <a href="metrics.html" class="dock-nav-item">
+        <i class="fa-solid fa-chart-simple"></i>
+        <span>Métricas</span>
+      </a>
+      <a href="direct.html" class="dock-nav-item">
+        <i class="fa-regular fa-envelope"></i>
+        <span>Direct</span>
+        <span class="dock-badge-dot"></span>
+      </a>
+      <a href="profile.html" class="dock-nav-item">
+        <i class="fa-regular fa-user"></i>
+        <span>Perfil</span>
+      </a>
+    </nav>
+
+  </div>
+
+  <!-- View Mode Switcher Button (Desktop Floating Pill) -->
+  <button type="button" class="view-mode-toggle" id="view-mode-toggle" onclick="toggleMockupView()" title="Alternar entre visualização Web e Mobile Frame">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-text">Modo Celular</span>
+  </button>
+
+  <!-- Global Toast Feedback -->
+  <div class="toast-pill" id="global-toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-text">Feedback</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: NOTIFICATIONS & INTERACTIONS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // 1. Toast Notification Helper
+    function showToast(msg) {
+      const toast = document.getElementById('global-toast');
+      const text = document.getElementById('toast-text');
+      if (!toast || !text) return;
+      text.textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // 2. Set Active Filter
+    function setNotifFilter(category, btn) {
+      document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const items = document.querySelectorAll('.notif-item');
+      let visibleCount = 0;
+
+      items.forEach(item => {
+        const itemCat = item.getAttribute('data-category');
+        if (category === 'all' || itemCat === category) {
+          item.style.display = 'flex';
+          visibleCount++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      // Show/hide section headers if groups have visible items
+      document.querySelectorAll('.notif-group').forEach(group => {
+        const hasVisible = Array.from(group.querySelectorAll('.notif-item')).some(i => i.style.display !== 'none');
+        group.style.display = hasVisible ? 'block' : 'none';
+      });
+
+      const emptyState = document.getElementById('notif-empty-state');
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? 'flex' : 'none';
+      }
+    }
+
+    // 3. Mark All As Read
+    function markAllAsRead() {
+      const unreadItems = document.querySelectorAll('.notif-item.unread');
+      unreadItems.forEach(item => item.classList.remove('unread'));
+
+      const counterBadge = document.getElementById('unread-counter-badge');
+      if (counterBadge) {
+        counterBadge.textContent = '0 novas';
+        counterBadge.style.opacity = '0.5';
+      }
+
+      const desktopBadge = document.getElementById('desktop-nav-badge');
+      if (desktopBadge) {
+        desktopBadge.style.display = 'none';
+      }
+
+      showToast('Todas as notificações foram marcadas como lidas.');
+    }
+
+    // 4. Toggle Follow Button (Follow / Following)
+    function toggleFollowBtn(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir de volta';
+        showToast('Você deixou de seguir este usuário.');
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Você agora está seguindo este usuário! 🔥');
+      }
+    }
+
+    // 5. Toggle Community Join
+    function toggleJoinCommunity(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Entrar';
+        showToast('Você saiu da comunidade.');
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Membro ✓';
+        showToast('Bem-vindo à comunidade Calistenia Brutal! 💪');
+      }
+    }
+
+    // 6. Sidebar Suggested Follow
+    function toggleSidebarFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+        btn.style.background = 'transparent';
+        btn.style.color = 'var(--color-accent-pink)';
+        btn.style.borderColor = 'var(--color-accent-pink)';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        btn.style.background = 'var(--color-surface-elevated)';
+        btn.style.color = 'var(--color-text-secondary)';
+        btn.style.borderColor = 'var(--color-border-subtle)';
+        showToast('Você começou a seguir um novo atleta!');
+      }
+    }
+
+    // 7. Notification Click Router
+    function handleNotifClick(dest, contextId) {
+      if (dest === 'feed') {
+        window.location.href = 'feed.html';
+      } else if (dest === 'metrics') {
+        window.location.href = 'metrics.html';
+      } else if (dest === 'profile') {
+        window.location.href = 'profile.html';
+      } else if (dest === 'search') {
+        window.location.href = 'search.html';
+      }
+    }
+
+    // 8. Toggle Mockup View (Web Frame vs Desktop Layout)
+    function toggleMockupView() {
+      const body = document.body;
+      const isMockup = body.classList.toggle('mockup-active');
+      const toggleText = document.getElementById('view-mode-text');
+      if (toggleText) {
+        toggleText.textContent = isMockup ? 'Modo Web' : 'Modo Celular';
+      }
+      localStorage.setItem('socialrats_mockup_mode', isMockup ? 'true' : 'false');
+    }
+
+    // 9. Load Saved Preferences & User
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        if (localStorage.getItem('socialrats_mockup_mode') === 'true') {
+          document.body.classList.add('mockup-active');
+          const toggleText = document.getElementById('view-mode-text');
+          if (toggleText) toggleText.textContent = 'Modo Web';
+        }
+        const savedUser = localStorage.getItem('socialrats_user');
+        if (savedUser) {
+          const cleanName = savedUser.split('@')[0].trim();
+          const nameEl = document.getElementById('desktop-user-name');
+          const handleEl = document.getElementById('desktop-user-handle');
+          if (nameEl) nameEl.textContent = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
+          if (handleEl) handleEl.textContent = '@' + cleanName.toLowerCase();
+        }
+      } catch (e) {}
+    });
+
+    // 10. Handle Logout
+    function handleLogout() {
+      try {
+        localStorage.removeItem('socialrats_user');
+      } catch (e) {}
+      window.location.href = 'login.html';
+    }
+  </script>
+</body>
+</html>

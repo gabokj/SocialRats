@@ -1,0 +1,3675 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Métricas & Desempenho</title>
+  <meta name="description" content="Acompanhe suas métricas de desempenho, evolução nos treinos, consistência, recordes pessoais e engajamento no SocialRats.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS — SOCIALRATS METRICS (DESIGN_SYSTEM.MD)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      /* 4.1 Cores Base */
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-surface-hover: #221c32;
+      --color-border-subtle: #30263e;
+      
+      /* Tipografia / Textos */
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      
+      /* Acentos e Marca */
+      --color-accent-pink: #ff32b8;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.12);
+      --color-accent-purple: #923bff;
+      --color-accent-purple-soft: rgba(146, 59, 255, 0.12);
+      --color-accent-orange: #ff713f;
+      --color-accent-orange-soft: rgba(255, 113, 63, 0.12);
+      
+      /* 4.2 Cores Semânticas */
+      --color-success: #34d399;
+      --color-success-soft: rgba(52, 211, 153, 0.12);
+      --color-warning: #fbbf24;
+      --color-warning-soft: rgba(251, 191, 36, 0.12);
+      --color-error: #ff4d6d;
+      --color-error-soft: rgba(255, 77, 109, 0.12);
+      --color-info: #60a5fa;
+      --color-info-soft: rgba(96, 165, 250, 0.12);
+      
+      /* 5.1 Gradientes Oficiais */
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-card-glow: radial-gradient(circle at top right, rgba(255, 50, 184, 0.08), transparent 70%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      
+      /* 6. Tipografia */
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      
+      /* 7. Espaçamentos (Escala Base 4px) */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      
+      /* 8. Raios de Arredondamento */
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      /* Sombras e Brilho */
+      --shadow-glow-pink: 0 0 16px rgba(255, 50, 184, 0.35);
+      --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.45);
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR (Visible on >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050d;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text-primary);
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a,
+    .desktop-nav-item.active button {
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      margin-top: auto;
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-accent-pink);
+    }
+
+    .desktop-user-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desktop-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px;
+    }
+
+    .desktop-user-handle {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-logout-sidebar {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-sidebar:hover {
+      color: var(--color-error);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       CENTER METRICS CONTAINER (MOBILE & WEB ADAPTED)
+       ═══════════════════════════════════════════════════════════════ */
+    .metrics-center-container {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      padding-bottom: 95px; /* Respiro para bottom nav */
+    }
+
+    /* Optional Desktop Phone Mockup Frame toggle */
+    .app-viewport.mockup-mode {
+      background-color: #050608;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .metrics-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f212d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 50, 184, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .metrics-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* View Mode Switcher Pill (Desktop Floating) */
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      padding: 8px 16px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-accent-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       TOP APP BAR (STANDARDIZED WITH DESIGN SYSTEM 14.1)
+       ──────────────────────────────────────────────────────────── */
+    .top-app-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      background-color: var(--color-background);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .brand-title {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #ffffff;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    .brand-title .logo-rats {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-icon-top {
+      position: relative;
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-size: 19px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-icon-top:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-icon-top:active {
+      transform: scale(0.92);
+    }
+
+    .bell-badge-dot {
+      position: absolute;
+      top: 7px;
+      right: 7px;
+      width: 9px;
+      height: 9px;
+      background-color: var(--color-accent-pink);
+      border-radius: 50%;
+      border: 2px solid var(--color-background);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       MAIN METRICS CONTENT & HEADINGS
+       ──────────────────────────────────────────────────────────── */
+    .metrics-content {
+      padding: 16px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* 0. MODALITY / COMMUNITY CONTEXT SELECTOR */
+    .modality-switch-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .modality-switch-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2px;
+    }
+
+    .modality-switch-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .modality-rank-pill {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modality-switch-bar {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .modality-switch-bar::-webkit-scrollbar { display: none; }
+
+    .modality-btn {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
+    }
+
+    .modality-btn:hover {
+      background: var(--color-surface-elevated);
+      color: #ffffff;
+      border-color: rgba(255, 50, 184, 0.4);
+    }
+
+    .modality-btn.active {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      border-color: transparent;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transform: translateY(-1px);
+    }
+
+    /* Screen Title Bar with State Switcher for Design System validation */
+    .screen-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .screen-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .screen-title {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: var(--color-text-primary);
+    }
+
+    .screen-subtitle {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    .btn-export-report {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      color: var(--color-text-primary);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .btn-export-report:hover {
+      border-color: var(--color-accent-pink);
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+    }
+
+    /* Design System Section 14.16 / 14.17 State Mode Tester */
+    .state-tester-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px dashed var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+    }
+
+    .state-tester-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+      margin-right: 4px;
+    }
+
+    .state-pill-btn {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 11.5px;
+      padding: 3px 9px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .state-pill-btn:hover {
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .state-pill-btn.active {
+      background: var(--color-surface-elevated);
+      color: var(--color-accent-pink);
+      border-color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       1. HERO CARD: HUSTLE SCORE & USER PERFORMANCE LEVEL
+       ──────────────────────────────────────────────────────────── */
+    .hero-score-card {
+      background: var(--color-surface);
+      background-image: var(--gradient-card-glow);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: border-color 0.2s ease;
+    }
+
+    .hero-score-card:hover {
+      border-color: rgba(255, 50, 184, 0.25);
+    }
+
+    .hero-score-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .hero-user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-avatar-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-story);
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .hero-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: var(--color-background);
+      border: 2px solid var(--color-background);
+      display: block;
+    }
+
+    .hero-user-details {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-user-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .badge-level-pill {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: var(--color-accent-pink-soft);
+      border: 1px solid rgba(255, 50, 184, 0.3);
+      color: var(--color-accent-pink);
+    }
+
+    .hero-streak-pill {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: var(--color-accent-orange-soft);
+      border: 1px solid rgba(255, 113, 63, 0.25);
+      color: var(--color-accent-orange);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Score Main Stats Block */
+    .hero-score-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .score-primary-block {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .score-label {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .score-value {
+      font-family: var(--font-heading);
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .score-delta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-success);
+      background: var(--color-success-soft);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    /* Level Progress bar */
+    .level-progress-block {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .level-progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .level-progress-labels strong {
+      color: var(--color-text-primary);
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background: var(--color-surface-elevated);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 84%;
+      background: var(--gradient-brand);
+      border-radius: var(--radius-full);
+      transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hero-footer-note {
+      margin-top: 10px;
+      font-size: 11.5px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero-footer-note span i {
+      color: var(--color-accent-orange);
+      margin-right: 4px;
+    }
+
+    .btn-link-score {
+      color: var(--color-accent-pink);
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 11.5px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-link-score:hover {
+      text-decoration: underline;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       2. PERIOD FILTER (SEGMENTED CHIPS — SECTION 14.13)
+       ──────────────────────────────────────────────────────────── */
+    .period-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+
+    .period-filter-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .period-chip {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .period-chip:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-text-primary);
+    }
+
+    .period-chip.active {
+      background: var(--color-accent-pink-soft);
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.2);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       3. KPI METRIC CARDS (2x2 GRID — SECTION 18.3)
+       ──────────────────────────────────────────────────────────── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .kpi-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      background: var(--color-surface-hover);
+      border-color: rgba(255, 50, 184, 0.25);
+    }
+
+    .kpi-card:active {
+      transform: scale(0.98);
+    }
+
+    .kpi-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .kpi-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .kpi-icon-purple {
+      background: var(--color-accent-purple-soft);
+      color: var(--color-accent-purple);
+      border: 1px solid rgba(146, 59, 255, 0.2);
+    }
+
+    .kpi-icon-orange {
+      background: var(--color-accent-orange-soft);
+      color: var(--color-accent-orange);
+      border: 1px solid rgba(255, 113, 63, 0.2);
+    }
+
+    .kpi-icon-pink {
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+      border: 1px solid rgba(255, 50, 184, 0.2);
+    }
+
+    .kpi-icon-green {
+      background: var(--color-success-soft);
+      color: var(--color-success);
+      border: 1px solid rgba(52, 211, 153, 0.2);
+    }
+
+    .kpi-delta-pill {
+      font-size: 11.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+    }
+
+    .kpi-delta-pill.positive {
+      background: var(--color-success-soft);
+      color: var(--color-success);
+    }
+
+    .kpi-delta-pill.negative {
+      background: var(--color-error-soft);
+      color: var(--color-error);
+    }
+
+    .kpi-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .kpi-title {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .kpi-value {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--color-text-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .kpi-footer-text {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .kpi-footer-text strong {
+      color: var(--color-text-secondary);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       4. INTERACTIVE CHART CARD (CANVAS BASED — SECTION 18.3)
+       ──────────────────────────────────────────────────────────── */
+    .chart-panel-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px 18px 20px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .chart-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chart-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chart-metric-selector {
+      display: flex;
+      gap: 6px;
+      background: var(--color-surface-elevated);
+      padding: 3px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .chart-tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      flex: 1;
+      text-align: center;
+    }
+
+    .chart-tab-btn.active {
+      background: var(--color-surface);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Chart Canvas Area */
+    .chart-container-wrap {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+
+    canvas#metrics-chart {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    /* Chart Tooltip Overlay */
+    .chart-tooltip-box {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-accent-pink);
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      font-size: 11.5px;
+      color: var(--color-text-primary);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(-4px);
+      transition: all 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+      z-index: 10;
+    }
+
+    .chart-tooltip-box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Chart Summary Stats Footer */
+    .chart-summary-footer {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .chart-stat-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .chart-stat-label {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    .chart-stat-value {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       5. MUSCLE GROUP / WORKOUT CATEGORY BREAKDOWN
+       ──────────────────────────────────────────────────────────── */
+    .breakdown-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .breakdown-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .breakdown-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+
+    .breakdown-name {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .breakdown-indicator-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .breakdown-meta {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      font-weight: 500;
+    }
+
+    .breakdown-meta strong {
+      color: var(--color-text-primary);
+    }
+
+    .breakdown-bar-track {
+      width: 100%;
+      height: 7px;
+      background: var(--color-surface-elevated);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .breakdown-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width 0.6s ease;
+    }
+
+    /* AI Coach Insight Pill */
+    .insight-pill-card {
+      background: linear-gradient(135deg, rgba(255, 50, 184, 0.08) 0%, rgba(146, 59, 255, 0.08) 100%);
+      border: 1px solid rgba(255, 50, 184, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .insight-pill-icon {
+      font-size: 18px;
+      color: var(--color-accent-pink);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .insight-pill-text {
+      font-size: 12.5px;
+      line-height: 1.45;
+      color: var(--color-text-primary);
+    }
+
+    .insight-pill-text strong {
+      color: var(--color-accent-pink);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       6. PERSONAL RECORDS (PRS) & MILESTONES (SECTION 18.3)
+       ──────────────────────────────────────────────────────────── */
+    .prs-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .prs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .pr-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .pr-card:hover {
+      border-color: rgba(255, 113, 63, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .pr-badge-new {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 10px;
+      font-weight: 800;
+      background: var(--gradient-brand);
+      color: #ffffff;
+      padding: 2px 6px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+    }
+
+    .pr-exercise-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .pr-weight-value {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .pr-delta-gain {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-success);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       7. SOCIAL PERFORMANCE & REACH
+       ──────────────────────────────────────────────────────────── */
+    .social-performance-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .social-stats-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .social-stat-box {
+      background: var(--color-surface-elevated);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .social-stat-label {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .social-stat-number {
+      font-family: var(--font-heading);
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .social-stat-growth {
+      font-size: 11px;
+      color: var(--color-success);
+      font-weight: 600;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       8. RECENT PERFORMANCE LOG / WORKOUT SESSIONS
+       ──────────────────────────────────────────────────────────── */
+    .workout-history-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .workout-history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .workout-session-item {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .workout-session-item:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-accent-pink);
+      transform: translateX(2px);
+    }
+
+    .workout-session-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .workout-type-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--color-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: var(--color-accent-pink);
+      border: 1px solid rgba(255, 50, 184, 0.2);
+      flex-shrink: 0;
+    }
+
+    .workout-session-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .workout-session-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .workout-session-meta {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .workout-session-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+    }
+
+    .workout-xp-gain {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--color-accent-orange);
+    }
+
+    .workout-time-ago {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       9. SKELETON LOADING & EMPTY STATES (SECTIONS 14.16 & 14.17)
+       ──────────────────────────────────────────────────────────── */
+    .state-view-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Skeleton Shimmer Effect */
+    .skeleton-box {
+      background: linear-gradient(90deg, #1c1728 25%, #2a223c 50%, #1c1728 75%);
+      background-size: 200% 100%;
+      animation: skeletonShimmer 1.5s infinite;
+      border-radius: var(--radius-md);
+    }
+
+    @keyframes skeletonShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    .skeleton-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Empty State Card */
+    .empty-state-card {
+      background: var(--color-surface);
+      border: 1px dashed var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .empty-state-icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      color: var(--color-accent-pink);
+    }
+
+    .empty-state-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .empty-state-desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      max-width: 320px;
+      line-height: 1.5;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       BOTTOM NAVIGATION DOCK (FIXED — SECTION 13 OF DESIGN SYSTEM)
+       ──────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 520px;
+      background-color: rgba(9, 10, 15, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--color-border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    /* ACTIVE TAB: MÉTRICAS (HIGHLIGHT IN PINK/PURPLE AS PER DESIGN SYSTEM) */
+    .nav-tab-btn.active .nav-tab-icon,
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .nav-tab-btn.active .nav-tab-icon i {
+      color: var(--color-accent-pink);
+      filter: drop-shadow(0 0 6px rgba(255, 50, 184, 0.4));
+    }
+
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: var(--radius-full);
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP AUXILIARY RIGHT SIDEBAR (WIDE SCREENS)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #07050d;
+      border-left: 1px solid var(--color-border-subtle);
+    }
+
+    .sidebar-widget-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .widget-link {
+      font-size: 12px;
+      color: var(--color-accent-pink);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       INTERACTIVE MODALS & TOAST
+       ═══════════════════════════════════════════════════════════════ */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 440px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 22px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      transform: scale(0.95);
+      transition: transform 0.2s ease;
+    }
+
+    .modal-overlay.active .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 12px;
+    }
+
+    .modal-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 18px;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-close-modal:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--color-text-primary);
+    }
+
+    /* Modal Share Preview Visual Card */
+    .share-preview-card {
+      background: linear-gradient(145deg, #181324 0%, #100d1a 100%);
+      border: 1px solid var(--color-accent-pink);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-glow-pink);
+      position: relative;
+    }
+
+    .share-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .share-card-brand {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .share-card-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .share-stat-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+    }
+
+    .share-stat-val {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .share-stat-lbl {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-primary-gradient {
+      width: 100%;
+      padding: 12px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary-gradient:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    .btn-secondary-outline {
+      width: 100%;
+      padding: 11px;
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary-outline:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--color-text-secondary);
+    }
+
+    /* Instagram-Style Notifications Modal Card */
+    .notif-modal-card { 
+      width: 92%; 
+      max-width: 440px; 
+      max-height: 80vh; 
+      background: var(--color-surface); 
+      border: 1px solid var(--color-border-subtle); 
+      border-radius: var(--radius-lg); 
+      display: flex; 
+      flex-direction: column; 
+      overflow: hidden; 
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15); 
+      animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+    }
+    
+    @keyframes notifModalIn { 
+      from { transform: scale(0.94) translateY(12px); opacity: 0; } 
+      to { transform: scale(1) translateY(0); opacity: 1; } 
+    }
+    
+    .notif-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-elevated); }
+    .notif-modal-title { font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: #ffffff; }
+    .notif-modal-badge { background: var(--gradient-brand); color: #ffffff; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .btn-notif-action { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
+    .btn-notif-action:hover { background: var(--color-surface-hover); color: #ffffff; border-color: var(--color-accent-pink); }
+    .notif-modal-tabs { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.4); background: var(--color-background); overflow-x: auto; }
+    .notif-modal-tab { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+    .notif-modal-tab.active { background: var(--color-accent-pink); color: #ffffff; border-color: var(--color-accent-pink); }
+    .notif-modal-list { flex: 1; overflow-y: auto; padding: 4px 0; scrollbar-width: none; }
+    .notif-modal-list::-webkit-scrollbar { display: none; }
+    .notif-modal-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.25); cursor: pointer; transition: background 0.15s ease; }
+    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
+    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
+    .notif-item-avatar-wrap { position: relative; flex-shrink: 0; }
+    .notif-item-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .notif-item-badge { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #ffffff; border: 1.5px solid var(--color-surface); }
+    .notif-item-info { flex: 1; min-width: 0; }
+    .notif-item-text { font-size: 12.5px; color: var(--color-text-primary); line-height: 1.35; word-break: break-word; }
+    .notif-item-time { font-size: 11px; color: var(--color-text-muted); display: block; margin-top: 2px; }
+    .btn-notif-follow { background: var(--gradient-brand); border: none; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; transition: all 0.15s ease; }
+    .btn-notif-follow.following { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+
+    /* Floating Toast */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: var(--color-surface-elevated);
+      border: 1px solid rgba(255, 50, 184, 0.4);
+      color: var(--color-text-primary);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-pill i {
+      color: var(--color-accent-pink);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS (MEDIA QUERIES)
+       ═══════════════════════════════════════════════════════════════ */
+    @media (min-width: 992px) {
+      .desktop-sidebar {
+        display: flex;
+      }
+
+      .view-mode-toggle {
+        display: flex;
+      }
+
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+
+      .app-viewport:not(.mockup-mode) .metrics-center-container {
+        padding-bottom: 30px;
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .metrics-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+
+      .bottom-nav-dock {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" style="width: 42px; height: 42px; object-fit: contain;">
+          <span class="brand-logo-text">SocialRats</span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="metrics.html" aria-current="page">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="openNotificationsModal()">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill" style="background:var(--color-accent-pink);">2</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="openShareModal()">
+          <i class="fa-solid fa-share-nodes"></i>
+          <span>Exportar Relatório</span>
+        </button>
+      </div>
+
+      <!-- Logged User Card -->
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name">Gabriel</span>
+            <span class="desktop-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="showToast('Sessão encerrada com sucesso')">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CENTER METRICS COLUMN (MOBILE FIRST APP EXPERIENCE)
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="metrics-center-container" id="metrics-container">
+
+      <!-- 1. Top Bar: Brand Logo & Notification Bell -->
+      <header class="top-app-bar">
+        <a href="feed.html" class="brand-title">
+          Social<span class="logo-rats">Rats</span>
+        </a>
+        <div class="top-actions">
+          <button type="button" class="btn-icon-top" aria-label="Exportar e Compartilhar" onclick="openShareModal()" title="Compartilhar Desempenho">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </button>
+          <button type="button" class="btn-icon-top" aria-label="Notificações" onclick="openNotificationsModal()" title="Notificações">
+            <i class="fa-regular fa-bell"></i>
+            <span class="bell-badge-dot"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. Main Metrics Content -->
+      <div class="metrics-content">
+
+        <!-- 0. MODALITY / COMMUNITY CONTEXT SELECTOR -->
+        <section class="modality-switch-section" aria-label="Seletor de Modalidade">
+          <div class="modality-switch-header">
+            <span class="modality-switch-label"><i class="fa-solid fa-layer-group"></i> Modalidade Ativa:</span>
+            <span class="modality-rank-pill" id="modality-rank-pill">
+              <i class="fa-solid fa-trophy" style="color:var(--color-accent-orange);"></i> #2 no Ranking Semanal
+            </span>
+          </div>
+          <div class="modality-switch-bar">
+            <button type="button" class="modality-btn active" data-modality="fitness" onclick="switchModality('fitness', this)">
+              <span>🏋️‍♂️</span>
+              <span>Musculação & Hipertrofia</span>
+            </button>
+            <button type="button" class="modality-btn" data-modality="running" onclick="switchModality('running', this)">
+              <span>🏃</span>
+              <span>Corrida & Cardio</span>
+            </button>
+            <button type="button" class="modality-btn" data-modality="crossfit" onclick="switchModality('crossfit', this)">
+              <span>🥊</span>
+              <span>Cross & Funcional</span>
+            </button>
+            <button type="button" class="modality-btn" data-modality="study" onclick="switchModality('study', this)">
+              <span>📚</span>
+              <span>Foco & Estudos</span>
+            </button>
+          </div>
+        </section>
+
+        <!-- Title & Subtitle Group -->
+        <section class="screen-header">
+          <div class="screen-title-group">
+            <h1 class="screen-title" id="metrics-page-title">Seu Desempenho</h1>
+            <p class="screen-subtitle" id="metrics-page-subtitle">Acompanhe sua consistência, evolução nos treinos, recordes pessoais e pontuação no ranking.</p>
+          </div>
+          <button type="button" class="btn-export-report" onclick="openShareModal()">
+            <i class="fa-solid fa-share-nodes"></i>
+            <span>Compartilhar</span>
+          </button>
+        </section>
+
+        <!-- Design System State Tester (Normal, Skeleton, Empty) -->
+        <div class="state-tester-bar" title="Simule os estados recomendados no DESIGN_SYSTEM.md">
+          <span class="state-tester-label"><i class="fa-solid fa-sliders"></i> Visualizar Estado:</span>
+          <button type="button" class="state-pill-btn active" id="btn-state-normal" onclick="setViewState('normal')">📊 Dados Reais</button>
+          <button type="button" class="state-pill-btn" id="btn-state-loading" onclick="setViewState('loading')">⏳ Carregando (Skeleton)</button>
+          <button type="button" class="state-pill-btn" id="btn-state-empty" onclick="setViewState('empty')">📂 Sem Dados (Vazio)</button>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             NORMAL DATA VIEW
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="state-view-container" id="view-normal">
+
+          <!-- 3. Hero Performance & Hustle Score Card -->
+          <section class="hero-score-card" aria-label="Ranking Score e Nível">
+            <div class="hero-score-header">
+              <div class="hero-user-profile">
+                <div class="hero-avatar-wrap">
+                  <img src="../images/avatar-your-story.png" alt="Gabriel" class="hero-avatar-img">
+                </div>
+                <div class="hero-user-details">
+                  <span class="hero-user-name" id="hero-user-display-name">
+                    Gabriel
+                    <span class="badge-level-pill" id="hero-level-badge">Nível 18 · Alfa</span>
+                  </span>
+                  <span style="font-size:12px; color:var(--color-text-secondary);" id="hero-category-label">GymRat Elite · Top 2% Global</span>
+                </div>
+              </div>
+
+              <div class="hero-streak-pill" id="hero-streak-pill" title="21 dias consecutivos">
+                <i class="fa-solid fa-fire"></i>
+                <span id="hero-streak-text">21 Dias</span>
+              </div>
+            </div>
+
+            <!-- Main Score Numbers -->
+            <div class="hero-score-main">
+              <div class="score-primary-block">
+                <span class="score-label" id="hero-score-label">
+                  <i class="fa-solid fa-bolt" style="color:var(--color-accent-pink);"></i> Hustle Score XP
+                </span>
+                <span class="score-value" id="user-hustle-score">9.420</span>
+              </div>
+              <div class="score-delta-badge" id="hero-score-delta" title="Crescimento vs período anterior">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span>+1.450 pts (este mês)</span>
+              </div>
+            </div>
+
+            <!-- Level Progress -->
+            <div class="level-progress-block">
+              <div class="level-progress-labels">
+                <span id="level-progress-label-text">Progresso para <strong>Nível 19 (Lenda)</strong></span>
+                <span id="level-progress-val-text"><strong>84%</strong> (9.420 / 10.000 XP)</span>
+              </div>
+              <div class="progress-bar-track">
+                <div class="progress-bar-fill" id="level-progress-bar" style="width:84%;"></div>
+              </div>
+            </div>
+
+            <div class="hero-footer-note">
+              <span id="hero-footer-meta-note"><i class="fa-solid fa-circle-check"></i> Faltam 580 XP para subir de nível</span>
+              <button type="button" class="btn-link-score" onclick="openHustleModal()">Ver regras de XP</button>
+            </div>
+          </section>
+
+          <!-- 4. Period Filter (Segmented Control Tabs) -->
+          <section class="period-filter-bar" aria-label="Filtro de Período">
+            <button type="button" class="period-chip" onclick="changePeriod('7d', this)">
+              <i class="fa-solid fa-calendar-week"></i> 7 Dias
+            </button>
+            <button type="button" class="period-chip active" onclick="changePeriod('30d', this)">
+              <i class="fa-regular fa-calendar"></i> 30 Dias
+            </button>
+            <button type="button" class="period-chip" onclick="changePeriod('3m', this)">
+              <i class="fa-solid fa-chart-line"></i> 3 Meses
+            </button>
+            <button type="button" class="period-chip" onclick="changePeriod('year', this)">
+              <i class="fa-solid fa-trophy"></i> Ano
+            </button>
+          </section>
+
+          <!-- 5. 2x2 KPI Metric Cards Grid -->
+          <section class="kpi-grid" aria-label="Indicadores Chave">
+            
+            <!-- KPI 1 -->
+            <article class="kpi-card" id="kpi-card-1" onclick="switchChartMetric('workouts', document.getElementById('tab-metric-1'))">
+              <div class="kpi-top-row">
+                <div class="kpi-icon-wrap kpi-icon-purple" id="kpi-1-icon">
+                  <i class="fa-solid fa-dumbbell"></i>
+                </div>
+                <span class="kpi-delta-pill positive" id="kpi-workouts-delta">
+                  <i class="fa-solid fa-arrow-up"></i> +18.2%
+                </span>
+              </div>
+              <div class="kpi-main">
+                <span class="kpi-title" id="kpi-1-title">Treinos Concluídos</span>
+                <span class="kpi-value" id="kpi-workouts-val">24 <small style="font-size:12px; font-weight:600; color:var(--color-text-secondary);">sessões</small></span>
+              </div>
+              <div class="kpi-footer-text" id="kpi-1-footer">
+                <span>Meta mensal: <strong>20 batida 🎯</strong></span>
+              </div>
+            </article>
+
+            <!-- KPI 2 -->
+            <article class="kpi-card" id="kpi-card-2" onclick="switchChartMetric('calories', document.getElementById('tab-metric-2'))">
+              <div class="kpi-top-row">
+                <div class="kpi-icon-wrap kpi-icon-orange" id="kpi-2-icon">
+                  <i class="fa-solid fa-fire"></i>
+                </div>
+                <span class="kpi-delta-pill positive" id="kpi-calories-delta">
+                  <i class="fa-solid fa-arrow-up"></i> +12.4%
+                </span>
+              </div>
+              <div class="kpi-main">
+                <span class="kpi-title" id="kpi-2-title">Calorias Queimadas</span>
+                <span class="kpi-value" id="kpi-calories-val">18.450 <small style="font-size:12px; font-weight:600; color:var(--color-text-secondary);">kcal</small></span>
+              </div>
+              <div class="kpi-footer-text" id="kpi-2-footer">
+                <span>Média: <strong>615 kcal/treino</strong></span>
+              </div>
+            </article>
+
+            <!-- KPI 3 -->
+            <article class="kpi-card" id="kpi-card-3" onclick="switchChartMetric('xp', document.getElementById('tab-metric-3'))">
+              <div class="kpi-top-row">
+                <div class="kpi-icon-wrap kpi-icon-pink" id="kpi-3-icon">
+                  <i class="fa-solid fa-stopwatch"></i>
+                </div>
+                <span class="kpi-delta-pill positive" id="kpi-time-delta">
+                  <i class="fa-solid fa-arrow-up"></i> +8.5%
+                </span>
+              </div>
+              <div class="kpi-main">
+                <span class="kpi-title" id="kpi-3-title">Tempo Total Ativo</span>
+                <span class="kpi-value" id="kpi-time-val">32h 40m</span>
+              </div>
+              <div class="kpi-footer-text" id="kpi-3-footer">
+                <span>Média: <strong>1h 12m/sessão</strong></span>
+              </div>
+            </article>
+
+            <!-- KPI 4 -->
+            <article class="kpi-card" id="kpi-card-4" onclick="showToast('Taxa de consistência de frequência')">
+              <div class="kpi-top-row">
+                <div class="kpi-icon-wrap kpi-icon-green" id="kpi-4-icon">
+                  <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <span class="kpi-delta-pill positive" id="kpi-consistency-delta">
+                  <i class="fa-solid fa-arrow-up"></i> +4.0%
+                </span>
+              </div>
+              <div class="kpi-main">
+                <span class="kpi-title" id="kpi-4-title">Consistência</span>
+                <span class="kpi-value" id="kpi-consistency-val">96%</span>
+              </div>
+              <div class="kpi-footer-text" id="kpi-4-footer">
+                <span style="color:var(--color-success); font-weight:600;"><i class="fa-solid fa-check"></i> Frequência impecável</span>
+              </div>
+            </article>
+
+          </section>
+
+          <!-- 6. Interactive Evolution Chart Panel -->
+          <section class="chart-panel-card" aria-label="Gráfico de Evolução">
+            <div class="chart-header">
+              <div class="chart-title-row">
+                <h2 class="section-title" id="chart-section-title">
+                  <i class="fa-solid fa-chart-area" style="color:var(--color-accent-pink);"></i>
+                  Evolução do Desempenho
+                </h2>
+                <span style="font-size:11.5px; color:var(--color-text-secondary); background:var(--color-surface-elevated); padding:3px 8px; border-radius:var(--radius-full); border:1px solid var(--color-border-subtle);">
+                  <i class="fa-solid fa-wave-square"></i> Dinâmico
+                </span>
+              </div>
+
+              <!-- Chart Metric Selector Tabs -->
+              <div class="chart-metric-selector" id="chart-metric-selector-tabs">
+                <button type="button" class="chart-tab-btn active" id="tab-metric-1" onclick="switchChartMetric('intensity', this)">Intensidade</button>
+                <button type="button" class="chart-tab-btn" id="tab-metric-2" onclick="switchChartMetric('calories', this)">Calorias</button>
+                <button type="button" class="chart-tab-btn" id="tab-metric-3" onclick="switchChartMetric('xp', this)">Hustle XP</button>
+              </div>
+            </div>
+
+            <!-- HTML5 Canvas Interactive Responsive Chart -->
+            <div class="chart-container-wrap">
+              <div class="chart-tooltip-box" id="chart-tooltip"></div>
+              <canvas id="metrics-chart" width="480" height="200"></canvas>
+            </div>
+
+            <!-- Chart Summary Footer -->
+            <div class="chart-summary-footer">
+              <div class="chart-stat-item">
+                <span class="chart-stat-label">Pico no Período</span>
+                <span class="chart-stat-value" id="chart-stat-peak" style="color:var(--color-accent-pink);">Sem 4 · 4.900 kcal</span>
+              </div>
+              <div class="chart-stat-item">
+                <span class="chart-stat-label">Média Diária</span>
+                <span class="chart-stat-value" id="chart-stat-avg">615 kcal/treino</span>
+              </div>
+              <div class="chart-stat-item">
+                <span class="chart-stat-label">Melhor Sequência</span>
+                <span class="chart-stat-value" id="chart-stat-best" style="color:var(--color-accent-orange);">21 Dias Seguidos</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 7. Muscle Group / Category Breakdown Card -->
+          <section class="breakdown-card" aria-label="Distribuição por Foco">
+            <div class="chart-title-row">
+              <h2 class="section-title" id="breakdown-section-title">
+                <i class="fa-solid fa-chart-pie" style="color:var(--color-accent-purple);"></i>
+                Distribuição de Volume Muscular
+              </h2>
+              <button type="button" class="btn-link-score" onclick="showToast('Distribuição calculada por séries efetivas')">Ver séries</button>
+            </div>
+
+            <div style="display:flex; flex-direction:column; gap:14px;" id="breakdown-items-container">
+              
+              <div class="breakdown-item">
+                <div class="breakdown-item-header">
+                  <span class="breakdown-name">
+                    <span class="breakdown-indicator-dot" style="background:var(--color-accent-pink);"></span>
+                    Peito & Tríceps (Push)
+                  </span>
+                  <span class="breakdown-meta"><strong>35%</strong> (42 séries)</span>
+                </div>
+                <div class="breakdown-bar-track">
+                  <div class="breakdown-bar-fill" style="width:35%; background:var(--color-accent-pink);"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-item">
+                <div class="breakdown-item-header">
+                  <span class="breakdown-name">
+                    <span class="breakdown-indicator-dot" style="background:var(--color-accent-orange);"></span>
+                    Pernas & Glúteos (Legs)
+                  </span>
+                  <span class="breakdown-meta"><strong>28%</strong> (34 séries)</span>
+                </div>
+                <div class="breakdown-bar-track">
+                  <div class="breakdown-bar-fill" style="width:28%; background:var(--color-accent-orange);"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-item">
+                <div class="breakdown-item-header">
+                  <span class="breakdown-name">
+                    <span class="breakdown-indicator-dot" style="background:var(--color-accent-purple);"></span>
+                    Costas & Bíceps (Pull)
+                  </span>
+                  <span class="breakdown-meta"><strong>22%</strong> (26 séries)</span>
+                </div>
+                <div class="breakdown-bar-track">
+                  <div class="breakdown-bar-fill" style="width:22%; background:var(--color-accent-purple);"></div>
+                </div>
+              </div>
+
+              <div class="breakdown-item">
+                <div class="breakdown-item-header">
+                  <span class="breakdown-name">
+                    <span class="breakdown-indicator-dot" style="background:var(--color-success);"></span>
+                    Ombros & Core (Delts & Abs)
+                  </span>
+                  <span class="breakdown-meta"><strong>15%</strong> (18 séries)</span>
+                </div>
+                <div class="breakdown-bar-track">
+                  <div class="breakdown-bar-fill" style="width:15%; background:var(--color-success);"></div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- AI Coach Insight Pill -->
+            <div class="insight-pill-card">
+              <i class="fa-solid fa-wand-magic-sparkles insight-pill-icon"></i>
+              <p class="insight-pill-text" id="ai-insight-text">
+                <strong>Análise SocialRats AI:</strong> Seu volume de <strong>Push (Peito & Tríceps)</strong> está com ótimo rendimento. Para equilibrar sua simetria postural nesta semana, recomendamos adicionar <strong>3 séries a mais de Costas/Posterior</strong> no próximo treino.
+              </p>
+            </div>
+          </section>
+
+          <!-- 8. Personal Records (PRs) / Milestones -->
+          <section class="prs-section" aria-label="Recordes Pessoais">
+            <div class="chart-title-row">
+              <h2 class="section-title" id="prs-section-title">
+                <i class="fa-solid fa-medal" style="color:var(--color-accent-orange);"></i>
+                Recordes Pessoais (PRs)
+              </h2>
+              <button type="button" class="btn-link-score" onclick="openNewGoalModal()">+ Nova Meta</button>
+            </div>
+
+            <div class="prs-grid" id="prs-grid-container">
+              
+              <div class="pr-card">
+                <span class="pr-badge-new">Novo PR</span>
+                <span class="pr-exercise-name">Supino Reto (Barra)</span>
+                <span class="pr-weight-value">110 kg</span>
+                <span class="pr-delta-gain"><i class="fa-solid fa-arrow-up"></i> +10 kg vs mês passado</span>
+              </div>
+
+              <div class="pr-card">
+                <span class="pr-badge-new">Novo PR</span>
+                <span class="pr-exercise-name">Agachamento Livre</span>
+                <span class="pr-weight-value">145 kg</span>
+                <span class="pr-delta-gain"><i class="fa-solid fa-arrow-up"></i> +15 kg vs mês passado</span>
+              </div>
+
+              <div class="pr-card">
+                <span class="pr-exercise-name">Levantamento Terra</span>
+                <span class="pr-weight-value">170 kg</span>
+                <span class="pr-delta-gain"><i class="fa-solid fa-arrow-up"></i> +10 kg batido</span>
+              </div>
+
+              <div class="pr-card">
+                <span class="pr-exercise-name">Desenvolvimento Halteres</span>
+                <span class="pr-weight-value">42 kg <small style="font-size:11px; font-weight:500; color:var(--color-text-secondary);">/ lado</small></span>
+                <span class="pr-delta-gain"><i class="fa-solid fa-arrow-up"></i> +2 kg de sobrecarga</span>
+              </div>
+
+            </div>
+          </section>
+
+          <!-- 9. Social Reach & Engagement Performance -->
+          <section class="social-performance-card" aria-label="Desempenho Social da Conta">
+            <div class="chart-title-row">
+              <h2 class="section-title">
+                <i class="fa-solid fa-users" style="color:var(--color-accent-pink);"></i>
+                Impacto & Engajamento Social
+              </h2>
+              <span style="font-size:11px; color:var(--color-success); font-weight:700; background:var(--color-success-soft); padding:3px 8px; border-radius:var(--radius-full);">
+                Alta Tração
+              </span>
+            </div>
+
+            <div class="social-stats-row">
+              <div class="social-stat-box">
+                <span class="social-stat-label">
+                  <i class="fa-regular fa-eye"></i> Alcance no Feed
+                </span>
+                <span class="social-stat-number" id="social-reach-val">42.8k</span>
+                <span class="social-stat-growth"><i class="fa-solid fa-arrow-up"></i> +28.4% no feed</span>
+              </div>
+
+              <div class="social-stat-box">
+                <span class="social-stat-label">
+                  <i class="fa-solid fa-heart" style="color:var(--color-accent-pink);"></i> Curtidas & Reações
+                </span>
+                <span class="social-stat-number" id="social-likes-val">5.2k</span>
+                <span class="social-stat-growth"><i class="fa-solid fa-arrow-up"></i> +15.2% vs anterior</span>
+              </div>
+
+              <div class="social-stat-box">
+                <span class="social-stat-label">
+                  <i class="fa-solid fa-user-plus"></i> Novos Parceiros
+                </span>
+                <span class="social-stat-number" id="social-followers-val">+340</span>
+                <span class="social-stat-growth"><i class="fa-solid fa-arrow-up"></i> Seguidores do seu perfil</span>
+              </div>
+
+              <div class="social-stat-box">
+                <span class="social-stat-label">
+                  <i class="fa-solid fa-chart-pie"></i> Taxa Engajamento
+                </span>
+                <span class="social-stat-number" id="social-engagement-val">8.7%</span>
+                <span class="social-stat-growth" style="color:var(--color-accent-orange);">🔥 Alta relevância</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- 10. Recent Sessions History -->
+          <section class="workout-history-card" aria-label="Histórico Recente de Atividades">
+            <div class="chart-title-row">
+              <h2 class="section-title" id="history-section-title">
+                <i class="fa-solid fa-clock-rotate-left" style="color:var(--color-accent-purple);"></i>
+                Sessões Recentes de Treino
+              </h2>
+              <button type="button" class="btn-link-score" onclick="openLogActivityModal()">+ Registrar Treino</button>
+            </div>
+
+            <div class="workout-history-list" id="recent-history-list-container">
+              
+              <div class="workout-session-item" onclick="showToast('Detalhes da sessão: Peito e Tríceps')">
+                <div class="workout-session-left">
+                  <div class="workout-type-icon"><i class="fa-solid fa-dumbbell"></i></div>
+                  <div class="workout-session-details">
+                    <span class="workout-session-title">Treino A · Peito, Ombros e Tríceps</span>
+                    <span class="workout-session-meta">
+                      <i class="fa-regular fa-clock"></i> 1h 22m · 740 kcal queimadas
+                    </span>
+                  </div>
+                </div>
+                <div class="workout-session-right">
+                  <span class="workout-xp-gain">+140 XP</span>
+                  <span class="workout-time-ago">Hoje, 07:15</span>
+                </div>
+              </div>
+
+              <div class="workout-session-item" onclick="showToast('Detalhes da sessão: Pernas e Glúteos')">
+                <div class="workout-session-left">
+                  <div class="workout-type-icon" style="color:var(--color-accent-orange); border-color:rgba(255,113,63,0.2);"><i class="fa-solid fa-person-walking"></i></div>
+                  <div class="workout-session-details">
+                    <span class="workout-session-title">Treino C · Pernas Completo + Panturrilha</span>
+                    <span class="workout-session-meta">
+                      <i class="fa-regular fa-clock"></i> 1h 15m · 810 kcal queimadas
+                    </span>
+                  </div>
+                </div>
+                <div class="workout-session-right">
+                  <span class="workout-xp-gain">+160 XP</span>
+                  <span class="workout-time-ago">Ontem, 18:30</span>
+                </div>
+              </div>
+
+              <div class="workout-session-item" onclick="showToast('Detalhes da sessão: Costas e Bíceps')">
+                <div class="workout-session-left">
+                  <div class="workout-type-icon" style="color:var(--color-accent-purple); border-color:rgba(146,59,255,0.2);"><i class="fa-solid fa-hand-fist"></i></div>
+                  <div class="workout-session-details">
+                    <span class="workout-session-title">Treino B · Costas Pesado + Bíceps</span>
+                    <span class="workout-session-meta">
+                      <i class="fa-regular fa-clock"></i> 1h 10m · 680 kcal queimadas
+                    </span>
+                  </div>
+                </div>
+                <div class="workout-session-right">
+                  <span class="workout-xp-gain">+130 XP</span>
+                  <span class="workout-time-ago">há 2 dias</span>
+                </div>
+              </div>
+
+            </div>
+          </section>
+
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             LOADING SKELETON STATE (SECTION 14.16)
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="state-view-container" id="view-loading" style="display:none;">
+          <div class="skeleton-card" style="height:170px;">
+            <div style="display:flex; gap:12px; align-items:center;">
+              <div class="skeleton-box" style="width:48px; height:48px; border-radius:50%;"></div>
+              <div style="display:flex; flex-direction:column; gap:6px; flex:1;">
+                <div class="skeleton-box" style="width:120px; height:16px;"></div>
+                <div class="skeleton-box" style="width:180px; height:12px;"></div>
+              </div>
+            </div>
+            <div class="skeleton-box" style="width:100%; height:32px; margin-top:8px;"></div>
+            <div class="skeleton-box" style="width:100%; height:8px;"></div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px;">
+            <div class="skeleton-card" style="height:110px;">
+              <div class="skeleton-box" style="width:36px; height:36px;"></div>
+              <div class="skeleton-box" style="width:80%; height:18px;"></div>
+            </div>
+            <div class="skeleton-card" style="height:110px;">
+              <div class="skeleton-box" style="width:36px; height:36px;"></div>
+              <div class="skeleton-box" style="width:80%; height:18px;"></div>
+            </div>
+          </div>
+
+          <div class="skeleton-card" style="height:240px;">
+            <div class="skeleton-box" style="width:160px; height:20px;"></div>
+            <div class="skeleton-box" style="width:100%; height:160px; margin-top:10px;"></div>
+          </div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════════════════
+             EMPTY STATE (SECTION 14.17)
+             ═══════════════════════════════════════════════════════════ -->
+        <div class="state-view-container" id="view-empty" style="display:none;">
+          <div class="empty-state-card">
+            <div class="empty-state-icon-wrap">
+              <i class="fa-solid fa-chart-simple"></i>
+            </div>
+            <h3 class="empty-state-title">Nenhum Registro no Período</h3>
+            <p class="empty-state-desc">
+              Você ainda não registrou nenhum treino ou atividade neste intervalo de tempo. Inicie uma nova sessão para começar a acumular pontos no Hustle Score!
+            </p>
+            <button type="button" class="btn-primary-gradient" style="max-width:240px;" onclick="openLogActivityModal()">
+              <i class="fa-solid fa-plus"></i> Registrar Primeira Sessão
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 11. Fixed Bottom Navigation Dock (Design System Section 13) -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <!-- 1. Home -->
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Home</span>
+          </a>
+
+          <!-- 2. Buscar -->
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <!-- 3. Métricas (ACTIVE TAB) -->
+          <button type="button" class="nav-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})" aria-current="page">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </button>
+
+          <!-- 4. Direct -->
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <!-- 5. Perfil -->
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <!-- Mobile Bottom Home Indicator (White pill bar) -->
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         RIGHT DESKTOP SIDEBAR (SUGGESTIONS & CHALLENGES)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Desafios e Resumos">
+
+      <!-- Widget: Desafios SocialRats -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">🔥 Próximos Marcos</span>
+          <a href="#" class="widget-link" onclick="showToast('Ranking dos desafios...'); return false;">Ver ranking</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff; font-weight:600;">Desafio 100k Calorias</span>
+            <span style="color:var(--color-accent-orange); font-weight:700;">84% Concluído</span>
+          </div>
+          <div style="width:100%; height:6px; background:var(--color-surface-elevated); border-radius:10px; overflow:hidden;">
+            <div style="width:84%; height:100%; background:var(--gradient-brand); border-radius:10px;"></div>
+          </div>
+          <span style="font-size:11.5px; color:var(--color-text-secondary);">Restam 15.550 kcal para a medalha de Ouro da temporada!</span>
+        </div>
+      </div>
+
+      <!-- Widget: Leaderboard Semanal -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Leaderboard Semanal</span>
+          <a href="#" class="widget-link" onclick="showToast('Atualizando leaderboard...'); return false;">Ver todos</a>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-weight:800; font-size:13px; color:var(--color-warning);">1º</span>
+              <img src="../images/avatar-rijalxp.png" alt="rijalxp" style="width:34px; height:34px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-size:13px; font-weight:700; color:#fff;">rijalxp</div>
+                <div style="font-size:11px; color:var(--color-text-secondary);">10.820 pts</div>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--color-accent-pink); font-weight:700;">🔥 28d streak</span>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; background:var(--color-accent-pink-soft); padding:6px 10px; border-radius:var(--radius-md); border:1px solid rgba(255,50,184,0.2);">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-weight:800; font-size:13px; color:var(--color-accent-pink);">2º</span>
+              <img src="../images/avatar-your-story.png" alt="Gabriel" style="width:34px; height:34px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-size:13px; font-weight:700; color:#fff;">Você (@gabriel)</div>
+                <div style="font-size:11px; color:var(--color-accent-pink);">9.420 pts</div>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--color-success); font-weight:700;">+450 pts</span>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span style="font-weight:800; font-size:13px; color:var(--color-text-muted);">3º</span>
+              <img src="../images/avatar-broyin.png" alt="broyin" style="width:34px; height:34px; border-radius:50%; object-fit:cover;">
+              <div>
+                <div style="font-size:13px; font-weight:700; color:#fff;">broyin</div>
+                <div style="font-size:11px; color:var(--color-text-secondary);">8.910 pts</div>
+              </div>
+            </div>
+            <span style="font-size:11px; color:var(--color-text-secondary);">18d streak</span>
+          </div>
+
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       INTERACTIVE MODALS
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- 1. Modal: Exportar & Compartilhar Desempenho -->
+  <div class="modal-overlay" id="share-modal" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="share-modal-title">Compartilhar Desempenho</h3>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeShareModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Preview Card for Stories/Social -->
+      <div class="share-preview-card" id="share-preview">
+        <div class="share-card-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Icon" style="width:24px; height:24px;">
+            <span class="share-card-brand">SocialRats</span>
+          </div>
+          <span class="badge-level-pill">Nível 18 · Alfa</span>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <img src="../images/avatar-your-story.png" alt="Gabriel" style="width:48px; height:48px; border-radius:50%; border:2px solid var(--color-accent-pink);">
+          <div>
+            <div style="font-size:16px; font-weight:800; color:#fff;">Gabriel (@gabriel)</div>
+            <div style="font-size:12px; color:var(--color-accent-orange); font-weight:700;">🔥 21 Dias de Sequência Ativa</div>
+          </div>
+        </div>
+
+        <div class="share-card-stats">
+          <div class="share-stat-box">
+            <div class="share-stat-val">24</div>
+            <div class="share-stat-lbl">Treinos Concluídos</div>
+          </div>
+          <div class="share-stat-box">
+            <div class="share-stat-val">18.450</div>
+            <div class="share-stat-lbl">Calorias Queimadas</div>
+          </div>
+          <div class="share-stat-box">
+            <div class="share-stat-val">9.420</div>
+            <div class="share-stat-lbl">Hustle Score XP</div>
+          </div>
+          <div class="share-stat-box">
+            <div class="share-stat-val">96%</div>
+            <div class="share-stat-lbl">Consistência</div>
+          </div>
+        </div>
+
+        <div style="display:flex; justify-content:between; align-items:center; font-size:11px; color:var(--color-text-secondary); border-top:1px solid rgba(255,255,255,0.06); padding-top:10px;">
+          <span>socialrats.app/u/gabriel</span>
+          <span style="color:var(--color-accent-pink); font-weight:700;">#NoExcuses</span>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <button type="button" class="btn-primary-gradient" onclick="handleCopyReport()">
+          <i class="fa-solid fa-copy"></i>
+          <span>Copiar Cartão de Desempenho</span>
+        </button>
+        <button type="button" class="btn-secondary-outline" onclick="handleDownloadReport()">
+          <i class="fa-solid fa-download"></i>
+          <span>Salvar Imagem para Stories</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Modal: Hustle Score Details -->
+  <div class="modal-overlay" id="hustle-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">O que é o Hustle Score?</h3>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeHustleModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; font-size:13.5px; line-height:1.5; color:var(--color-text-secondary);">
+        <p>O <strong>Hustle Score</strong> é a métrica oficial do SocialRats que pontua sua dedicação real, frequência e impacto na comunidade.</p>
+        
+        <div style="background:var(--color-surface-elevated); padding:14px; border-radius:var(--radius-md); border:1px solid var(--color-border-subtle); display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#fff;"><i class="fa-solid fa-dumbbell" style="color:var(--color-accent-pink); margin-right:6px;"></i> Treino / Sessão Concluída</span>
+            <strong style="color:var(--color-success);">+100 a +160 XP</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#fff;"><i class="fa-solid fa-fire" style="color:var(--color-accent-orange); margin-right:6px;"></i> Manter Sequência Diária</span>
+            <strong style="color:var(--color-success);">+30 XP / dia</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#fff;"><i class="fa-solid fa-medal" style="color:var(--color-warning); margin-right:6px;"></i> Bater Novo Recorde (PR)</span>
+            <strong style="color:var(--color-success);">+200 XP</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span style="color:#fff;"><i class="fa-solid fa-heart" style="color:var(--color-accent-pink); margin-right:6px;"></i> Post com Resenha / Análise</span>
+            <strong style="color:var(--color-success);">+80 XP</strong>
+          </div>
+        </div>
+
+        <p style="font-size:12px; color:var(--color-text-muted);">Usuários nos níveis Alfa e Lenda desbloqueiam selos especiais e posições destacadas no leaderboard.</p>
+      </div>
+
+      <button type="button" class="btn-primary-gradient" onclick="closeHustleModal()">Entendido</button>
+    </div>
+  </div>
+
+  <!-- 3. Modal: Novas Metas / PRs -->
+  <div class="modal-overlay" id="goal-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title">Definir Novo Recorde / Meta</h3>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNewGoalModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveGoal(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:12.5px; font-weight:600; color:var(--color-text-secondary);">Exercício / Categoria</label>
+          <input type="text" id="goal-exercise" required placeholder="Ex: Supino Inclinado, Leg Press, 5km..." style="background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:var(--radius-md); padding:12px; color:#fff; font-size:14px; outline:none;">
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+          <label style="font-size:12.5px; font-weight:600; color:var(--color-text-secondary);">Meta de Carga (kg) ou Tempo Alvo</label>
+          <input type="text" id="goal-target" required placeholder="Ex: 120 kg ou 21m 30s" style="background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:var(--radius-md); padding:12px; color:#fff; font-size:14px; outline:none;">
+        </div>
+
+        <button type="submit" class="btn-primary-gradient" style="margin-top:6px;">Salvar Meta de Desempenho</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Modal: Registrar Nova Sessão / Atividade -->
+  <div class="modal-overlay" id="log-activity-modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 class="modal-title" id="log-modal-title">💪 Registrar Nova Sessão</h3>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeLogActivityModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="form-log-activity" onsubmit="handleLogActivitySubmit(event)" style="display:flex; flex-direction:column; gap:14px;">
+        <div>
+          <label style="display:block; font-size:12.5px; font-weight:600; color:var(--color-text-secondary); margin-bottom:6px;">
+            Título do Treino / Foco:
+          </label>
+          <input type="text" id="log-title-input" required placeholder="Ex: Treino A · Peito e Tríceps Pesado" style="width:100%; height:44px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:12px; color:#ffffff; padding:0 14px; font-size:14px; outline:none;">
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px;">
+          <div>
+            <label style="display:block; font-size:12.5px; font-weight:600; color:var(--color-text-secondary); margin-bottom:6px;">
+              Duração (min):
+            </label>
+            <input type="number" id="log-duration-input" required min="5" max="300" placeholder="Ex: 75" style="width:100%; height:44px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:12px; color:#ffffff; padding:0 14px; font-size:14px; outline:none;">
+          </div>
+          <div>
+            <label style="display:block; font-size:12.5px; font-weight:600; color:var(--color-text-secondary); margin-bottom:6px;">
+              Calorias (kcal):
+            </label>
+            <input type="number" id="log-calories-input" required min="50" max="3000" placeholder="Ex: 680" style="width:100%; height:44px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:12px; color:#ffffff; padding:0 14px; font-size:14px; outline:none;">
+          </div>
+        </div>
+
+        <div style="background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); border-radius:14px; padding:12px 14px; display:flex; flex-direction:column; gap:10px;">
+          <span style="font-size:12px; font-weight:700; color:var(--color-text-primary);"><i class="fa-solid fa-bullhorn" style="color:var(--color-accent-pink);"></i> Compartilhar com a Comunidade:</span>
+          
+          <label style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#ffffff; cursor:pointer;">
+            <input type="checkbox" id="check-publish-feed" checked style="accent-color:var(--color-accent-pink); width:16px; height:16px;">
+            <span>Publicar no <strong>Feed SocialRats</strong> (+80 XP)</span>
+          </label>
+
+          <label style="display:flex; align-items:center; gap:10px; font-size:12.5px; color:#ffffff; cursor:pointer;">
+            <input type="checkbox" id="check-publish-story" checked style="accent-color:var(--color-accent-orange); width:16px; height:16px;">
+            <span>Compartilhar nos <strong>Stories</strong> (+25 XP)</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-primary-gradient" style="margin-top:4px;">
+          <i class="fa-solid fa-check"></i> Salvar Sessão & Somar Hustle XP
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Modal: Notificações (Instagram Style) -->
+  <div class="modal-overlay" id="notif-modal" role="dialog" aria-modal="true" aria-label="Notificações">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title">Notificações</h3>
+          <span class="notif-modal-badge" id="modal-notif-badge">2 novas</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-notif-action" onclick="markModalNotifsAsRead()" title="Marcar como lidas">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <a href="notifications.html" class="btn-notif-action" title="Abrir página cheia">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNotificationsModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="notif-modal-tabs">
+        <button type="button" class="notif-modal-tab active" onclick="filterModalNotifs('all', this)">Todas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('likes', this)">Curtidas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('prs', this)">Recordes</button>
+      </div>
+
+      <div class="notif-modal-list" id="modal-notif-list">
+        <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Novo Recorde Batido!</strong> 110 kg no Supino Reto (+200 XP).</p>
+            <span class="notif-item-time" style="color:var(--color-accent-orange);">🔥 há 45 min</span>
+          </div>
+        </div>
+
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-ana.png" alt="Ana" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>ana_gym</strong> e outros 18 curtiram sua sessão de treino.</p>
+            <span class="notif-item-time">há 2h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- View Mode Switcher Button (Desktop Floating Pill) -->
+  <button type="button" class="view-mode-toggle" id="view-mode-toggle" onclick="toggleMockupView()" title="Alternar entre visualização Web e Mobile Frame">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-text">Modo Celular</span>
+  </button>
+
+  <!-- Global Toast Feedback -->
+  <div class="toast-pill" id="global-toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-text">Ação executada com sucesso!</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: INTERACTIVITY, DYNAMIC CHARTS & DATA BINDING
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // State Data per Modality and Period
+    const modalityDatasets = {
+      'fitness': {
+        title: 'Seu Desempenho em Musculação',
+        subtitle: 'Acompanhe sua consistência, evolução de carga, recordes pessoais e pontuação no ranking.',
+        rankText: '#2 no Ranking Semanal',
+        kpi1Title: 'Treinos Concluídos',
+        kpi1Unit: 'sessões',
+        kpi2Title: 'Calorias Queimadas',
+        kpi2Unit: 'kcal',
+        kpi3Title: 'Tempo Total Ativo',
+        kpi4Title: 'Consistência',
+        periods: {
+          '7d': {
+            hustleScore: '9.420',
+            workouts: '6',
+            workoutsDelta: '+20.0%',
+            calories: '4.850',
+            caloriesDelta: '+14.2%',
+            time: '8h 20m',
+            timeDelta: '+10.5%',
+            consistency: '100%',
+            consistencyDelta: '+5.0%',
+            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            intensityData: [75, 88, 60, 95, 82, 90, 70],
+            caloriesData: [620, 740, 510, 920, 680, 810, 570],
+            xpData: [110, 140, 80, 180, 130, 160, 100],
+            peak: 'Qui · 920 kcal',
+            avg: '692 kcal/treino',
+            best: '7 Dias Seguidos'
+          },
+          '30d': {
+            hustleScore: '9.420',
+            workouts: '24',
+            workoutsDelta: '+18.2%',
+            calories: '18.450',
+            caloriesDelta: '+12.4%',
+            time: '32h 40m',
+            timeDelta: '+8.5%',
+            consistency: '96%',
+            consistencyDelta: '+4.0%',
+            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+            intensityData: [82, 88, 91, 96],
+            caloriesData: [4200, 4600, 4750, 4900],
+            xpData: [720, 810, 860, 920],
+            peak: 'Sem 4 · 4.900 kcal',
+            avg: '615 kcal/treino',
+            best: '21 Dias de Sequência'
+          },
+          '3m': {
+            hustleScore: '24.180',
+            workouts: '68',
+            workoutsDelta: '+22.5%',
+            calories: '54.200',
+            caloriesDelta: '+19.8%',
+            time: '94h 10m',
+            timeDelta: '+15.2%',
+            consistency: '94%',
+            consistencyDelta: '+6.1%',
+            labels: ['Mês 1', 'Mês 2', 'Mês 3'],
+            intensityData: [78, 86, 94],
+            caloriesData: [16200, 18400, 19600],
+            xpData: [2600, 3100, 3720],
+            peak: 'Mês 3 · 19.6k kcal',
+            avg: '18.0k kcal/mês',
+            best: '24 Dias Consecutivos'
+          },
+          'year': {
+            hustleScore: '89.450',
+            workouts: '242',
+            workoutsDelta: '+34.0%',
+            calories: '194.200',
+            caloriesDelta: '+28.5%',
+            time: '348h',
+            timeDelta: '+22.0%',
+            consistency: '92%',
+            consistencyDelta: '+8.5%',
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+            intensityData: [65, 70, 75, 80, 84, 88, 90, 92, 94, 96],
+            caloriesData: [14200, 15800, 17200, 18400, 19100, 20400, 21200, 21800, 22400, 23700],
+            xpData: [2100, 2400, 2800, 3100, 3400, 3700, 3900, 4200, 4500, 4900],
+            peak: 'Out · 23.7k kcal',
+            avg: '19.4k kcal/mês',
+            best: '35 Dias de Sequência'
+          }
+        }
+      },
+      'running': {
+        title: 'Seu Desempenho em Corrida & Cardio',
+        subtitle: 'Pace médio, quilômetros percorridos, elevação e consistência semanal.',
+        rankText: '#1 no Ranking de Corrida',
+        kpi1Title: 'Distância Total',
+        kpi1Unit: 'km',
+        kpi2Title: 'Pace Médio',
+        kpi2Unit: 'min/km',
+        kpi3Title: 'Tempo em Movimento',
+        kpi4Title: 'Consistência',
+        periods: {
+          '7d': {
+            hustleScore: '4.200',
+            workouts: '34.5',
+            workoutsDelta: '+12.0%',
+            calories: '4\'48"',
+            caloriesDelta: '-8 seg',
+            time: '3h 12m',
+            timeDelta: '+14.0%',
+            consistency: '100%',
+            consistencyDelta: '+0.0%',
+            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            intensityData: [5.2, 8.0, 0, 10.5, 0, 10.8, 0],
+            caloriesData: [320, 540, 0, 710, 0, 780, 0],
+            xpData: [90, 140, 0, 180, 0, 190, 0],
+            peak: 'Sáb · 10.8 km',
+            avg: '4\'48" /km',
+            best: '4 Corridas na semana'
+          },
+          '30d': {
+            hustleScore: '12.850',
+            workouts: '142.8',
+            workoutsDelta: '+24.5%',
+            calories: '4\'52"',
+            caloriesDelta: '-12 seg',
+            time: '12h 45m',
+            timeDelta: '+18.0%',
+            consistency: '92%',
+            consistencyDelta: '+5.0%',
+            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+            intensityData: [30, 36, 38, 38.8],
+            caloriesData: [2100, 2500, 2700, 2800],
+            xpData: [620, 750, 810, 840],
+            peak: 'Sem 4 · 38.8 km',
+            avg: '4\'52" /km',
+            best: '15 Dias Consecutivos'
+          },
+          '3m': {
+            hustleScore: '32.100',
+            workouts: '380.0',
+            workoutsDelta: '+28.0%',
+            calories: '4\'58"',
+            caloriesDelta: '-15 seg',
+            time: '36h 20m',
+            timeDelta: '+20.0%',
+            consistency: '90%',
+            consistencyDelta: '+4.0%',
+            labels: ['Mês 1', 'Mês 2', 'Mês 3'],
+            intensityData: [110, 130, 140],
+            caloriesData: [7800, 9200, 10100],
+            xpData: [2100, 2600, 2900],
+            peak: 'Mês 3 · 140 km',
+            avg: '126 km/mês',
+            best: '21 Dias Consecutivos'
+          },
+          'year': {
+            hustleScore: '98.400',
+            workouts: '1.240',
+            workoutsDelta: '+42.0%',
+            calories: '5\'02"',
+            caloriesDelta: '-22 seg',
+            time: '124h',
+            timeDelta: '+35.0%',
+            consistency: '88%',
+            consistencyDelta: '+8.0%',
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+            intensityData: [80, 95, 110, 120, 130, 140, 135, 142, 140, 148],
+            caloriesData: [5600, 6800, 7900, 8600, 9400, 10200, 9800, 10400, 10100, 10800],
+            xpData: [1500, 1800, 2100, 2300, 2600, 2800, 2700, 2900, 2850, 3100],
+            peak: 'Out · 148 km',
+            avg: '124 km/mês',
+            best: '28 Dias Consecutivos'
+          }
+        }
+      },
+      'crossfit': {
+        title: 'Seu Desempenho em Cross & Funcional',
+        subtitle: 'WODs concluídos, rounds por tempo (AMRAP/EMOM) e consistência de alta intensidade.',
+        rankText: '#3 no Leaderboard Box',
+        kpi1Title: 'WODs Realizados',
+        kpi1Unit: 'WODs',
+        kpi2Title: 'Calorias Queimadas',
+        kpi2Unit: 'kcal',
+        kpi3Title: 'Tempo em Alta Freq.',
+        kpi4Title: 'Consistência',
+        periods: {
+          '7d': {
+            hustleScore: '5.100',
+            workouts: '5',
+            workoutsDelta: '+25.0%',
+            calories: '3.620',
+            caloriesDelta: '+18.0%',
+            time: '5h 10m',
+            timeDelta: '+12.0%',
+            consistency: '100%',
+            consistencyDelta: '+0.0%',
+            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            intensityData: [85, 92, 0, 95, 90, 88, 0],
+            caloriesData: [710, 780, 0, 820, 740, 720, 0],
+            xpData: [140, 160, 0, 180, 150, 145, 0],
+            peak: 'Qui · 820 kcal',
+            avg: '754 kcal/WOD',
+            best: '5 WODs na semana'
+          },
+          '30d': {
+            hustleScore: '14.200',
+            workouts: '20',
+            workoutsDelta: '+15.0%',
+            calories: '15.200',
+            caloriesDelta: '+14.0%',
+            time: '22h 30m',
+            timeDelta: '+10.0%',
+            consistency: '94%',
+            consistencyDelta: '+3.0%',
+            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+            intensityData: [88, 90, 93, 95],
+            caloriesData: [3600, 3800, 3850, 3950],
+            xpData: [740, 790, 810, 850],
+            peak: 'Sem 4 · 3.950 kcal',
+            avg: '760 kcal/WOD',
+            best: '18 Dias Consecutivos'
+          },
+          '3m': {
+            hustleScore: '38.400',
+            workouts: '58',
+            workoutsDelta: '+20.0%',
+            calories: '44.800',
+            caloriesDelta: '+18.0%',
+            time: '64h',
+            timeDelta: '+15.0%',
+            consistency: '92%',
+            consistencyDelta: '+4.0%',
+            labels: ['Mês 1', 'Mês 2', 'Mês 3'],
+            intensityData: [84, 89, 94],
+            caloriesData: [13800, 15100, 15900],
+            xpData: [2400, 2800, 3100],
+            peak: 'Mês 3 · 15.9k kcal',
+            avg: '14.9k kcal/mês',
+            best: '22 Dias Consecutivos'
+          },
+          'year': {
+            hustleScore: '112.000',
+            workouts: '210',
+            workoutsDelta: '+30.0%',
+            calories: '162.000',
+            caloriesDelta: '+26.0%',
+            time: '235h',
+            timeDelta: '+22.0%',
+            consistency: '90%',
+            consistencyDelta: '+6.0%',
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+            intensityData: [72, 78, 82, 85, 88, 90, 92, 93, 94, 96],
+            caloriesData: [12400, 13800, 14900, 15600, 16400, 17200, 17800, 18100, 18200, 19000],
+            xpData: [1800, 2100, 2400, 2600, 2800, 3100, 3300, 3400, 3450, 3700],
+            peak: 'Out · 19.0k kcal',
+            avg: '16.2k kcal/mês',
+            best: '30 Dias Consecutivos'
+          }
+        }
+      },
+      'study': {
+        title: 'Seu Desempenho em Foco & Estudos',
+        subtitle: 'Horas de foco profundo (Pomodoro), páginas lidas, revisões e tarefas concluídas.',
+        rankText: '#2 no Ranking de Foco',
+        kpi1Title: 'Horas de Foco',
+        kpi1Unit: 'horas',
+        kpi2Title: 'Pomodoros Feitos',
+        kpi2Unit: 'blocos',
+        kpi3Title: 'Tarefas Concluídas',
+        kpi4Title: 'Consistência',
+        periods: {
+          '7d': {
+            hustleScore: '3.850',
+            workouts: '28h',
+            workoutsDelta: '+18.0%',
+            calories: '56',
+            caloriesDelta: '+14.0%',
+            time: '34 tarefas',
+            timeDelta: '+10.0%',
+            consistency: '100%',
+            consistencyDelta: '+0.0%',
+            labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+            intensityData: [4, 5, 4.5, 6, 4, 3, 1.5],
+            caloriesData: [8, 10, 9, 12, 8, 6, 3],
+            xpData: [120, 150, 135, 180, 120, 90, 45],
+            peak: 'Qui · 6 Horas',
+            avg: '4h /dia',
+            best: '7 Dias Seguidos'
+          },
+          '30d': {
+            hustleScore: '11.400',
+            workouts: '112h',
+            workoutsDelta: '+22.0%',
+            calories: '224',
+            caloriesDelta: '+18.0%',
+            time: '138 tarefas',
+            timeDelta: '+15.0%',
+            consistency: '95%',
+            consistencyDelta: '+4.0%',
+            labels: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4'],
+            intensityData: [25, 28, 29, 30],
+            caloriesData: [50, 56, 58, 60],
+            xpData: [750, 840, 870, 900],
+            peak: 'Sem 4 · 30 Horas',
+            avg: '28h /semana',
+            best: '18 Dias Consecutivos'
+          },
+          '3m': {
+            hustleScore: '31.200',
+            workouts: '320h',
+            workoutsDelta: '+25.0%',
+            calories: '640',
+            caloriesDelta: '+20.0%',
+            time: '390 tarefas',
+            timeDelta: '+18.0%',
+            consistency: '92%',
+            consistencyDelta: '+5.0%',
+            labels: ['Mês 1', 'Mês 2', 'Mês 3'],
+            intensityData: [95, 110, 115],
+            caloriesData: [190, 220, 230],
+            xpData: [2400, 2800, 2950],
+            peak: 'Mês 3 · 115 Horas',
+            avg: '106h /mês',
+            best: '24 Dias Consecutivos'
+          },
+          'year': {
+            hustleScore: '94.800',
+            workouts: '980h',
+            workoutsDelta: '+38.0%',
+            calories: '1.960',
+            caloriesDelta: '+30.0%',
+            time: '1.240 tarefas',
+            timeDelta: '+25.0%',
+            consistency: '90%',
+            consistencyDelta: '+7.0%',
+            labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+            intensityData: [70, 82, 90, 98, 102, 108, 105, 110, 112, 118],
+            caloriesData: [140, 164, 180, 196, 204, 216, 210, 220, 224, 236],
+            xpData: [1800, 2100, 2400, 2600, 2750, 2900, 2800, 2950, 3000, 3200],
+            peak: 'Out · 118 Horas',
+            avg: '98h /mês',
+            best: '32 Dias Consecutivos'
+          }
+        }
+      }
+    };
+
+    let currentModality = 'fitness';
+    let currentPeriod = '30d';
+    let currentChartMetric = 'intensity'; // 'intensity', 'calories', 'xp'
+
+    // Switch Modality
+    function switchModality(modalityKey, btn) {
+      currentModality = modalityKey;
+      document.querySelectorAll('.modality-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const mod = modalityDatasets[modalityKey];
+      if (!mod) return;
+
+      document.getElementById('metrics-page-title').innerText = mod.title;
+      document.getElementById('metrics-page-subtitle').innerText = mod.subtitle;
+      document.getElementById('modality-rank-pill').innerHTML = `<i class="fa-solid fa-trophy" style="color:var(--color-accent-orange);"></i> ${mod.rankText}`;
+      
+      document.getElementById('kpi-1-title').innerText = mod.kpi1Title;
+      document.getElementById('kpi-2-title').innerText = mod.kpi2Title;
+      document.getElementById('kpi-3-title').innerText = mod.kpi3Title;
+      document.getElementById('kpi-4-title').innerText = mod.kpi4Title;
+
+      updatePeriodView();
+      showToast(`Modalidade alterada: ${btn.innerText.trim()}`);
+    }
+
+    // Switch View State (Normal, Loading, Empty)
+    function setViewState(state) {
+      document.querySelectorAll('.state-pill-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById(`btn-state-${state}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const vNormal = document.getElementById('view-normal');
+      const vLoading = document.getElementById('view-loading');
+      const vEmpty = document.getElementById('view-empty');
+
+      vNormal.style.display = 'none';
+      vLoading.style.display = 'none';
+      vEmpty.style.display = 'none';
+
+      if (state === 'normal') {
+        vNormal.style.display = 'flex';
+        renderChart();
+      } else if (state === 'loading') {
+        vLoading.style.display = 'flex';
+      } else if (state === 'empty') {
+        vEmpty.style.display = 'flex';
+      }
+    }
+
+    // Change Period Filter
+    function changePeriod(period, btn) {
+      currentPeriod = period;
+      document.querySelectorAll('.period-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      updatePeriodView();
+      showToast(`Período atualizado: ${btn.innerText.trim()}`);
+    }
+
+    function updatePeriodView() {
+      const mod = modalityDatasets[currentModality];
+      if (!mod) return;
+      const data = mod.periods[currentPeriod];
+      if (!data) return;
+
+      // Update KPIs
+      document.getElementById('user-hustle-score').innerText = data.hustleScore;
+      document.getElementById('kpi-workouts-val').innerHTML = `${data.workouts} <small style="font-size:12px; font-weight:600; color:var(--color-text-secondary);">${mod.kpi1Unit}</small>`;
+      document.getElementById('kpi-workouts-delta').innerHTML = `<i class="fa-solid fa-arrow-up"></i> ${data.workoutsDelta}`;
+
+      document.getElementById('kpi-calories-val').innerHTML = `${data.calories} <small style="font-size:12px; font-weight:600; color:var(--color-text-secondary);">${mod.kpi2Unit}</small>`;
+      document.getElementById('kpi-calories-delta').innerHTML = `<i class="fa-solid fa-arrow-up"></i> ${data.caloriesDelta}`;
+
+      document.getElementById('kpi-time-val').innerText = data.time;
+      document.getElementById('kpi-time-delta').innerHTML = `<i class="fa-solid fa-arrow-up"></i> ${data.timeDelta}`;
+
+      document.getElementById('kpi-consistency-val').innerText = data.consistency;
+      document.getElementById('kpi-consistency-delta').innerHTML = `<i class="fa-solid fa-arrow-up"></i> ${data.consistencyDelta}`;
+
+      document.getElementById('chart-stat-peak').innerText = data.peak;
+      document.getElementById('chart-stat-avg').innerText = data.avg;
+      document.getElementById('chart-stat-best').innerText = data.best;
+
+      renderChart();
+    }
+
+    // Switch Metric for Chart
+    function switchChartMetric(metric, btn) {
+      currentChartMetric = metric;
+      document.querySelectorAll('.chart-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      renderChart();
+      showToast(`Exibindo gráfico por: ${btn ? btn.innerText : metric}`);
+    }
+
+    // Interactive HTML5 Canvas Chart Render
+    function renderChart() {
+      const canvas = document.getElementById('metrics-chart');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+
+      const width = rect.width;
+      const height = rect.height;
+      
+      ctx.clearRect(0, 0, width, height);
+
+      const mod = modalityDatasets[currentModality];
+      if (!mod) return;
+      const data = mod.periods[currentPeriod];
+      if (!data) return;
+
+      let values = [];
+      let unit = '';
+      
+      if (currentChartMetric === 'intensity') {
+        values = data.intensityData;
+        unit = currentModality === 'running' ? ' km' : (currentModality === 'study' ? 'h' : '%');
+      } else if (currentChartMetric === 'calories') {
+        values = data.caloriesData;
+        unit = currentModality === 'study' ? ' blocos' : ' kcal';
+      } else {
+        values = data.xpData;
+        unit = ' XP';
+      }
+
+      const labels = data.labels;
+      const maxVal = Math.max(...values, 10) * 1.25;
+      const minVal = 0;
+
+      const paddingLeft = 34;
+      const paddingRight = 16;
+      const paddingTop = 20;
+      const paddingBottom = 28;
+      const chartW = width - paddingLeft - paddingRight;
+      const chartH = height - paddingTop - paddingBottom;
+
+      // Draw Grid Lines
+      ctx.strokeStyle = '#231d33';
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 4]);
+
+      const gridSteps = 4;
+      for (let i = 0; i <= gridSteps; i++) {
+        const y = paddingTop + (chartH / gridSteps) * i;
+        ctx.beginPath();
+        ctx.moveTo(paddingLeft, y);
+        ctx.lineTo(width - paddingRight, y);
+        ctx.stroke();
+
+        // Label on Y axis
+        const valStep = Math.round(maxVal - (maxVal / gridSteps) * i);
+        ctx.fillStyle = '#6f6780';
+        ctx.font = '10px Inter, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(valStep > 1000 ? (valStep/1000).toFixed(1) + 'k' : valStep, paddingLeft - 6, y + 3);
+      }
+      ctx.setLineDash([]);
+
+      // Compute Point Coordinates
+      const points = values.map((val, idx) => {
+        const x = paddingLeft + (chartW / (values.length - 1 || 1)) * idx;
+        const y = paddingTop + chartH - ((val - minVal) / (maxVal - minVal || 1)) * chartH;
+        return { x, y, val, label: labels[idx] };
+      });
+
+      if (points.length === 0) return;
+
+      // Fill Gradient Area under curve
+      const grad = ctx.createLinearGradient(0, paddingTop, 0, height - paddingBottom);
+      grad.addColorStop(0, 'rgba(255, 50, 184, 0.35)');
+      grad.addColorStop(0.5, 'rgba(146, 59, 255, 0.15)');
+      grad.addColorStop(1, 'rgba(146, 59, 255, 0.0)');
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, height - paddingBottom);
+      ctx.lineTo(points[0].x, points[0].y);
+
+      for (let i = 0; i < points.length - 1; i++) {
+        const cpX = (points[i].x + points[i + 1].x) / 2;
+        ctx.bezierCurveTo(cpX, points[i].y, cpX, points[i + 1].y, points[i + 1].x, points[i + 1].y);
+      }
+
+      ctx.lineTo(points[points.length - 1].x, height - paddingBottom);
+      ctx.closePath();
+      ctx.fillStyle = grad;
+      ctx.fill();
+
+      // Stroke Curve Line with SocialRats Brand Gradient
+      const strokeGrad = ctx.createLinearGradient(paddingLeft, 0, width - paddingRight, 0);
+      strokeGrad.addColorStop(0, '#ff713f');
+      strokeGrad.addColorStop(0.5, '#ff32b8');
+      strokeGrad.addColorStop(1, '#923bff');
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (let i = 0; i < points.length - 1; i++) {
+        const cpX = (points[i].x + points[i + 1].x) / 2;
+        ctx.bezierCurveTo(cpX, points[i].y, cpX, points[i + 1].y, points[i + 1].x, points[i + 1].y);
+      }
+
+      ctx.strokeStyle = strokeGrad;
+      ctx.lineWidth = 3;
+      ctx.shadowColor = 'rgba(255, 50, 184, 0.4)';
+      ctx.shadowBlur = 8;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Draw Data Dots and X-Axis Labels
+      points.forEach((p, idx) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4.5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+        ctx.strokeStyle = '#ff32b8';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#b7b0c5';
+        ctx.font = '11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(p.label, p.x, height - 8);
+      });
+    }
+
+    // Toast Notification System
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('global-toast');
+      const toastText = document.getElementById('toast-text');
+      if (!toast || !toastText) return;
+
+      toastText.innerText = message;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Modal Handlers
+    function openShareModal() {
+      document.getElementById('share-modal').classList.add('active');
+    }
+    function closeShareModal() {
+      document.getElementById('share-modal').classList.remove('active');
+    }
+
+    function openHustleModal() {
+      document.getElementById('hustle-modal').classList.add('active');
+    }
+    function closeHustleModal() {
+      document.getElementById('hustle-modal').classList.remove('active');
+    }
+
+    function openNewGoalModal() {
+      document.getElementById('goal-modal').classList.add('active');
+    }
+    function closeNewGoalModal() {
+      document.getElementById('goal-modal').classList.remove('active');
+    }
+
+    function openLogActivityModal() {
+      document.getElementById('log-activity-modal').classList.add('active');
+    }
+    function closeLogActivityModal() {
+      document.getElementById('log-activity-modal').classList.remove('active');
+    }
+
+    function openNotificationsModal() {
+      document.getElementById('notif-modal').classList.add('active');
+    }
+    function closeNotificationsModal() {
+      document.getElementById('notif-modal').classList.remove('active');
+    }
+
+    function filterModalNotifs(cat, tab) {
+      document.querySelectorAll('.notif-modal-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const items = document.querySelectorAll('.notif-modal-item');
+      items.forEach(it => {
+        if (cat === 'all' || it.getAttribute('data-cat') === cat) {
+          it.style.display = 'flex';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    function markModalNotifsAsRead() {
+      document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
+      const badge = document.getElementById('modal-notif-badge');
+      if (badge) {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+      const bellDot = document.querySelector('.bell-badge-dot');
+      if (bellDot) bellDot.style.display = 'none';
+      showToast('Notificações marcadas como lidas.');
+    }
+
+    function handleCopyReport() {
+      navigator.clipboard?.writeText("🔥 Gabriel no SocialRats: 24 treinos, 18.450 kcal queimadas e Nível 18 Alfa! #SocialRats #NoExcuses")
+        .then(() => {
+          showToast("Cartão de desempenho copiado!");
+          closeShareModal();
+        })
+        .catch(() => {
+          showToast("Relatório copiado com sucesso!");
+          closeShareModal();
+        });
+    }
+
+    function handleDownloadReport() {
+      showToast("Gerando cartão em alta resolução para Instagram Stories...");
+      setTimeout(() => {
+        showToast("Cartão pronto para compartilhar!");
+        closeShareModal();
+      }, 1000);
+    }
+
+    function handleSaveGoal(e) {
+      e.preventDefault();
+      const ex = document.getElementById('goal-exercise').value;
+      const target = document.getElementById('goal-target').value;
+      closeNewGoalModal();
+      showToast(`Nova meta registrada: ${ex} → ${target}! 🔥`);
+    }
+
+    function handleLogActivitySubmit(e) {
+      e.preventDefault();
+      const title = document.getElementById('log-title-input').value;
+      const duration = document.getElementById('log-duration-input').value;
+      const calories = document.getElementById('log-calories-input').value;
+
+      closeLogActivityModal();
+      showToast(`Sessão "${title}" salva! +140 XP somados ao seu perfil. 🔥`);
+
+      // Add to recent list
+      const container = document.getElementById('recent-history-list-container');
+      if (container) {
+        const item = document.createElement('div');
+        item.className = 'workout-session-item';
+        item.innerHTML = `
+          <div class="workout-session-left">
+            <div class="workout-type-icon"><i class="fa-solid fa-dumbbell"></i></div>
+            <div class="workout-session-details">
+              <span class="workout-session-title">${title}</span>
+              <span class="workout-session-meta">
+                <i class="fa-regular fa-clock"></i> ${duration}m · ${calories} kcal queimadas
+              </span>
+            </div>
+          </div>
+          <div class="workout-session-right">
+            <span class="workout-xp-gain">+140 XP</span>
+            <span class="workout-time-ago">Agora mesmo</span>
+          </div>
+        `;
+        container.prepend(item);
+      }
+    }
+
+    // Toggle Desktop Phone Mockup View
+    function toggleMockupView() {
+      const viewport = document.getElementById('app-viewport');
+      const label = document.getElementById('view-mode-text');
+      viewport.classList.toggle('mockup-mode');
+      
+      if (viewport.classList.contains('mockup-mode')) {
+        label.innerText = 'Modo Web Expandido';
+        showToast('Modo Celular (Moldura Mobile) ativado');
+      } else {
+        label.innerText = 'Modo Celular';
+        showToast('Modo Web Expandido ativado');
+      }
+      setTimeout(renderChart, 150);
+    }
+
+    // Window resize chart repaint
+    window.addEventListener('resize', () => {
+      renderChart();
+    });
+
+    // Close modal on click outside
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
+      });
+    });
+
+    // Initial render
+    window.addEventListener('DOMContentLoaded', () => {
+      renderChart();
+    });
+  </script>
+
+</body>
+</html>

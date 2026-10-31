@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Criar conta · SocialRats</title>
+  <meta name="description"
+    content="Comece a usar o SocialRats. Crie sua conta para acompanhar rotinas, manter seu foguinho e disputar rankings.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       INSTAGRAM / META ACCOUNT CREATION (EXACT FIDELITY)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --bg-page: #0b0913;
+      --bg-input: #1c1728;
+      --border-input: #30263e;
+      --border-input-focus: #ff32b8;
+      --text-primary: #ffffff;
+      --text-secondary: #b7b0c5;
+      --text-muted: #6f6780;
+      --color-link: #ff32b8;
+      --color-blue-btn: #ff32b8;
+      --color-blue-btn-hover: #e028a0;
+      --color-dark-btn: #1c1728;
+      --color-dark-btn-hover: #251e36;
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --radius-input: 14px;
+      --radius-btn: 12px;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      font-size: 14px;
+      line-height: 1.4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    body {
+      padding: 28px 16px 24px;
+    }
+
+    /* Container Central */
+    .signup-container {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation (Back chevron + Brand Meta/SocialRats) */
+    .signup-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 24px;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px 10px 4px 0;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-back:hover {
+      opacity: 0.7;
+    }
+
+    .meta-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 14px;
+      letter-spacing: -0.2px;
+    }
+
+    .meta-brand svg {
+      width: 22px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    /* Header */
+    .signup-header {
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .signup-title {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .signup-subtitle {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+    }
+
+    /* Form Styles */
+    .signup-form {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .form-label-with-icon {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tooltip-help-icon {
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.15s ease;
+    }
+
+    .tooltip-help-icon:hover {
+      color: var(--text-primary);
+    }
+
+    /* Meta Floating-Style Input Box */
+    .input-box {
+      position: relative;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-input);
+      height: 54px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 14px;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .input-box:focus-within {
+      border-color: var(--border-input-focus);
+      background-color: #222222;
+    }
+
+    .input-box .floating-label {
+      font-size: 10.5px;
+      color: var(--text-secondary);
+      line-height: 1;
+      margin-bottom: 2px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .input-box input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      font-size: 14px;
+      padding: 0;
+      height: 22px;
+      line-height: 22px;
+    }
+
+    .input-box input::placeholder {
+      color: var(--text-muted);
+      font-size: 13.5px;
+    }
+
+    /* Single-line input without floating label (Nome / Nome de usuário) */
+    .input-box-simple {
+      height: 50px;
+    }
+
+    .input-box-simple input {
+      height: 100%;
+      line-height: normal;
+    }
+
+    /* Password toggle button */
+    .btn-toggle-pwd {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-toggle-pwd:hover {
+      color: var(--text-primary);
+    }
+
+    /* Subtext under phone/email field */
+    .field-hint {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    .field-hint a {
+      color: var(--color-link);
+      text-decoration: none;
+    }
+
+    .field-hint a:hover {
+      text-decoration: underline;
+    }
+
+    /* Date of Birth: 3 Selects Side by Side */
+    .dob-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .dob-col {
+      position: relative;
+    }
+
+    .dob-select {
+      width: 100%;
+      height: 48px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-input);
+      color: var(--text-primary);
+      font-family: var(--font-family);
+      font-size: 13.5px;
+      padding: 0 28px 0 14px;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      -webkit-appearance: none;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+
+    .dob-select:focus {
+      border-color: var(--border-input-focus);
+      background-color: #222222;
+    }
+
+    .dob-chevron {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 12px;
+      pointer-events: none;
+    }
+
+    /* Legal Disclaimers (Exact copy from reference) */
+    .legal-disclaimers {
+      margin: 14px 0 22px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.48;
+      text-align: left;
+    }
+
+    .legal-disclaimers p {
+      margin-bottom: 12px;
+    }
+
+    .legal-disclaimers a {
+      color: var(--color-link);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .legal-disclaimers a:hover {
+      text-decoration: underline;
+    }
+
+    /* Action Buttons */
+    .btn-submit-blue {
+      width: 100%;
+      height: 44px;
+      background-color: var(--color-blue-btn);
+      border: none;
+      border-radius: var(--radius-btn);
+      color: #ffffff;
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      margin-bottom: 12px;
+    }
+
+    .btn-submit-blue:hover {
+      background-color: var(--color-blue-btn-hover);
+    }
+
+    .btn-submit-blue:active {
+      transform: scale(0.99);
+    }
+
+    .btn-submit-blue:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-google-signup {
+      width: 100%;
+      height: 44px;
+      background-color: var(--color-dark-btn);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-btn);
+      color: #ffffff;
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+      margin-bottom: 12px;
+    }
+
+    .btn-google-signup:hover {
+      background-color: var(--color-dark-btn-hover);
+    }
+
+    .google-logo {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .btn-have-account {
+      width: 100%;
+      height: 44px;
+      background-color: var(--color-dark-btn);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-btn);
+      color: #ffffff;
+      font-family: var(--font-family);
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.15s ease;
+      margin-bottom: 20px;
+    }
+
+    .btn-have-account:hover {
+      background-color: var(--color-dark-btn-hover);
+    }
+
+    /* Minimalist Meta Footer */
+    .signup-footer {
+      width: 100%;
+      max-width: 960px;
+      margin-top: 28px;
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .footer-nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      list-style: none;
+    }
+
+    .footer-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-nav a:hover {
+      color: var(--text-primary);
+    }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .lang-select-box {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      cursor: pointer;
+      outline: none;
+      font-family: var(--font-family);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background-color: #1c1728;
+      border: 1px solid #30263e;
+      border-radius: 9999px;
+      padding: 12px 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+      z-index: 100;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .toast.success i {
+      color: #34d399;
+    }
+
+    .toast.error i {
+      color: #ff4d6d;
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="signup-container">
+
+    <!-- Top Navigation: Chevron Left & Meta Logo -->
+    <nav class="signup-nav" aria-label="Navegação superior">
+      <a href="login.html" class="btn-back" title="Voltar para login" aria-label="Voltar para a página anterior">
+        <i class="fa-solid fa-chevron-left"></i>
+      </a>
+
+    </nav>
+
+    <!-- Header: Title & Subtitle -->
+    <header class="signup-header">
+      <h1 class="signup-title">Comece a usar o SocialRats com uma Conta</h1>
+      <p class="signup-subtitle">
+        Uma Conta SocialRats dá acesso a toda a arena, desafios, comunidade e rankings de consistência de forma fácil e
+        segura.
+      </p>
+    </header>
+
+    <!-- Form -->
+    <form id="signup-form" class="signup-form" novalidate>
+
+      <!-- 1. Número de celular ou email -->
+      <div class="form-group">
+        <label for="contact-input" class="form-label">Número de celular ou email</label>
+        <div class="input-box">
+          <span class="floating-label" id="contact-floating-label" style="display: none;">Número de celular ou email</span>
+          <input type="text" id="contact-input" placeholder="Número de celular ou email" autocomplete="email" required>
+        </div>
+        <p class="field-hint">
+          Você poderá receber notificações enviadas por nós. <a href="#">Saiba por que pedimos suas informações de
+            contato</a>
+        </p>
+      </div>
+
+      <!-- 2. Senha -->
+      <div class="form-group">
+        <label for="pwd-input" class="form-label">Senha</label>
+        <div class="input-box">
+          <span class="floating-label" id="pwd-floating-label" style="display: none;">Senha</span>
+          <input type="password" id="pwd-input" placeholder="Senha" autocomplete="new-password" required>
+          <button type="button" id="btn-toggle-pwd" class="btn-toggle-pwd" aria-label="Mostrar ou ocultar senha">
+            <i class="fa-regular fa-eye-slash" id="pwd-icon"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Data de nascimento (?) -->
+      <div class="form-group">
+        <div class="form-label form-label-with-icon">
+          <span>Data de nascimento</span>
+          <i class="fa-regular fa-circle-question tooltip-help-icon"
+            title="Usamos para personalizar sua experiência na arena"></i>
+        </div>
+        <div class="dob-grid">
+          <!-- Dia -->
+          <div class="dob-col">
+            <select id="dob-day" class="dob-select" aria-label="Dia de nascimento" required>
+              <option value="" disabled selected>Dia</option>
+            </select>
+            <i class="fa-solid fa-chevron-down dob-chevron"></i>
+          </div>
+
+          <!-- Mês -->
+          <div class="dob-col">
+            <select id="dob-month" class="dob-select" aria-label="Mês de nascimento" required>
+              <option value="" disabled selected>Mês</option>
+              <option value="1">Janeiro</option>
+              <option value="2">Fevereiro</option>
+              <option value="3">Março</option>
+              <option value="4">Abril</option>
+              <option value="5">Maio</option>
+              <option value="6">Junho</option>
+              <option value="7">Julho</option>
+              <option value="8">Agosto</option>
+              <option value="9">Setembro</option>
+              <option value="10">Outubro</option>
+              <option value="11">Novembro</option>
+              <option value="12">Dezembro</option>
+            </select>
+            <i class="fa-solid fa-chevron-down dob-chevron"></i>
+          </div>
+
+          <!-- Ano -->
+          <div class="dob-col">
+            <select id="dob-year" class="dob-select" aria-label="Ano de nascimento" required>
+              <option value="" disabled selected>Ano</option>
+            </select>
+            <i class="fa-solid fa-chevron-down dob-chevron"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Nome -->
+      <div class="form-group">
+        <label for="name-input" class="form-label">Nome</label>
+        <div class="input-box input-box-simple">
+          <input type="text" id="name-input" placeholder="Nome completo" autocomplete="name" required>
+        </div>
+      </div>
+
+      <!-- 5. Nome de usuário -->
+      <div class="form-group">
+        <label for="username-input" class="form-label">Nome de usuário</label>
+        <div class="input-box input-box-simple">
+          <input type="text" id="username-input" placeholder="Nome de usuário" autocomplete="username"
+            autocapitalize="none" required>
+        </div>
+      </div>
+
+      <!-- Legal Disclaimers (Exact copy from reference) -->
+      <div class="legal-disclaimers">
+        <p>
+          As pessoas que usam nosso serviço podem ter carregado suas informações de contato no SocialRats. <a
+            href="#">Saiba mais.</a>
+        </p>
+
+        <p>
+          Ao tocar em Enviar, você concorda em criar uma conta e em seguir os <a href="#">Termos</a>, a <a
+            href="#">Política de Privacidade</a> e a <a href="#">Política de Cookies</a> do SocialRats.
+        </p>
+
+        <p>
+          A <a href="#">Política de Privacidade</a> descreve como podemos usar as informações que coletamos quando você
+          cria uma conta. Por exemplo, usamos essas informações para fornecer, personalizar e melhorar nossos produtos,
+          incluindo anúncios.
+        </p>
+      </div>
+
+      <!-- Botão Primário: Enviar -->
+      <button type="submit" id="btn-submit" class="btn-submit-blue">
+        <span>Enviar</span>
+      </button>
+
+      <!-- Botão Social: Criar conta com o Google -->
+      <button type="button" id="btn-google-signup" class="btn-google-signup" aria-label="Criar conta com o Google">
+        <svg class="google-logo" viewBox="0 0 24 24">
+          <path
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            fill="#4285F4" />
+          <path
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            fill="#34A853" />
+          <path
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+            fill="#FBBC05" />
+          <path
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+            fill="#EA4335" />
+        </svg>
+        <span>Criar conta com o Google</span>
+      </button>
+
+      <!-- Botão Secundário: Já tenho uma conta -->
+      <a href="login.html" class="btn-have-account">
+        <span>Já tenho uma conta</span>
+      </a>
+
+    </form>
+
+  </main>
+
+  <!-- Toast de Notificação -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+    <span id="toast-message">Mensagem</span>
+  </div>
+
+  <!-- Footer -->
+  <footer class="signup-footer">
+    <ul class="footer-nav">
+      <li><a href="../index.html">Sobre</a></li>
+      <li><a href="features.html">Funcionalidades</a></li>
+      <li><a href="pricing.html">Preços</a></li>
+      <li><a href="#">Ajuda</a></li>
+      <li><a href="#">Privacidade</a></li>
+      <li><a href="#">Termos</a></li>
+      <li><a href="https://apps.apple.com/us/app/socialrats/id6784342002">SocialRats Download</a></li>
+    </ul>
+    <div class="footer-bottom">
+      <select class="lang-select-box" aria-label="Idioma">
+        <option value="pt-br" selected>Português (Brasil)</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+      </select>
+      <span>© 2026 SocialRats </span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // 1. Preenchimento Dinâmico de Dias (1 a 31) e Anos (1920 a ano atual)
+    const daySelect = document.getElementById('dob-day');
+    const yearSelect = document.getElementById('dob-year');
+
+    for (let d = 1; d <= 31; d++) {
+      const opt = document.createElement('option');
+      opt.value = d;
+      opt.textContent = d;
+      daySelect.appendChild(opt);
+    }
+
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear - 10; y >= 1920; y--) {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      yearSelect.appendChild(opt);
+    }
+
+    // 2. Floating label behavior for contact and password fields
+    function setupFloatingLabel(inputEl, labelEl) {
+      if (!inputEl || !labelEl) return;
+
+      const updateLabel = () => {
+        if (inputEl.value.trim().length > 0) {
+          labelEl.style.display = 'block';
+          inputEl.placeholder = '';
+        } else {
+          labelEl.style.display = 'none';
+          inputEl.placeholder = labelEl.textContent;
+        }
+      };
+
+      inputEl.addEventListener('input', updateLabel);
+      inputEl.addEventListener('focus', updateLabel);
+      inputEl.addEventListener('blur', updateLabel);
+      updateLabel();
+    }
+
+    const contactInput = document.getElementById('contact-input');
+    const contactFloatingLabel = document.getElementById('contact-floating-label');
+    setupFloatingLabel(contactInput, contactFloatingLabel);
+
+    const pwdInput = document.getElementById('pwd-input');
+    const pwdFloatingLabel = document.getElementById('pwd-floating-label');
+    setupFloatingLabel(pwdInput, pwdFloatingLabel);
+
+    // 3. Toggle Visibilidade da Senha
+    const togglePwdBtn = document.getElementById('btn-toggle-pwd');
+    const pwdIcon = document.getElementById('pwd-icon');
+
+    if (pwdInput && togglePwdBtn) {
+      togglePwdBtn.addEventListener('click', () => {
+        const isPassword = pwdInput.getAttribute('type') === 'password';
+        pwdInput.setAttribute('type', isPassword ? 'text' : 'password');
+        pwdIcon.className = isPassword ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+      });
+    }
+
+    // 4. Sanitização automática do nome de usuário
+    const usernameInput = document.getElementById('username-input');
+    if (usernameInput) {
+      usernameInput.addEventListener('input', (e) => {
+        e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
+      });
+    }
+
+    // 5. Toast Notification
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    let toastTimeout = null;
+
+    function showToast(message, type = 'success') {
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastMsg.textContent = message;
+      toast.className = `toast show ${type}`;
+
+      if (type === 'success') {
+        toastIcon.className = 'fa-solid fa-circle-check';
+      } else if (type === 'error') {
+        toastIcon.className = 'fa-solid fa-triangle-exclamation';
+      } else {
+        toastIcon.className = 'fa-solid fa-circle-info';
+      }
+
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3500);
+    }
+
+    // 6. Submit Form Simulation
+    const form = document.getElementById('signup-form');
+    const btnSubmit = document.getElementById('btn-submit');
+
+    if (form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const contact = contactInput.value.trim();
+        const pwd = pwdInput.value;
+        const fullname = document.getElementById('name-input').value.trim();
+        const username = usernameInput.value.trim();
+        const day = daySelect.value;
+        const month = document.getElementById('dob-month').value;
+        const year = yearSelect.value;
+
+        if (!contact || !pwd || !fullname || !username || !day || !month || !year) {
+          showToast('Por favor, preencha todos os campos do formulário.', 'error');
+          return;
+        }
+
+        if (pwd.length < 6) {
+          showToast('A senha precisa ter no mínimo 6 caracteres.', 'error');
+          pwdInput.focus();
+          return;
+        }
+
+        const originalText = btnSubmit.innerHTML;
+        btnSubmit.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
+        btnSubmit.disabled = true;
+
+        setTimeout(() => {
+          btnSubmit.innerHTML = originalText;
+          btnSubmit.disabled = false;
+          showToast(`Conta criada com sucesso para @${username}!`, 'success');
+
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1500);
+        }, 1100);
+      });
+    }
+
+    // 7. Google Sign-Up Simulation
+    const btnGoogle = document.getElementById('btn-google-signup');
+    if (btnGoogle) {
+      btnGoogle.addEventListener('click', () => {
+        showToast('Conectando ao Google... (Demonstração)', 'success');
+        setTimeout(() => {
+          showToast('Conta criada com sucesso via Google! Redirecionando...', 'success');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1500);
+        }, 1200);
+      });
+    }
+  </script>
+</body>
+
+</html>

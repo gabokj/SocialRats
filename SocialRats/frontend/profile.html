@@ -1,0 +1,2158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Perfil</title>
+  <meta name="description" content="Perfil de usuário no SocialRats. Publicações, respostas, comunidades, mídias e conquistas.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS — SOCIALRATS PROFILE (DESIGN_SYSTEM.MD)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-border-subtle: #30263e;
+      
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      
+      --color-accent-pink: #ff32b8;
+      --color-accent-purple: #923bff;
+      --color-accent-orange: #ff713f;
+      --color-heart-red: #ff3355;
+      --color-online-green: #34d399;
+      
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR (Visible on >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050d;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a {
+      background: rgba(255, 50, 184, 0.12);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN PROFILE CONTAINER
+       ═══════════════════════════════════════════════════════════════ */
+    .profile-center-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      padding-bottom: 90px; /* Space for bottom dock */
+    }
+
+    /* Desktop Phone Mockup Mode */
+    .app-viewport.mockup-mode {
+      background-color: #05040a;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .profile-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f1b2d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 50, 184, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .profile-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Floating View Mode Switcher */
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #181424;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 30px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: #251f38;
+      border-color: var(--color-accent-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       1. TOP BAR (PROFILE USERNAME & QUICK ICONS)
+       ──────────────────────────────────────────────────────────── */
+    .profile-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 12px;
+      background-color: rgba(11, 9, 19, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .profile-top-username {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .profile-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-top-action {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-top-action:hover {
+      color: var(--color-accent-pink);
+      transform: scale(1.08);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       2. COVER BANNER & AVATAR HEADER
+       ──────────────────────────────────────────────────────────── */
+    .profile-cover-banner {
+      width: 100%;
+      height: 125px;
+      background: linear-gradient(135deg, #181228 0%, #291238 50%, #150e24 100%);
+      position: relative;
+      border-bottom: 1px solid var(--color-border-subtle);
+      overflow: hidden;
+    }
+
+    .cover-glow-orb {
+      position: absolute;
+      top: -30px;
+      right: 20%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255, 50, 184, 0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Header Profile Content */
+    .profile-info-section {
+      padding: 0 20px 20px;
+      position: relative;
+    }
+
+    .profile-avatar-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: -46px;
+      margin-bottom: 14px;
+    }
+
+    .profile-avatar-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--gradient-story);
+      padding: 3px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .profile-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--color-background);
+      overflow: hidden;
+      padding: 2px;
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .profile-streak-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      background: #0f0c1b;
+      border: 1.5px solid var(--color-accent-orange);
+      border-radius: var(--radius-full);
+      padding: 2px 7px;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--color-accent-orange);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Profile Action Buttons */
+    .profile-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-profile-primary {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-profile-primary:hover {
+      background: #251e36;
+      border-color: var(--color-accent-pink);
+    }
+
+    .btn-profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-profile-icon:hover {
+      background: #251e36;
+      color: var(--color-accent-pink);
+    }
+
+    /* User details & bio */
+    .profile-name-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .verified-icon {
+      color: var(--color-accent-pink);
+      font-size: 16px;
+    }
+
+    .profile-handle-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+      margin-bottom: 12px;
+    }
+
+    .profile-handle {
+      font-size: 13.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .profile-level-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(90deg, rgba(255, 113, 63, 0.2) 0%, rgba(255, 50, 184, 0.2) 100%);
+      border: 1px solid rgba(255, 50, 184, 0.35);
+      color: #ffffff;
+    }
+
+    .profile-bio-text {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: #eceaf0;
+      margin-bottom: 12px;
+    }
+
+    .profile-meta-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .profile-meta-item i {
+      color: var(--color-text-muted);
+    }
+
+    /* Stats Counters Row */
+    .profile-stats-card {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 6px;
+      text-align: center;
+    }
+
+    .stat-counter-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    .stat-counter-block:hover {
+      opacity: 0.85;
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       3. PROFILE NAVIGATION TABS (5 ABAS SOLICITADAS)
+       [Posts | Respostas | Comunidades | Mídia | Curtidas]
+       ──────────────────────────────────────────────────────────── */
+    .profile-tabs-nav {
+      width: 100%;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background-color: var(--color-background);
+      position: sticky;
+      top: 57px;
+      z-index: 45;
+    }
+
+    .profile-tabs-scroll {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 8px;
+    }
+
+    .profile-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-tab-item {
+      background: transparent;
+      border: none;
+      padding: 14px 12px;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.15s ease;
+      flex: 1;
+      text-align: center;
+    }
+
+    .profile-tab-item:hover {
+      color: #ffffff;
+    }
+
+    .profile-tab-item.active {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    /* Gradient Brand Indicator Underline */
+    .profile-tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 15%;
+      width: 70%;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--gradient-brand);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       4. TAB CONTENT SECTIONS
+       ──────────────────────────────────────────────────────────── */
+    .profile-tab-content-area {
+      padding: 16px 14px 20px;
+    }
+
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      animation: fadeInTab 0.25s ease;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    @keyframes fadeInTab {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Feed Post Card (Reused from Design System) */
+    .post-card {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      border: 1px solid var(--color-border-subtle);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .post-author-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .post-author-avatar-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+    }
+
+    .post-author-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .post-author-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+    }
+
+    .post-author-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .post-timestamp {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    .post-media-container {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background-color: #0b0c10;
+    }
+
+    .post-media-img {
+      width: 100%;
+      height: auto;
+      max-height: 340px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .post-text-body {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #eceaf0;
+      margin-bottom: 12px;
+    }
+
+    .post-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .post-actions-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .action-btn.liked i {
+      color: var(--color-heart-red);
+    }
+
+    .action-btn i {
+      font-size: 18px;
+    }
+
+    /* ─── TAB 2: RESPOSTAS (THREADED REPLIES) ─── */
+    .reply-thread-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .reply-parent-snippet {
+      background-color: var(--color-surface-elevated);
+      border-left: 3px solid var(--color-accent-pink);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    .reply-body-wrap {
+      display: flex;
+      gap: 12px;
+    }
+
+    .reply-user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .reply-content-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .reply-author-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .reply-text {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: #f1f1f5;
+    }
+
+    /* ─── TAB 3: COMUNIDADES (SUBSTITUINDO DESTAQUES) ─── */
+    .communities-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .community-profile-card {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
+    }
+
+    .community-profile-card:hover {
+      background-color: #191526;
+      border-color: rgba(255, 50, 184, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .comm-card-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .comm-icon-box {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-md);
+      background-color: var(--color-surface-elevated);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 18px;
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .comm-info-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .comm-profile-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .comm-profile-meta {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .comm-role-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: var(--radius-full);
+      background: rgba(146, 59, 255, 0.2);
+      border: 1px solid var(--color-accent-purple);
+      color: #ffffff;
+    }
+
+    .btn-access-comm {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-access-comm:hover {
+      background: var(--color-accent-pink);
+      border-color: var(--color-accent-pink);
+    }
+
+    /* ─── TAB 4: MÍDIA (GRID 3 COLUNAS) ─── */
+    .media-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+
+    .media-grid-item {
+      aspect-ratio: 1 / 1;
+      position: relative;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      cursor: pointer;
+      background-color: var(--color-surface);
+    }
+
+    .media-grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .media-grid-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .media-grid-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    .media-grid-item:hover .media-grid-overlay {
+      opacity: 1;
+    }
+
+    /* ─── TAB 5: CURTIDAS (LIKES FEED) ─── */
+    .likes-feed-container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       5. BOTTOM NAVIGATION DOCK (FIXED — ACTIVE: PERFIL)
+       ──────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(14, 11, 22, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--color-border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b0b3b8;
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #b0b3b8;
+    }
+
+    /* Active Tab: Perfil (Pink in screenshot) */
+    .nav-tab-btn.active .nav-tab-icon {
+      color: var(--color-accent-pink);
+    }
+
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    /* Mobile Home Indicator (White pill bar) */
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: 9999px;
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP RIGHT SIDEBAR (WEB ADAPTATION)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 22px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #07050d;
+      border-left: 1px solid var(--color-border-subtle);
+    }
+
+    .sidebar-widget-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .achievement-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .achievement-item:last-child {
+      border-bottom: none;
+    }
+
+    .achievement-badge-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    /* Toast */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #1e192c;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (min-width: 992px) {
+      .desktop-sidebar { display: flex; }
+      .view-mode-toggle { display: flex; }
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock { display: none; }
+      .app-viewport:not(.mockup-mode) .profile-center-container {
+        padding-bottom: 30px;
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      .profile-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+      .bottom-nav-dock { max-width: 100%; }
+    }
+
+    /* Modal Overlay & Instagram-Style Notifications Modal Card */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .notif-modal-card { width: 92%; max-width: 440px; max-height: 80vh; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15); animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes notifModalIn { from { transform: scale(0.94) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+    .notif-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-elevated); }
+    .notif-modal-title { font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: #ffffff; }
+    .notif-modal-badge { background: var(--gradient-brand); color: #ffffff; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .btn-notif-action { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
+    .btn-notif-action:hover { background: var(--color-surface-hover); color: #ffffff; border-color: var(--color-accent-pink); }
+    .btn-close-modal { background: transparent; border: none; color: var(--color-text-secondary); font-size: 16px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; transition: color 0.15s ease; }
+    .btn-close-modal:hover { color: #ffffff; }
+    .notif-modal-tabs { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.4); background: var(--color-background); overflow-x: auto; }
+    .notif-modal-tab { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+    .notif-modal-tab.active { background: var(--color-accent-pink); color: #ffffff; border-color: var(--color-accent-pink); }
+    .notif-modal-list { flex: 1; overflow-y: auto; padding: 4px 0; scrollbar-width: none; }
+    .notif-modal-list::-webkit-scrollbar { display: none; }
+    .notif-modal-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.25); cursor: pointer; transition: background 0.15s ease; }
+    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
+    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
+    .notif-item-avatar-wrap { position: relative; flex-shrink: 0; }
+    .notif-item-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .notif-item-badge { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #ffffff; border: 1.5px solid var(--color-surface); }
+    .notif-item-info { flex: 1; min-width: 0; }
+    .notif-item-text { font-size: 12.5px; color: var(--color-text-primary); line-height: 1.35; word-break: break-word; }
+    .notif-item-time { font-size: 11px; color: var(--color-text-muted); display: block; margin-top: 2px; }
+    .btn-notif-follow { background: var(--gradient-brand); border: none; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; transition: all 0.15s ease; }
+    .btn-notif-follow.following { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+    .notif-item-thumb { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--color-border-subtle); }
+    .notif-medal-pill { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 113, 63, 0.12); border: 1px solid rgba(255, 113, 63, 0.3); display: flex; align-items: center; justify-content: center; color: var(--color-accent-orange); font-size: 15px; flex-shrink: 0; }
+    .btn-notif-modal-full { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--color-surface-elevated); border-top: 1px solid var(--color-border-subtle); color: var(--color-accent-pink); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: background 0.15s ease; }
+    .btn-notif-modal-full:hover { background: var(--color-surface-hover); color: #ffffff; }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" style="width:40px; height:40px; object-fit:contain;">
+          <span class="brand-logo-text">SocialRats</span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="openNotificationsModal()">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill" style="margin-left:auto; background:var(--color-accent-pink); color:#ffffff; font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;">4</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="profile.html">
+              <i class="fa-solid fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="showToast('Criar nova postagem ou desafio')">
+          <i class="fa-solid fa-plus"></i>
+          <span>Nova Publicação</span>
+        </button>
+      </div>
+
+      <div style="padding:14px; background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:14px; font-size:12px; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:space-between;">
+        <span>Conectado como <strong>@gabriel</strong></span>
+        <button type="button" onclick="handleLogout()" style="background:none; border:none; color:#ff4d6d; cursor:pointer;" title="Sair">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN PROFILE CENTER COLUMN
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="profile-center-container" id="profile-container">
+
+      <!-- 1. Top Bar: Back / Username / Actions -->
+      <header class="profile-top-bar">
+        <div class="profile-top-username">
+          <i class="fa-solid fa-lock" style="font-size:13px; color:var(--color-text-muted);"></i>
+          <span id="top-username-label">gabriel</span>
+          <i class="fa-solid fa-chevron-down" style="font-size:11px; color:var(--color-text-secondary); cursor:pointer;"></i>
+        </div>
+
+        <div class="profile-top-actions">
+          <button type="button" class="btn-top-action" title="Notificações" onclick="openNotificationsModal()" style="position:relative;">
+            <i class="fa-regular fa-bell"></i>
+            <span style="position:absolute; top:4px; right:4px; width:7px; height:7px; background:var(--color-accent-pink); border-radius:50%;"></span>
+          </button>
+          <button type="button" class="btn-top-action" title="Compartilhar Perfil" onclick="shareProfile()">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </button>
+          <button type="button" class="btn-top-action" title="Configurações" onclick="showToast('Configurações da conta')">
+            <i class="fa-solid fa-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. Cover Banner -->
+      <div class="profile-cover-banner">
+        <div class="cover-glow-orb"></div>
+      </div>
+
+      <!-- 3. Profile Info Section -->
+      <section class="profile-info-section" aria-label="Informações do Usuário">
+
+        <!-- Avatar & Profile Actions Row -->
+        <div class="profile-avatar-row">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar-inner">
+              <img src="../images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img">
+            </div>
+            <div class="profile-streak-badge" title="Foguinho ativo por 14 dias!">
+              🔥 14
+            </div>
+          </div>
+
+          <div class="profile-actions-group">
+            <button type="button" class="btn-profile-primary" onclick="showToast('Editor de perfil aberto!')">Editar Perfil</button>
+            <button type="button" class="btn-profile-primary" onclick="shareProfile()">Compartilhar</button>
+            <button type="button" class="btn-profile-icon" title="Opções" onclick="showToast('Opções da conta')">
+              <i class="fa-solid fa-sliders"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Name & Handle -->
+        <div class="profile-name-title">
+          <span>Gabriel Silva</span>
+          <i class="fa-solid fa-circle-check verified-icon" title="Verificado SocialRats"></i>
+        </div>
+
+        <div class="profile-handle-row">
+          <span class="profile-handle">@gabriel</span>
+          <span class="profile-level-badge">🏅 Rato Alfa · Nível 14</span>
+        </div>
+
+        <!-- Bio text -->
+        <p class="profile-bio-text">
+          Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥
+        </p>
+
+        <!-- Metadata row -->
+        <div class="profile-meta-details">
+          <div class="profile-meta-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <span>São Paulo, Brasil</span>
+          </div>
+          <div class="profile-meta-item">
+            <i class="fa-solid fa-link"></i>
+            <a href="#" style="color:var(--color-accent-pink); text-decoration:none;" onclick="showToast('Link do SocialRats'); return false;">socialrats.com/@gabriel</a>
+          </div>
+          <div class="profile-meta-item">
+            <i class="fa-regular fa-calendar"></i>
+            <span>Entrou em Outubro 2024</span>
+          </div>
+        </div>
+
+        <!-- Stats Counters Card -->
+        <div class="profile-stats-card">
+          <div class="stat-counter-block">
+            <span class="stat-number">142</span>
+            <span class="stat-label">Posts</span>
+          </div>
+          <div class="stat-counter-block" onclick="showToast('1.840 Seguidores')">
+            <span class="stat-number">1.8k</span>
+            <span class="stat-label">Seguidores</span>
+          </div>
+          <div class="stat-counter-block" onclick="showToast('420 Seguindo')">
+            <span class="stat-number">420</span>
+            <span class="stat-label">Seguindo</span>
+          </div>
+          <div class="stat-counter-block" onclick="showToast('Sequência ativa de 14 dias!')">
+            <span class="stat-number" style="color:var(--color-accent-orange);">🔥 14</span>
+            <span class="stat-label">Dias</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 4. Profile Navigation Tabs (As 5 Abas Solicitadas) -->
+      <!-- [Posts | Respostas | Comunidades | Mídia | Curtidas] -->
+      <nav class="profile-tabs-nav" aria-label="Abas do perfil">
+        <div class="profile-tabs-scroll">
+          <button type="button" class="profile-tab-item active" onclick="switchProfileTab(this, 'posts-panel')">
+            Posts
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchProfileTab(this, 'replies-panel')">
+            Respostas
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchProfileTab(this, 'communities-panel')">
+            Comunidades
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchProfileTab(this, 'media-panel')">
+            Mídia
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchProfileTab(this, 'likes-panel')">
+            Curtidas
+          </button>
+        </div>
+      </nav>
+
+      <!-- 5. Profile Tab Panels Content -->
+      <div class="profile-tab-content-area">
+
+        <!-- ───────────────────────────────────────────
+             ABA 1: POSTS (PUBLICAÇÕES DO USUÁRIO)
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel active" id="posts-panel">
+          <!-- Post 1: Treino com foto -->
+          <article class="post-card">
+            <div class="post-header">
+              <div class="post-author-group">
+                <div class="post-author-avatar-wrap">
+                  <img src="../images/avatar-your-story.png" alt="Gabriel" class="post-author-avatar-img">
+                </div>
+                <div class="post-author-details">
+                  <span class="post-author-name">Gabriel Silva</span>
+                  <span class="post-timestamp">3 horas atrás</span>
+                </div>
+              </div>
+              <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);" onclick="showToast('Opções da publicação')">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+
+            <div class="post-media-container">
+              <img src="../images/proof.jpg" alt="Treino finalizado" class="post-media-img" loading="eager">
+            </div>
+
+            <div class="post-actions-row">
+              <div class="post-actions-left">
+                <button type="button" class="action-btn liked" onclick="toggleLike(this, '450', '449')">
+                  <i class="fa-solid fa-heart"></i>
+                  <span>450</span>
+                </button>
+                <button type="button" class="action-btn" onclick="showToast('38 comentários nesta publicação')">
+                  <i class="fa-regular fa-comment"></i>
+                  <span>38</span>
+                </button>
+                <button type="button" class="action-btn" onclick="showToast('12 reposts')">
+                  <i class="fa-solid fa-repeat"></i>
+                  <span>12</span>
+                </button>
+              </div>
+              <button type="button" class="action-btn" onclick="showToast('Salvo nos favoritos')">
+                <i class="fa-regular fa-bookmark"></i>
+              </button>
+            </div>
+
+            <p class="post-text-body">
+              Treino de superiores finalizado com sucesso! Nova carga batida no supino e 100% de consistência esta semana. Rumo ao topo da arena! 🏋️‍♂️🔥
+            </p>
+          </article>
+
+          <!-- Post 2: Texto motivacional -->
+          <article class="post-card">
+            <div class="post-header">
+              <div class="post-author-group">
+                <div class="post-author-avatar-wrap">
+                  <img src="../images/avatar-your-story.png" alt="Gabriel" class="post-author-avatar-img">
+                </div>
+                <div class="post-author-details">
+                  <span class="post-author-name">Gabriel Silva</span>
+                  <span class="post-timestamp">Ontem às 19:40</span>
+                </div>
+              </div>
+              <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);">
+                <i class="fa-solid fa-ellipsis"></i>
+              </button>
+            </div>
+
+            <p class="post-text-body">
+              A disciplina te leva a lugares onde a motivação não consegue alcançar. Não negocie com a sua preguiça! 🐀👊
+            </p>
+
+            <div class="post-actions-row">
+              <div class="post-actions-left">
+                <button type="button" class="action-btn liked" onclick="toggleLike(this, '312', '311')">
+                  <i class="fa-solid fa-heart"></i>
+                  <span>312</span>
+                </button>
+                <button type="button" class="action-btn">
+                  <i class="fa-regular fa-comment"></i>
+                  <span>44</span>
+                </button>
+                <button type="button" class="action-btn">
+                  <i class="fa-solid fa-repeat"></i>
+                  <span>28</span>
+                </button>
+              </div>
+              <button type="button" class="action-btn">
+                <i class="fa-regular fa-bookmark"></i>
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 2: RESPOSTAS (THREADS / REPLIES)
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="replies-panel">
+          <!-- Resposta 1 -->
+          <div class="reply-thread-card">
+            <div class="reply-parent-snippet">
+              <strong>@rijalxp:</strong> "If your favorite shades are light blue and pale pink, you can say that you prefer pastels..."
+            </div>
+            <div class="reply-body-wrap">
+              <img src="../images/avatar-your-story.png" alt="Gabriel" class="reply-user-avatar">
+              <div class="reply-content-col">
+                <div class="reply-author-meta">
+                  <span>Gabriel Silva</span>
+                  <span style="font-size:11.5px; font-weight:400; color:var(--color-text-secondary);">· 1h</span>
+                </div>
+                <p class="reply-text">
+                  Combinação absurda de tons! Ficou impecável a estética desse design 👏
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resposta 2 -->
+          <div class="reply-thread-card">
+            <div class="reply-parent-snippet">
+              <strong>@lucasmendes:</strong> "Mano, bora jogar mais tarde? 🎮"
+            </div>
+            <div class="reply-body-wrap">
+              <img src="../images/avatar-your-story.png" alt="Gabriel" class="reply-user-avatar">
+              <div class="reply-content-col">
+                <div class="reply-author-meta">
+                  <span>Gabriel Silva</span>
+                  <span style="font-size:11.5px; font-weight:400; color:var(--color-text-secondary);">· 2h</span>
+                </div>
+                <p class="reply-text">
+                  Bora demais, logo depois do treino de perna estarei online! Te chamo no Direct.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Resposta 3 -->
+          <div class="reply-thread-card">
+            <div class="reply-parent-snippet">
+              <strong>@chrex:</strong> "Yesterday, I met this girl near my house and she asked for a way and of course i did tell her..."
+            </div>
+            <div class="reply-body-wrap">
+              <img src="../images/avatar-your-story.png" alt="Gabriel" class="reply-user-avatar">
+              <div class="reply-content-col">
+                <div class="reply-author-meta">
+                  <span>Gabriel Silva</span>
+                  <span style="font-size:11.5px; font-weight:400; color:var(--color-text-secondary);">· 5h</span>
+                </div>
+                <p class="reply-text">
+                  Hahaha mandou bem demais! Passou o treino da semana pra ela também? 👊
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 3: COMUNIDADES (SUBSTITUINDO DESTAQUES)
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="communities-panel">
+          <div class="communities-grid">
+
+            <!-- Comunidade 1: Programação Devs -->
+            <div class="community-profile-card" onclick="showToast('Acessando comunidade Programação Devs')">
+              <div class="comm-card-left">
+                <div class="comm-icon-box" style="border-color:rgba(255, 50, 184, 0.4);">
+                  <i class="fa-solid fa-code" style="color:var(--color-accent-pink);"></i>
+                </div>
+                <div class="comm-info-texts">
+                  <span class="comm-profile-title">Programação Devs</span>
+                  <div class="comm-profile-meta">
+                    <span>128k membros</span>
+                    <span class="comm-role-badge">Líder Alfa</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-access-comm">Acessar</button>
+            </div>
+
+            <!-- Comunidade 2: Calistenia & Musculação -->
+            <div class="community-profile-card" onclick="showToast('Acessando comunidade Calistenia & Musculação')">
+              <div class="comm-card-left">
+                <div class="comm-icon-box" style="border-color:rgba(255, 113, 63, 0.4);">
+                  <i class="fa-solid fa-dumbbell" style="color:var(--color-accent-orange);"></i>
+                </div>
+                <div class="comm-info-texts">
+                  <span class="comm-profile-title">Calistenia & Musculação</span>
+                  <div class="comm-profile-meta">
+                    <span>41k membros</span>
+                    <span class="comm-role-badge" style="border-color:var(--color-accent-orange);">Top 5%</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-access-comm">Acessar</button>
+            </div>
+
+            <!-- Comunidade 3: IA & Tecnologia -->
+            <div class="community-profile-card" onclick="showToast('Acessando comunidade IA & Tecnologia')">
+              <div class="comm-card-left">
+                <div class="comm-icon-box" style="border-color:rgba(146, 59, 255, 0.4);">
+                  <i class="fa-solid fa-brain" style="color:var(--color-accent-purple);"></i>
+                </div>
+                <div class="comm-info-texts">
+                  <span class="comm-profile-title">IA & Tecnologia</span>
+                  <div class="comm-profile-meta">
+                    <span>96k membros</span>
+                    <span class="comm-role-badge">Participante</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-access-comm">Acessar</button>
+            </div>
+
+            <!-- Comunidade 4: Desafios da Madrugada -->
+            <div class="community-profile-card" onclick="showToast('Acessando comunidade Desafios da Madrugada')">
+              <div class="comm-card-left">
+                <div class="comm-icon-box">
+                  <i class="fa-solid fa-fire" style="color:var(--color-accent-orange);"></i>
+                </div>
+                <div class="comm-info-texts">
+                  <span class="comm-profile-title">Desafios da Madrugada</span>
+                  <div class="comm-profile-meta">
+                    <span>12k membros</span>
+                    <span class="comm-role-badge">Criador</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-access-comm">Acessar</button>
+            </div>
+
+            <!-- Comunidade 5: Foco & Estudos -->
+            <div class="community-profile-card" onclick="showToast('Acessando comunidade Foco & Estudos')">
+              <div class="comm-card-left">
+                <div class="comm-icon-box">
+                  <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="comm-info-texts">
+                  <span class="comm-profile-title">Foco & Estudos</span>
+                  <div class="comm-profile-meta">
+                    <span>54k membros</span>
+                    <span class="comm-role-badge">Membro Ativo</span>
+                  </div>
+                </div>
+              </div>
+              <button type="button" class="btn-access-comm">Acessar</button>
+            </div>
+
+          </div>
+
+          <button type="button" class="btn-create-post-sidebar" style="margin-top:8px;" onclick="window.location.href='comunidades.html'">
+            <i class="fa-solid fa-compass"></i>
+            <span>Explorar Novas Comunidades</span>
+          </button>
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 4: MÍDIA (GRID 3 COLUNAS)
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="media-panel">
+          <div class="media-gallery-grid">
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/proof.jpg" alt="Mídia 1">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 450</span>
+                <span><i class="fa-solid fa-comment"></i> 38</span>
+              </div>
+            </div>
+
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/post-blue-orange.png" alt="Mídia 2">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 2k</span>
+                <span><i class="fa-solid fa-comment"></i> 202</span>
+              </div>
+            </div>
+
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/post-sunset.png" alt="Mídia 3">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 3.4k</span>
+                <span><i class="fa-solid fa-comment"></i> 412</span>
+              </div>
+            </div>
+
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/challenges.jpg" alt="Mídia 4">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 890</span>
+                <span><i class="fa-solid fa-comment"></i> 76</span>
+              </div>
+            </div>
+
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/hero.jpg" alt="Mídia 5">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 1.2k</span>
+                <span><i class="fa-solid fa-comment"></i> 94</span>
+              </div>
+            </div>
+
+            <div class="media-grid-item" onclick="showToast('Visualizando mídia')">
+              <img src="../images/scoring.jpg" alt="Mídia 6">
+              <div class="media-grid-overlay">
+                <span><i class="fa-solid fa-heart"></i> 520</span>
+                <span><i class="fa-solid fa-comment"></i> 32</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 5: CURTIDAS (POSTS CURTIDOS PELO USUÁRIO)
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="likes-panel">
+          <div class="likes-feed-container">
+            <!-- Liked Post 1: Rijalxp -->
+            <article class="post-card">
+              <div class="post-header">
+                <div class="post-author-group">
+                  <div class="post-author-avatar-wrap">
+                    <img src="../images/avatar-rijalxp.png" alt="rijalxp" class="post-author-avatar-img">
+                  </div>
+                  <div class="post-author-details">
+                    <span class="post-author-name">rijalxp</span>
+                    <span class="post-timestamp">1 hour ago</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+              </div>
+
+              <div class="post-media-container">
+                <img src="../images/post-blue-orange.png" alt="Laranja Azul Pastel" class="post-media-img">
+              </div>
+
+              <div class="post-actions-row">
+                <div class="post-actions-left">
+                  <button type="button" class="action-btn liked" onclick="toggleLike(this, '2k', '1.9k')">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>2k</span>
+                  </button>
+                  <button type="button" class="action-btn">
+                    <i class="fa-regular fa-comment"></i>
+                    <span>202</span>
+                  </button>
+                  <button type="button" class="action-btn">
+                    <i class="fa-solid fa-repeat"></i>
+                    <span>300</span>
+                  </button>
+                </div>
+                <button type="button" class="action-btn">
+                  <i class="fa-regular fa-bookmark"></i>
+                </button>
+              </div>
+
+              <p class="post-text-body">
+                If your favorite shades are light blue and pale pink, you can say that you prefer pastels...
+              </p>
+            </article>
+
+            <!-- Liked Post 2: Chrex -->
+            <article class="post-card">
+              <div class="post-header">
+                <div class="post-author-group">
+                  <div class="post-author-avatar-wrap">
+                    <img src="../images/avatar-chrex.png" alt="chrex" class="post-author-avatar-img">
+                  </div>
+                  <div class="post-author-details">
+                    <span class="post-author-name">chrex</span>
+                    <span class="post-timestamp">1 hour ago</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </button>
+              </div>
+
+              <p class="post-text-body">
+                Yesterday, I met this girl near my house and she asked for a way and of course i did tell her but, after 10 minutes she come back again and asking for my number! my god, she's so cute💕
+              </p>
+
+              <div class="post-actions-row">
+                <div class="post-actions-left">
+                  <button type="button" class="action-btn liked" onclick="toggleLike(this, '1k', '999')">
+                    <i class="fa-solid fa-heart"></i>
+                    <span>1k</span>
+                  </button>
+                  <button type="button" class="action-btn">
+                    <i class="fa-regular fa-comment"></i>
+                    <span>2k</span>
+                  </button>
+                  <button type="button" class="action-btn">
+                    <i class="fa-solid fa-repeat"></i>
+                    <span>1k</span>
+                  </button>
+                </div>
+                <button type="button" class="action-btn">
+                  <i class="fa-regular fa-bookmark"></i>
+                </button>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 6. Fixed Bottom Navigation Dock (Active: Perfil) -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <!-- 1. Início -->
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Início</span>
+          </a>
+
+          <!-- 2. Buscar -->
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <!-- 3. Métricas -->
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <!-- 4. Direct -->
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <!-- 5. Perfil (Active: Pink) -->
+          <button type="button" class="nav-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <div class="nav-tab-icon"><i class="fa-solid fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </button>
+        </div>
+
+        <!-- Mobile Bottom Home Indicator (White pill bar) -->
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP RIGHT SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Conquistas e Estatísticas">
+
+      <!-- Conquistas de Gabriel -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">🏆 Suas Conquistas</span>
+          <a href="#" style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;" onclick="showToast('Ver todas'); return false;">Ver todas</a>
+        </div>
+        <div>
+          <div class="achievement-item">
+            <div class="achievement-badge-circle">🔥</div>
+            <div>
+              <div style="font-size:13px; font-weight:700; color:#ffffff;">Fogo Eterno</div>
+              <div style="font-size:11.5px; color:var(--color-text-secondary);">14 dias seguidos de treino ativo</div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-badge-circle">👑</div>
+            <div>
+              <div style="font-size:13px; font-weight:700; color:#ffffff;">Rato de Elite</div>
+              <div style="font-size:11.5px; color:var(--color-text-secondary);">Top 1% de consistência mensal</div>
+            </div>
+          </div>
+
+          <div class="achievement-item">
+            <div class="achievement-badge-circle">🤝</div>
+            <div>
+              <div style="font-size:13px; font-weight:700; color:#ffffff;">Líder de Comunidade</div>
+              <div style="font-size:11.5px; color:var(--color-text-secondary);">Mais de 100k atletas engajados</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desempenho Semanal -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Estatísticas da Semana</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff;">Hustle Points</span>
+            <span style="color:var(--color-accent-pink); font-weight:700;">+2.450 pts</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:#ffffff;">Treinos Registrados</span>
+            <span style="color:var(--color-online-green); font-weight:700;">6 / 7 dias</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Footer -->
+      <footer style="font-size:11.5px; color:var(--color-text-muted); line-height:1.6;">
+        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Sobre</a> · 
+        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Privacidade</a> · 
+        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Termos</a><br>
+        <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Sua arena de evolução</span>
+      </footer>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       DESKTOP VIEW MODE TOGGLE BUTTON (MOCKUP VS EXPANDED)
+       ═══════════════════════════════════════════════════════════════ -->
+  <button type="button" class="view-mode-toggle" id="btn-toggle-view" onclick="toggleViewMode()">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-label">Ver em Moldura Mobile</span>
+  </button>
+
+  <!-- INSTAGRAM-STYLE NOTIFICATIONS MODAL / DRAWER -->
+  <div class="modal-overlay" id="notif-modal" role="dialog" aria-modal="true" aria-label="Notificações">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title">Notificações</h3>
+          <span class="notif-modal-badge" id="modal-notif-badge">4 novas</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-notif-action" onclick="markModalNotifsAsRead()" title="Marcar como lidas">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <a href="notifications.html" class="btn-notif-action" title="Abrir página cheia">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNotificationsModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Categories -->
+      <div class="notif-modal-tabs">
+        <button type="button" class="notif-modal-tab active" onclick="filterModalNotifs('all', this)">Todas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('likes', this)">Curtidas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('follows', this)">Seguidores</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('prs', this)">Recordes</button>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="notif-modal-list" id="modal-notif-list">
+        <!-- Item 1: Follow -->
+        <div class="notif-modal-item unread" data-cat="follows" onclick="window.location.href='profile.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-gabriel.png" alt="Marina" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-user-plus"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>marina_fitness</strong> começou a seguir você.</p>
+            <span class="notif-item-time">há 12 min</span>
+          </div>
+          <button type="button" class="btn-notif-follow" onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
+        </div>
+
+        <!-- Item 2: PR Record -->
+        <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Novo Recorde!</strong> 110 kg no Supino Reto (+50 XP).</p>
+            <span class="notif-item-time" style="color:var(--color-accent-orange);">🔥 há 45 min</span>
+          </div>
+          <div class="notif-medal-pill"><i class="fa-solid fa-medal"></i></div>
+        </div>
+
+        <!-- Item 3: Like -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-ana.png" alt="Carlos" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>carlos_iron</strong> e +18 curtiram seu treino.</p>
+            <span class="notif-item-time">há 2h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 4: Comment -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-felipe.png" alt="Lucas" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i class="fa-solid fa-comment"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>lucas_bodybuilder</strong> comentou: <em>"Carga monstra! 🔥"</em></p>
+            <span class="notif-item-time">há 3h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 5: Streak -->
+        <div class="notif-modal-item" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Streak" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-fire"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Sequência de 21 Dias!</strong> Foco mantido.</p>
+            <span class="notif-item-time">ontem</span>
+          </div>
+          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        </div>
+      </div>
+
+      <!-- Footer Button: Open Full Page -->
+      <a href="notifications.html" class="btn-notif-modal-full">
+        <span>Ver todas as notificações no Hub</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATION PILL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" style="color:var(--color-accent-pink);"></i>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: TAB SWITCHER & USER INTERACTIONS
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // 1. Recover Logged User
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const savedUser = localStorage.getItem('socialrats_user');
+        if (savedUser) {
+          const cleanName = savedUser.split('@')[0].trim();
+          document.getElementById('top-username-label').textContent = cleanName.toLowerCase().replace(/\s+/g, '');
+        }
+      } catch (e) {}
+    });
+
+    // 2. Interactive Profile Tabs Switcher
+    function switchProfileTab(button, panelId) {
+      // Deactivate all tab buttons
+      document.querySelectorAll('.profile-tab-item').forEach(btn => btn.classList.remove('active'));
+      // Activate clicked button
+      button.classList.add('active');
+
+      // Hide all panels
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+      // Show targeted panel
+      const targetPanel = document.getElementById(panelId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+    }
+
+    // 3. Heart / Like Interactive Toggle
+    function toggleLike(button, likedVal, unlikedVal) {
+      const isLiked = button.classList.contains('liked');
+      const countSpan = button.querySelector('span');
+
+      if (isLiked) {
+        button.classList.remove('liked');
+        if (countSpan) countSpan.textContent = unlikedVal || '0';
+        showToast('Curtida removida.');
+      } else {
+        button.classList.add('liked');
+        if (countSpan) countSpan.textContent = likedVal || '1';
+        showToast('Você curtiu esta publicação! ❤️');
+      }
+    }
+
+    // 4. Share Profile
+    function shareProfile() {
+      if (navigator.share) {
+        navigator.share({
+          title: 'Perfil de Gabriel no SocialRats',
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        showToast('Link do perfil copiado para a área de transferência! 📋');
+      }
+    }
+
+    // 5. Toast System
+    const toast = document.getElementById('toast-pill');
+    const toastText = document.getElementById('toast-text');
+    let toastTimer = null;
+
+    function showToast(message) {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function handleLogout() {
+      try {
+        localStorage.removeItem('socialrats_user');
+      } catch (e) {}
+      showToast('Desconectando...');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 700);
+    }
+
+    // 6. Desktop View Mode Toggle (Mockup vs Full Web)
+    const appViewport = document.getElementById('app-viewport');
+    const viewModeLabel = document.getElementById('view-mode-label');
+
+    function toggleViewMode() {
+      const isMockup = appViewport.classList.contains('mockup-mode');
+      if (isMockup) {
+        appViewport.classList.remove('mockup-mode');
+        viewModeLabel.textContent = 'Ver em Moldura Mobile';
+        showToast('Modo Web Expandido ativado.');
+      } else {
+        appViewport.classList.add('mockup-mode');
+        viewModeLabel.textContent = 'Modo Web Completo';
+        showToast('Visualização na moldura mobile ativada! 📱');
+      }
+    }
+
+    // 7. Notifications Modal Handlers
+    function openNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function filterModalNotifs(cat, tab) {
+      document.querySelectorAll('.notif-modal-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const items = document.querySelectorAll('.notif-modal-item');
+      items.forEach(it => {
+        if (cat === 'all' || it.getAttribute('data-cat') === cat) {
+          it.style.display = 'flex';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    function markModalNotifsAsRead() {
+      document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
+      const badge = document.getElementById('modal-notif-badge');
+      if (badge) {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+      showToast('Notificações marcadas como lidas.');
+    }
+
+    function toggleModalFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Você agora segue este usuário!');
+      }
+    }
+  </script>
+</body>
+
+</html>
+

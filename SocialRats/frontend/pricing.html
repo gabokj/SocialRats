@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planos e Preços · SocialRats</title>
+  <meta name="description"
+    content="Escolha o plano ideal para manter sua constância. Comece de graça ou desbloqueie o SocialRats PRO com IA, comunidades ilimitadas e proteção de streak.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#FF2A6D',
+              orange: '#FF6A3D',
+              pink: '#FF2A6D',
+              purple: '#9B51E0',
+            },
+            soft: '#F8F9FA',
+            ink: '#0F0E17',
+            muted: '#64748B'
+          },
+          fontFamily: {
+            sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+    }
+
+    .gradient-btn {
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+      box-shadow: 0 4px 20px rgba(255, 42, 109, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .gradient-btn:hover {
+      box-shadow: 0 8px 30px rgba(255, 42, 109, 0.55);
+      transform: translateY(-2px);
+    }
+
+    .card-pro-glow {
+      position: relative;
+    }
+
+    .card-pro-glow::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: 2rem;
+      padding: 2px;
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .faq-item[open] summary svg {
+      transform: rotate(180deg);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body
+  class="font-sans text-ink bg-white antialiased min-h-screen flex flex-col justify-between selection:bg-brand selection:text-white">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HEADER                                          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <header class="bg-white/95 border-b border-gray-100 sticky top-0 z-50 backdrop-blur-md">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 md:px-8 h-20">
+
+      <!-- Brand Logo -->
+      <a href="../index.html" class="flex items-center gap-3 group">
+        <span class="font-black text-2xl tracking-tight text-ink">Social<span class="gradient-text">Rats</span></span>
+      </a>
+
+      <!-- Center Links (Desktop) -->
+      <ul class="hidden md:flex items-center gap-10 text-sm font-bold text-muted">
+        <li>
+          <a href="features.html" class="hover:text-brand transition-colors">Funcionalidades</a>
+        </li>
+        <li>
+          <a href="pricing.html" class="text-ink border-b-2 border-brand pb-1">Preços</a>
+        </li>
+        <li>
+          <a href="feed.html" class="hover:text-brand transition-colors">Feed Web</a>
+        </li>
+        <li>
+          <a href="../index.html#features" class="hover:text-brand transition-colors">Sobre</a>
+        </li>
+      </ul>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <button type="button"
+          class="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-gray-700 border border-gray-200 hover:text-brand hover:border-brand/40 transition-all">
+          <span>PT</span>
+        </button>
+
+        <a href="login.html"
+          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-ink text-sm">Entrar</a>
+
+        <!-- CTA Button -->
+        <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white gradient-btn text-sm">
+          <svg class="w-4 h-4 fill-currentColor" viewBox="0 0 24 24">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.36-.56.65-.96 1.7-0.84 2.73 1.01.08 2.02-.5 2.57-1.24z" />
+          </svg>
+          Baixe o app
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button type="button" id="mobile-menu-btn" class="md:hidden p-2 text-ink rounded-lg hover:bg-gray-100"
+          aria-label="Menu principal">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 px-5 py-4 space-y-3 bg-white shadow-xl">
+      <a href="features.html" class="block font-medium text-muted hover:text-ink">Funcionalidades</a>
+      <a href="pricing.html" class="block font-bold text-ink">Preços</a>
+      <a href="feed.html" class="block font-medium text-muted hover:text-ink">Feed Web</a>
+      <a href="../index.html#features" class="block font-medium text-muted hover:text-ink">Sobre</a>
+      <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+        class="block text-center py-2.5 px-4 font-bold text-white rounded-full gradient-btn">Baixe o app na App
+        Store</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- MAIN CONTENT                                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <main class="flex-grow">
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- HERO SECTION                                  -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="relative pt-16 pb-12 md:pt-24 md:pb-16 overflow-hidden">
+      <!-- Glow effect top background -->
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-80 bg-gradient-to-b from-brand/10 via-brand-purple/5 to-transparent blur-3xl pointer-events-none -z-10">
+      </div>
+
+      <div class="max-w-5xl mx-auto px-4 md:px-6 text-center">
+        <!-- Top Pill Badge -->
+        <div
+          class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand/10 border border-brand/20 text-brand text-xs font-bold uppercase tracking-wider mb-6">
+          <i class="fa-solid fa-gem text-brand"></i>
+          <span>Planos Simples e Transparentes</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black text-ink tracking-tight mb-6 leading-[1.15]">
+          Sua evolução não tem limites.
+          <br>
+          Transforme <span class="gradient-text">constância em conquista.</span>
+        </h1>
+
+        <p class="text-gray-600 font-body text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10">
+          Comece de graça e evolua no seu ritmo. Desbloqueie comunidades ilimitadas, proteção de foguinho e ferramentas
+          exclusivas para levar seu progresso mais longe.
+        </p>
+
+        <!-- Billing Period Toggle -->
+        <div class="inline-flex items-center p-1.5 bg-gray-100 rounded-full border border-gray-200">
+          <button type="button" id="btn-monthly"
+            class="px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 bg-white text-ink shadow-sm cursor-pointer">
+            Mensal
+          </button>
+          <button type="button" id="btn-annual"
+            class="px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 text-gray-500 hover:text-ink cursor-pointer flex items-center gap-2">
+            <span>Anual</span>
+            <span
+              class="bg-gradient-to-r from-emerald-500 to-green-600 text-white text-[10px] uppercase font-black px-2 py-0.5 rounded-full tracking-wide">
+              Economize 35%
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- PRICING CARDS (2 PLANOS: GRATIS E PRO)        -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="max-w-4xl mx-auto px-4 md:px-6 pb-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+
+        <!-- 1. PLANO GRATUITO -->
+        <div
+          class="rounded-3xl border border-gray-200 bg-white p-8 md:p-9 flex flex-col justify-between hover:shadow-xl hover:border-gray-300 transition-all duration-300">
+          <div>
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-xs font-black tracking-wider uppercase text-gray-400">Gratuito</span>
+              <span class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 text-sm">
+                <i class="fa-solid fa-seedling"></i>
+              </span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-ink mb-2">Iniciante</h3>
+            <p class="text-gray-500 font-body text-sm mb-6 leading-relaxed">
+              O essencial para construir o hábito diário, participar de comunidades e manter o foco.
+            </p>
+
+            <!-- Price -->
+            <div class="mb-8">
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-ink">R$ 0</span>
+                <span class="text-gray-500 text-sm font-medium font-body">/mês</span>
+              </div>
+              <p class="text-xs text-gray-400 font-body mt-1">Gratuito para sempre. Sem cartão de crédito.</p>
+            </div>
+
+            <!-- Features List -->
+            <ul class="space-y-4 text-sm font-body text-gray-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0 text-base"></i>
+                <span>Acesso ao <strong>feed social</strong> e postagens diárias</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0 text-base"></i>
+                <span>Crie até <strong>3 comunidades</strong></span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0 text-base"></i>
+                <span>Acompanhamento de <strong>foguinho</strong> e streaks</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0 text-base"></i>
+                <span>Participação em desafios públicos</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-emerald-500 mt-1 flex-shrink-0 text-base"></i>
+                <span>Mensagens e conexões no Direct</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- CTA -->
+          <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+            class="w-full text-center py-4 px-6 rounded-2xl font-bold text-ink bg-gray-100 hover:bg-gray-200 transition-colors text-sm">
+            Começar Grátis
+          </a>
+        </div>
+
+        <!-- 2. PLANO PRO (DESTAQUE) -->
+        <div
+          class="card-pro-glow rounded-3xl bg-white p-8 md:p-9 flex flex-col justify-between shadow-2xl relative md:-translate-y-3 transition-transform duration-300">
+          <!-- Featured Badge -->
+          <div
+            class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-orange via-brand-pink to-brand-purple text-white text-[11px] font-black uppercase tracking-wider px-4 py-1 rounded-full shadow-md">
+            🔥 Mais Escolhido
+          </div>
+
+          <div>
+            <!-- Header -->
+            <div class="flex items-center justify-between mb-4 pt-2">
+              <span class="text-xs font-black tracking-wider uppercase text-brand">SocialRats PRO</span>
+              <span class="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center text-brand text-sm">
+                <i class="fa-solid fa-crown"></i>
+              </span>
+            </div>
+            <h3 class="text-2xl sm:text-3xl font-black text-ink mb-2">PRO Rat</h3>
+            <p class="text-gray-500 font-body text-sm mb-6 leading-relaxed">
+              Para quem leva constância a sério.
+            </p>
+
+            <!-- Price -->
+            <div class="mb-8">
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl sm:text-5xl font-black text-ink" id="pro-price">R$ 14,90</span>
+                <span class="text-gray-500 text-sm font-medium font-body" id="pro-period">/mês</span>
+              </div>
+              <p class="text-xs text-brand font-semibold font-body mt-1" id="pro-billing-info">
+                Cobrado mensalmente. Cancele quando quiser.
+              </p>
+            </div>
+
+            <!-- Features List -->
+            <ul class="space-y-4 text-sm font-body text-gray-700 mb-8 border-t border-gray-100 pt-6">
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-check text-brand mt-1 flex-shrink-0 font-black text-base"></i>
+                <span><strong>Tudo do plano Gratuito</strong>, mais:</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-xmark text-brand mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Sem anúncios:</strong> Navegue sem interrupções</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-fire text-brand mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Proteção de Foguinho:</strong> salve até 2 streaks/mês</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-chart-line text-brand mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Estatísticas avançadas:</strong> gráficos de metas, hábitos e evolução.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-users text-brand mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Comunidades ilimitadas:</strong> Crie e participe de quantas quiser</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-camera-retro text-brand mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Rat Creator:</strong> Crie Posts em Destaque e compare suas publicações</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <i class="fa-solid fa-certificate text-brand-purple mt-1 flex-shrink-0 text-base"></i>
+                <span><strong>Badge PRO exclusivo</strong> no seu perfil e nos rankings</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- CTA -->
+          <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+            class="w-full text-center py-4 px-6 rounded-2xl font-bold text-white gradient-btn text-sm flex items-center justify-center gap-2">
+            <span>Experimentar 7 dias grátis</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- TRUST & GUARANTEE BAR                         -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="max-w-5xl mx-auto px-4 md:px-6 mb-20">
+      <div
+        class="bg-gray-50 border border-gray-100 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-around gap-6 text-center md:text-left">
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-brand text-xl flex-shrink-0">
+            <i class="fa-brands fa-apple"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-base">Cobrança Segura Apple</h4>
+            <p class="text-xs text-gray-500 font-body">Processamento 100% confiável direto pela App Store</p>
+          </div>
+        </div>
+
+        <div class="w-px h-10 bg-gray-200 hidden md:block"></div>
+
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-emerald-500 text-xl flex-shrink-0">
+            <i class="fa-solid fa-rotate-left"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-base">Cancele quando quiser</h4>
+            <p class="text-xs text-gray-500 font-body">Sem fidelidade ou multas. Um clique nas suas configurações</p>
+          </div>
+        </div>
+
+        <div class="w-px h-10 bg-gray-200 hidden md:block"></div>
+
+        <div class="flex items-center gap-4">
+          <div
+            class="w-12 h-12 rounded-2xl bg-white shadow-sm border border-gray-100 flex items-center justify-center text-purple-500 text-xl flex-shrink-0">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-ink text-base">Teste sem risco</h4>
+            <p class="text-xs text-gray-500 font-body">7 dias de acesso total aos recursos PRO gratuitos</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- DETAILED COMPARISON TABLE                     -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="max-w-5xl mx-auto px-4 md:px-6 mb-24">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-black text-ink tracking-tight mb-3">Compare todos os recursos</h2>
+        <p class="text-gray-500 font-body text-base max-w-lg mx-auto">
+          Veja lado a lado tudo o que você tem direito em cada um dos planos.
+        </p>
+      </div>
+
+      <div class="overflow-x-auto border border-gray-200 rounded-3xl shadow-sm bg-white">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="border-b border-gray-100 bg-gray-50/70">
+              <th class="py-5 px-6 font-bold text-ink text-base">Recursos & Benefícios</th>
+              <th class="py-5 px-6 font-bold text-ink text-center text-sm md:text-base w-36 md:w-48">Iniciante (Grátis)
+              </th>
+              <th class="py-5 px-6 font-bold text-brand text-center text-sm md:text-base w-40 md:w-56 bg-brand/5">
+                SocialRats PRO</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100 text-sm font-body">
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Postagens & Feed Social</td>
+              <td class="py-4 px-6 text-center text-emerald-500"><i class="fa-solid fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Criação de comunidades</td>
+              <td class="py-4 px-6 text-center text-gray-600">Até 3 comunidades</td>
+              <td class="py-4 px-6 text-center font-bold text-brand bg-brand/5">Ilimitadas</td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Sem anúncios</td>
+              <td class="py-4 px-6 text-center text-gray-300"><i class="fa-solid fa-minus"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Foguinho diário & Streaks</td>
+              <td class="py-4 px-6 text-center text-emerald-500"><i class="fa-solid fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Desafios com Pot e Premiações Reais</td>
+              <td class="py-4 px-6 text-center text-emerald-500"><i class="fa-solid fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Proteção e Recuperação de Streak</td>
+              <td class="py-4 px-6 text-center text-gray-300"><i class="fa-solid fa-minus"></i></td>
+              <td class="py-4 px-6 text-center font-bold text-brand bg-brand/5">2x / mês</td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Badge Especial no Perfil e Rankings</td>
+              <td class="py-4 px-6 text-center text-gray-300"><i class="fa-solid fa-minus"></i></td>
+              <td class="py-4 px-6 text-center text-brand font-bold bg-brand/5">Badge PRO Oficial</td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Relatórios Avançados de Performance</td>
+              <td class="py-4 px-6 text-center text-gray-300"><i class="fa-solid fa-minus"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+            <!-- Row -->
+            <tr class="hover:bg-gray-50/50 transition-colors">
+              <td class="py-4 px-6 text-gray-800 font-medium">Mensagens no Direct & Grupos</td>
+              <td class="py-4 px-6 text-center text-emerald-500"><i class="fa-solid fa-check"></i></td>
+              <td class="py-4 px-6 text-center text-emerald-500 bg-brand/5"><i class="fa-solid fa-check"></i></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- FAQ ACCORDION                                 -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="max-w-3xl mx-auto px-4 md:px-6 mb-24">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-black text-ink tracking-tight mb-3">Dúvidas Frequentes</h2>
+        <p class="text-gray-500 font-body text-base">Tudo o que você precisa saber sobre as assinaturas do SocialRats.
+        </p>
+      </div>
+
+      <div class="space-y-4 font-body">
+        <!-- Item 1 -->
+        <details
+          class="faq-item group bg-gray-50 border border-gray-200/80 rounded-2xl p-5 cursor-pointer transition-colors open:bg-white open:shadow-md">
+          <summary class="flex items-center justify-between font-bold text-ink text-base select-none list-none">
+            <span>Como funciona o período de 7 dias grátis?</span>
+            <svg class="w-5 h-5 text-gray-400 group-hover:text-brand transition-transform duration-200 flex-shrink-0"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="mt-3 text-sm text-gray-600 leading-relaxed font-body">
+            Ao assinar o SocialRats PRO pela App Store, os primeiros 7 dias são totalmente gratuitos. Você pode
+            experimentar todas as funcionalidades sem pagar nada. Se cancelar antes do fim do período, nenhuma cobrança
+            será efetuada.
+          </div>
+        </details>
+
+        <!-- Item 2 -->
+        <details
+          class="faq-item group bg-gray-50 border border-gray-200/80 rounded-2xl p-5 cursor-pointer transition-colors open:bg-white open:shadow-md">
+          <summary class="flex items-center justify-between font-bold text-ink text-base select-none list-none">
+            <span>Posso usar o SocialRats sem pagar nada?</span>
+            <svg class="w-5 h-5 text-gray-400 group-hover:text-brand transition-transform duration-200 flex-shrink-0"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="mt-3 text-sm text-gray-600 leading-relaxed font-body">
+            Sim! O plano Iniciante é 100% gratuito e não exige nenhum cartão de crédito. Você pode criar até 3
+            comunidades, registrar seus hábitos diários, alimentar o foguinho e participar de desafios públicos.
+          </div>
+        </details>
+
+        <!-- Item 3 -->
+        <details
+          class="faq-item group bg-gray-50 border border-gray-200/80 rounded-2xl p-5 cursor-pointer transition-colors open:bg-white open:shadow-md">
+          <summary class="flex items-center justify-between font-bold text-ink text-base select-none list-none">
+            <span>Como funciona a Proteção de Foguinho (Streak)?</span>
+            <svg class="w-5 h-5 text-gray-400 group-hover:text-brand transition-transform duration-200 flex-shrink-0"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="mt-3 text-sm text-gray-600 leading-relaxed font-body">
+            Sabemos que imprevistos acontecem. No plano PRO, se você esquecer de registrar sua meta em um dia e perder
+            sua sequência, você pode usar uma Proteção de Streak para recuperar o foguinho sem zerar sua pontuação
+            acumulada.
+          </div>
+        </details>
+
+        <!-- Item 4 -->
+        <details
+          class="faq-item group bg-gray-50 border border-gray-200/80 rounded-2xl p-5 cursor-pointer transition-colors open:bg-white open:shadow-md">
+          <summary class="flex items-center justify-between font-bold text-ink text-base select-none list-none">
+            <span>Como cancelo minha assinatura?</span>
+            <svg class="w-5 h-5 text-gray-400 group-hover:text-brand transition-transform duration-200 flex-shrink-0"
+              fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <div class="mt-3 text-sm text-gray-600 leading-relaxed font-body">
+            É super simples: basta abrir as configurações do seu iPhone (ID Apple) > Assinaturas > SocialRats e cancelar
+            quando desejar. Você continuará tendo acesso aos benefícios PRO até o fim do período já pago.
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ───────────────────────────────────────────── -->
+    <!-- CTA BANNER                                    -->
+    <!-- ───────────────────────────────────────────── -->
+    <section class="max-w-5xl mx-auto px-4 md:px-6 pb-20">
+      <div class="gradient-bg rounded-3xl p-8 md:p-14 text-white text-center relative overflow-hidden shadow-2xl">
+        <!-- Floating decorative circles -->
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none">
+        </div>
+        <div class="absolute -left-10 -top-10 w-64 h-64 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl mx-auto">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats"
+            class="w-20 h-20 rounded-2xl shadow-xl mx-auto mb-6">
+          <h2 class="text-3xl sm:text-4xl font-black tracking-tight mb-4 leading-tight">
+            Pronto para transformar consistência em vitórias?
+          </h2>
+          <p class="text-white/80 font-body text-base sm:text-lg mb-8 leading-relaxed">
+            Baixe agora mesmo no seu iPhone e conecte-se a milhares de pessoas que não deixam o foguinho apagar.
+          </p>
+          <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-3 bg-white text-ink font-extrabold px-8 py-4 rounded-full shadow-lg hover:bg-gray-100 transition-all hover:scale-105">
+            <i class="fa-brands fa-apple text-xl"></i>
+            <span>Baixar SocialRats na App Store</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <footer class="bg-white border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="w-6 h-6 rounded-md">
+            <span class="font-bold text-ink text-base">SocialRats</span>
+          </div>
+          <p class="text-muted text-xs leading-relaxed font-body">
+            Arena de competição e consistência para Instagram Stories e rotinas. Quem posta mais leva o pote.
+          </p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Produto</h3>
+          <ul class="space-y-2.5 text-muted font-medium font-body">
+            <li><a href="features.html" class="hover:text-brand transition-colors">Funcionalidades</a></li>
+            <li><a href="pricing.html" class="hover:text-brand transition-colors">Preços</a></li>
+            <li><a href="../index.html#features" class="hover:text-brand transition-colors">Como Funciona</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Download</h3>
+          <ul class="space-y-2.5 text-muted font-medium font-body">
+            <li><a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank"
+                rel="noopener noreferrer" class="hover:text-brand transition-colors">App Store (iOS)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Desenvolvedor</h3>
+          <p class="text-muted text-xs font-body">Anna Beatriz Fogaca Cordeiro</p>
+          <p class="text-muted text-xs font-body mt-2">© 2026 SocialRats. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- JAVASCRIPT: TOGGLE MÊS / ANO & MENU MOBILE     -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <script>
+    // Mobile Menu
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    // Pricing Billing Toggle
+    const btnMonthly = document.getElementById('btn-monthly');
+    const btnAnnual = document.getElementById('btn-annual');
+
+    const proPrice = document.getElementById('pro-price');
+    const proPeriod = document.getElementById('pro-period');
+    const proBillingInfo = document.getElementById('pro-billing-info');
+
+    let isAnnual = false;
+
+    function updateBillingDisplay() {
+      if (isAnnual) {
+        // Toggle buttons style
+        btnMonthly.className = "px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 text-gray-500 hover:text-ink cursor-pointer";
+        btnAnnual.className = "px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 bg-white text-ink shadow-sm cursor-pointer flex items-center gap-2";
+
+        // Pro values
+        proPrice.textContent = "R$ 12,90";
+        proPeriod.textContent = "/mês";
+        proBillingInfo.textContent = "Cobrado anualmente (R$ 154,80/ano). Economia de 35%.";
+      } else {
+        // Toggle buttons style
+        btnMonthly.className = "px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 bg-white text-ink shadow-sm cursor-pointer";
+        btnAnnual.className = "px-6 py-2.5 rounded-full text-sm font-bold transition-all duration-200 text-gray-500 hover:text-ink cursor-pointer flex items-center gap-2";
+
+        // Pro values
+        proPrice.textContent = "R$ 19,90";
+        proPeriod.textContent = "/mês";
+        proBillingInfo.textContent = "Cobrado mensalmente. Cancele quando quiser.";
+      }
+    }
+
+    btnMonthly.addEventListener('click', () => {
+      isAnnual = false;
+      updateBillingDisplay();
+    });
+
+    btnAnnual.addEventListener('click', () => {
+      isAnnual = true;
+      updateBillingDisplay();
+    });
+  </script>
+</body>
+
+</html>

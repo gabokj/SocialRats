@@ -1,0 +1,2210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Descubra e Crie Comunidades</title>
+  <meta name="description" content="Descubra comunidades esportivas por modalidade, crie sua tribo no SocialRats, conecte suas métricas e participe de desafios.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS — SOCIALRATS (DESIGN_SYSTEM.MD)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-surface-hover: #221c32;
+      --color-border-subtle: #30263e;
+
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+
+      --color-accent-pink: #ff32b8;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.12);
+      --color-accent-purple: #923bff;
+      --color-accent-purple-soft: rgba(146, 59, 255, 0.12);
+      --color-accent-orange: #ff713f;
+      --color-accent-orange-soft: rgba(255, 113, 63, 0.12);
+
+      --color-success: #34d399;
+      --color-success-soft: rgba(52, 211, 153, 0.12);
+      --color-warning: #fbbf24;
+      --color-warning-soft: rgba(251, 191, 36, 0.12);
+      --color-error: #ff4d6d;
+      --color-error-soft: rgba(255, 77, 109, 0.12);
+
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --radius-full: 9999px;
+
+      --shadow-glow-pink: 0 0 16px rgba(255, 50, 184, 0.35);
+      --shadow-elevated: 0 8px 24px rgba(0, 0, 0, 0.45);
+      --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE FIRST DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050e;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      color: #ffffff;
+    }
+
+    .brand-logo-text .brand-rats {
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a,
+    .desktop-nav-item.active button {
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      margin-top: auto;
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-accent-pink);
+    }
+
+    .desktop-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px;
+    }
+
+    .desktop-user-handle {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-logout-sidebar {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-sidebar:hover {
+      color: var(--color-error);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN CENTER CONTAINER
+       ═══════════════════════════════════════════════════════════════ */
+    .communities-center-container {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      padding-bottom: 95px;
+      overflow-x: hidden;
+    }
+
+    /* Optional Desktop Frame Mockup Mode */
+    .app-viewport.mockup-mode {
+      background-color: #0c0d12;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .communities-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f212d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 50, 184, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .communities-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 30px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: var(--color-surface-elevated);
+      border-color: var(--color-accent-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SCREEN 1: LANDING DISCOVERY SCREEN (MATCHING IMAGE 1)
+       ═══════════════════════════════════════════════════════════════ */
+    .screen-view {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .screen-view.hidden {
+      display: none;
+    }
+
+    /* Top Phone Status & Floating Grid */
+    .landing-top-showcase {
+      width: 100%;
+      height: 380px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-top: 14px;
+      background: radial-gradient(circle at 50% 10%, rgba(146, 59, 255, 0.15), transparent 70%);
+    }
+
+    .landing-phone-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      z-index: 10;
+    }
+
+    .landing-dynamic-island {
+      width: 90px;
+      height: 24px;
+      background: #000000;
+      border-radius: 20px;
+    }
+
+    /* Floating Cards Staggered Matrix */
+    .floating-cards-track {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transform: rotate(-4deg) translateY(-10px) scale(1.04);
+      transform-origin: center center;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .cards-row {
+      display: flex;
+      gap: 12px;
+      animation: floatRow 20s linear infinite alternate;
+    }
+
+    .cards-row.reverse {
+      transform: translateX(-40px);
+      animation: floatRowReverse 22s linear infinite alternate;
+    }
+
+    @keyframes floatRow {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-35px); }
+    }
+
+    @keyframes floatRowReverse {
+      0% { transform: translateX(-40px); }
+      100% { transform: translateX(5px); }
+    }
+
+    /* Community Floating Tile Card */
+    .floating-comm-tile {
+      border-radius: 22px;
+      padding: 16px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .tile-wide {
+      width: 210px;
+      height: 125px;
+    }
+
+    .tile-square {
+      width: 140px;
+      height: 145px;
+    }
+
+    /* Pastel & Dark Tones for Tiles matching Image */
+    .bg-green-mint {
+      background: linear-gradient(145deg, #dcfce7 0%, #bbf7d0 100%);
+      color: #0f172a;
+    }
+    .bg-peach-glow {
+      background: linear-gradient(145deg, #ffedd5 0%, #fed7aa 100%);
+      color: #0f172a;
+    }
+    .bg-lavender-soft {
+      background: linear-gradient(145deg, #ede9fe 0%, #ddd6fe 100%);
+      color: #0f172a;
+    }
+    .bg-blue-ice {
+      background: linear-gradient(145deg, #e0f2fe 0%, #bae6fd 100%);
+      color: #0f172a;
+    }
+    .bg-dark-slate {
+      background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .tile-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tile-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+    }
+
+    .tile-desc {
+      font-size: 10px;
+      line-height: 1.3;
+      opacity: 0.85;
+      margin-top: 3px;
+    }
+
+    .tile-avatar-stack {
+      display: flex;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .tile-avatar-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+      margin-left: -6px;
+      object-fit: cover;
+      background: #14111e;
+    }
+
+    .tile-avatar-circle:first-child {
+      margin-left: 0;
+    }
+
+    .tile-members-text {
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    /* Landing Bottom Content Area */
+    .landing-bottom-content {
+      padding: 24px 28px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .landing-title-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .landing-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .landing-title-main {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.05;
+      color: #ffffff;
+    }
+
+    .landing-sparkle {
+      font-size: 26px;
+      color: #c084fc;
+    }
+
+    .landing-title-gradient {
+      font-family: var(--font-heading);
+      font-size: 40px;
+      font-weight: 900;
+      letter-spacing: -1px;
+      line-height: 1.05;
+      background: linear-gradient(90deg, #923bff 0%, #ff32b8 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: var(--color-accent-pink);
+    }
+
+    .landing-description {
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      max-width: 380px;
+    }
+
+    .landing-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-top: 10px;
+    }
+
+    /* Primary White Pill Button matching Image */
+    .btn-landing-primary {
+      width: 100%;
+      height: 54px;
+      background: #ffffff;
+      color: #0b0913;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+    }
+
+    .btn-landing-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(255, 255, 255, 0.35);
+      background: #f8fafc;
+    }
+
+    .btn-landing-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-landing-secondary {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 14.5px;
+      font-weight: 700;
+      text-align: center;
+      cursor: pointer;
+      padding: 10px;
+      transition: color 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-landing-secondary:hover {
+      color: var(--color-accent-pink);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SCREEN 2: FORM DE CRIAÇÃO DE COMUNIDADE
+       ═══════════════════════════════════════════════════════════════ */
+    .screen-header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      background: var(--color-background);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .btn-back-nav {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-back-nav:hover {
+      background: var(--color-surface-elevated);
+      border-color: var(--color-accent-pink);
+    }
+
+    .screen-header-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .create-form-content {
+      padding: 18px 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Live Preview Box */
+    .live-preview-wrapper {
+      background: linear-gradient(135deg, rgba(255, 50, 184, 0.08) 0%, rgba(146, 59, 255, 0.08) 100%);
+      border: 1px dashed var(--color-accent-pink);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .preview-label-tag {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--color-accent-pink);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Form Card Container */
+    .form-inputs-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-label-hint {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--color-accent-pink);
+      box-shadow: 0 0 14px rgba(255, 50, 184, 0.2);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.45;
+    }
+
+    .icon-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+    }
+
+    .icon-select-btn {
+      height: 42px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .icon-select-btn:hover {
+      background: var(--color-surface-hover);
+      border-color: var(--color-accent-pink);
+      transform: scale(1.06);
+    }
+
+    .icon-select-btn.selected {
+      background: var(--color-accent-pink-soft);
+      border-color: var(--color-accent-pink);
+      box-shadow: 0 0 10px rgba(255, 50, 184, 0.3);
+    }
+
+    .metric-info-pill {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn-create-submit {
+      width: 100%;
+      height: 50px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: var(--radius-md);
+      color: #ffffff;
+      font-family: var(--font-heading);
+      font-size: 15.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin-top: 6px;
+    }
+
+    .btn-create-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 50, 184, 0.5);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       SCREEN 3: EXPLORAR & BUSCA EM COMUNIDADES EM ALTA
+       ═══════════════════════════════════════════════════════════════ */
+    .explore-content {
+      padding: 16px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .explore-search-bar {
+      width: 100%;
+      height: 46px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .explore-search-bar:focus-within {
+      border-color: var(--color-accent-pink);
+      background-color: var(--color-surface-elevated);
+      box-shadow: 0 0 16px rgba(255, 50, 184, 0.2);
+    }
+
+    .explore-search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    .explore-search-input::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    /* Horizontal Modalities Filter Chips */
+    .modality-filter-track {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .modality-filter-track::-webkit-scrollbar { display: none; }
+
+    .modality-filter-chip {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      padding: 7px 13px;
+      border-radius: var(--radius-full);
+      font-size: 12.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .modality-filter-chip:hover {
+      background: var(--color-surface-elevated);
+      color: #ffffff;
+      border-color: rgba(255, 50, 184, 0.3);
+    }
+
+    .modality-filter-chip.active {
+      background: var(--color-accent-pink-soft);
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.2);
+    }
+
+    /* Section Header Row */
+    .explore-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .explore-section-title {
+      font-family: var(--font-heading);
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Community Full Card */
+    .comm-item-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+      cursor: pointer;
+    }
+
+    .comm-item-card:hover {
+      border-color: rgba(255, 50, 184, 0.3);
+      background-color: var(--color-surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .comm-item-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .comm-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .comm-item-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: var(--radius-md);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .comm-item-info {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .comm-item-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .comm-item-name {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 210px;
+    }
+
+    .comm-item-handle {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .comm-item-modality-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      background: var(--color-accent-pink-soft);
+      border: 1px solid rgba(255, 50, 184, 0.25);
+      color: var(--color-accent-pink);
+    }
+
+    .btn-item-join {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 4px 12px rgba(255, 50, 184, 0.25);
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .btn-item-join:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 50, 184, 0.35);
+    }
+
+    .btn-item-join.joined {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      box-shadow: none;
+    }
+
+    .comm-item-desc {
+      font-size: 12.5px;
+      color: var(--color-text-secondary);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .comm-item-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      flex-wrap: wrap;
+    }
+
+    .comm-item-stat {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .comm-item-metric-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-success);
+      background: var(--color-success-soft);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .comm-item-tag-link {
+      font-size: 11.5px;
+      color: var(--color-accent-pink);
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       FIXED BOTTOM NAVIGATION DOCK
+       ═══════════════════════════════════════════════════════════════ */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background-color: rgba(9, 10, 15, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--color-border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-secondary);
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: var(--radius-full);
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP AUXILIARY RIGHT SIDEBAR
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #07050e;
+      border-left: 1px solid var(--color-border-subtle);
+    }
+
+    .sidebar-widget-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Floating Toast */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: var(--color-surface-elevated);
+      border: 1px solid rgba(255, 50, 184, 0.4);
+      color: var(--color-text-primary);
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-pill i {
+      color: var(--color-accent-pink);
+    }
+
+    /* Responsive */
+    @media (min-width: 992px) {
+      .desktop-sidebar { display: flex; }
+      .view-mode-toggle { display: flex; }
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock { display: none; }
+      .app-viewport:not(.mockup-mode) .communities-center-container {
+        padding-bottom: 30px;
+        max-width: 520px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar { display: flex; }
+    }
+
+    @media (max-width: 768px) {
+      .communities-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+      .bottom-nav-dock { max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" style="width: 42px; height: 42px; object-fit: contain;">
+          <span class="brand-logo-text">Social<span class="brand-rats">Rats</span></span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Home</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="notifications.html">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill" style="background:var(--color-accent-pink);">2</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="showScreen('create')">
+          <i class="fa-solid fa-plus"></i>
+          <span>Criar Comunidade</span>
+        </button>
+      </div>
+
+      <!-- Logged User Card -->
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name">Gabriel</span>
+            <span class="desktop-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="showToast('Sessão encerrada')">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         CENTER COMMUNITIES APP CONTAINER
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="communities-center-container" id="communities-container">
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCREEN 1: LANDING DISCOVERY (MATCHING ATTACHED IMAGE)
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="screen-view" id="screen-landing">
+        
+        <!-- Staggered Floating Matrix Showcase -->
+        <div class="landing-top-showcase">
+          <div class="landing-phone-header">
+            <span>14:00</span>
+            <div class="landing-dynamic-island"></div>
+            <div style="display:flex; gap:4px; font-size:11px;">
+              <i class="fa-solid fa-signal"></i>
+              <i class="fa-solid fa-wifi"></i>
+              <i class="fa-solid fa-battery-full"></i>
+            </div>
+          </div>
+
+          <!-- Staggered Tilted Cards Track -->
+          <div class="floating-cards-track">
+            
+            <!-- Row 1 -->
+            <div class="cards-row">
+              
+              <div class="floating-comm-tile tile-wide bg-dark-slate">
+                <div class="tile-header-row">
+                  <span class="tile-title">GymRats Elite</span>
+                  <span style="font-size:16px;">🏋️‍♂️</span>
+                </div>
+                <p class="tile-desc">A conclusão de cada treino é o início de um novo recorde.</p>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-ana.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-juliana.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-matheus.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-pedro.png" class="tile-avatar-circle" alt="User">
+                  <span style="font-size:10px; margin-left:6px; font-weight:700;">🎧 1.238 treinando</span>
+                </div>
+              </div>
+
+              <div class="floating-comm-tile tile-wide bg-peach-glow">
+                <div class="tile-header-row">
+                  <span class="tile-title" style="color:#0f172a;">Novidades por aqui...</span>
+                  <span style="font-size:14px;">🔥</span>
+                </div>
+                <p class="tile-desc" style="color:#334155;">Revolucione seus treinos, conecte-se com parceiros e faça parte de algo maior.</p>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-rijalxp.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-carol.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-dena.png" class="tile-avatar-circle" alt="User">
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Row 2 -->
+            <div class="cards-row reverse">
+
+              <div class="floating-comm-tile tile-square bg-peach-glow">
+                <div style="font-size:22px;">🏃</div>
+                <div class="tile-title" style="color:#0f172a; margin-top:4px;">Madrugada</div>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-broyin.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-lucas.png" class="tile-avatar-circle" alt="User">
+                </div>
+                <span class="tile-members-text" style="color:#475569;">940.200 Membros</span>
+              </div>
+
+              <div class="floating-comm-tile tile-square bg-lavender-soft">
+                <div style="font-size:22px;">🤸</div>
+                <div class="tile-title" style="color:#0f172a; margin-top:4px;">Calistenia</div>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-ana.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-juliana.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-matheus.png" class="tile-avatar-circle" alt="User">
+                </div>
+                <span class="tile-members-text" style="color:#475569;">998.200 membros</span>
+              </div>
+
+              <div class="floating-comm-tile tile-square bg-green-mint">
+                <div style="font-size:22px;">🥊</div>
+                <div class="tile-title" style="color:#0f172a; margin-top:4px;">CrossBox</div>
+                <span style="font-size:10px; color:#166534; font-weight:700;">WOD Global</span>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-pedro.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-rijalxp.png" class="tile-avatar-circle" alt="User">
+                </div>
+                <span class="tile-members-text" style="color:#166534;">800.527 membros</span>
+              </div>
+
+              <div class="floating-comm-tile tile-square bg-blue-ice">
+                <div style="font-size:22px;">📚</div>
+                <div class="tile-title" style="color:#0f172a; margin-top:4px;">Devs & Foco</div>
+                <div class="tile-avatar-stack">
+                  <img src="../images/avatar-dena.png" class="tile-avatar-circle" alt="User">
+                  <img src="../images/avatar-carol.png" class="tile-avatar-circle" alt="User">
+                </div>
+                <span class="tile-members-text" style="color:#0369a1;">512.738 membros</span>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Landing Hero Bottom Text & Actions -->
+        <div class="landing-bottom-content">
+          <div class="landing-title-wrap">
+            <div class="landing-title-row">
+              <span class="landing-title-main">Descubra</span>
+              <span class="landing-sparkle">✦</span>
+            </div>
+            <span class="landing-title-gradient">Comunidades</span>
+          </div>
+
+          <p class="landing-description">
+            Conecte-se com pessoas que compartilham dos seus interesses, participe de conversas dinâmicas e faça parte de grupos focados no que você realmente gosta.
+          </p>
+
+          <div class="landing-actions">
+            <!-- Botão Começar -> Abre Tela de Criação -->
+            <button type="button" class="btn-landing-primary" onclick="showScreen('create')">
+              <span>Começar</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+
+            <!-- Botão Entrar -> Abre Busca e Sugestões em Alta -->
+            <button type="button" class="btn-landing-secondary" onclick="showScreen('explore')">
+              <span>Entrar</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCREEN 2: TELA DE CRIAÇÃO DE COMUNIDADE
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="screen-view hidden" id="screen-create">
+        
+        <header class="screen-header-top">
+          <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <h2 class="screen-header-title">Criar Sua Comunidade</h2>
+          <div style="width:36px;"></div>
+        </header>
+
+        <div class="create-form-content">
+          
+          <!-- Live Preview Card -->
+          <div class="live-preview-wrapper">
+            <span class="preview-label-tag"><i class="fa-solid fa-eye"></i> Prévia em Tempo Real</span>
+            
+            <div class="comm-item-card" style="margin:0; background:var(--color-surface);">
+              <div class="comm-item-top">
+                <div class="comm-item-left">
+                  <div class="comm-item-avatar" id="preview-avatar">🏋️‍♂️</div>
+                  <div class="comm-item-info">
+                    <div class="comm-item-name-row">
+                      <span class="comm-item-name" id="preview-name">Nome da Sua Tribo</span>
+                      <span class="comm-item-modality-badge" id="preview-badge">Musculação</span>
+                    </div>
+                    <span class="comm-item-handle" id="preview-handle">@sua_comunidade</span>
+                  </div>
+                </div>
+                <button type="button" class="btn-item-join">
+                  <i class="fa-solid fa-plus"></i> Participar
+                </button>
+              </div>
+
+              <p class="comm-item-desc" id="preview-desc">
+                A proposta e regras da sua comunidade aparecerão aqui para os novos membros.
+              </p>
+
+              <div class="comm-item-footer">
+                <div class="comm-item-stat">
+                  <i class="fa-solid fa-users" style="color:var(--color-accent-orange);"></i>
+                  <span><strong>1</strong> membro fundador</span>
+                </div>
+                <div class="comm-item-metric-badge" id="preview-metric">
+                  <i class="fa-solid fa-bolt"></i> Cargas & Séries
+                </div>
+                <span class="comm-item-tag-link" id="preview-tag">
+                  <i class="fa-solid fa-hashtag"></i> <span>tribo</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Form Fields -->
+          <form class="form-inputs-card" id="form-community" onsubmit="handleFormSubmit(event)">
+            
+            <div class="form-group">
+              <label class="form-label" for="input-comm-name">
+                <span>Nome da Comunidade:</span>
+                <span class="form-label-hint">Máx 40 caracteres</span>
+              </label>
+              <input type="text" id="input-comm-name" class="form-input" required maxlength="40" placeholder="Ex: Guerreiros do Supino Brasil" oninput="updateLivePreview()">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="input-comm-handle">
+                <span>Identificador único (@slug):</span>
+                <span class="form-label-hint">Sem espaços</span>
+              </label>
+              <input type="text" id="input-comm-handle" class="form-input" required placeholder="Ex: guerreiros_supino" oninput="handleSlugFormat(this)">
+            </div>
+
+            <!-- Modality Selector -->
+            <div class="form-group">
+              <label class="form-label" for="select-comm-modality">
+                <span>Modalidade Principal:</span>
+                <span class="form-label-hint">Facilita métricas & filtros</span>
+              </label>
+              <select id="select-comm-modality" class="form-select" onchange="handleModalityChange(this.value)">
+                <option value="musculacao" data-icon="🏋️‍♂️" data-metric="Cargas, Séries & Volume">🏋️‍♂️ Musculação & Hipertrofia</option>
+                <option value="corrida" data-icon="🏃" data-metric="Distância, Pace & Elevação">🏃 Corrida & Maratonas</option>
+                <option value="crossfit" data-icon="🥊" data-metric="WODs, AMRAP & Calorias">🥊 Cross & Treino Funcional</option>
+                <option value="calistenia" data-icon="🤸" data-metric="Repetições & Estáticos">🤸 Calistenia & Street Workout</option>
+                <option value="ciclismo" data-icon="🚴" data-metric="km & Velocidade Média">🚴 Ciclismo & Speed / MTB</option>
+                <option value="natacao" data-icon="🏊" data-metric="Metros, Estilos & Tempos">🏊 Natação & Triatlo</option>
+                <option value="lutas" data-icon="🥋" data-metric="Rounds & Sparrings">🥋 Lutas & Artes Marciais</option>
+                <option value="estudos" data-icon="📚" data-metric="Horas Pomodoro & Foco">📚 Foco, Estudos & Produtividade</option>
+                <option value="yoga" data-icon="🧘" data-metric="Sessões & Mobilidade">🧘 Yoga & Mobilidade</option>
+                <option value="nutricao" data-icon="🥗" data-metric="Metas Diárias & Macros">🥗 Nutrição & Dieta</option>
+              </select>
+            </div>
+
+            <!-- Icon Picker -->
+            <div class="form-group">
+              <label class="form-label">
+                <span>Ícone Representativo:</span>
+              </label>
+              <div class="icon-selector-grid">
+                <button type="button" class="icon-select-btn selected" data-icon="🏋️‍♂️" onclick="pickIcon('🏋️‍♂️', this)">🏋️‍♂️</button>
+                <button type="button" class="icon-select-btn" data-icon="🏃" onclick="pickIcon('🏃', this)">🏃</button>
+                <button type="button" class="icon-select-btn" data-icon="🥊" onclick="pickIcon('🥊', this)">🥊</button>
+                <button type="button" class="icon-select-btn" data-icon="🤸" onclick="pickIcon('🤸', this)">🤸</button>
+                <button type="button" class="icon-select-btn" data-icon="🚴" onclick="pickIcon('🚴', this)">🚴</button>
+                <button type="button" class="icon-select-btn" data-icon="🏊" onclick="pickIcon('🏊', this)">🏊</button>
+                <button type="button" class="icon-select-btn" data-icon="🥋" onclick="pickIcon('🥋', this)">🥋</button>
+                <button type="button" class="icon-select-btn" data-icon="📚" onclick="pickIcon('📚', this)">📚</button>
+                <button type="button" class="icon-select-btn" data-icon="🧘" onclick="pickIcon('🧘', this)">🧘</button>
+                <button type="button" class="icon-select-btn" data-icon="🥗" onclick="pickIcon('🥗', this)">🥗</button>
+                <button type="button" class="icon-select-btn" data-icon="🔥" onclick="pickIcon('🔥', this)">🔥</button>
+                <button type="button" class="icon-select-btn" data-icon="⚡" onclick="pickIcon('⚡', this)">⚡</button>
+              </div>
+            </div>
+
+            <!-- About & Rules -->
+            <div class="form-group">
+              <label class="form-label" for="textarea-comm-desc">
+                <span>Sobre a Sua Comunidade:</span>
+                <span class="form-label-hint">Missão e regras</span>
+              </label>
+              <textarea id="textarea-comm-desc" class="form-textarea" required placeholder="Explique qual é o objetivo da tribo, nível de dedicação e desafios..." oninput="updateLivePreview()"></textarea>
+            </div>
+
+            <!-- Feed Filter Tag -->
+            <div class="form-group">
+              <label class="form-label" for="input-comm-tag">
+                <span>Hashtag para Filtro no Feed:</span>
+                <span class="form-label-hint">Filtro automático de posts</span>
+              </label>
+              <input type="text" id="input-comm-tag" class="form-input" required placeholder="Ex: #supinobr" oninput="updateLivePreview()">
+            </div>
+
+            <!-- Metric Sync Pill -->
+            <div class="metric-info-pill">
+              <div style="font-size:12px; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:6px;">
+                <i class="fa-solid fa-chart-line" style="color:var(--color-accent-pink);"></i>
+                Sincronização com a Tela de Métricas
+              </div>
+              <p style="font-size:11.5px; color:var(--color-text-secondary); line-height:1.4;" id="sync-explanation">
+                As publicações com esta tag alimentarão o gráfico de desempenho e o Hustle XP da modalidade no perfil dos membros.
+              </p>
+            </div>
+
+            <button type="submit" class="btn-create-submit">
+              <i class="fa-solid fa-check"></i>
+              <span>Publicar Comunidade & Lançar Tribo</span>
+            </button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           SCREEN 3: ENTRAR EM UMA COMUNIDADE / BUSCA & EM ALTA
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="screen-view hidden" id="screen-explore">
+        
+        <header class="screen-header-top">
+          <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <h2 class="screen-header-title">Comunidades em Alta</h2>
+          <button type="button" class="btn-back-nav" style="border-radius:var(--radius-full); width:auto; padding:0 12px; font-size:12px; font-weight:700; gap:4px; color:var(--color-accent-pink);" onclick="showScreen('create')">
+            <i class="fa-solid fa-plus"></i> Criar
+          </button>
+        </header>
+
+        <div class="explore-content">
+          
+          <!-- Instant Search Box -->
+          <div class="explore-search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="color:var(--color-text-muted); font-size:14px;"></i>
+            <input type="text" class="explore-search-input" id="search-input" placeholder="Buscar por nome, modalidade ou #tag..." oninput="handleSearch(this.value)">
+            <button type="button" id="btn-clear-search" style="display:none; background:none; border:none; color:var(--color-text-muted); cursor:pointer;" onclick="clearSearch()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <!-- Modalities Chips Filter -->
+          <div class="modality-filter-track">
+            <button type="button" class="modality-filter-chip active" data-mod="all" onclick="filterModality('all', this)">
+              <span>🔥</span> <span>Todas em Alta</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="musculacao" onclick="filterModality('musculacao', this)">
+              <span>🏋️‍♂️</span> <span>Musculação</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="corrida" onclick="filterModality('corrida', this)">
+              <span>🏃</span> <span>Corrida</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="crossfit" onclick="filterModality('crossfit', this)">
+              <span>🥊</span> <span>Cross & Funcional</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="calistenia" onclick="filterModality('calistenia', this)">
+              <span>🤸</span> <span>Calistenia</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="ciclismo" onclick="filterModality('ciclismo', this)">
+              <span>🚴</span> <span>Ciclismo</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="natacao" onclick="filterModality('natacao', this)">
+              <span>🏊</span> <span>Natação</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="lutas" onclick="filterModality('lutas', this)">
+              <span>🥋</span> <span>Lutas</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="estudos" onclick="filterModality('estudos', this)">
+              <span>📚</span> <span>Foco & Estudos</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="yoga" onclick="filterModality('yoga', this)">
+              <span>🧘</span> <span>Yoga</span>
+            </button>
+            <button type="button" class="modality-filter-chip" data-mod="nutricao" onclick="filterModality('nutricao', this)">
+              <span>🥗</span> <span>Nutrição</span>
+            </button>
+          </div>
+
+          <!-- Title Row with Dynamic Counter -->
+          <div class="explore-section-header">
+            <h3 class="explore-section-title" id="explore-header-title">
+              <i class="fa-solid fa-fire" style="color:var(--color-accent-orange);"></i> Sugestões para Você
+            </h3>
+            <span style="font-size:11.5px; color:var(--color-text-secondary);" id="explore-counter">12 comunidades</span>
+          </div>
+
+          <!-- Cards List Container -->
+          <div style="display:flex; flex-direction:column; gap:12px;" id="explore-cards-list">
+            <!-- Rendered dynamically -->
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           BOTTOM NAVIGATION DOCK
+           ═══════════════════════════════════════════════════════════ -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Home</span>
+          </a>
+
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         RIGHT DESKTOP SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Tribos em Alta e Desafios">
+
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">🔥 Desafios da Semana</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:4px;">
+              <span style="color:#ffffff; font-weight:700;">🏋️‍♂️ Desafio 100 Toneladas</span>
+              <span style="color:var(--color-accent-orange); font-weight:700;">78%</span>
+            </div>
+            <div style="width:100%; height:6px; background:var(--color-surface-elevated); border-radius:10px; overflow:hidden;">
+              <div style="width:78%; height:100%; background:var(--gradient-brand); border-radius:10px;"></div>
+            </div>
+            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">GymRats Elite</span>
+          </div>
+
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:4px;">
+              <span style="color:#ffffff; font-weight:700;">🏃 500km da Madrugada</span>
+              <span style="color:var(--color-success); font-weight:700;">92%</span>
+            </div>
+            <div style="width:100%; height:6px; background:var(--color-surface-elevated); border-radius:10px; overflow:hidden;">
+              <div style="width:92%; height:100%; background:var(--color-success); border-radius:10px;"></div>
+            </div>
+            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">Corredores da Madrugada</span>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- View Mode Switcher Button -->
+  <button type="button" class="view-mode-toggle" id="view-mode-toggle" onclick="toggleMockupView()" title="Alternar entre visualização Web e Mobile Frame">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-text">Modo Celular</span>
+  </button>
+
+  <!-- Global Toast -->
+  <div class="toast-pill" id="global-toast" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check"></i>
+    <span id="toast-text">Ação executada com sucesso!</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: LOGIC & SCREEN ROUTING
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // Master Communities Catalog
+    const communitiesDatabase = [
+      {
+        id: 'gymrats_br',
+        name: 'GymRats Musculação & Hipertrofia',
+        handle: '@gymrats_br',
+        icon: '🏋️‍♂️',
+        modality: 'musculacao',
+        modalityName: 'Musculação',
+        description: 'A maior tribo de musculação, progressão de sobrecarga e hipertrofia. Compartilhe seus PRs e resenhas de treino.',
+        members: 998200,
+        joined: true,
+        metric: 'Cargas, Séries & Volume',
+        tag: '#gymrats'
+      },
+      {
+        id: 'corredores_madrugada',
+        name: 'Corredores da Madrugada',
+        handle: '@corredores_madrugada',
+        icon: '🏃',
+        modality: 'corrida',
+        modalityName: 'Corrida',
+        description: 'Cardio antes das 06:00. Desafios de pace, 5k, 10k, meia e maratona. Registro de ritmo e altimetria.',
+        members: 940200,
+        joined: true,
+        metric: 'Distância, Pace & Elevação',
+        tag: '#madrugadarun'
+      },
+      {
+        id: 'calistenia_brutal',
+        name: 'Calistenia Brutal Brasil',
+        handle: '@calistenia_brutal',
+        icon: '🤸',
+        modality: 'calistenia',
+        modalityName: 'Calistenia',
+        description: 'Domínio do peso corporal: Muscle-ups, Front Lever, Handstand e repetições brutais na barra fixa.',
+        members: 800527,
+        joined: false,
+        metric: 'Repetições & Estáticos',
+        tag: '#calistenia'
+      },
+      {
+        id: 'gladiators_box',
+        name: 'Cross Gladiators Box',
+        handle: '@gladiators_box',
+        icon: '🥊',
+        modality: 'crossfit',
+        modalityName: 'Cross & Funcional',
+        description: 'Comunidade de WODs de alta intensidade, AMRAP, EMOM e superação constante nos treinos.',
+        members: 512738,
+        joined: false,
+        metric: 'WODs, AMRAP & Calorias',
+        tag: '#crossgladiators'
+      },
+      {
+        id: 'devs_fit',
+        name: 'Devs Fit & Foco Estudos',
+        handle: '@devs_fit',
+        icon: '📚',
+        modality: 'estudos',
+        modalityName: 'Foco & Estudos',
+        description: 'Para quem programa o dia todo e não abre mão de treinar pesado e manter blocos de foco Pomodoro.',
+        members: 340000,
+        joined: true,
+        metric: 'Horas Pomodoro & Foco',
+        tag: '#devsfit'
+      },
+      {
+        id: 'pelotao_speed',
+        name: 'Pelotão Speed & MTB Brasil',
+        handle: '@pelotao_speed',
+        icon: '🚴',
+        modality: 'ciclismo',
+        modalityName: 'Ciclismo',
+        description: 'Treinos de speed, montanha e trilhas MTB. Registro de altimetria, quilometragem e sprints.',
+        members: 280000,
+        joined: false,
+        metric: 'km & Velocidade Média',
+        tag: '#pelotaospeed'
+      },
+      {
+        id: 'sharks_natacao',
+        name: 'Sharks Natação & Triatlo',
+        handle: '@sharks_natacao',
+        icon: '🏊',
+        modality: 'natacao',
+        modalityName: 'Natação',
+        description: 'Piscina e águas abertas. Treinos de endurance, tempos por 100m e transição de triatlo.',
+        members: 190000,
+        joined: false,
+        metric: 'Metros, Estilos & Tempos',
+        tag: '#sharksnatacao'
+      },
+      {
+        id: 'tatame_warriors',
+        name: 'Guerreiros do Tatame BJJ & Boxe',
+        handle: '@tatame_warriors',
+        icon: '🥋',
+        modality: 'lutas',
+        modalityName: 'Lutas',
+        description: 'Jiu-jitsu com e sem pano, Boxe e Muay Thai. Evolução de faixas, sparrings e técnica.',
+        members: 310000,
+        joined: false,
+        metric: 'Rounds & Sparrings',
+        tag: '#tatamewarriors'
+      },
+      {
+        id: 'yoga_mobility_flow',
+        name: 'Mobilidade & Yoga Flow',
+        handle: '@yoga_mobility',
+        icon: '🧘',
+        modality: 'yoga',
+        modalityName: 'Yoga',
+        description: 'Prevenção de lesões, ganho de flexibilidade e recuperação ativa para atletas.',
+        members: 145000,
+        joined: false,
+        metric: 'Sessões & Mobilidade',
+        tag: '#yogaflow'
+      },
+      {
+        id: 'nutri_bulking',
+        name: 'Nutrição & Bulking Limpo',
+        handle: '@nutri_bulking',
+        icon: '🥗',
+        modality: 'nutricao',
+        modalityName: 'Nutrição',
+        description: 'Receitas anabólicas, contagem de macros, hidratação e consistência sem neura.',
+        members: 420000,
+        joined: false,
+        metric: 'Metas Diárias & Macros',
+        tag: '#bulkinglimpo'
+      }
+    ];
+
+    let currentSelectedIcon = '🏋️‍♂️';
+    let currentFilterModality = 'all';
+    let currentSearchQuery = '';
+
+    // Switch between 3 screens: 'landing', 'create', 'explore'
+    function showScreen(screenId) {
+      document.querySelectorAll('.screen-view').forEach(view => view.classList.add('hidden'));
+      const active = document.getElementById(`screen-${screenId}`);
+      if (active) {
+        active.classList.remove('hidden');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (screenId === 'create') {
+        updateLivePreview();
+      } else if (screenId === 'explore') {
+        renderExploreCards();
+      }
+    }
+
+    // Format member count helper (ex: 998.200)
+    function formatCount(num) {
+      return num.toLocaleString('pt-BR');
+    }
+
+    // Render Explore Cards (Screen 3)
+    function renderExploreCards() {
+      const container = document.getElementById('explore-cards-list');
+      if (!container) return;
+
+      const filtered = communitiesDatabase.filter(comm => {
+        const matchesMod = (currentFilterModality === 'all') || (comm.modality === currentFilterModality);
+        const query = currentSearchQuery.toLowerCase();
+        const matchesQuery = !query || 
+          comm.name.toLowerCase().includes(query) ||
+          comm.handle.toLowerCase().includes(query) ||
+          comm.description.toLowerCase().includes(query) ||
+          comm.tag.toLowerCase().includes(query) ||
+          comm.modalityName.toLowerCase().includes(query);
+
+        return matchesMod && matchesQuery;
+      });
+
+      const counter = document.getElementById('explore-counter');
+      if (counter) counter.innerText = `${filtered.length} comunidades`;
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div style="background:var(--color-surface); border:1px dashed var(--color-border-subtle); border-radius:var(--radius-lg); padding:32px 20px; text-align:center;">
+            <div style="font-size:32px; margin-bottom:8px;">🔍</div>
+            <h4 style="font-size:16px; font-weight:800; color:#fff; margin-bottom:4px;">Nenhuma comunidade encontrada</h4>
+            <p style="font-size:12.5px; color:var(--color-text-secondary); margin-bottom:14px;">Não encontramos tribos com esse termo. Crie a primeira agora!</p>
+            <button type="button" class="btn-landing-primary" style="max-width:200px; height:42px; font-size:13.5px; margin:0 auto;" onclick="showScreen('create')">
+              <span>Criar Comunidade</span>
+            </button>
+          </div>
+        `;
+      } else {
+        container.innerHTML = filtered.map(comm => `
+          <article class="comm-item-card" onclick="handleCardClick('${comm.name}', event)">
+            <div class="comm-item-top">
+              <div class="comm-item-left">
+                <div class="comm-item-avatar">${comm.icon}</div>
+                <div class="comm-item-info">
+                  <div class="comm-item-name-row">
+                    <h4 class="comm-item-name">${comm.name}</h4>
+                    <span class="comm-item-modality-badge">${comm.modalityName}</span>
+                  </div>
+                  <span class="comm-item-handle">${comm.handle}</span>
+                </div>
+              </div>
+              <button type="button" class="${comm.joined ? 'btn-item-join joined' : 'btn-item-join'}" onclick="toggleJoin('${comm.id}', event)">
+                ${comm.joined ? '<i class="fa-solid fa-check"></i> Membro' : '<i class="fa-solid fa-plus"></i> Participar'}
+              </button>
+            </div>
+
+            <p class="comm-item-desc">${comm.description}</p>
+
+            <div class="comm-item-footer">
+              <div class="comm-item-stat">
+                <i class="fa-solid fa-users" style="color:var(--color-accent-orange);"></i>
+                <span><strong>${formatCount(comm.members)}</strong> membros</span>
+              </div>
+              <div class="comm-item-metric-badge">
+                <i class="fa-solid fa-bolt"></i> ${comm.metric}
+              </div>
+              <a href="feed.html" class="comm-item-tag-link" onclick="event.stopPropagation();" title="Filtrar Feed">
+                <i class="fa-solid fa-hashtag"></i> <span>${comm.tag.replace('#','')}</span>
+              </a>
+            </div>
+          </article>
+        `).join('');
+      }
+    }
+
+    // Toggle Join in Screen 3
+    function toggleJoin(commId, e) {
+      e.stopPropagation();
+      const comm = communitiesDatabase.find(c => c.id === commId);
+      if (!comm) return;
+
+      comm.joined = !comm.joined;
+      if (comm.joined) {
+        comm.members += 1;
+        showToast(`Você entrou em ${comm.name}! 🔥`);
+      } else {
+        comm.members -= 1;
+        showToast(`Você saiu de ${comm.name}.`);
+      }
+      renderExploreCards();
+    }
+
+    function handleCardClick(name, e) {
+      if (e.target.closest('button') || e.target.closest('a')) return;
+      showToast(`Abrindo comunidade: ${name}...`);
+    }
+
+    // Search Filtering
+    function handleSearch(val) {
+      currentSearchQuery = val;
+      const clearBtn = document.getElementById('btn-clear-search');
+      if (clearBtn) clearBtn.style.display = val ? 'block' : 'none';
+      renderExploreCards();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('search-input');
+      if (input) input.value = '';
+      currentSearchQuery = '';
+      document.getElementById('btn-clear-search').style.display = 'none';
+      renderExploreCards();
+    }
+
+    // Modality Filtering
+    function filterModality(mod, btn) {
+      currentFilterModality = mod;
+      document.querySelectorAll('.modality-filter-chip').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      renderExploreCards();
+      showToast(`Filtro: ${btn.innerText.trim()}`);
+    }
+
+    // Create Form Handlers (Screen 2)
+    function handleModalityChange(mod) {
+      const select = document.getElementById('select-comm-modality');
+      const opt = select.options[select.selectedIndex];
+      const icon = opt.getAttribute('data-icon') || '🏋️‍♂️';
+      const metric = opt.getAttribute('data-metric') || 'Atividades';
+
+      currentSelectedIcon = icon;
+      document.querySelectorAll('.icon-select-btn').forEach(btn => {
+        btn.classList.toggle('selected', btn.getAttribute('data-icon') === icon);
+      });
+
+      const explanation = document.getElementById('sync-explanation');
+      if (explanation) {
+        explanation.innerHTML = `As publicações com esta tag alimentarão o gráfico de desempenho e o Hustle XP da modalidade <strong>${opt.innerText.trim()}</strong> (${metric}) no perfil dos membros.`;
+      }
+
+      updateLivePreview();
+    }
+
+    function pickIcon(icon, btn) {
+      currentSelectedIcon = icon;
+      document.querySelectorAll('.icon-select-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      updateLivePreview();
+    }
+
+    function handleSlugFormat(input) {
+      input.value = input.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
+      updateLivePreview();
+    }
+
+    function updateLivePreview() {
+      const name = document.getElementById('input-comm-name')?.value.trim() || 'Nome da Sua Tribo';
+      let handle = document.getElementById('input-comm-handle')?.value.trim() || 'sua_comunidade';
+      if (!handle.startsWith('@')) handle = '@' + handle;
+
+      const desc = document.getElementById('textarea-comm-desc')?.value.trim() || 'A proposta e regras da sua comunidade aparecerão aqui para os novos membros.';
+      let tag = document.getElementById('input-comm-tag')?.value.trim() || '#tribo';
+      if (!tag.startsWith('#')) tag = '#' + tag;
+
+      const select = document.getElementById('select-comm-modality');
+      const modName = select ? select.options[select.selectedIndex].text.split(' ')[1] || 'Treino' : 'Musculação';
+      const metricName = select ? select.options[select.selectedIndex].getAttribute('data-metric') : 'Cargas & Séries';
+
+      document.getElementById('preview-avatar').innerText = currentSelectedIcon;
+      document.getElementById('preview-name').innerText = name;
+      document.getElementById('preview-handle').innerText = handle;
+      document.getElementById('preview-desc').innerText = desc;
+      document.getElementById('preview-badge').innerText = modName;
+      document.getElementById('preview-tag').innerHTML = `<i class="fa-solid fa-hashtag"></i> <span>${tag.replace('#','')}</span>`;
+      document.getElementById('preview-metric').innerHTML = `<i class="fa-solid fa-bolt"></i> ${metricName}`;
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('input-comm-name').value.trim();
+      let handle = document.getElementById('input-comm-handle').value.trim();
+      if (!handle.startsWith('@')) handle = '@' + handle;
+
+      const desc = document.getElementById('textarea-comm-desc').value.trim();
+      let tag = document.getElementById('input-comm-tag').value.trim();
+      if (!tag.startsWith('#')) tag = '#' + tag;
+
+      const select = document.getElementById('select-comm-modality');
+      const modality = select.value;
+      const modalityName = select.options[select.selectedIndex].text.split(' ')[1] || 'Treino';
+      const metric = select.options[select.selectedIndex].getAttribute('data-metric') || 'Atividades';
+
+      const newComm = {
+        id: 'comm_' + Date.now(),
+        name: name,
+        handle: handle,
+        icon: currentSelectedIcon,
+        modality: modality,
+        modalityName: modalityName,
+        description: desc,
+        members: 1,
+        joined: true,
+        metric: metric,
+        tag: tag
+      };
+
+      communitiesDatabase.unshift(newComm);
+
+      showToast(`Comunidade "${name}" criada com sucesso! 🎉`);
+      document.getElementById('form-community').reset();
+
+      setTimeout(() => {
+        showScreen('explore');
+      }, 600);
+    }
+
+    // Toast Feedback
+    let toastTimeout;
+    function showToast(msg) {
+      const toast = document.getElementById('global-toast');
+      const toastText = document.getElementById('toast-text');
+      if (!toast || !toastText) return;
+
+      toastText.innerText = msg;
+      toast.classList.add('show');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // Frame Mockup Toggle
+    function toggleMockupView() {
+      const viewport = document.getElementById('app-viewport');
+      const label = document.getElementById('view-mode-text');
+      viewport.classList.toggle('mockup-mode');
+
+      if (viewport.classList.contains('mockup-mode')) {
+        label.innerText = 'Modo Web Expandido';
+        showToast('Modo Celular (Moldura) ativado');
+      } else {
+        label.innerText = 'Modo Celular';
+        showToast('Modo Web Expandido ativado');
+      }
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check URL parameters or defaults
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialScreen = urlParams.get('screen') || 'landing';
+      showScreen(initialScreen);
+    });
+  </script>
+
+</body>
+</html>

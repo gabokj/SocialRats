@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funcionalidades · SocialRats</title>
+
+  <!-- Favicon com o ícone oficial SocialRats -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              DEFAULT: '#FF2A6D',
+              orange: '#FF6A3D',
+              pink: '#FF2A6D',
+              purple: '#9B51E0',
+            },
+            soft: '#F8F9FA',
+            ink: '#0F0E17',
+            muted: '#64748B'
+          },
+          fontFamily: {
+            sans: ['Outfit', 'Inter', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fadeIn {
+      animation: fadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .gradient-btn {
+      background: linear-gradient(135deg, #FF6A3D 0%, #FF2A6D 50%, #9B51E0 100%);
+      box-shadow: 0 4px 20px rgba(255, 42, 109, 0.35);
+      transition: all 0.25s ease;
+    }
+
+    .gradient-btn:hover {
+      box-shadow: 0 8px 30px rgba(255, 42, 109, 0.55);
+      transform: translateY(-2px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Realistic iPhone Device Mockup matching the reference */
+    .phone-mockup {
+      position: relative;
+      z-index: 1;
+      width: 310px;
+      max-width: 82vw;
+      border-radius: 48px;
+      padding: 10px;
+      background: #18181b;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+        0 0 0 2.5px #27272a,
+        0 30px 60px -15px rgba(15, 14, 23, 0.35),
+        0 15px 30px -10px rgba(0, 0, 0, 0.22);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    .phone-mockup:hover {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.25) inset,
+        0 0 0 2.5px #3f3f46,
+        0 40px 75px -15px rgba(211, 47, 44, 0.28),
+        0 20px 35px -10px rgba(0, 0, 0, 0.25);
+    }
+
+    .phone-mockup__screen {
+      position: relative;
+      border-radius: 38px;
+      overflow: hidden;
+      background: #0F0E17;
+      display: block;
+    }
+
+    .phone-mockup__img {
+      display: block;
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body
+  class="font-sans text-ink bg-white antialiased min-h-screen flex flex-col justify-between selection:bg-brand selection:text-white">
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- HEADER                                          -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <header class="bg-white/95 border-b border-gray-100 sticky top-0 z-50 backdrop-blur-md">
+    <nav class="max-w-6xl mx-auto flex items-center justify-between px-4 md:px-8 h-20">
+
+      <!-- Brand Logo -->
+      <a href="../index.html" class="flex items-center gap-3 group">
+        <span class="font-black text-2xl tracking-tight text-ink">Social<span class="gradient-text">Rats</span></span>
+      </a>
+
+      <!-- Center Links (Desktop) -->
+      <ul class="hidden md:flex items-center gap-10 text-sm font-bold text-muted">
+        <li>
+          <a href="features.html" class="text-ink border-b-2 border-brand pb-1">Funcionalidades</a>
+        </li>
+        <li>
+          <a href="pricing.html" class="hover:text-brand transition-colors">Preços</a>
+        </li>
+        <li>
+          <a href="feed.html" class="hover:text-brand transition-colors">Feed Web</a>
+        </li>
+        <li>
+          <a href="../index.html#features" class="block font-medium text-muted hover:text-ink">Sobre</a>
+        </li>
+      </ul>
+
+      <!-- Right Actions -->
+      <div class="flex items-center gap-3">
+        <button type="button"
+          class="flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-bold text-gray-700 border border-gray-200 hover:text-brand hover:border-brand/40 transition-all">
+          <span>PT</span>
+          
+        </button>
+        <a href="login.html"
+          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white bg-ink text-sm">Entrar</a>
+
+        <!-- CTA Button -->
+        <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-white gradient-btn text-sm">
+          <svg class="w-4 h-4 fill-currentColor" viewBox="0 0 24 24">
+            <path
+              d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.61-.75 1.04-1.8 0.92-2.85-.9.04-2 .6-2.65 1.36-.56.65-.96 1.7-0.84 2.73 1.01.08 2.02-.5 2.57-1.24z" />
+          </svg>
+          Baixe o app
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button type="button" id="mobile-menu-btn" class="md:hidden p-2 text-ink rounded-lg hover:bg-gray-100"
+          aria-label="Menu principal">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 px-5 py-4 space-y-3 bg-white shadow-xl">
+      <a href="features.html" class="block font-bold text-ink">Funcionalidades</a>
+      <a href="pricing.html" class="block font-medium text-muted hover:text-ink">Preços</a>
+      <a href="feed.html" class="block font-medium text-muted hover:text-ink">Feed Web</a>
+      <a href="../index.html#features" class="block font-medium text-muted hover:text-ink">Como Funciona</a>
+      <a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank" rel="noopener noreferrer"
+        class="block text-center py-2.5 px-4 font-bold text-white rounded-full gradient-btn">Baixe o app na App
+        Store</a>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- MAIN: INTERACTIVE FEATURES TABS                 -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <main class="flex-grow bg-white">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 pt-8 pb-20">
+
+      <!-- Interactive Features Layout (Fiel à referência) -->
+      <div class="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-14 pt-4 md:pt-10">
+
+        <!-- Left Sidebar Tabs with dashed vertical border on the right -->
+        <div
+          class="w-full lg:w-56 flex-shrink-0 flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-2 lg:gap-3 lg:border-r lg:border-dashed lg:border-gray-300 lg:pr-8 py-2">
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-bold text-left text-base text-white bg-[#D32F2C] shadow-sm whitespace-nowrap"
+            href="#redesocial" id="feature-link-redesocial">
+            Rede social
+          </a>
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap"
+            href="#foguinho" id="feature-link-foguinho">
+            Foguinho
+          </a>
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap"
+            href="#comunidades" id="feature-link-comunidades">
+            Comunidades
+          </a>
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap"
+            href="#conexões" id="feature-link-conexões">
+            Conexões
+          </a>
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap"
+            href="#stats" id="feature-link-stats">
+            Minhas Stats
+          </a>
+
+          <a class="feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap"
+            href="#desafios" id="feature-link-desafios">
+            Desafios
+          </a>
+
+        </div>
+
+        <!-- Right/Center Content Area: Phone Mockup in Center + Text on Right -->
+        <div class="flex-grow flex items-center justify-center min-h-[580px] lg:pl-4">
+
+          <!-- 1. Rede social -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full"
+            id="feature-content-redesocial">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/feed.png" alt="Feed da Rede Social" class="phone-mockup__img" loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Rede Social</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Conecte-se com pessoas que compartilham os
+                mesmos interesses e objetivos. Um feed dinâmico para acompanhar a evolução diária de quem você segue e
+                das suas comunidades.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Publique suas vitórias, curta, comente e
+                inspire outros membros. Aqui o foco é constância real, aprendizado e progresso diário compartilhado.</p>
+            </div>
+          </div>
+
+          <!-- 2. Foguinho -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full hidden"
+            id="feature-content-foguinho">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/socialrats-ranking.png" alt="Foguinho e Sequência" class="phone-mockup__img"
+                    loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Foguinho</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Cada dia de atividade mantém seu foguinho
+                aceso. Estudos, desafios e postagens mostram que você está evoluindo de verdade: quanto maior a
+                sequência, mais alto você sobe nos rankings.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Acompanhe quem está na liderança, desbloqueie
+                badges, chame a atenção de empresas e mantenha o foguinho aceso também nas suas conversas do Direct.</p>
+            </div>
+          </div>
+
+          <!-- 3. Comunidades -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full hidden"
+            id="feature-content-comunidades">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/socialrats-comunidades.png" alt="Descubra Comunidades" class="phone-mockup__img"
+                    loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Comunidades</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Conecte-se com pessoas que compartilham
+                dos seus interesses, participe de conversas dinâmicas e faça parte de grupos focados no que você
+                realmente gosta.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Não existe um nicho só: de programação e design
+                a games e rotinas de estudo diárias, descubra o seu espaço e acelere o seu crescimento.</p>
+            </div>
+          </div>
+
+          <!-- 4. Conexões -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full hidden"
+            id="feature-content-conexões">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/feature-chat.png" alt="Conexões e Mensagens" class="phone-mockup__img"
+                    loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Conexões</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Conecte-se diretamente com outros membros,
+                mentores e amigos. Troque mensagens no Direct, compartilhe dicas e tire dúvidas com rapidez.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Existe um foguinho exclusivo nas conversas
+                privadas que é visível apenas para vocês, mantendo a chama da motivação e da parceria sempre viva.</p>
+            </div>
+          </div>
+
+          <!-- 5. Minhas Stats -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full hidden"
+            id="feature-content-stats">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/socialrats-achievements.png" alt="Minhas Stats" class="phone-mockup__img"
+                    loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Minhas Stats</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Métricas claras sobre o seu rendimento:
+                dias consecutivos, atividades registradas, taxa de conclusão e histórico de constância ao longo das
+                semanas.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Colecione troféus, medalhas comemorativas e
+                veja a sua evolução diária consolidada em um painel simples e motivador.</p>
+            </div>
+          </div>
+
+          <!-- 6. Desafios -->
+          <div class="flex flex-col md:flex-row items-center justify-center gap-10 lg:gap-16 w-full hidden"
+            id="feature-content-desafios">
+            <div class="flex justify-center items-center flex-shrink-0">
+              <div class="phone-mockup">
+                <div class="phone-mockup__screen">
+                  <img src="../images/feature-challenges.png" alt="Desafios" class="phone-mockup__img" loading="lazy">
+                </div>
+              </div>
+            </div>
+            <div class="max-w-md flex flex-col justify-center text-center md:text-left">
+              <h2 class="text-3xl lg:text-4xl font-extrabold text-ink mb-5 tracking-tight">Desafios</h2>
+              <p class="text-gray-600 text-lg leading-relaxed mb-4 font-body">Desafios criados pela comunidade e
+                parceiros para manter o ritmo. Entre, registre seu progresso diário e suba no ranking da rodada.</p>
+              <p class="text-gray-600 text-lg leading-relaxed font-body">Metas pessoais com frequência, prazo opcional e
+                desafios gratuitos desde o primeiro momento. Quem mantém constância leva as melhores recompensas.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- FOOTER                                         -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <footer class="bg-white border-t border-gray-100 mt-12">
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="../images/socialrats-icon.png" alt="SocialRats" class="w-6 h-6 rounded-md">
+            <span class="font-bold text-ink text-base">SocialRats</span>
+          </div>
+          <p class="text-muted text-xs leading-relaxed font-body">Arena de competição para Instagram Stories. Quem posta
+            mais leva o pote.</p>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Produto</h3>
+          <ul class="space-y-2.5 text-muted font-medium font-body">
+            <li><a href="features.html" class="hover:text-brand transition-colors">Funcionalidades</a></li>
+            <li><a href="pricing.html" class="hover:text-brand transition-colors">Preços</a></li>
+            <li><a href="../index.html#features" class="hover:text-brand transition-colors">Como Funciona</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Download</h3>
+          <ul class="space-y-2.5 text-muted font-medium font-body">
+            <li><a href="https://apps.apple.com/us/app/socialrats/id6784342002" target="_blank"
+                rel="noopener noreferrer" class="hover:text-brand transition-colors">App Store (iOS)</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-bold text-ink mb-4">Desenvolvedor</h3>
+          <p class="text-muted text-xs font-body">Anna Beatriz Fogaca Cordeiro</p>
+          <p class="text-muted text-xs font-body mt-2">© 2026 SocialRats. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!-- TAB SWITCHING LOGIC (Hover fiel ao gymrats)     -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <script>
+    const featureList = [
+      "redesocial",
+      "foguinho",
+      "comunidades",
+      "conexões",
+      "stats",
+      "desafios",
+    ];
+
+    function normalizeAnchor(hash) {
+      if (!hash) return "redesocial";
+      let clean = hash;
+      try {
+        clean = decodeURIComponent(hash);
+      } catch (e) { }
+      clean = clean.replace(/^#/, "").toLowerCase().trim();
+      if (clean === "conexoes" || clean === "conexões") return "conexões";
+      return featureList.includes(clean) ? clean : "redesocial";
+    }
+
+    function updateState(hash) {
+      const anchor = normalizeAnchor(hash);
+
+      for (const feature of featureList) {
+        const featureLink = document.getElementById(`feature-link-${feature}`);
+        const featureContent = document.getElementById(`feature-content-${feature}`);
+
+        if (!featureLink || !featureContent) continue;
+
+        if (feature === anchor) {
+          // Estado Ativo: botão vermelho sólido, texto branco
+          featureLink.className = "feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-bold text-left text-base text-white bg-[#D32F2C] shadow-sm whitespace-nowrap";
+          featureContent.classList.remove("hidden");
+          featureContent.classList.add("flex", "animate-fadeIn");
+        } else {
+          // Estado Inativo: texto limpo, sem caixa/borda, hover sutil
+          featureLink.className = "feature-tab transition-all duration-150 rounded-xl px-5 py-3.5 cursor-pointer font-medium text-left text-base text-gray-700 hover:text-ink hover:bg-gray-100/70 whitespace-nowrap";
+          featureContent.classList.add("hidden");
+          featureContent.classList.remove("flex", "animate-fadeIn");
+        }
+      }
+    }
+
+    // Hover & click listeners on tabs
+    document.querySelectorAll('.feature-tab').forEach(tab => {
+      tab.addEventListener('mouseenter', function () {
+        const href = this.getAttribute('href');
+        if (href) {
+          updateState(href);
+          try {
+            history.replaceState(null, null, href);
+          } catch (e) { }
+        }
+      });
+      tab.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href) {
+          updateState(href);
+        }
+      });
+    });
+
+    // Hash change & initial load
+    window.addEventListener('hashchange', function () {
+      updateState(window.location.hash);
+    });
+
+    window.addEventListener('load', function () {
+      if (!window.location.hash) {
+        updateState("#redesocial");
+      } else {
+        updateState(window.location.hash);
+      }
+    });
+
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  </script>
+</body>
+
+</html>

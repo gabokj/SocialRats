@@ -1,0 +1,1791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Direct</title>
+  <meta name="description" content="Mensagens diretas e conexões no SocialRats. Converse com amigos, acompanhe foguinhos e desafie sua rede.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN TOKENS — SOCIALRATS DIRECT (MENSAGENS)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --bg-canvas: #0b0913;
+      --bg-mobile-app: #0b0913;
+      --bg-input: #1c1728;
+      --bg-input-focus: #241d33;
+      --bg-card-hover: rgba(255, 255, 255, 0.04);
+      --border-subtle: #30263e;
+      --border-input: #30263e;
+
+      --text-primary: #ffffff;
+      --text-secondary: #b7b0c5;
+      --text-muted: #6f6780;
+      --text-placeholder: #6f6780;
+
+      --color-brand-orange: #ff713f;
+      --color-brand-pink: #ff32b8;
+      --color-brand-purple: #923bff;
+      --color-badge-purple: #ff32b8;
+      --color-online-green: #34d399;
+
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      min-height: 100%;
+      background-color: var(--bg-canvas);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR (Visible on >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #050608;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-flame-icon {
+      font-size: 24px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a,
+    .desktop-nav-item.active button {
+      background: rgba(255, 42, 109, 0.12);
+      color: var(--color-brand-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-brand-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .nav-badge-pill {
+      margin-left: auto;
+      background: var(--color-brand-pink);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 42, 109, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 42, 109, 0.45);
+    }
+
+    /* Desktop User Card (Bottom of Sidebar) */
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      margin-top: auto;
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow: hidden;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-brand-pink);
+    }
+
+    .desktop-user-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .desktop-user-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100px;
+    }
+
+    .desktop-user-handle {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .btn-logout-sidebar {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-sidebar:hover {
+      color: #ff4d6d;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN DIRECT CONTAINER (EXACT SCREENSHOT FIDELITY)
+       ═══════════════════════════════════════════════════════════════ */
+    .direct-center-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      background-color: var(--bg-mobile-app);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid rgba(255, 255, 255, 0.03);
+      border-right: 1px solid rgba(255, 255, 255, 0.03);
+      padding-bottom: 96px; /* Space for bottom dock */
+    }
+
+    /* Optional Desktop Phone Mockup Frame toggle */
+    .app-viewport.mockup-mode {
+      background-color: #0c0d12;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .direct-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f212d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 42, 109, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .direct-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* View Mode Switcher Pill (Desktop Floating) */
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #181922;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: #222430;
+      border-color: var(--color-brand-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       1. TOP BAR (FIRE + SOCIALRATS LOGO + BELL WITH BADGE)
+       ──────────────────────────────────────────────────────────── */
+    .top-direct-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px 10px;
+      background-color: var(--bg-mobile-app);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .direct-brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .top-flame-icon {
+      font-size: 22px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .direct-brand-title {
+      font-family: var(--font-heading);
+      font-size: 25px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    .btn-notification-bell {
+      position: relative;
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      transition: transform 0.15s ease;
+    }
+
+    .btn-notification-bell:active {
+      transform: scale(0.92);
+    }
+
+    .bell-badge-dot {
+      position: absolute;
+      top: 3px;
+      right: 4px;
+      width: 9px;
+      height: 9px;
+      background-color: var(--color-brand-pink);
+      border-radius: 50%;
+      border: 2px solid var(--bg-mobile-app);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       2. DIRECT TITLE & COMPOSE BUTTON ROW
+       ──────────────────────────────────────────────────────────── */
+    .direct-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 20px 12px;
+    }
+
+    .screen-heading {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+    }
+
+    .btn-new-message {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-new-message:hover {
+      color: var(--color-brand-pink);
+      transform: scale(1.08);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       3. SEARCH BAR (BUSCAR CONVERSAS)
+       ──────────────────────────────────────────────────────────── */
+    .search-input-wrapper {
+      padding: 0 18px 18px;
+    }
+
+    .search-input-box {
+      width: 100%;
+      height: 44px;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border-input);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 12px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .search-input-box:focus-within {
+      border-color: rgba(255, 42, 109, 0.4);
+      background-color: var(--bg-input-focus);
+    }
+
+    .search-icon-lens {
+      color: var(--text-placeholder);
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .search-native-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14px;
+    }
+
+    .search-native-input::placeholder {
+      color: var(--text-placeholder);
+      font-size: 14px;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       4. SECTION: CONEXÕES (HORIZONTAL STORIES/CIRCLES)
+       ──────────────────────────────────────────────────────────── */
+    .connections-section {
+      margin-bottom: 20px;
+    }
+
+    .connections-header-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #ffffff;
+      padding: 0 20px 12px;
+      letter-spacing: -0.2px;
+    }
+
+    .connections-scroll-track {
+      display: flex;
+      gap: 14px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 0 18px 4px;
+    }
+
+    .connections-scroll-track::-webkit-scrollbar {
+      display: none;
+    }
+
+    .connection-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      outline: none;
+      user-select: none;
+    }
+
+    .connection-avatar-wrap {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gradient-story);
+      padding: 2.2px;
+      transition: transform 0.15s ease;
+    }
+
+    .connection-item:hover .connection-avatar-wrap {
+      transform: scale(1.05);
+    }
+
+    .connection-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--bg-mobile-app);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 1.5px;
+    }
+
+    .connection-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* "Seu story" item with '+' icon */
+    .connection-item.your-story .connection-avatar-wrap {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      padding: 0;
+    }
+
+    .connection-item.your-story .connection-avatar-inner {
+      background: #0f1019;
+      color: #ffffff;
+      font-size: 16px;
+    }
+
+    /* Presence dot (green dot) */
+    .online-indicator-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 11px;
+      height: 11px;
+      background-color: var(--color-online-green);
+      border-radius: 50%;
+      border: 2px solid var(--bg-mobile-app);
+    }
+
+    .connection-name {
+      font-size: 11.5px;
+      color: #d1d5db;
+      font-weight: 500;
+      max-width: 60px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       5. SECTION: MENSAGENS (CONVERSATIONS LIST)
+       ──────────────────────────────────────────────────────────── */
+    .messages-section {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .messages-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px 10px;
+    }
+
+    .messages-header-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .messages-unread-link {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-badge-purple);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Conversation Rows */
+    .conversations-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .conversation-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 20px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .conversation-row:hover {
+      background-color: var(--bg-card-hover);
+    }
+
+    .conversation-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .conv-avatar-wrap {
+      position: relative;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--gradient-story);
+      padding: 2px;
+      flex-shrink: 0;
+    }
+
+    .conv-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--bg-mobile-app);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 1.5px;
+    }
+
+    .conv-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .conv-details {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      gap: 3px;
+    }
+
+    .conv-name-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .conv-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.2px;
+    }
+
+    .conv-online-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--color-online-green);
+      display: inline-block;
+    }
+
+    .conv-preview {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    /* Right side metadata & unread badge */
+    .conversation-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      padding-left: 10px;
+    }
+
+    .conv-meta-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+
+    .conv-time {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .conv-streak {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .conv-streak-flame {
+      font-size: 12px;
+    }
+
+    .conv-unread-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--color-badge-purple);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(168, 85, 247, 0.4);
+    }
+
+    .conv-chevron {
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       6. BOTTOM NAVIGATION DOCK (FIXED — ACTIVE: DIRECT)
+       ──────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(9, 10, 15, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b0b3b8;
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #b0b3b8;
+    }
+
+    /* Active Tab: Direct (Pink/Magenta in screenshot) */
+    .nav-tab-btn.active .nav-tab-icon {
+      color: var(--color-brand-pink);
+    }
+
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--color-brand-pink);
+      font-weight: 700;
+    }
+
+    /* Mobile Home Indicator (White pill bar) */
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: 9999px;
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DESKTOP RIGHT SIDEBAR (WEB ADAPTATION)
+       ═══════════════════════════════════════════════════════════════ */
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 24px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #050608;
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar-widget-card {
+      background: #10121a;
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .streak-highlight-box {
+      background: linear-gradient(135deg, rgba(255, 113, 63, 0.1) 0%, rgba(255, 42, 109, 0.1) 100%);
+      border: 1px solid rgba(255, 42, 109, 0.25);
+      border-radius: 14px;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .streak-fire-badge {
+      font-size: 26px;
+    }
+
+    .streak-info-text {
+      font-size: 13px;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .streak-info-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       TOAST PILL
+       ═══════════════════════════════════════════════════════════════ */
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #1e202b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .toast-pill i {
+      color: var(--color-brand-pink);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE BREAKPOINTS
+       ═══════════════════════════════════════════════════════════════ */
+    @media (min-width: 992px) {
+      .desktop-sidebar {
+        display: flex;
+      }
+
+      .view-mode-toggle {
+        display: flex;
+      }
+
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+
+      .app-viewport:not(.mockup-mode) .direct-center-container {
+        padding-bottom: 30px;
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .direct-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+
+      .bottom-nav-dock {
+        max-width: 100%;
+      }
+    }
+
+    /* Modal Overlay & Card */
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .modal-overlay.active { opacity: 1; pointer-events: auto; }
+    .notif-modal-card { width: 92%; max-width: 440px; max-height: 80vh; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15); animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes notifModalIn { from { transform: scale(0.94) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+    .notif-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-elevated); }
+    .notif-modal-title { font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: #ffffff; }
+    .notif-modal-badge { background: var(--gradient-brand); color: #ffffff; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
+    .btn-notif-action { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
+    .btn-notif-action:hover { background: var(--color-surface-hover); color: #ffffff; border-color: var(--color-accent-pink); }
+    .btn-close-modal { background: transparent; border: none; color: var(--color-text-secondary); font-size: 16px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; transition: color 0.15s ease; }
+    .btn-close-modal:hover { color: #ffffff; }
+    .notif-modal-tabs { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.4); background: var(--color-background); overflow-x: auto; }
+    .notif-modal-tab { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+    .notif-modal-tab.active { background: var(--color-accent-pink); color: #ffffff; border-color: var(--color-accent-pink); }
+    .notif-modal-list { flex: 1; overflow-y: auto; padding: 4px 0; scrollbar-width: none; }
+    .notif-modal-list::-webkit-scrollbar { display: none; }
+    .notif-modal-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.25); cursor: pointer; transition: background 0.15s ease; }
+    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
+    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
+    .notif-item-avatar-wrap { position: relative; flex-shrink: 0; }
+    .notif-item-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
+    .notif-item-badge { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #ffffff; border: 1.5px solid var(--color-surface); }
+    .notif-item-info { flex: 1; min-width: 0; }
+    .notif-item-text { font-size: 12.5px; color: var(--color-text-primary); line-height: 1.35; word-break: break-word; }
+    .notif-item-time { font-size: 11px; color: var(--color-text-muted); display: block; margin-top: 2px; }
+    .btn-notif-follow { background: var(--gradient-brand); border: none; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; transition: all 0.15s ease; }
+    .btn-notif-follow.following { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
+    .notif-item-thumb { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--color-border-subtle); }
+    .notif-medal-pill { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 113, 63, 0.12); border: 1px solid rgba(255, 113, 63, 0.3); display: flex; align-items: center; justify-content: center; color: var(--color-accent-orange); font-size: 15px; flex-shrink: 0; }
+    .btn-notif-modal-full { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--color-surface-elevated); border-top: 1px solid var(--color-border-subtle); color: var(--color-accent-pink); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: background 0.15s ease; }
+    .btn-notif-modal-full:hover { background: var(--color-surface-hover); color: #ffffff; }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <i class="fa-solid fa-fire brand-flame-icon"></i>
+          <span class="brand-logo-text">SocialRats</span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+              <span class="nav-badge-pill">8</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <button type="button" onclick="openNotificationsModal()">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+              <span class="nav-badge-pill">4</span>
+            </button>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="openNewChatModal()">
+          <i class="fa-regular fa-pen-to-square"></i>
+          <span>Nova Mensagem</span>
+        </button>
+      </div>
+
+      <!-- Logged User Card -->
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar" id="desktop-user-avatar">
+          <div class="desktop-user-text">
+            <span class="desktop-user-name" id="desktop-user-name">Gabriel</span>
+            <span class="desktop-user-handle" id="desktop-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-sidebar" title="Sair da conta" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN DIRECT CONTAINER (EXACT SCREENSHOT FIDELITY)
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="direct-center-container" id="direct-container">
+
+      <!-- 1. Top Bar: Flame + SocialRats Logo + Notification Bell -->
+      <header class="top-direct-bar">
+        <a href="feed.html" class="direct-brand-wrap">
+          <span style="font-size:22px;">🔥</span>
+          <span class="direct-brand-title">SocialRats</span>
+        </a>
+        <button type="button" class="btn-notification-bell" aria-label="Notificações" onclick="openNotificationsModal()">
+          <i class="fa-regular fa-bell"></i>
+          <span class="bell-badge-dot"></span>
+        </button>
+      </header>
+
+      <!-- 2. Screen Title: Direct + Compose Button -->
+      <div class="direct-title-row">
+        <h1 class="screen-heading">Direct</h1>
+        <button type="button" class="btn-new-message" aria-label="Nova conversa" onclick="openNewChatModal()">
+          <i class="fa-regular fa-pen-to-square"></i>
+        </button>
+      </div>
+
+      <!-- 3. Search Bar: Buscar conversas -->
+      <div class="search-input-wrapper">
+        <div class="search-input-box">
+          <i class="fa-solid fa-magnifying-glass search-icon-lens"></i>
+          <input type="text" id="direct-search-input" class="search-native-input" placeholder="Buscar conversas" autocomplete="off">
+        </div>
+      </div>
+
+      <!-- 4. Section: Conexões (Horizontal Stories Row) -->
+      <section class="connections-section" aria-label="Conexões ativas">
+        <h2 class="connections-header-title">Conexões</h2>
+
+        <div class="connections-scroll-track">
+          <!-- Story 1: Seu story (+) -->
+          <div class="connection-item your-story" onclick="showToast('Adicionar story ao seu perfil...')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <i class="fa-solid fa-plus"></i>
+              </div>
+            </div>
+            <span class="connection-name">Seu story</span>
+          </div>
+
+          <!-- Story 2: Lucas (Online) -->
+          <div class="connection-item" onclick="openChatWith('lucas', 'Lucas Mendes')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <img src="../images/avatar-lucas.png" alt="Lucas" class="connection-avatar-img">
+              </div>
+              <span class="online-indicator-dot"></span>
+            </div>
+            <span class="connection-name">Lucas</span>
+          </div>
+
+          <!-- Story 3: Ana (Online) -->
+          <div class="connection-item" onclick="openChatWith('ana', 'Ana Costa')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <img src="../images/avatar-ana.png" alt="Ana" class="connection-avatar-img">
+              </div>
+              <span class="online-indicator-dot"></span>
+            </div>
+            <span class="connection-name">Ana</span>
+          </div>
+
+          <!-- Story 4: Rafael (Online) -->
+          <div class="connection-item" onclick="openChatWith('rafael', 'Rafael Souza')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <img src="../images/avatar-rafael.png" alt="Rafael" class="connection-avatar-img">
+              </div>
+              <span class="online-indicator-dot"></span>
+            </div>
+            <span class="connection-name">Rafael</span>
+          </div>
+
+          <!-- Story 5: Carol -->
+          <div class="connection-item" onclick="openChatWith('carol', 'Carol Lima')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <img src="../images/avatar-carol.png" alt="Carol" class="connection-avatar-img">
+              </div>
+            </div>
+            <span class="connection-name">Carol</span>
+          </div>
+
+          <!-- Story 6: Matheus (Online) -->
+          <div class="connection-item" onclick="openChatWith('matheus', 'Matheus Oliveira')">
+            <div class="connection-avatar-wrap">
+              <div class="connection-avatar-inner">
+                <img src="../images/avatar-matheus.png" alt="Matheus" class="connection-avatar-img">
+              </div>
+              <span class="online-indicator-dot"></span>
+            </div>
+            <span class="connection-name">Matheus</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Section: Mensagens (Conversations List) -->
+      <section class="messages-section" aria-label="Mensagens recentes">
+        <div class="messages-header-row">
+          <h2 class="messages-header-title">Mensagens</h2>
+          <a href="#" class="messages-unread-link" onclick="showToast('Filtrando mensagens não lidas'); return false;">
+            8 não lidas <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
+          </a>
+        </div>
+
+        <div class="conversations-list" id="conv-list">
+
+          <!-- Row 1: Lucas Mendes -->
+          <a href="chat.html?contact=lucas" class="conversation-row" data-name="lucas mendes">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-lucas.png" alt="Lucas Mendes" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Lucas Mendes</span>
+                  <span class="conv-online-dot"></span>
+                </div>
+                <span class="conv-preview">Mano, bora jogar mais tarde? 🎮</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">2 min</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 12</span>
+              </div>
+              <span class="conv-unread-badge">3</span>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 2: Ana Costa -->
+          <a href="chat.html?contact=ana" class="conversation-row" data-name="ana costa">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-ana.png" alt="Ana Costa" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Ana Costa</span>
+                  <span class="conv-online-dot"></span>
+                </div>
+                <span class="conv-preview">Mandei o link do vídeo que você pediu!</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">12 min</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 8</span>
+              </div>
+              <span class="conv-unread-badge">1</span>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 3: Rafael Souza -->
+          <a href="chat.html?contact=rafael" class="conversation-row" data-name="rafael souza">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-rafael.png" alt="Rafael Souza" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Rafael Souza</span>
+                  <span class="conv-online-dot"></span>
+                </div>
+                <span class="conv-preview">Fechou! Então amanhã a gente se fala.</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">27 min</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 21</span>
+              </div>
+              <span class="conv-unread-badge">2</span>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 4: Carol Lima -->
+          <a href="chat.html?contact=carol" class="conversation-row" data-name="carol lima">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-carol.png" alt="Carol Lima" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Carol Lima</span>
+                  <span class="conv-online-dot"></span>
+                </div>
+                <span class="conv-preview">Kkkkkkkk real demais</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">1 h</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 5</span>
+              </div>
+              <span class="conv-unread-badge">1</span>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 5: Matheus Oliveira -->
+          <a href="chat.html?contact=matheus" class="conversation-row" data-name="matheus oliveira">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-matheus.png" alt="Matheus Oliveira" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Matheus Oliveira</span>
+                  <span class="conv-online-dot"></span>
+                </div>
+                <span class="conv-preview">Qual vai ser o plano de hoje?</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">2 h</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 14</span>
+              </div>
+              <span class="conv-unread-badge">4</span>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 6: Gabriela Alves (Read / No badge) -->
+          <a href="chat.html?contact=gabriela" class="conversation-row" data-name="gabriela alves">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-gabriela.png" alt="Gabriela Alves" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Gabriela Alves</span>
+                </div>
+                <span class="conv-preview">Boa! Qualquer coisa me chama.</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">3 h</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 6</span>
+              </div>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 7: Pedro Henrique (Read) -->
+          <a href="chat.html?contact=pedro" class="conversation-row" data-name="pedro henrique">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-pedro.png" alt="Pedro Henrique" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Pedro Henrique</span>
+                </div>
+                <span class="conv-preview">Tamo junto! 👊</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">5 h</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 9</span>
+              </div>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+          <!-- Row 8: Juliana Martins (Read) -->
+          <a href="chat.html?contact=juliana" class="conversation-row" data-name="juliana martins">
+            <div class="conversation-left">
+              <div class="conv-avatar-wrap">
+                <div class="conv-avatar-inner">
+                  <img src="../images/avatar-juliana.png" alt="Juliana Martins" class="conv-avatar-img">
+                </div>
+              </div>
+              <div class="conv-details">
+                <div class="conv-name-row">
+                  <span class="conv-name">Juliana Martins</span>
+                </div>
+                <span class="conv-preview">Hahaha pode deixar! 😃</span>
+              </div>
+            </div>
+            <div class="conversation-right">
+              <div class="conv-meta-col">
+                <span class="conv-time">6 h</span>
+                <span class="conv-streak"><span class="conv-streak-flame">🔥</span> 3</span>
+              </div>
+              <i class="fa-solid fa-chevron-right conv-chevron"></i>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- 6. Fixed Bottom Navigation Dock (Active: Direct in Pink) -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <!-- 1. Início -->
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Início</span>
+          </a>
+
+          <!-- 2. Buscar -->
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <!-- 3. Métricas -->
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <!-- 4. Direct (Active in Pink) -->
+          <button type="button" class="nav-tab-btn active" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+            <div class="nav-tab-icon"><i class="fa-solid fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </button>
+
+          <!-- 5. Perfil -->
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <!-- Mobile Bottom Home Indicator (White pill bar) -->
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP AUXILIARY RIGHT SIDEBAR (WEB ADAPTATION)
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Estatísticas e Foguinhos">
+
+      <!-- Widget: Maior Foguinho / Streaks -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">🔥 Foguinhos Ativos</span>
+          <a href="#" class="widget-link" onclick="showToast('Ver todos os 18 foguinhos...'); return false;">Ver todos</a>
+        </div>
+        <div class="streak-highlight-box">
+          <span class="streak-fire-badge">🔥</span>
+          <div>
+            <div class="streak-info-text">21 Dias de Conexão</div>
+            <div class="streak-info-sub">Com <strong>Rafael Souza</strong> — Não deixe o fogo apagar hoje!</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Widget: Conexões Rápidas -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Conversas Recentes</span>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px; cursor:pointer;" onclick="openChatWith('lucas', 'Lucas Mendes')">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="../images/avatar-lucas.png" alt="" style="width:28px; height:28px; border-radius:50%;">
+              <span>Lucas Mendes</span>
+            </div>
+            <span style="color:var(--color-brand-pink); font-weight:700;">3 novas</span>
+          </div>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px; cursor:pointer;" onclick="openChatWith('ana', 'Ana Costa')">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <img src="../images/avatar-ana.png" alt="" style="width:28px; height:28px; border-radius:50%;">
+              <span>Ana Costa</span>
+            </div>
+            <span style="color:var(--color-brand-pink); font-weight:700;">1 nova</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Desktop Footer -->
+      <footer style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
+        <a href="#" style="color:var(--text-muted); text-decoration:none;">Sobre</a> · 
+        <a href="#" style="color:var(--text-muted); text-decoration:none;">Privacidade</a> · 
+        <a href="#" style="color:var(--text-muted); text-decoration:none;">Termos</a><br>
+        <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Conexões e Mensagens</span>
+      </footer>
+
+    </aside>
+
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       DESKTOP VIEW MODE TOGGLE BUTTON (MOCKUP VS EXPANDED)
+       ═══════════════════════════════════════════════════════════════ -->
+  <button type="button" class="view-mode-toggle" id="btn-toggle-view" onclick="toggleViewMode()">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-label">Ver em Moldura Mobile</span>
+  </button>
+
+  <!-- INSTAGRAM-STYLE NOTIFICATIONS MODAL / DRAWER -->
+  <div class="modal-overlay" id="notif-modal" role="dialog" aria-modal="true" aria-label="Notificações">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title">Notificações</h3>
+          <span class="notif-modal-badge" id="modal-notif-badge">4 novas</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button type="button" class="btn-notif-action" onclick="markModalNotifsAsRead()" title="Marcar como lidas">
+            <i class="fa-solid fa-check-double"></i>
+          </button>
+          <a href="notifications.html" class="btn-notif-action" title="Abrir página cheia">
+            <i class="fa-solid fa-up-right-from-square"></i>
+          </a>
+          <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeNotificationsModal()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Categories -->
+      <div class="notif-modal-tabs">
+        <button type="button" class="notif-modal-tab active" onclick="filterModalNotifs('all', this)">Todas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('likes', this)">Curtidas</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('follows', this)">Seguidores</button>
+        <button type="button" class="notif-modal-tab" onclick="filterModalNotifs('prs', this)">Recordes</button>
+      </div>
+
+      <!-- Notifications List -->
+      <div class="notif-modal-list" id="modal-notif-list">
+        <!-- Item 1: Follow -->
+        <div class="notif-modal-item unread" data-cat="follows" onclick="window.location.href='profile.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-gabriel.png" alt="Marina" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-user-plus"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>marina_fitness</strong> começou a seguir você.</p>
+            <span class="notif-item-time">há 12 min</span>
+          </div>
+          <button type="button" class="btn-notif-follow" onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
+        </div>
+
+        <!-- Item 2: PR Record -->
+        <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Novo Recorde!</strong> 110 kg no Supino Reto (+50 XP).</p>
+            <span class="notif-item-time" style="color:var(--color-accent-orange);">🔥 há 45 min</span>
+          </div>
+          <div class="notif-medal-pill"><i class="fa-solid fa-medal"></i></div>
+        </div>
+
+        <!-- Item 3: Like -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-ana.png" alt="Carlos" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>carlos_iron</strong> e +18 curtiram seu treino.</p>
+            <span class="notif-item-time">há 2h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 4: Comment -->
+        <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/avatar-felipe.png" alt="Lucas" class="notif-item-avatar">
+            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i class="fa-solid fa-comment"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>lucas_bodybuilder</strong> comentou: <em>"Carga monstra! 🔥"</em></p>
+            <span class="notif-item-time">há 3h</span>
+          </div>
+          <img src="../images/post-supino-real.png" alt="Thumb" class="notif-item-thumb">
+        </div>
+
+        <!-- Item 5: Streak -->
+        <div class="notif-modal-item" data-cat="prs" onclick="window.location.href='metrics.html'">
+          <div class="notif-item-avatar-wrap">
+            <img src="../images/socialrats-icon-removebg-preview (3).png" alt="Streak" class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-fire"></i></span>
+          </div>
+          <div class="notif-item-info">
+            <p class="notif-item-text"><strong>Sequência de 21 Dias!</strong> Foco mantido.</p>
+            <span class="notif-item-time">ontem</span>
+          </div>
+          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+        </div>
+      </div>
+
+      <!-- Footer Button: Open Full Page -->
+      <a href="notifications.html" class="btn-notif-modal-full">
+        <span>Ver todas as notificações no Hub</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TOAST NOTIFICATION PILL
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" id="toast-icon"></i>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       JAVASCRIPT: DIRECT INTERACTIONS & SEARCH FILTER
+       ═══════════════════════════════════════════════════════════════ -->
+  <script>
+    // 1. Recover Logged User
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const savedUser = localStorage.getItem('socialrats_user');
+        if (savedUser) {
+          const cleanName = savedUser.split('@')[0].trim();
+          document.getElementById('desktop-user-name').textContent = cleanName;
+          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
+        }
+      } catch (e) {}
+    });
+
+    // 2. Toast System
+    const toast = document.getElementById('toast-pill');
+    const toastText = document.getElementById('toast-text');
+    let toastTimer = null;
+
+    function showToast(message) {
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    // 3. Filter Conversations Search
+    const searchInput = document.getElementById('direct-search-input');
+    const convRows = document.querySelectorAll('.conversation-row');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const query = searchInput.value.trim().toLowerCase();
+        convRows.forEach(row => {
+          const name = row.dataset.name || '';
+          if (name.includes(query)) {
+            row.style.display = 'flex';
+          } else {
+            row.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // 4. Open Chat with contact
+    function openChatWith(id, name) {
+      window.location.href = `chat.html?contact=${id}`;
+    }
+
+    function openNewChatModal() {
+      showToast('Selecione uma conversa para iniciar o bate-papo!');
+    }
+
+    function handleLogout() {
+      try {
+        localStorage.removeItem('socialrats_user');
+      } catch (e) {}
+      showToast('Desconectando...');
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 700);
+    }
+
+    // 5. Desktop View Mode Toggle (Mockup vs Full Web)
+    const appViewport = document.getElementById('app-viewport');
+    const viewModeLabel = document.getElementById('view-mode-label');
+
+    function toggleViewMode() {
+      const isMockup = appViewport.classList.contains('mockup-mode');
+      if (isMockup) {
+        appViewport.classList.remove('mockup-mode');
+        viewModeLabel.textContent = 'Ver em Moldura Mobile';
+        showToast('Modo Web Expandido ativado.');
+      } else {
+        appViewport.classList.add('mockup-mode');
+        viewModeLabel.textContent = 'Modo Web Completo';
+        showToast('Visualização na moldura mobile ativada! 📱');
+      }
+    }
+
+    // 6. Notifications Modal
+    function openNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeNotificationsModal() {
+      const modal = document.getElementById('notif-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function filterModalNotifs(cat, tab) {
+      document.querySelectorAll('.notif-modal-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const items = document.querySelectorAll('.notif-modal-item');
+      items.forEach(it => {
+        if (cat === 'all' || it.getAttribute('data-cat') === cat) {
+          it.style.display = 'flex';
+        } else {
+          it.style.display = 'none';
+        }
+      });
+    }
+
+    function markModalNotifsAsRead() {
+      document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
+      const badge = document.getElementById('modal-notif-badge');
+      if (badge) {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+      const bellDot = document.querySelector('.bell-badge-dot');
+      if (bellDot) bellDot.style.display = 'none';
+      showToast('Notificações marcadas como lidas.');
+    }
+
+    function toggleModalFollow(btn) {
+      if (btn.classList.contains('following')) {
+        btn.classList.remove('following');
+        btn.textContent = 'Seguir';
+      } else {
+        btn.classList.add('following');
+        btn.textContent = 'Seguindo';
+        showToast('Você agora segue este usuário!');
+      }
+    }
+  </script>
+</body>
+
+</html>
+
