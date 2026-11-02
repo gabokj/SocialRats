@@ -437,8 +437,16 @@ Ver seção 10. Variações: story (com anel), cabeçalho de publicação (peque
 
 ### 14.15 Modais e diálogos — *Recomendado*
 
-- **Aparência:** `surface-elevated`, `radius.xl`, `color.overlay` ao fundo, `shadow-elevated`. Título, descrição curta, ações (secundário à esquerda/abaixo, principal à direita/acima).
-- **Variações:** diálogo de confirmação, bottom sheet (menu de três pontos de uma publicação), modal de formulário.
+- **Aparência:** `surface` / `surface-elevated`, `radius.xl` (24 px), `color.overlay` ao fundo, `shadow-elevated`. Título, descrição curta, ações (secundário à esquerda/abaixo, principal à direita/acima).
+- **Variações:** diálogo de confirmação, bottom sheet (menu de três pontos de uma publicação), modal de formulário e **Modal de Criação de Publicação (Composer)**.
+- **Modal de Criação de Publicação (Composer):**
+  - **Cabeçalho:** avatar circular (52 px) com borda `accent-pink` à esquerda, nome do usuário com seletor dropdown (`caret-down`), botão de fechar (`×`) à direita e filtros em pílula (`composer-pill-btn`, `radius.full`, altura 32 px, `surface-elevated` e `border-subtle`):
+    1. *Visibilidade* (`👁 Publicar para qualquer ... ▾`): define quem pode ver a publicação.
+    2. *Permissão de Comentários* (`💬 Comentários: qualquer ... ▾`): define quem pode comentar.
+  - **Filtro de Destino no mesmo padrão visual (`composer-pill-btn`):** pílula dropdown `Destino: Conta em geral ▾` que abre o menu para escolher entre **Sua Conta em Geral** ou uma **Comunidade específica** (ex.: GymRats Elite, Programação Devs, Calistenia, Corredores da Madrugada, IA & Tecnologia).
+  - **Área de texto:** limpa, ampla (`min-height: 150px`), placeholder `"Compartilhe suas ideias..."` em `text-secondary`.
+  - **Barra de ferramentas inferior:** pílula `Revise` com borda `border-subtle` à esquerda, seguida pelos botões circulares de emoji, galeria de mídia, conquista/PR, mais opções (`+`) e, **ao lado do `+`**, a pílula `Adicionar colaboradores` seguindo o mesmo padrão de filtro.
+  - **Rodapé separado por divisória (`border-subtle`):** botão circular de agendamento (relógio) e botão `Publicar` (desabilitado em `surface-elevated` quando vazio; ativo em `gradient-brand` quando preenchido).
 - **Estados:** abrindo/fechando, foco preso dentro do modal, fechar com Esc/gesto, ação destrutiva usa `error`.
 - **Acessibilidade:** `role="dialog"`, foco inicial no elemento correto, devolver foco ao fechar.
 
@@ -516,7 +524,7 @@ Animações: curtas (150–250 ms), suaves, sem movimentos bruscos. Respeitar `p
 
 - *Configurações:* lista de itens agrupados em cards com cabeçalhos de seção; itens com ícone, rótulo e controle (toggle/seta).
 - *Notificações:* lista cronológica com avatar, texto, tempo em `text-secondary` e indicador de não lida.
-- *Edição de perfil:* formulário com avatar grande editável, campos de formulário e botão principal fixo ou ao final.
+- *Edição de perfil / Criação de comunidade:* formulário minimalista em `surface` com foto de perfil circular grande editável (`84 px`, `radius.full`, `object-fit: cover`, botão de upload e miniaturas de capa), campos limpos (`surface-elevated`, `border-subtle`, `46 px` de altura), chips de categoria (`radius.full`) sem excesso de emojis ou caixas de prévia artificiais, e um único botão principal (`gradient-brand`, `48 px`) ao final.
 
 ---
 
@@ -598,3 +606,4 @@ Ao revisar, registre as inconsistências por categoria (cor, tipografia, espaça
 |---|---|---|
 | 1.0 | — | Criação inicial a partir da referência da tela Home |
 | 1.1 | 2026-10-30 | Padronização completa de tokens, componentes, dimensões e navegação entre todas as 5 abas (Home, Buscar, Métricas, Direct, Perfil) e telas de autenticação |
+| 1.2 | 2026-11-01 | Padronização do Modal de Criação de Publicação (Composer) com seletor e filtro de destino (Conta Geral vs. Comunidades específicas), permissões de comentários, colaboradores e barra de ferramentas |

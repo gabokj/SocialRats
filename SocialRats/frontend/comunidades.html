@@ -618,14 +618,14 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════
-       SCREEN 2: FORM DE CRIAÇÃO DE COMUNIDADE
+       SCREEN 2: FORM DE CRIAÇÃO DE COMUNIDADE (MINIMALISTA — DESIGN SYSTEM)
        ═══════════════════════════════════════════════════════════════ */
     .screen-header-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 16px 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid var(--color-border-subtle);
       background: var(--color-background);
       position: sticky;
       top: 0;
@@ -635,9 +635,9 @@
     .btn-back-nav {
       background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
-      color: #ffffff;
-      width: 36px;
-      height: 36px;
+      color: var(--color-text-primary);
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -655,37 +655,15 @@
     .screen-header-title {
       font-family: var(--font-heading);
       font-size: 17px;
-      font-weight: 800;
-      color: #ffffff;
+      font-weight: 700;
+      color: var(--color-text-primary);
     }
 
     .create-form-content {
-      padding: 18px 20px 24px;
+      padding: 20px 16px 32px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
-    }
-
-    /* Live Preview Box */
-    .live-preview-wrapper {
-      background: linear-gradient(135deg, rgba(255, 50, 184, 0.08) 0%, rgba(146, 59, 255, 0.08) 100%);
-      border: 1px dashed var(--color-accent-pink);
-      border-radius: var(--radius-lg);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .preview-label-tag {
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--color-accent-pink);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      gap: 20px;
     }
 
     /* Form Card Container */
@@ -693,11 +671,162 @@
       background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-lg);
-      padding: 20px;
+      padding: 20px 16px;
       display: flex;
       flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Avatar Image Uploader Block (Section 10.1 & 17 of DESIGN_SYSTEM.md) */
+    .comm-photo-upload-section {
+      display: flex;
+      align-items: center;
       gap: 16px;
-      box-shadow: var(--shadow-card);
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .comm-avatar-uploader {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1.5px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+
+    .comm-avatar-uploader:hover {
+      border-color: var(--color-accent-pink);
+    }
+
+    .comm-avatar-uploader img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: none;
+    }
+
+    .comm-avatar-uploader.has-image img {
+      display: block;
+    }
+
+    .comm-avatar-uploader.has-image .comm-avatar-placeholder {
+      display: none;
+    }
+
+    .comm-avatar-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--color-text-secondary);
+      font-size: 20px;
+    }
+
+    .comm-avatar-edit-badge {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--color-accent-pink);
+      border: 2px solid var(--color-surface);
+      color: #ffffff;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .comm-photo-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .comm-photo-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .comm-photo-subtitle {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.4;
+    }
+
+    .comm-photo-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-photo-upload {
+      height: 32px;
+      padding: 0 12px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-photo-upload:hover {
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+    }
+
+    .comm-preset-thumbs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 2px;
+    }
+
+    .preset-thumb-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      padding: 0;
+      border: 1.5px solid var(--color-border-subtle);
+      background: var(--color-surface-elevated);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .preset-thumb-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .preset-thumb-btn:hover,
+    .preset-thumb-btn.selected {
+      border-color: var(--color-accent-pink);
+      transform: scale(1.06);
     }
 
     .form-group {
@@ -707,112 +836,171 @@
     }
 
     .form-label {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--color-text-secondary);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
     .form-label-hint {
-      font-size: 11px;
-      color: var(--color-text-muted);
-      font-weight: 500;
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
     }
 
     .form-input,
     .form-select,
     .form-textarea {
       width: 100%;
+      height: 46px;
       background: var(--color-surface-elevated);
       border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      color: #ffffff;
+      border-radius: 12px;
+      padding: 0 14px;
+      color: var(--color-text-primary);
       font-family: var(--font-body);
-      font-size: 13.5px;
+      font-size: 14px;
       outline: none;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.7;
     }
 
     .form-input:focus,
     .form-select:focus,
     .form-textarea:focus {
       border-color: var(--color-accent-pink);
-      box-shadow: 0 0 14px rgba(255, 50, 184, 0.2);
     }
 
     .form-textarea {
+      height: auto;
+      min-height: 88px;
+      padding: 12px 14px;
       resize: vertical;
-      min-height: 80px;
       line-height: 1.45;
     }
 
-    .icon-selector-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
+    /* Filter Chips for Modality (Section 14.13 of DESIGN_SYSTEM.md) */
+    .comm-category-chips {
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
     }
 
-    .icon-select-btn {
-      height: 42px;
+    .comm-cat-chip {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: var(--radius-full);
       background: var(--color-surface-elevated);
       border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      font-size: 20px;
-      display: flex;
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 500;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .icon-select-btn:hover {
-      background: var(--color-surface-hover);
-      border-color: var(--color-accent-pink);
-      transform: scale(1.06);
+    .comm-cat-chip:hover {
+      color: var(--color-text-primary);
+      border-color: rgba(255, 50, 184, 0.4);
     }
 
-    .icon-select-btn.selected {
+    .comm-cat-chip.active {
       background: var(--color-accent-pink-soft);
       border-color: var(--color-accent-pink);
-      box-shadow: 0 0 10px rgba(255, 50, 184, 0.3);
+      color: var(--color-accent-pink);
+      font-weight: 600;
     }
 
-    .metric-info-pill {
+    /* Privacy Selector Row */
+    .comm-privacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .comm-privacy-option {
       background: var(--color-surface-elevated);
       border: 1px solid var(--color-border-subtle);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      text-align: left;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      transition: all 0.15s ease;
+    }
+
+    .comm-privacy-option.active {
+      background: var(--color-accent-pink-soft);
+      border-color: var(--color-accent-pink);
+    }
+
+    .comm-privacy-option i {
+      font-size: 16px;
+      color: var(--color-text-secondary);
+    }
+
+    .comm-privacy-option.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .comm-privacy-texts {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 2px;
+    }
+
+    .comm-privacy-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .comm-privacy-sub {
+      font-size: 11px;
+      color: var(--color-text-secondary);
     }
 
     .btn-create-submit {
       width: 100%;
-      height: 50px;
+      height: 48px;
       background: var(--gradient-brand);
       border: none;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-full);
       color: #ffffff;
-      font-family: var(--font-heading);
-      font-size: 15.5px;
-      font-weight: 800;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.35);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-      margin-top: 6px;
+      gap: 8px;
+      box-shadow: var(--shadow-glow-pink);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+      margin-top: 4px;
     }
 
     .btn-create-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 50, 184, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-create-submit:active {
+      transform: scale(0.98);
     }
 
     /* ═══════════════════════════════════════════════════════════════
@@ -953,17 +1141,25 @@
     }
 
     .comm-item-avatar {
-      width: 46px;
-      height: 46px;
-      border-radius: var(--radius-md);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
       background: var(--color-surface-elevated);
       border: 1px solid var(--color-border-subtle);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
+      font-size: 18px;
       flex-shrink: 0;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+    }
+
+    .comm-item-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      display: block;
     }
 
     .comm-item-info {
@@ -1471,7 +1667,7 @@
       </div>
 
       <!-- ═══════════════════════════════════════════════════════════
-           SCREEN 2: TELA DE CRIAÇÃO DE COMUNIDADE
+           SCREEN 2: TELA DE CRIAÇÃO DE COMUNIDADE (MINIMALISTA)
            ═══════════════════════════════════════════════════════════ -->
       <div class="screen-view hidden" id="screen-create">
         
@@ -1479,144 +1675,129 @@
           <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
-          <h2 class="screen-header-title">Criar Sua Comunidade</h2>
-          <div style="width:36px;"></div>
+          <h2 class="screen-header-title">Criar comunidade</h2>
+          <div style="width:38px;"></div>
         </header>
 
         <div class="create-form-content">
-          
-          <!-- Live Preview Card -->
-          <div class="live-preview-wrapper">
-            <span class="preview-label-tag"><i class="fa-solid fa-eye"></i> Prévia em Tempo Real</span>
-            
-            <div class="comm-item-card" style="margin:0; background:var(--color-surface);">
-              <div class="comm-item-top">
-                <div class="comm-item-left">
-                  <div class="comm-item-avatar" id="preview-avatar">🏋️‍♂️</div>
-                  <div class="comm-item-info">
-                    <div class="comm-item-name-row">
-                      <span class="comm-item-name" id="preview-name">Nome da Sua Tribo</span>
-                      <span class="comm-item-modality-badge" id="preview-badge">Musculação</span>
-                    </div>
-                    <span class="comm-item-handle" id="preview-handle">@sua_comunidade</span>
-                  </div>
-                </div>
-                <button type="button" class="btn-item-join">
-                  <i class="fa-solid fa-plus"></i> Participar
-                </button>
-              </div>
-
-              <p class="comm-item-desc" id="preview-desc">
-                A proposta e regras da sua comunidade aparecerão aqui para os novos membros.
-              </p>
-
-              <div class="comm-item-footer">
-                <div class="comm-item-stat">
-                  <i class="fa-solid fa-users" style="color:var(--color-accent-orange);"></i>
-                  <span><strong>1</strong> membro fundador</span>
-                </div>
-                <div class="comm-item-metric-badge" id="preview-metric">
-                  <i class="fa-solid fa-bolt"></i> Cargas & Séries
-                </div>
-                <span class="comm-item-tag-link" id="preview-tag">
-                  <i class="fa-solid fa-hashtag"></i> <span>tribo</span>
-                </span>
-              </div>
-            </div>
-          </div>
 
           <!-- Form Fields -->
           <form class="form-inputs-card" id="form-community" onsubmit="handleFormSubmit(event)">
             
+            <!-- Foto da Comunidade (Upload + Sugestões de Imagem) -->
+            <div class="comm-photo-upload-section">
+              <input type="file" id="comm-image-input" accept="image/*" style="display: none;" onchange="handleCommImageUpload(event)">
+              
+              <div class="comm-avatar-uploader has-image" id="comm-avatar-uploader" onclick="document.getElementById('comm-image-input').click()" title="Alterar foto da comunidade">
+                <img id="comm-avatar-preview-img" src="../images/challenges.jpg" alt="Foto da comunidade">
+                <div class="comm-avatar-placeholder">
+                  <i class="fa-regular fa-image"></i>
+                </div>
+                <div class="comm-avatar-edit-badge">
+                  <i class="fa-solid fa-camera"></i>
+                </div>
+              </div>
+
+              <div class="comm-photo-meta">
+                <span class="comm-photo-title">Foto da comunidade</span>
+                <span class="comm-photo-subtitle">Escolha uma imagem do seu dispositivo ou selecione uma capa abaixo.</span>
+                
+                <div class="comm-photo-actions">
+                  <button type="button" class="btn-photo-upload" onclick="document.getElementById('comm-image-input').click()">
+                    <i class="fa-solid fa-arrow-up-from-bracket"></i>
+                    <span>Enviar foto</span>
+                  </button>
+
+                  <div class="comm-preset-thumbs" aria-label="Imagens sugeridas">
+                    <button type="button" class="preset-thumb-btn selected" onclick="selectPresetCommImage('../images/challenges.jpg', this)" title="Treino & Força">
+                      <img src="../images/challenges.jpg" alt="Opção 1">
+                    </button>
+                    <button type="button" class="preset-thumb-btn" onclick="selectPresetCommImage('../images/proof.jpg', this)" title="Cardio & Corrida">
+                      <img src="../images/proof.jpg" alt="Opção 2">
+                    </button>
+                    <button type="button" class="preset-thumb-btn" onclick="selectPresetCommImage('../images/hero.jpg', this)" title="Comunidade & Equipe">
+                      <img src="../images/hero.jpg" alt="Opção 3">
+                    </button>
+                    <button type="button" class="preset-thumb-btn" onclick="selectPresetCommImage('../images/scoring.jpg', this)" title="Performance">
+                      <img src="../images/scoring.jpg" alt="Opção 4">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Nome -->
             <div class="form-group">
               <label class="form-label" for="input-comm-name">
-                <span>Nome da Comunidade:</span>
-                <span class="form-label-hint">Máx 40 caracteres</span>
+                <span>Nome</span>
+                <span class="form-label-hint">Máx. 40 caracteres</span>
               </label>
-              <input type="text" id="input-comm-name" class="form-input" required maxlength="40" placeholder="Ex: Guerreiros do Supino Brasil" oninput="updateLivePreview()">
+              <input type="text" id="input-comm-name" class="form-input" required maxlength="40" placeholder="Ex: Pelotão SP, Calistenia Brasil" oninput="syncHandleFromName(this.value)">
             </div>
 
+            <!-- Identificador -->
             <div class="form-group">
               <label class="form-label" for="input-comm-handle">
-                <span>Identificador único (@slug):</span>
-                <span class="form-label-hint">Sem espaços</span>
+                <span>Identificador (@)</span>
+                <span class="form-label-hint">Endereço único</span>
               </label>
-              <input type="text" id="input-comm-handle" class="form-input" required placeholder="Ex: guerreiros_supino" oninput="handleSlugFormat(this)">
+              <input type="text" id="input-comm-handle" class="form-input" required placeholder="Ex: pelotao_sp" oninput="handleSlugFormat(this)">
             </div>
 
-            <!-- Modality Selector -->
-            <div class="form-group">
-              <label class="form-label" for="select-comm-modality">
-                <span>Modalidade Principal:</span>
-                <span class="form-label-hint">Facilita métricas & filtros</span>
-              </label>
-              <select id="select-comm-modality" class="form-select" onchange="handleModalityChange(this.value)">
-                <option value="musculacao" data-icon="🏋️‍♂️" data-metric="Cargas, Séries & Volume">🏋️‍♂️ Musculação & Hipertrofia</option>
-                <option value="corrida" data-icon="🏃" data-metric="Distância, Pace & Elevação">🏃 Corrida & Maratonas</option>
-                <option value="crossfit" data-icon="🥊" data-metric="WODs, AMRAP & Calorias">🥊 Cross & Treino Funcional</option>
-                <option value="calistenia" data-icon="🤸" data-metric="Repetições & Estáticos">🤸 Calistenia & Street Workout</option>
-                <option value="ciclismo" data-icon="🚴" data-metric="km & Velocidade Média">🚴 Ciclismo & Speed / MTB</option>
-                <option value="natacao" data-icon="🏊" data-metric="Metros, Estilos & Tempos">🏊 Natação & Triatlo</option>
-                <option value="lutas" data-icon="🥋" data-metric="Rounds & Sparrings">🥋 Lutas & Artes Marciais</option>
-                <option value="estudos" data-icon="📚" data-metric="Horas Pomodoro & Foco">📚 Foco, Estudos & Produtividade</option>
-                <option value="yoga" data-icon="🧘" data-metric="Sessões & Mobilidade">🧘 Yoga & Mobilidade</option>
-                <option value="nutricao" data-icon="🥗" data-metric="Metas Diárias & Macros">🥗 Nutrição & Dieta</option>
-              </select>
-            </div>
-
-            <!-- Icon Picker -->
+            <!-- Categoria (Filter Chips minimalistas conforme Seção 14.13 do Design System) -->
             <div class="form-group">
               <label class="form-label">
-                <span>Ícone Representativo:</span>
+                <span>Categoria</span>
               </label>
-              <div class="icon-selector-grid">
-                <button type="button" class="icon-select-btn selected" data-icon="🏋️‍♂️" onclick="pickIcon('🏋️‍♂️', this)">🏋️‍♂️</button>
-                <button type="button" class="icon-select-btn" data-icon="🏃" onclick="pickIcon('🏃', this)">🏃</button>
-                <button type="button" class="icon-select-btn" data-icon="🥊" onclick="pickIcon('🥊', this)">🥊</button>
-                <button type="button" class="icon-select-btn" data-icon="🤸" onclick="pickIcon('🤸', this)">🤸</button>
-                <button type="button" class="icon-select-btn" data-icon="🚴" onclick="pickIcon('🚴', this)">🚴</button>
-                <button type="button" class="icon-select-btn" data-icon="🏊" onclick="pickIcon('🏊', this)">🏊</button>
-                <button type="button" class="icon-select-btn" data-icon="🥋" onclick="pickIcon('🥋', this)">🥋</button>
-                <button type="button" class="icon-select-btn" data-icon="📚" onclick="pickIcon('📚', this)">📚</button>
-                <button type="button" class="icon-select-btn" data-icon="🧘" onclick="pickIcon('🧘', this)">🧘</button>
-                <button type="button" class="icon-select-btn" data-icon="🥗" onclick="pickIcon('🥗', this)">🥗</button>
-                <button type="button" class="icon-select-btn" data-icon="🔥" onclick="pickIcon('🔥', this)">🔥</button>
-                <button type="button" class="icon-select-btn" data-icon="⚡" onclick="pickIcon('⚡', this)">⚡</button>
+              <input type="hidden" id="input-comm-modality" value="musculacao" data-name="Musculação" data-metric="Cargas & Séries">
+              <div class="comm-category-chips" id="comm-category-chips">
+                <button type="button" class="comm-cat-chip active" data-mod="musculacao" data-name="Musculação" data-metric="Cargas & Séries" onclick="selectCommCategory(this)">Musculação</button>
+                <button type="button" class="comm-cat-chip" data-mod="corrida" data-name="Corrida" data-metric="Distância & Pace" onclick="selectCommCategory(this)">Corrida</button>
+                <button type="button" class="comm-cat-chip" data-mod="crossfit" data-name="Cross & Funcional" data-metric="WODs & Tempo" onclick="selectCommCategory(this)">Cross & Funcional</button>
+                <button type="button" class="comm-cat-chip" data-mod="calistenia" data-name="Calistenia" data-metric="Repetições" onclick="selectCommCategory(this)">Calistenia</button>
+                <button type="button" class="comm-cat-chip" data-mod="ciclismo" data-name="Ciclismo" data-metric="Distância & Elevação" onclick="selectCommCategory(this)">Ciclismo</button>
+                <button type="button" class="comm-cat-chip" data-mod="natacao" data-name="Natação" data-metric="Metros & Ritmo" onclick="selectCommCategory(this)">Natação</button>
+                <button type="button" class="comm-cat-chip" data-mod="lutas" data-name="Lutas" data-metric="Treinos & Sparring" onclick="selectCommCategory(this)">Lutas</button>
+                <button type="button" class="comm-cat-chip" data-mod="estudos" data-name="Foco & Estudos" data-metric="Horas de Foco" onclick="selectCommCategory(this)">Foco & Estudos</button>
+                <button type="button" class="comm-cat-chip" data-mod="nutricao" data-name="Nutrição" data-metric="Consistência" onclick="selectCommCategory(this)">Nutrição</button>
               </div>
             </div>
 
-            <!-- About & Rules -->
+            <!-- Descrição -->
             <div class="form-group">
               <label class="form-label" for="textarea-comm-desc">
-                <span>Sobre a Sua Comunidade:</span>
-                <span class="form-label-hint">Missão e regras</span>
+                <span>Descrição</span>
+                <span class="form-label-hint">Opcional</span>
               </label>
-              <textarea id="textarea-comm-desc" class="form-textarea" required placeholder="Explique qual é o objetivo da tribo, nível de dedicação e desafios..." oninput="updateLivePreview()"></textarea>
+              <textarea id="textarea-comm-desc" class="form-textarea" placeholder="Descreva o propósito do grupo, rotina de treinos ou combinados..."></textarea>
             </div>
 
-            <!-- Feed Filter Tag -->
+            <!-- Privacidade -->
             <div class="form-group">
-              <label class="form-label" for="input-comm-tag">
-                <span>Hashtag para Filtro no Feed:</span>
-                <span class="form-label-hint">Filtro automático de posts</span>
+              <label class="form-label">
+                <span>Privacidade</span>
               </label>
-              <input type="text" id="input-comm-tag" class="form-input" required placeholder="Ex: #supinobr" oninput="updateLivePreview()">
-            </div>
-
-            <!-- Metric Sync Pill -->
-            <div class="metric-info-pill">
-              <div style="font-size:12px; font-weight:700; color:#ffffff; display:flex; align-items:center; gap:6px;">
-                <i class="fa-solid fa-chart-line" style="color:var(--color-accent-pink);"></i>
-                Sincronização com a Tela de Métricas
+              <input type="hidden" id="input-comm-privacy" value="open">
+              <div class="comm-privacy-grid">
+                <button type="button" class="comm-privacy-option active" data-privacy="open" onclick="selectCommPrivacy('open', this)">
+                  <i class="fa-solid fa-earth-americas"></i>
+                  <div class="comm-privacy-texts">
+                    <span class="comm-privacy-title">Aberta</span>
+                    <span class="comm-privacy-sub">Qualquer pessoa entra</span>
+                  </div>
+                </button>
+                <button type="button" class="comm-privacy-option" data-privacy="private" onclick="selectCommPrivacy('private', this)">
+                  <i class="fa-solid fa-lock"></i>
+                  <div class="comm-privacy-texts">
+                    <span class="comm-privacy-title">Restrita</span>
+                    <span class="comm-privacy-sub">Apenas com aprovação</span>
+                  </div>
+                </button>
               </div>
-              <p style="font-size:11.5px; color:var(--color-text-secondary); line-height:1.4;" id="sync-explanation">
-                As publicações com esta tag alimentarão o gráfico de desempenho e o Hustle XP da modalidade no perfil dos membros.
-              </p>
             </div>
 
             <button type="submit" class="btn-create-submit">
-              <i class="fa-solid fa-check"></i>
-              <span>Publicar Comunidade & Lançar Tribo</span>
+              <span>Criar comunidade</span>
             </button>
 
           </form>
@@ -1634,8 +1815,8 @@
           <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
-          <h2 class="screen-header-title">Comunidades em Alta</h2>
-          <button type="button" class="btn-back-nav" style="border-radius:var(--radius-full); width:auto; padding:0 12px; font-size:12px; font-weight:700; gap:4px; color:var(--color-accent-pink);" onclick="showScreen('create')">
+          <h2 class="screen-header-title">Comunidades</h2>
+          <button type="button" class="btn-back-nav" style="border-radius:var(--radius-full); width:auto; padding:0 12px; font-size:12px; font-weight:600; gap:5px; color:var(--color-accent-pink);" onclick="showScreen('create')">
             <i class="fa-solid fa-plus"></i> Criar
           </button>
         </header>
@@ -1645,7 +1826,7 @@
           <!-- Instant Search Box -->
           <div class="explore-search-bar">
             <i class="fa-solid fa-magnifying-glass" style="color:var(--color-text-muted); font-size:14px;"></i>
-            <input type="text" class="explore-search-input" id="search-input" placeholder="Buscar por nome, modalidade ou #tag..." oninput="handleSearch(this.value)">
+            <input type="text" class="explore-search-input" id="search-input" placeholder="Buscar por nome ou categoria..." oninput="handleSearch(this.value)">
             <button type="button" id="btn-clear-search" style="display:none; background:none; border:none; color:var(--color-text-muted); cursor:pointer;" onclick="clearSearch()">
               <i class="fa-solid fa-xmark"></i>
             </button>
@@ -1654,46 +1835,43 @@
           <!-- Modalities Chips Filter -->
           <div class="modality-filter-track">
             <button type="button" class="modality-filter-chip active" data-mod="all" onclick="filterModality('all', this)">
-              <span>🔥</span> <span>Todas em Alta</span>
+              <span>Todas</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="musculacao" onclick="filterModality('musculacao', this)">
-              <span>🏋️‍♂️</span> <span>Musculação</span>
+              <span>Musculação</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="corrida" onclick="filterModality('corrida', this)">
-              <span>🏃</span> <span>Corrida</span>
+              <span>Corrida</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="crossfit" onclick="filterModality('crossfit', this)">
-              <span>🥊</span> <span>Cross & Funcional</span>
+              <span>Cross & Funcional</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="calistenia" onclick="filterModality('calistenia', this)">
-              <span>🤸</span> <span>Calistenia</span>
+              <span>Calistenia</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="ciclismo" onclick="filterModality('ciclismo', this)">
-              <span>🚴</span> <span>Ciclismo</span>
+              <span>Ciclismo</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="natacao" onclick="filterModality('natacao', this)">
-              <span>🏊</span> <span>Natação</span>
+              <span>Natação</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="lutas" onclick="filterModality('lutas', this)">
-              <span>🥋</span> <span>Lutas</span>
+              <span>Lutas</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="estudos" onclick="filterModality('estudos', this)">
-              <span>📚</span> <span>Foco & Estudos</span>
-            </button>
-            <button type="button" class="modality-filter-chip" data-mod="yoga" onclick="filterModality('yoga', this)">
-              <span>🧘</span> <span>Yoga</span>
+              <span>Foco & Estudos</span>
             </button>
             <button type="button" class="modality-filter-chip" data-mod="nutricao" onclick="filterModality('nutricao', this)">
-              <span>🥗</span> <span>Nutrição</span>
+              <span>Nutrição</span>
             </button>
           </div>
 
           <!-- Title Row with Dynamic Counter -->
           <div class="explore-section-header">
             <h3 class="explore-section-title" id="explore-header-title">
-              <i class="fa-solid fa-fire" style="color:var(--color-accent-orange);"></i> Sugestões para Você
+              Sugestões para você
             </h3>
-            <span style="font-size:11.5px; color:var(--color-text-secondary);" id="explore-counter">12 comunidades</span>
+            <span style="font-size:11.5px; color:var(--color-text-secondary);" id="explore-counter">10 comunidades</span>
           </div>
 
           <!-- Cards List Container -->
@@ -1801,137 +1979,125 @@
         id: 'gymrats_br',
         name: 'GymRats Musculação & Hipertrofia',
         handle: '@gymrats_br',
-        icon: '🏋️‍♂️',
+        image: '../images/challenges.jpg',
         modality: 'musculacao',
         modalityName: 'Musculação',
-        description: 'A maior tribo de musculação, progressão de sobrecarga e hipertrofia. Compartilhe seus PRs e resenhas de treino.',
+        description: 'Comunidade focada em progressão de sobrecarga, hipertrofia e acompanhamento de treinos diários.',
         members: 998200,
         joined: true,
-        metric: 'Cargas, Séries & Volume',
-        tag: '#gymrats'
+        metric: 'Cargas & Séries',
+        privacy: 'open'
       },
       {
         id: 'corredores_madrugada',
         name: 'Corredores da Madrugada',
         handle: '@corredores_madrugada',
-        icon: '🏃',
+        image: '../images/proof.jpg',
         modality: 'corrida',
         modalityName: 'Corrida',
-        description: 'Cardio antes das 06:00. Desafios de pace, 5k, 10k, meia e maratona. Registro de ritmo e altimetria.',
+        description: 'Treinos matinais, desafios de pace para 5k, 10k, meia e maratona com registro de ritmo.',
         members: 940200,
         joined: true,
-        metric: 'Distância, Pace & Elevação',
-        tag: '#madrugadarun'
+        metric: 'Distância & Pace',
+        privacy: 'open'
       },
       {
         id: 'calistenia_brutal',
-        name: 'Calistenia Brutal Brasil',
-        handle: '@calistenia_brutal',
-        icon: '🤸',
+        name: 'Calistenia Brasil',
+        handle: '@calistenia_br',
+        image: '../images/hero.jpg',
         modality: 'calistenia',
         modalityName: 'Calistenia',
-        description: 'Domínio do peso corporal: Muscle-ups, Front Lever, Handstand e repetições brutais na barra fixa.',
+        description: 'Domínio do peso corporal: barra fixa, paralelas, muscle-ups e progressões de força.',
         members: 800527,
         joined: false,
-        metric: 'Repetições & Estáticos',
-        tag: '#calistenia'
+        metric: 'Repetições',
+        privacy: 'open'
       },
       {
         id: 'gladiators_box',
         name: 'Cross Gladiators Box',
         handle: '@gladiators_box',
-        icon: '🥊',
+        image: '../images/scoring.jpg',
         modality: 'crossfit',
         modalityName: 'Cross & Funcional',
-        description: 'Comunidade de WODs de alta intensidade, AMRAP, EMOM e superação constante nos treinos.',
+        description: 'WODs diários de condicionamento, AMRAP, EMOM e levantamento de peso olímpico.',
         members: 512738,
         joined: false,
-        metric: 'WODs, AMRAP & Calorias',
-        tag: '#crossgladiators'
+        metric: 'WODs & Tempo',
+        privacy: 'open'
       },
       {
         id: 'devs_fit',
-        name: 'Devs Fit & Foco Estudos',
+        name: 'Devs & Foco',
         handle: '@devs_fit',
-        icon: '📚',
+        image: '../images/post-blue-orange.png',
         modality: 'estudos',
         modalityName: 'Foco & Estudos',
-        description: 'Para quem programa o dia todo e não abre mão de treinar pesado e manter blocos de foco Pomodoro.',
+        description: 'Para quem equilibra rotina intensa de código e estudos com constância nos treinos.',
         members: 340000,
         joined: true,
-        metric: 'Horas Pomodoro & Foco',
-        tag: '#devsfit'
+        metric: 'Horas de Foco',
+        privacy: 'open'
       },
       {
         id: 'pelotao_speed',
-        name: 'Pelotão Speed & MTB Brasil',
+        name: 'Pelotão Speed & MTB',
         handle: '@pelotao_speed',
-        icon: '🚴',
+        image: '../images/post-sunset.png',
         modality: 'ciclismo',
         modalityName: 'Ciclismo',
-        description: 'Treinos de speed, montanha e trilhas MTB. Registro de altimetria, quilometragem e sprints.',
+        description: 'Pedais de estrada e trilhas MTB. Compartilhamento de rotas, altimetria e treinos longos.',
         members: 280000,
         joined: false,
-        metric: 'km & Velocidade Média',
-        tag: '#pelotaospeed'
+        metric: 'Distância & Elevação',
+        privacy: 'open'
       },
       {
         id: 'sharks_natacao',
         name: 'Sharks Natação & Triatlo',
         handle: '@sharks_natacao',
-        icon: '🏊',
+        image: '../images/proof.jpg',
         modality: 'natacao',
         modalityName: 'Natação',
-        description: 'Piscina e águas abertas. Treinos de endurance, tempos por 100m e transição de triatlo.',
+        description: 'Piscina e águas abertas. Treinos de endurance, ritmo por 100m e transição de triatlo.',
         members: 190000,
         joined: false,
-        metric: 'Metros, Estilos & Tempos',
-        tag: '#sharksnatacao'
+        metric: 'Metros & Ritmo',
+        privacy: 'open'
       },
       {
         id: 'tatame_warriors',
-        name: 'Guerreiros do Tatame BJJ & Boxe',
+        name: 'Tatame BJJ & Muay Thai',
         handle: '@tatame_warriors',
-        icon: '🥋',
+        image: '../images/challenges.jpg',
         modality: 'lutas',
         modalityName: 'Lutas',
-        description: 'Jiu-jitsu com e sem pano, Boxe e Muay Thai. Evolução de faixas, sparrings e técnica.',
+        description: 'Jiu-jitsu, boxe e muay thai. Consistência nos treinos técnicos e preparação física.',
         members: 310000,
         joined: false,
-        metric: 'Rounds & Sparrings',
-        tag: '#tatamewarriors'
-      },
-      {
-        id: 'yoga_mobility_flow',
-        name: 'Mobilidade & Yoga Flow',
-        handle: '@yoga_mobility',
-        icon: '🧘',
-        modality: 'yoga',
-        modalityName: 'Yoga',
-        description: 'Prevenção de lesões, ganho de flexibilidade e recuperação ativa para atletas.',
-        members: 145000,
-        joined: false,
-        metric: 'Sessões & Mobilidade',
-        tag: '#yogaflow'
+        metric: 'Treinos & Sparring',
+        privacy: 'open'
       },
       {
         id: 'nutri_bulking',
-        name: 'Nutrição & Bulking Limpo',
-        handle: '@nutri_bulking',
-        icon: '🥗',
+        name: 'Nutrição & Dieta Limpa',
+        handle: '@nutri_limpa',
+        image: '../images/scoring.jpg',
         modality: 'nutricao',
         modalityName: 'Nutrição',
-        description: 'Receitas anabólicas, contagem de macros, hidratação e consistência sem neura.',
+        description: 'Organização alimentar, receitas práticas, metas de proteínas e hidratação diária.',
         members: 420000,
         joined: false,
-        metric: 'Metas Diárias & Macros',
-        tag: '#bulkinglimpo'
+        metric: 'Consistência',
+        privacy: 'open'
       }
     ];
 
-    let currentSelectedIcon = '🏋️‍♂️';
+    let currentSelectedCommImage = '../images/challenges.jpg';
     let currentFilterModality = 'all';
     let currentSearchQuery = '';
+    let handleManuallyEdited = false;
 
     // Switch between 3 screens: 'landing', 'create', 'explore'
     function showScreen(screenId) {
@@ -1943,9 +2109,7 @@
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
-      if (screenId === 'create') {
-        updateLivePreview();
-      } else if (screenId === 'explore') {
+      if (screenId === 'explore') {
         renderExploreCards();
       }
     }
@@ -1967,7 +2131,6 @@
           comm.name.toLowerCase().includes(query) ||
           comm.handle.toLowerCase().includes(query) ||
           comm.description.toLowerCase().includes(query) ||
-          comm.tag.toLowerCase().includes(query) ||
           comm.modalityName.toLowerCase().includes(query);
 
         return matchesMod && matchesQuery;
@@ -1978,12 +2141,11 @@
 
       if (filtered.length === 0) {
         container.innerHTML = `
-          <div style="background:var(--color-surface); border:1px dashed var(--color-border-subtle); border-radius:var(--radius-lg); padding:32px 20px; text-align:center;">
-            <div style="font-size:32px; margin-bottom:8px;">🔍</div>
-            <h4 style="font-size:16px; font-weight:800; color:#fff; margin-bottom:4px;">Nenhuma comunidade encontrada</h4>
-            <p style="font-size:12.5px; color:var(--color-text-secondary); margin-bottom:14px;">Não encontramos tribos com esse termo. Crie a primeira agora!</p>
-            <button type="button" class="btn-landing-primary" style="max-width:200px; height:42px; font-size:13.5px; margin:0 auto;" onclick="showScreen('create')">
-              <span>Criar Comunidade</span>
+          <div style="background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:var(--radius-lg); padding:32px 20px; text-align:center;">
+            <h4 style="font-size:15px; font-weight:600; color:#fff; margin-bottom:4px;">Nenhuma comunidade encontrada</h4>
+            <p style="font-size:12.5px; color:var(--color-text-secondary); margin-bottom:16px;">Não encontramos resultados para essa busca.</p>
+            <button type="button" class="btn-landing-primary" style="max-width:180px; height:40px; font-size:13px; margin:0 auto;" onclick="showScreen('create')">
+              <span>Criar comunidade</span>
             </button>
           </div>
         `;
@@ -1992,7 +2154,9 @@
           <article class="comm-item-card" onclick="handleCardClick('${comm.name}', event)">
             <div class="comm-item-top">
               <div class="comm-item-left">
-                <div class="comm-item-avatar">${comm.icon}</div>
+                <div class="comm-item-avatar">
+                  <img src="${comm.image || '../images/challenges.jpg'}" alt="${comm.name}">
+                </div>
                 <div class="comm-item-info">
                   <div class="comm-item-name-row">
                     <h4 class="comm-item-name">${comm.name}</h4>
@@ -2002,7 +2166,7 @@
                 </div>
               </div>
               <button type="button" class="${comm.joined ? 'btn-item-join joined' : 'btn-item-join'}" onclick="toggleJoin('${comm.id}', event)">
-                ${comm.joined ? '<i class="fa-solid fa-check"></i> Membro' : '<i class="fa-solid fa-plus"></i> Participar'}
+                ${comm.joined ? '<i class="fa-solid fa-check"></i> Membro' : 'Participar'}
               </button>
             </div>
 
@@ -2010,15 +2174,12 @@
 
             <div class="comm-item-footer">
               <div class="comm-item-stat">
-                <i class="fa-solid fa-users" style="color:var(--color-accent-orange);"></i>
+                <i class="fa-solid fa-user-group" style="color:var(--color-text-secondary); font-size:11px;"></i>
                 <span><strong>${formatCount(comm.members)}</strong> membros</span>
               </div>
               <div class="comm-item-metric-badge">
-                <i class="fa-solid fa-bolt"></i> ${comm.metric}
+                ${comm.metric}
               </div>
-              <a href="feed.html" class="comm-item-tag-link" onclick="event.stopPropagation();" title="Filtrar Feed">
-                <i class="fa-solid fa-hashtag"></i> <span>${comm.tag.replace('#','')}</span>
-              </a>
             </div>
           </article>
         `).join('');
@@ -2034,17 +2195,17 @@
       comm.joined = !comm.joined;
       if (comm.joined) {
         comm.members += 1;
-        showToast(`Você entrou em ${comm.name}! 🔥`);
+        showToast(`Você entrou em ${comm.name}`);
       } else {
         comm.members -= 1;
-        showToast(`Você saiu de ${comm.name}.`);
+        showToast(`Você saiu de ${comm.name}`);
       }
       renderExploreCards();
     }
 
     function handleCardClick(name, e) {
       if (e.target.closest('button') || e.target.closest('a')) return;
-      showToast(`Abrindo comunidade: ${name}...`);
+      showToast(`Abrindo ${name}`);
     }
 
     // Search Filtering
@@ -2069,61 +2230,73 @@
       document.querySelectorAll('.modality-filter-chip').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
       renderExploreCards();
-      showToast(`Filtro: ${btn.innerText.trim()}`);
     }
 
-    // Create Form Handlers (Screen 2)
-    function handleModalityChange(mod) {
-      const select = document.getElementById('select-comm-modality');
-      const opt = select.options[select.selectedIndex];
-      const icon = opt.getAttribute('data-icon') || '🏋️‍♂️';
-      const metric = opt.getAttribute('data-metric') || 'Atividades';
+    // Create Form Handlers (Screen 2 - Image Upload & Minimalist Controls)
+    function handleCommImageUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
 
-      currentSelectedIcon = icon;
-      document.querySelectorAll('.icon-select-btn').forEach(btn => {
-        btn.classList.toggle('selected', btn.getAttribute('data-icon') === icon);
-      });
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentSelectedCommImage = e.target.result;
+        const previewImg = document.getElementById('comm-avatar-preview-img');
+        const uploader = document.getElementById('comm-avatar-uploader');
+        if (previewImg) previewImg.src = currentSelectedCommImage;
+        if (uploader) uploader.classList.add('has-image');
 
-      const explanation = document.getElementById('sync-explanation');
-      if (explanation) {
-        explanation.innerHTML = `As publicações com esta tag alimentarão o gráfico de desempenho e o Hustle XP da modalidade <strong>${opt.innerText.trim()}</strong> (${metric}) no perfil dos membros.`;
-      }
-
-      updateLivePreview();
+        document.querySelectorAll('.preset-thumb-btn').forEach(b => b.classList.remove('selected'));
+      };
+      reader.readAsDataURL(file);
     }
 
-    function pickIcon(icon, btn) {
-      currentSelectedIcon = icon;
-      document.querySelectorAll('.icon-select-btn').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      updateLivePreview();
+    function selectPresetCommImage(imgSrc, btnEl) {
+      currentSelectedCommImage = imgSrc;
+      const previewImg = document.getElementById('comm-avatar-preview-img');
+      const uploader = document.getElementById('comm-avatar-uploader');
+      if (previewImg) previewImg.src = imgSrc;
+      if (uploader) uploader.classList.add('has-image');
+
+      document.querySelectorAll('.preset-thumb-btn').forEach(b => b.classList.remove('selected'));
+      if (btnEl) btnEl.classList.add('selected');
+    }
+
+    function syncHandleFromName(nameVal) {
+      if (handleManuallyEdited) return;
+      const handleInput = document.getElementById('input-comm-handle');
+      if (!handleInput) return;
+      const slug = nameVal
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '_')
+        .replace(/^_+|_+$/g, '')
+        .slice(0, 24);
+      handleInput.value = slug;
     }
 
     function handleSlugFormat(input) {
+      handleManuallyEdited = input.value.trim().length > 0;
       input.value = input.value.toLowerCase().replace(/[^a-z0-9_]/g, '');
-      updateLivePreview();
     }
 
-    function updateLivePreview() {
-      const name = document.getElementById('input-comm-name')?.value.trim() || 'Nome da Sua Tribo';
-      let handle = document.getElementById('input-comm-handle')?.value.trim() || 'sua_comunidade';
-      if (!handle.startsWith('@')) handle = '@' + handle;
+    function selectCommCategory(btnEl) {
+      document.querySelectorAll('#comm-category-chips .comm-cat-chip').forEach(c => c.classList.remove('active'));
+      btnEl.classList.add('active');
 
-      const desc = document.getElementById('textarea-comm-desc')?.value.trim() || 'A proposta e regras da sua comunidade aparecerão aqui para os novos membros.';
-      let tag = document.getElementById('input-comm-tag')?.value.trim() || '#tribo';
-      if (!tag.startsWith('#')) tag = '#' + tag;
+      const hiddenMod = document.getElementById('input-comm-modality');
+      if (hiddenMod) {
+        hiddenMod.value = btnEl.getAttribute('data-mod') || 'musculacao';
+        hiddenMod.setAttribute('data-name', btnEl.getAttribute('data-name') || 'Musculação');
+        hiddenMod.setAttribute('data-metric', btnEl.getAttribute('data-metric') || 'Cargas & Séries');
+      }
+    }
 
-      const select = document.getElementById('select-comm-modality');
-      const modName = select ? select.options[select.selectedIndex].text.split(' ')[1] || 'Treino' : 'Musculação';
-      const metricName = select ? select.options[select.selectedIndex].getAttribute('data-metric') : 'Cargas & Séries';
-
-      document.getElementById('preview-avatar').innerText = currentSelectedIcon;
-      document.getElementById('preview-name').innerText = name;
-      document.getElementById('preview-handle').innerText = handle;
-      document.getElementById('preview-desc').innerText = desc;
-      document.getElementById('preview-badge').innerText = modName;
-      document.getElementById('preview-tag').innerHTML = `<i class="fa-solid fa-hashtag"></i> <span>${tag.replace('#','')}</span>`;
-      document.getElementById('preview-metric').innerHTML = `<i class="fa-solid fa-bolt"></i> ${metricName}`;
+    function selectCommPrivacy(privacyVal, btnEl) {
+      document.querySelectorAll('.comm-privacy-option').forEach(opt => opt.classList.remove('active'));
+      btnEl.classList.add('active');
+      const hiddenPrivacy = document.getElementById('input-comm-privacy');
+      if (hiddenPrivacy) hiddenPrivacy.value = privacyVal;
     }
 
     function handleFormSubmit(e) {
@@ -2133,37 +2306,36 @@
       let handle = document.getElementById('input-comm-handle').value.trim();
       if (!handle.startsWith('@')) handle = '@' + handle;
 
-      const desc = document.getElementById('textarea-comm-desc').value.trim();
-      let tag = document.getElementById('input-comm-tag').value.trim();
-      if (!tag.startsWith('#')) tag = '#' + tag;
-
-      const select = document.getElementById('select-comm-modality');
-      const modality = select.value;
-      const modalityName = select.options[select.selectedIndex].text.split(' ')[1] || 'Treino';
-      const metric = select.options[select.selectedIndex].getAttribute('data-metric') || 'Atividades';
+      const desc = document.getElementById('textarea-comm-desc').value.trim() || 'Comunidade oficial no SocialRats.';
+      const hiddenMod = document.getElementById('input-comm-modality');
+      const modality = hiddenMod ? hiddenMod.value : 'musculacao';
+      const modalityName = hiddenMod ? (hiddenMod.getAttribute('data-name') || 'Musculação') : 'Musculação';
+      const metric = hiddenMod ? (hiddenMod.getAttribute('data-metric') || 'Atividades') : 'Atividades';
+      const privacy = document.getElementById('input-comm-privacy')?.value || 'open';
 
       const newComm = {
         id: 'comm_' + Date.now(),
         name: name,
         handle: handle,
-        icon: currentSelectedIcon,
+        image: currentSelectedCommImage || '../images/challenges.jpg',
         modality: modality,
         modalityName: modalityName,
         description: desc,
         members: 1,
         joined: true,
         metric: metric,
-        tag: tag
+        privacy: privacy
       };
 
       communitiesDatabase.unshift(newComm);
 
-      showToast(`Comunidade "${name}" criada com sucesso! 🎉`);
+      showToast(`Comunidade "${name}" criada`);
       document.getElementById('form-community').reset();
+      handleManuallyEdited = false;
 
       setTimeout(() => {
         showScreen('explore');
-      }, 600);
+      }, 450);
     }
 
     // Toast Feedback

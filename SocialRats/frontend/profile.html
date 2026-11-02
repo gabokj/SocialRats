@@ -1168,6 +1168,59 @@
     .notif-medal-pill { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 113, 63, 0.12); border: 1px solid rgba(255, 113, 63, 0.3); display: flex; align-items: center; justify-content: center; color: var(--color-accent-orange); font-size: 15px; flex-shrink: 0; }
     .btn-notif-modal-full { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--color-surface-elevated); border-top: 1px solid var(--color-border-subtle); color: var(--color-accent-pink); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: background 0.15s ease; }
     .btn-notif-modal-full:hover { background: var(--color-surface-hover); color: #ffffff; }
+
+    /* Create Post Composer Modal — SocialRats Design System */
+    .create-post-modal { width: 94%; max-width: 600px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 24px; padding: 20px 22px 18px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 50, 184, 0.14); display: flex; flex-direction: column; gap: 12px; max-height: 92vh; overflow: visible; position: relative; animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .composer-top-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: relative; }
+    .composer-user-block { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; }
+    .create-post-user-avatar { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--color-accent-pink); object-fit: cover; flex-shrink: 0; box-shadow: 0 0 12px rgba(255, 50, 184, 0.25); }
+    .composer-meta-col { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; }
+    .composer-name-dropdown-btn { background: transparent; border: none; color: var(--color-text-primary); font-family: var(--font-heading); font-size: 15.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 2px 4px; margin-left: -4px; border-radius: 8px; width: fit-content; transition: background 0.15s ease, color 0.15s ease; }
+    .composer-name-dropdown-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-accent-pink); }
+    .composer-name-dropdown-btn i { font-size: 11px; color: var(--color-text-secondary); }
+    .composer-pills-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .composer-pill-wrap { position: relative; }
+    .composer-pill-btn { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-family: var(--font-body); font-size: 12px; font-weight: 600; height: 32px; padding: 0 12px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
+    .composer-pill-btn:hover, .composer-pill-btn.open { background: rgba(255, 50, 184, 0.12); border-color: var(--color-accent-pink); color: var(--color-text-primary); }
+    .composer-pill-btn.active-community { background: rgba(255, 50, 184, 0.14); border-color: var(--color-accent-pink); color: var(--color-accent-pink); }
+    .composer-pill-btn i.pill-lead-icon { font-size: 12.5px; color: var(--color-accent-pink); }
+    .composer-pill-btn i.pill-caret { font-size: 10px; opacity: 0.75; margin-left: 2px; }
+    .btn-close-composer { background: transparent; border: none; color: var(--color-text-secondary); font-size: 20px; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s ease, color 0.15s ease; }
+    .btn-close-composer:hover { background: var(--color-surface-elevated); color: var(--color-text-primary); }
+    .composer-dropdown-menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 265px; background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); border-radius: 16px; padding: 8px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 50, 184, 0.15); z-index: 1200; display: none; flex-direction: column; gap: 4px; max-height: 310px; overflow-y: auto; }
+    .composer-dropdown-menu.show { display: flex; animation: notifModalIn 0.16s ease forwards; }
+    .composer-dropdown-menu.drop-up { top: auto; bottom: calc(100% + 8px); }
+    .dropdown-section-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); padding: 6px 10px 3px; }
+    .dropdown-option-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 11px; background: transparent; border: 1px solid transparent; color: var(--color-text-primary); font-family: var(--font-body); font-size: 12.5px; text-align: left; cursor: pointer; transition: all 0.15s ease; }
+    .dropdown-option-item:hover { background: rgba(255, 255, 255, 0.05); }
+    .dropdown-option-item.selected { background: rgba(255, 50, 184, 0.12); border-color: rgba(255, 50, 184, 0.35); }
+    .dropdown-option-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .dropdown-option-icon { width: 30px; height: 30px; border-radius: 9px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; color: var(--color-accent-pink); }
+    .dropdown-option-texts { display: flex; align-items: flex-start; flex-direction: column; min-width: 0; }
+    .dropdown-option-title { font-size: 12.5px; font-weight: 700; color: var(--color-text-primary); }
+    .dropdown-option-sub { font-size: 10.5px; color: var(--color-text-secondary); }
+    .dropdown-option-check { color: var(--color-accent-pink); font-size: 13px; opacity: 0; flex-shrink: 0; }
+    .dropdown-option-item.selected .dropdown-option-check { opacity: 1; }
+    .composer-dest-filter-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; background: rgba(28, 23, 40, 0.65); border: 1px solid var(--color-border-subtle); border-radius: 12px; font-size: 12px; color: var(--color-text-secondary); }
+    .composer-dest-filter-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .dest-filter-chip { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease; }
+    .dest-filter-chip:hover { color: var(--color-text-primary); border-color: rgba(255, 50, 184, 0.4); }
+    .dest-filter-chip.active { background: rgba(255, 50, 184, 0.14); border-color: var(--color-accent-pink); color: var(--color-accent-pink); font-weight: 700; }
+    .create-post-textarea { width: 100%; min-height: 150px; background: transparent; border: none; padding: 6px 2px; color: var(--color-text-primary); font-family: var(--font-body); font-size: 16px; line-height: 1.5; resize: none; outline: none; }
+    .create-post-textarea::placeholder { color: var(--color-text-secondary); opacity: 0.75; }
+    .composer-tools-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 4px; }
+    .composer-tools-left { display: flex; align-items: center; gap: 6px; }
+    .btn-revise-pill { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-primary); font-family: var(--font-body); font-size: 13px; font-weight: 600; height: 34px; padding: 0 14px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.15s ease; }
+    .btn-revise-pill:hover { border-color: var(--color-accent-pink); background: rgba(255, 50, 184, 0.1); color: var(--color-accent-pink); }
+    .btn-composer-icon { width: 36px; height: 36px; border-radius: 50%; background: transparent; border: none; color: var(--color-text-secondary); font-size: 18px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
+    .btn-composer-icon:hover { background: var(--color-surface-elevated); color: var(--color-accent-pink); }
+    .create-post-char-count { font-size: 11.5px; color: var(--color-text-muted); font-weight: 500; }
+    .composer-bottom-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--color-border-subtle); padding-top: 14px; margin-top: 2px; }
+    .composer-footer-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+    .btn-schedule-post { width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 16px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
+    .btn-schedule-post:hover { border-color: var(--color-accent-orange); color: var(--color-accent-orange); background: rgba(255, 113, 63, 0.12); }
+    .btn-submit-post { background: var(--gradient-brand); border: none; color: #ffffff; font-family: var(--font-body); font-weight: 700; height: 40px; padding: 0 22px; border-radius: 9999px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35); transition: all 0.15s ease; }
+    .btn-submit-post:disabled { background: var(--color-surface-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border-subtle); box-shadow: none; cursor: not-allowed; opacity: 0.65; }
   </style>
 </head>
 
@@ -1225,7 +1278,7 @@
           </li>
         </ul>
 
-        <button type="button" class="btn-create-post-sidebar" onclick="showToast('Criar nova postagem ou desafio')">
+        <button type="button" class="btn-create-post-sidebar" onclick="openCreatePostModal()">
           <i class="fa-solid fa-plus"></i>
           <span>Nova Publicação</span>
         </button>
@@ -2000,6 +2053,197 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       CREATE POST MODAL (REFERRED IMAGE FORMAT + SOCIALRATS DESIGN SYSTEM)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="create-post-modal" role="dialog" aria-modal="true" aria-label="Criar nova publicação">
+    <div class="create-post-modal">
+      <div class="composer-top-header">
+        <div class="composer-user-block">
+          <img src="../images/avatar-your-story.png" alt="Gabriel Ricca" class="create-post-user-avatar" id="modal-user-avatar">
+          <div class="composer-meta-col">
+            <button type="button" class="composer-name-dropdown-btn" onclick="toggleComposerDropdown('dest-menu', event)">
+              <span id="modal-user-name">Gabriel Ricca</span>
+              <i class="fa-solid fa-caret-down"></i>
+            </button>
+
+            <div class="composer-pills-row">
+              <!-- Pill 1: Visibilidade -->
+              <div class="composer-pill-wrap">
+                <button type="button" class="composer-pill-btn" id="pill-visibility-btn" onclick="toggleComposerDropdown('visibility-menu', event)">
+                  <i class="fa-solid fa-eye pill-lead-icon" id="pill-visibility-icon"></i>
+                  <span id="pill-visibility-label">Publicar para qualquer ...</span>
+                  <i class="fa-solid fa-caret-down pill-caret"></i>
+                </button>
+                <div class="composer-dropdown-menu" id="visibility-menu">
+                  <span class="dropdown-section-label">Quem pode ver sua publicação</span>
+                  <button type="button" class="dropdown-option-item selected" data-vis-label="Publicar para qualquer ..." data-vis-icon="fa-solid fa-eye" onclick="selectVisibilityPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Qualquer pessoa</span>
+                        <span class="dropdown-option-sub">Visível para todos no SocialRats</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                  <button type="button" class="dropdown-option-item" data-vis-label="Publicar: seguidores" data-vis-icon="fa-solid fa-user-group" onclick="selectVisibilityPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-user-group"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Apenas seguidores / membros</span>
+                        <span class="dropdown-option-sub">Somente conexões e membros da comunidade</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pill 2: Comentários -->
+              <div class="composer-pill-wrap">
+                <button type="button" class="composer-pill-btn" id="pill-comments-btn" onclick="toggleComposerDropdown('comments-menu', event)">
+                  <i class="fa-regular fa-comment-dots pill-lead-icon"></i>
+                  <span id="pill-comments-label">Comentários: qualquer ...</span>
+                  <i class="fa-solid fa-caret-down pill-caret"></i>
+                </button>
+                <div class="composer-dropdown-menu" id="comments-menu">
+                  <span class="dropdown-section-label">Quem pode comentar</span>
+                  <button type="button" class="dropdown-option-item selected" data-comm-label="Comentários: qualquer ..." onclick="selectCommentsPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-globe"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Qualquer pessoa</span>
+                        <span class="dropdown-option-sub">Todos podem responder na publicação</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                  <button type="button" class="dropdown-option-item" data-comm-label="Comentários: membros" onclick="selectCommentsPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-users"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Apenas Membros / Seguidores</span>
+                        <span class="dropdown-option-sub">Somente conexões e membros da tribo</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-close-composer" onclick="closeCreatePostModal()" aria-label="Fechar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Unified Filter Pills Pattern: Destino (Conta em Geral ou Comunidade Específica) -->
+      <div class="composer-pills-row" style="padding: 2px 0;">
+        <div class="composer-pill-wrap">
+          <button type="button" class="composer-pill-btn" id="pill-dest-btn" onclick="toggleComposerDropdown('dest-menu', event)">
+            <i class="fa-solid fa-layer-group pill-lead-icon" id="pill-dest-icon"></i>
+            <span id="pill-dest-label">Destino: Conta em geral</span>
+            <i class="fa-solid fa-caret-down pill-caret"></i>
+          </button>
+
+          <div class="composer-dropdown-menu" id="dest-menu">
+            <span class="dropdown-section-label">Publicar na sua conta em geral</span>
+            <button type="button" class="dropdown-option-item selected" data-dest-type="account" data-dest-id="public" data-dest-label="Destino: Conta em geral" data-dest-short="Conta Geral" data-dest-icon="fa-solid fa-user" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Sua Conta em Geral (@gabriel)</span>
+                  <span class="dropdown-option-sub">Publicar no feed principal e no seu perfil</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <span class="dropdown-section-label" style="margin-top:4px;">Ou em uma Comunidade específica</span>
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="gymrats_br" data-dest-label="Destino: GymRats Elite" data-dest-short="🏋️‍♂️ GymRats Elite" data-dest-icon="fa-solid fa-dumbbell" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🏋️‍♂️</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">GymRats Musculação & Elite</span>
+                  <span class="dropdown-option-sub">998k membros · Cargas & PRs</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="devs_foco" data-dest-label="Destino: Programação Devs" data-dest-short="💻 Programação Devs" data-dest-icon="fa-solid fa-code" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">💻</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Programação Devs & Foco</span>
+                  <span class="dropdown-option-sub">128k membros · Líder Alfa</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="calistenia" data-dest-label="Destino: Calistenia & Street" data-dest-short="🤸 Calistenia & Street" data-dest-icon="fa-solid fa-person-running" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🤸</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Calistenia & Musculação</span>
+                  <span class="dropdown-option-sub">41k membros · Top 5%</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="madrugada" data-dest-label="Destino: Corredores Madrugada" data-dest-short="🏃 Corredores da Madrugada" data-dest-icon="fa-solid fa-fire" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🏃</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Desafios da Madrugada</span>
+                  <span class="dropdown-option-sub">12k membros · Criador</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <textarea class="create-post-textarea" id="new-post-content" placeholder="Compartilhe suas ideias..." oninput="handleProfilePostInput(this)"></textarea>
+
+      <div class="composer-tools-bar">
+        <div class="composer-tools-left" style="flex-wrap:wrap;">
+          <button type="button" class="btn-revise-pill" onclick="reviseProfilePostText()">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--color-accent-pink); font-size:12px;"></i>
+            <span>Revise</span>
+          </button>
+          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji('🔥')"><i class="fa-regular fa-face-smile"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="showToast('Galeria de mídia aberta!')"><i class="fa-regular fa-image"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji(' 🏆 #NovoPR ')"><i class="fa-solid fa-certificate"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="showToast('Mais opções da publicação')"><i class="fa-solid fa-plus"></i></button>
+
+          <!-- Colaboradores ao lado do + -->
+          <div class="composer-pill-wrap">
+            <button type="button" class="composer-pill-btn" onclick="showToast('Selecione parceiros de treino para colaborar!')">
+              <i class="fa-solid fa-user-plus pill-lead-icon"></i>
+              <span>Adicionar colaboradores</span>
+            </button>
+          </div>
+        </div>
+        <div class="create-post-char-count" id="post-char-counter">0 / 500</div>
+      </div>
+
+      <div class="composer-bottom-footer">
+        <div></div>
+        <div class="composer-footer-actions">
+          <button type="button" class="btn-schedule-post" onclick="showToast('Publicação agendada para hoje às 19:00 ⏰')">
+            <i class="fa-regular fa-clock"></i>
+          </button>
+          <button type="button" class="btn-submit-post" id="btn-submit-post" onclick="submitProfilePost()" disabled>
+            Publicar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        TOAST NOTIFICATION PILL
        ═══════════════════════════════════════════════════════════════ -->
   <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
@@ -2150,6 +2394,167 @@
         btn.textContent = 'Seguindo';
         showToast('Você agora segue este usuário!');
       }
+    }
+
+    // 8. Create Post Modal Handlers (Profile)
+    let profileSelectedDestType = 'account';
+    let profileSelectedDestShort = 'Conta Geral (Público)';
+
+    function openCreatePostModal() {
+      const modal = document.getElementById('create-post-modal');
+      if (modal) {
+        modal.classList.add('active');
+        setTimeout(() => document.getElementById('new-post-content')?.focus(), 80);
+      }
+    }
+
+    function closeCreatePostModal() {
+      document.getElementById('create-post-modal')?.classList.remove('active');
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+    }
+
+    function toggleComposerDropdown(menuId, event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById(menuId);
+      if (!menu) return;
+      const isShowing = menu.classList.contains('show');
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      if (!isShowing) menu.classList.add('show');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.composer-pill-wrap') && !e.target.closest('.composer-name-dropdown-btn')) {
+        document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      }
+    });
+
+    function selectPostDestination(optionBtn) {
+      document.querySelectorAll('#dest-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+
+      profileSelectedDestType = optionBtn.getAttribute('data-dest-type') || 'account';
+      const label = optionBtn.getAttribute('data-dest-label') || 'Destino: Conta em geral';
+      profileSelectedDestShort = optionBtn.getAttribute('data-dest-short') || 'Conta Geral';
+      const iconClass = optionBtn.getAttribute('data-dest-icon') || 'fa-solid fa-layer-group';
+
+      const pillBtn = document.getElementById('pill-dest-btn');
+      const pillLabel = document.getElementById('pill-dest-label');
+      const pillIcon = document.getElementById('pill-dest-icon');
+
+      if (pillLabel) pillLabel.textContent = label;
+      if (pillIcon) pillIcon.className = `${iconClass} pill-lead-icon`;
+      if (pillBtn) pillBtn.classList.toggle('active-community', profileSelectedDestType === 'community');
+
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      showToast(`Destino selecionado: ${profileSelectedDestShort}`);
+    }
+
+    function selectVisibilityPermission(optionBtn) {
+      document.querySelectorAll('#visibility-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+      const label = optionBtn.getAttribute('data-vis-label') || 'Publicar para qualquer ...';
+      const iconClass = optionBtn.getAttribute('data-vis-icon') || 'fa-solid fa-eye';
+      const pillLabel = document.getElementById('pill-visibility-label');
+      const pillIcon = document.getElementById('pill-visibility-icon');
+      if (pillLabel) pillLabel.textContent = label;
+      if (pillIcon) pillIcon.className = `${iconClass} pill-lead-icon`;
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      showToast(`Visibilidade atualizada: ${label}`);
+    }
+
+    function selectCommentsPermission(optionBtn) {
+      document.querySelectorAll('#comments-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+      const label = optionBtn.getAttribute('data-comm-label') || 'Comentários: qualquer ...';
+      const pillLabel = document.getElementById('pill-comments-label');
+      if (pillLabel) pillLabel.textContent = label;
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      showToast(`Configuração atualizada: ${label}`);
+    }
+
+    function handleProfilePostInput(textarea) {
+      const len = textarea.value.length;
+      document.getElementById('post-char-counter').textContent = `${len} / 500`;
+      const btn = document.getElementById('btn-submit-post');
+      if (btn) btn.disabled = len === 0;
+    }
+
+    function reviseProfilePostText() {
+      const textarea = document.getElementById('new-post-content');
+      if (!textarea) return;
+      textarea.value = textarea.value.trim()
+        ? `${textarea.value.trim()} 🔥 Evolução diária no SocialRats! 💪🐀`
+        : 'Mais um dia vencendo na arena SocialRats! Disciplina inabalável 🔥💪 #RatoAlfa';
+      handleProfilePostInput(textarea);
+      showToast('Texto revisado e aprimorado! ✨');
+    }
+
+    function insertProfileEmoji(str) {
+      const textarea = document.getElementById('new-post-content');
+      if (!textarea) return;
+      textarea.value += str;
+      handleProfilePostInput(textarea);
+      textarea.focus();
+    }
+
+    function submitProfilePost() {
+      const textarea = document.getElementById('new-post-content');
+      const text = textarea ? textarea.value.trim() : '';
+      if (!text) return;
+
+      const panel = document.getElementById('posts-panel');
+      if (panel) {
+        const badgeHtml = profileSelectedDestType === 'community'
+          ? `<span style="font-size:11px; font-weight:700; color:var(--color-accent-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:2px 8px; border-radius:999px; margin-left:6px;">${profileSelectedDestShort}</span>`
+          : `<span style="font-size:11px; font-weight:600; color:var(--color-text-secondary); background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:2px 8px; border-radius:999px; margin-left:6px;">${profileSelectedDestShort}</span>`;
+
+        const article = document.createElement('article');
+        article.className = 'post-card';
+        article.innerHTML = `
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="../images/avatar-your-story.png" alt="Gabriel" class="post-author-avatar-img">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">Gabriel Ricca ${badgeHtml}</span>
+                <span class="post-timestamp">Agora mesmo</span>
+              </div>
+            </div>
+            <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+          <p class="post-text-body">${text}</p>
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <button type="button" class="action-btn" onclick="toggleLike(this, '1', '0')">
+                <i class="fa-solid fa-heart"></i>
+                <span>0</span>
+              </button>
+              <button type="button" class="action-btn">
+                <i class="fa-regular fa-comment"></i>
+                <span>0</span>
+              </button>
+              <button type="button" class="action-btn">
+                <i class="fa-solid fa-repeat"></i>
+                <span>0</span>
+              </button>
+            </div>
+            <button type="button" class="action-btn">
+              <i class="fa-regular fa-bookmark"></i>
+            </button>
+          </div>
+        `;
+        panel.prepend(article);
+      }
+
+      textarea.value = '';
+      handleProfilePostInput(textarea);
+      closeCreatePostModal();
+      showToast(profileSelectedDestType === 'community'
+        ? `Publicado na comunidade ${profileSelectedDestShort}! 🔥`
+        : 'Publicado na sua conta em geral! 🔥');
     }
   </script>
 </body>

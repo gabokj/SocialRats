@@ -1369,131 +1369,447 @@
       object-fit: cover;
     }
 
-    /* Enhanced Create Post Modal Window */
+    /* Enhanced Create Post Modal Window — SocialRats Design System */
     .create-post-modal {
-      width: 92%;
-      max-width: 500px;
-      background: #12131c;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      width: 94%;
+      max-width: 600px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
       border-radius: 24px;
-      padding: 20px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      padding: 20px 22px 18px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 50, 184, 0.14);
       display: flex;
       flex-direction: column;
-      gap: 14px;
-      max-height: 90vh;
-      overflow-y: auto;
+      gap: 12px;
+      max-height: 92vh;
+      overflow: visible;
+      position: relative;
+      animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    .create-post-header {
+    /* Top Composer Header (Image Format) */
+    .composer-top-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 12px;
+      gap: 12px;
+      position: relative;
     }
 
-    .create-post-title {
-      font-size: 17px;
-      font-weight: 800;
-      color: #ffffff;
+    .composer-user-block {
       display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .create-post-user-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
     }
 
     .create-post-user-avatar {
-      width: 40px;
-      height: 40px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      border: 1.5px solid var(--color-brand-purple);
+      border: 2px solid var(--color-brand-pink);
       object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.25);
     }
 
-    .create-post-user-meta {
+    .composer-meta-col {
       display: flex;
       flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
     }
 
-    .create-post-user-name {
-      font-size: 14px;
+    .composer-name-dropdown-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-primary);
+      font-family: var(--font-heading);
+      font-size: 15.5px;
       font-weight: 700;
-      color: #ffffff;
-    }
-
-    .create-post-audience-badge {
-      font-size: 11px;
-      color: #8e8e93;
-      background: rgba(255, 255, 255, 0.06);
-      padding: 2px 8px;
-      border-radius: 12px;
-      width: fit-content;
-      margin-top: 2px;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
+      cursor: pointer;
+      padding: 2px 4px;
+      margin-left: -4px;
+      border-radius: 8px;
+      width: fit-content;
+      transition: background 0.15s ease, color 0.15s ease;
     }
 
+    .composer-name-dropdown-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-brand-pink);
+    }
+
+    .composer-name-dropdown-btn i {
+      font-size: 11px;
+      color: var(--text-secondary);
+    }
+
+    .composer-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .composer-pill-wrap {
+      position: relative;
+    }
+
+    .composer-pill-btn {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .composer-pill-btn:hover,
+    .composer-pill-btn.open {
+      background: rgba(255, 50, 184, 0.12);
+      border-color: var(--color-brand-pink);
+      color: var(--text-primary);
+    }
+
+    .composer-pill-btn.active-community {
+      background: rgba(255, 50, 184, 0.14);
+      border-color: var(--color-brand-pink);
+      color: var(--color-brand-pink);
+    }
+
+    .composer-pill-btn i.pill-lead-icon {
+      font-size: 12.5px;
+      color: var(--color-brand-pink);
+    }
+
+    .composer-pill-btn i.pill-caret {
+      font-size: 10px;
+      opacity: 0.75;
+      margin-left: 2px;
+    }
+
+    .btn-close-composer {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-close-composer:hover {
+      background: var(--color-surface-elevated);
+      color: var(--text-primary);
+    }
+
+    /* Dropdown Popover Menu for Destination, Comments & Collaborators */
+    .composer-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 265px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 50, 184, 0.15);
+      z-index: 1200;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 310px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
+    .composer-dropdown-menu.show {
+      display: flex;
+      animation: notifModalIn 0.16s ease forwards;
+    }
+
+    .composer-dropdown-menu.drop-up {
+      top: auto;
+      bottom: calc(100% + 8px);
+    }
+
+    .dropdown-section-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      padding: 6px 10px 3px;
+    }
+
+    .dropdown-option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 11px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .dropdown-option-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-option-item.selected {
+      background: rgba(255, 50, 184, 0.12);
+      border-color: rgba(255, 50, 184, 0.35);
+    }
+
+    .dropdown-option-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dropdown-option-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      color: var(--color-brand-pink);
+    }
+
+    .dropdown-option-texts {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .dropdown-option-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dropdown-option-sub {
+      font-size: 10.5px;
+      color: var(--text-secondary);
+    }
+
+    .dropdown-option-check {
+      color: var(--color-brand-pink);
+      font-size: 13px;
+      opacity: 0;
+      flex-shrink: 0;
+    }
+
+    .dropdown-option-item.selected .dropdown-option-check {
+      opacity: 1;
+    }
+
+    /* Destination Active Banner Filter Bar */
+    .composer-dest-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(28, 23, 40, 0.65);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .composer-dest-filter-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .dest-filter-chip {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .dest-filter-chip:hover {
+      color: var(--text-primary);
+      border-color: rgba(255, 50, 184, 0.4);
+    }
+
+    .dest-filter-chip.active {
+      background: rgba(255, 50, 184, 0.14);
+      border-color: var(--color-brand-pink);
+      color: var(--color-brand-pink);
+      font-weight: 700;
+    }
+
+    /* Collaborators / Tags Active Badges */
+    .composer-active-SubBadges {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .composer-mini-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 9999px;
+      background: rgba(146, 59, 255, 0.14);
+      border: 1px solid rgba(146, 59, 255, 0.35);
+      color: #d8b4fe;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Clean Large Textarea (Matching Reference Image) */
     .create-post-textarea {
       width: 100%;
-      min-height: 110px;
-      background: #181924;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 14px;
-      padding: 14px;
-      color: #ffffff;
+      min-height: 150px;
+      background: transparent;
+      border: none;
+      padding: 6px 2px;
+      color: var(--text-primary);
       font-family: var(--font-body);
-      font-size: 14.5px;
+      font-size: 16px;
       line-height: 1.5;
       resize: none;
       outline: none;
-      transition: border-color 0.15s ease;
     }
 
-    .create-post-textarea:focus {
-      border-color: #ff2a6d;
+    .create-post-textarea::placeholder {
+      color: var(--text-secondary);
+      opacity: 0.75;
     }
 
-    .create-post-char-count {
-      text-align: right;
-      font-size: 11px;
-      color: #636366;
-      margin-top: -6px;
+    /* AI Revise Suggestion Box */
+    .composer-revise-box {
+      display: none;
+      background: rgba(255, 50, 184, 0.08);
+      border: 1px solid rgba(255, 50, 184, 0.3);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 12.5px;
+      color: var(--text-primary);
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    /* Preset Category Chips */
-    .create-post-tags-row {
+    .composer-revise-box.show {
       display: flex;
+    }
+
+    /* Preset Category / Extra Drawer (+ Button) */
+    .create-post-tags-row {
+      display: none;
       gap: 6px;
       overflow-x: auto;
       scrollbar-width: none;
-      padding-bottom: 2px;
+      padding: 4px 0;
+    }
+    .create-post-tags-row.show {
+      display: flex;
     }
     .create-post-tags-row::-webkit-scrollbar { display: none; }
 
     .post-tag-chip {
-      background: #1c1e2b;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: #8e8e93;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--text-secondary);
       font-size: 11.5px;
       font-weight: 600;
       padding: 5px 12px;
-      border-radius: 20px;
+      border-radius: 9999px;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.15s ease;
     }
 
     .post-tag-chip.active {
-      background: rgba(255, 42, 109, 0.15);
-      border-color: #ff2a6d;
-      color: #ff2a6d;
+      background: rgba(255, 50, 184, 0.14);
+      border-color: var(--color-brand-pink);
+      color: var(--color-brand-pink);
+    }
+
+    /* Quick Emoji Picker Bar */
+    .composer-emoji-bar {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 12px;
+      padding: 6px 10px;
+      overflow-x: auto;
+    }
+
+    .composer-emoji-bar.show {
+      display: flex;
+    }
+
+    .emoji-pick-btn {
+      background: transparent;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 8px;
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+
+    .emoji-pick-btn:hover {
+      transform: scale(1.2);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     /* Image Preview Box */
@@ -1501,11 +1817,11 @@
       display: none;
       position: relative;
       width: 100%;
-      max-height: 220px;
+      max-height: 210px;
       border-radius: 14px;
       overflow: hidden;
-      background: #000;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: #0b0913;
+      border: 1px solid var(--color-border-subtle);
     }
 
     .post-image-preview-wrap.show {
@@ -1514,7 +1830,7 @@
 
     .post-image-preview-img {
       width: 100%;
-      max-height: 220px;
+      max-height: 210px;
       object-fit: cover;
       display: block;
     }
@@ -1523,11 +1839,11 @@
       position: absolute;
       top: 8px;
       right: 8px;
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(11, 9, 19, 0.8);
+      border: 1px solid var(--color-border-subtle);
       color: #ffffff;
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1536,62 +1852,147 @@
       font-size: 14px;
     }
 
-    .create-post-toolbar {
+    /* Action Tools Row (Revise, Emoji, Media, PR/Badge, Plus) */
+    .composer-tools-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      padding-top: 12px;
+      gap: 10px;
+      padding-top: 4px;
     }
 
-    .create-post-media-tools {
+    .composer-tools-left {
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .btn-media-tool {
-      background: transparent;
-      border: none;
-      color: #8e8e93;
-      font-size: 18px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 6px 10px;
-      border-radius: 8px;
       gap: 6px;
-      font-size: 12.5px;
+    }
+
+    .btn-revise-pill {
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 13px;
       font-weight: 600;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
       transition: all 0.15s ease;
     }
 
-    .btn-media-tool:hover {
-      color: #ff2a6d;
-      background: rgba(255, 42, 109, 0.1);
+    .btn-revise-pill:hover {
+      border-color: var(--color-brand-pink);
+      background: rgba(255, 50, 184, 0.1);
+      color: var(--color-brand-pink);
+    }
+
+    .btn-composer-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-composer-icon:hover,
+    .btn-composer-icon.active {
+      background: var(--color-surface-elevated);
+      color: var(--color-brand-pink);
+    }
+
+    .create-post-char-count {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Bottom Footer Row (Clock Schedule & Publicar Button) */
+    .composer-bottom-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 14px;
+      margin-top: 2px;
+    }
+
+    .composer-schedule-status {
+      font-size: 12px;
+      color: var(--color-brand-orange);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .composer-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .btn-schedule-post {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--text-secondary);
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-schedule-post:hover,
+    .btn-schedule-post.scheduled {
+      border-color: var(--color-brand-orange);
+      color: var(--color-brand-orange);
+      background: rgba(255, 113, 63, 0.12);
     }
 
     .btn-submit-post {
-      background: linear-gradient(135deg, #ff713f 0%, #ff2a6d 50%, #923bff 100%);
+      background: var(--gradient-brand);
       border: none;
       color: #ffffff;
+      font-family: var(--font-body);
       font-weight: 700;
-      padding: 10px 22px;
-      border-radius: 12px;
+      height: 40px;
+      padding: 0 22px;
+      border-radius: 9999px;
       cursor: pointer;
       font-size: 14px;
-      box-shadow: 0 4px 16px rgba(255, 42, 109, 0.35);
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: all 0.15s ease;
     }
 
-    .btn-submit-post:hover {
+    .btn-submit-post:hover:not(:disabled) {
       transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(255, 42, 109, 0.5);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.5);
     }
 
-    .btn-submit-post:active {
-      transform: scale(0.96);
+    .btn-submit-post:disabled {
+      background: var(--color-surface-elevated);
+      color: var(--text-muted);
+      border: 1px solid var(--color-border-subtle);
+      box-shadow: none;
+      cursor: not-allowed;
+      opacity: 0.65;
     }
 
     /* Options Sheet Modal */
@@ -2193,43 +2594,239 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
-       CREATE POST MODAL
+       CREATE POST MODAL (REFERRED IMAGE FORMAT + SOCIALRATS DESIGN SYSTEM)
        ═══════════════════════════════════════════════════════════════ -->
   <div class="modal-overlay" id="create-post-modal" role="dialog" aria-modal="true" aria-label="Criar nova publicação">
     <div class="create-post-modal">
-      <div class="create-post-header">
-        <h3 class="create-post-title">
-          <i class="fa-solid fa-pen-to-square" style="color:var(--color-brand-orange);"></i>
-          Criar Publicação
-        </h3>
-        <button type="button" class="btn-close-story" onclick="closeCreatePostModal()" aria-label="Fechar janela">
+
+      <!-- 1. Top Header: Avatar, Name Dropdown, 3 Action Pills & Close X -->
+      <div class="composer-top-header">
+        <div class="composer-user-block">
+          <img src="../images/avatar-your-story.png" alt="Gabriel Ricca" class="create-post-user-avatar" id="modal-user-avatar">
+
+          <div class="composer-meta-col">
+            <!-- Name with Dropdown Caret -->
+            <button type="button" class="composer-name-dropdown-btn" onclick="toggleComposerDropdown('dest-menu', event)" title="Alternar destino da publicação">
+              <span id="modal-user-name">Gabriel Ricca</span>
+              <i class="fa-solid fa-caret-down"></i>
+            </button>
+
+            <!-- 2 Pills Row in Header: Publicar para (Visibilidade) & Comentários -->
+            <div class="composer-pills-row">
+
+              <!-- Pill 1: Visibilidade / Público -->
+              <div class="composer-pill-wrap">
+                <button type="button" class="composer-pill-btn" id="pill-visibility-btn" onclick="toggleComposerDropdown('visibility-menu', event)">
+                  <i class="fa-solid fa-eye pill-lead-icon" id="pill-visibility-icon"></i>
+                  <span id="pill-visibility-label">Publicar para qualquer ...</span>
+                  <i class="fa-solid fa-caret-down pill-caret"></i>
+                </button>
+
+                <!-- Dropdown Menu: Visibilidade -->
+                <div class="composer-dropdown-menu" id="visibility-menu">
+                  <span class="dropdown-section-label">Quem pode ver sua publicação</span>
+
+                  <button type="button" class="dropdown-option-item selected" data-vis-label="Publicar para qualquer ..." data-vis-icon="fa-solid fa-eye" onclick="selectVisibilityPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-earth-americas"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Qualquer pessoa</span>
+                        <span class="dropdown-option-sub">Visível para todos no SocialRats</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+
+                  <button type="button" class="dropdown-option-item" data-vis-label="Publicar: seguidores" data-vis-icon="fa-solid fa-user-group" onclick="selectVisibilityPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-user-group"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Apenas seguidores / membros</span>
+                        <span class="dropdown-option-sub">Somente conexões e membros da comunidade</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Pill 2: Controle de Comentários -->
+              <div class="composer-pill-wrap">
+                <button type="button" class="composer-pill-btn" id="pill-comments-btn" onclick="toggleComposerDropdown('comments-menu', event)">
+                  <i class="fa-regular fa-comment-dots pill-lead-icon"></i>
+                  <span id="pill-comments-label">Comentários: qualquer ...</span>
+                  <i class="fa-solid fa-caret-down pill-caret"></i>
+                </button>
+
+                <div class="composer-dropdown-menu" id="comments-menu">
+                  <span class="dropdown-section-label">Quem pode comentar</span>
+
+                  <button type="button" class="dropdown-option-item selected" data-comm-label="Comentários: qualquer ..." onclick="selectCommentsPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-globe"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Qualquer pessoa</span>
+                        <span class="dropdown-option-sub">Todos podem responder na publicação</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+
+                  <button type="button" class="dropdown-option-item" data-comm-label="Comentários: membros" onclick="selectCommentsPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-users"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Membros da comunidade / Seguidores</span>
+                        <span class="dropdown-option-sub">Somente conexões e membros da tribo</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+
+                  <button type="button" class="dropdown-option-item" data-comm-label="Comentários: ninguém" onclick="selectCommentsPermission(this)">
+                    <div class="dropdown-option-left">
+                      <div class="dropdown-option-icon"><i class="fa-solid fa-lock"></i></div>
+                      <div class="dropdown-option-texts">
+                        <span class="dropdown-option-title">Ninguém (Desativados)</span>
+                        <span class="dropdown-option-sub">Apenas curtidas e compartilhamentos</span>
+                      </div>
+                    </div>
+                    <i class="fa-solid fa-check dropdown-option-check"></i>
+                  </button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Close Button (Top Right X) -->
+        <button type="button" class="btn-close-composer" onclick="closeCreatePostModal()" aria-label="Fechar janela">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <!-- User Identification -->
-      <div class="create-post-user-row">
-        <img src="../images/avatar-your-story.png" alt="Gabriel" class="create-post-user-avatar" id="modal-user-avatar">
-        <div class="create-post-user-meta">
-          <span class="create-post-user-name" id="modal-user-name">Gabriel</span>
-          <span class="create-post-audience-badge">
-            <i class="fa-solid fa-earth-americas"></i> Público
-          </span>
+      <!-- Unified Filter Pills Pattern: Destino (Conta em Geral ou Comunidade Específica) -->
+      <div class="composer-pills-row" style="padding: 2px 0;">
+        <div class="composer-pill-wrap">
+          <button type="button" class="composer-pill-btn" id="pill-dest-btn" onclick="toggleComposerDropdown('dest-menu', event)">
+            <i class="fa-solid fa-layer-group pill-lead-icon" id="pill-dest-icon"></i>
+            <span id="pill-dest-label">Destino: Conta em geral</span>
+            <i class="fa-solid fa-caret-down pill-caret"></i>
+          </button>
+
+          <!-- Dropdown Menu: Conta em Geral vs Comunidades Específicas -->
+          <div class="composer-dropdown-menu" id="dest-menu">
+            <span class="dropdown-section-label">Publicar na sua conta em geral</span>
+
+            <button type="button" class="dropdown-option-item selected" data-dest-type="account" data-dest-id="public" data-dest-label="Destino: Conta em geral" data-dest-short="Conta Geral" data-dest-icon="fa-solid fa-user" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Sua Conta em Geral (@gabrielricca)</span>
+                  <span class="dropdown-option-sub">Publicar no feed principal e no seu perfil</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <span class="dropdown-section-label" style="margin-top:4px;">Ou em uma Comunidade específica</span>
+
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="gymrats_br" data-dest-label="Destino: GymRats Elite" data-dest-short="🏋️‍♂️ GymRats Elite" data-dest-icon="fa-solid fa-dumbbell" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🏋️‍♂️</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">GymRats Musculação & Elite</span>
+                  <span class="dropdown-option-sub">998k membros · Cargas & PRs</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="devs_foco" data-dest-label="Destino: Programação Devs" data-dest-short="💻 Programação Devs" data-dest-icon="fa-solid fa-code" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">💻</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Programação Devs & Foco</span>
+                  <span class="dropdown-option-sub">128k membros · Líder Alfa</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="calistenia" data-dest-label="Destino: Calistenia & Street" data-dest-short="🤸 Calistenia & Street" data-dest-icon="fa-solid fa-person-running" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🤸</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Calistenia & Musculação</span>
+                  <span class="dropdown-option-sub">41k membros · Top 5%</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="madrugada" data-dest-label="Destino: Corredores Madrugada" data-dest-short="🏃 Corredores da Madrugada" data-dest-icon="fa-solid fa-fire" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🏃</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">Desafios da Madrugada</span>
+                  <span class="dropdown-option-sub">12k membros · Criador</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="ia_tech" data-dest-label="Destino: IA & Tecnologia" data-dest-short="🧠 IA & Tecnologia" data-dest-icon="fa-solid fa-brain" onclick="selectPostDestination(this)">
+              <div class="dropdown-option-left">
+                <div class="dropdown-option-icon">🧠</div>
+                <div class="dropdown-option-texts">
+                  <span class="dropdown-option-title">IA & Tecnologia</span>
+                  <span class="dropdown-option-sub">96k membros · Participante</span>
+                </div>
+              </div>
+              <i class="fa-solid fa-check dropdown-option-check"></i>
+            </button>
+          </div>
         </div>
       </div>
 
-      <!-- Category Filter Chips -->
-      <div class="create-post-tags-row">
-        <button type="button" class="post-tag-chip active" onclick="togglePostTag(this, 'Geral')">✨ Geral</button>
-        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Treino')">💪 Treino</button>
-        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Desafio')">🔥 Desafio</button>
-        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Dieta')">🥗 Dieta</button>
-        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Novo PR')">🏆 Novo PR</button>
+      <!-- Active Collaborators / Selected Badges Row -->
+      <div class="composer-active-SubBadges" id="composer-active-badges" style="display:none;"></div>
+
+      <!-- 2. Main Clean Textarea ("Compartilhe suas ideias...") -->
+      <textarea class="create-post-textarea" id="new-post-content" placeholder="Compartilhe suas ideias..." oninput="handlePostTextInput(this)"></textarea>
+
+      <!-- AI Revise Box (Shown when clicking 'Revise') -->
+      <div class="composer-revise-box" id="composer-revise-box">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--color-brand-pink);"></i>
+          <span id="revise-suggestion-text">Sugestão pronta para turbinar seu post!</span>
+        </div>
+        <button type="button" class="dest-filter-chip active" onclick="applyReviseSuggestion()">Aplicar</button>
       </div>
 
-      <!-- Post Text Input Area -->
-      <textarea class="create-post-textarea" id="new-post-content" placeholder="O que você realizou no treino hoje? Conte para a comunidade SocialRats..." oninput="handlePostTextInput(this)"></textarea>
-      <div class="create-post-char-count" id="post-char-counter">0 / 280</div>
+      <!-- Optional Emoji Bar (Toggled by Smiley Icon) -->
+      <div class="composer-emoji-bar" id="composer-emoji-bar">
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🔥')">🔥</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('💪')">💪</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🏋️‍♂️')">🏋️‍♂️</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🐀')">🐀</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🏆')">🏆</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('⚡')">⚡</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🥗')">🥗</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('🚀')">🚀</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('👏')">👏</button>
+        <button type="button" class="emoji-pick-btn" onclick="insertEmoji('❤️')">❤️</button>
+      </div>
+
+      <!-- Optional Category / PR Tag Chips (Toggled by Starburst/Plus Icon) -->
+      <div class="create-post-tags-row" id="composer-tags-drawer">
+        <button type="button" class="post-tag-chip active" onclick="togglePostTag(this, 'Geral')">✨ Geral</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Treino Pago')">💪 Treino Pago</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Novo PR 🏆')">🏆 Novo PR</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Desafio 🔥')">🔥 Desafio</button>
+        <button type="button" class="post-tag-chip" onclick="togglePostTag(this, 'Dieta 🥗')">🥗 Dieta</button>
+      </div>
 
       <!-- Image Preview Container -->
       <div class="post-image-preview-wrap" id="post-image-preview-wrap">
@@ -2242,24 +2839,94 @@
       <!-- Hidden File Input -->
       <input type="file" id="post-file-input" accept="image/*" style="display:none;" onchange="handleImageFileSelect(event)">
 
-      <!-- Media Toolbar & Submit Button -->
-      <div class="create-post-toolbar">
-        <div class="create-post-media-tools">
-          <button type="button" class="btn-media-tool" onclick="document.getElementById('post-file-input').click()" title="Adicionar Foto">
-            <i class="fa-regular fa-image" style="color:var(--color-brand-pink); font-size:16px;"></i>
-            <span>Foto</span>
+      <!-- 3. Lower Action Tools Row (Revise, Emoji, Gallery, Badge/PR, Plus & Collaborators beside +) -->
+      <div class="composer-tools-bar">
+        <div class="composer-tools-left" style="flex-wrap:wrap;">
+          <button type="button" class="btn-revise-pill" onclick="triggerRevisePost()" title="Revisar e melhorar texto">
+            <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--color-brand-pink); font-size:12px;"></i>
+            <span>Revise</span>
           </button>
-          <button type="button" class="btn-media-tool" onclick="selectSampleImage('../images/post-sunset.png')" title="Usar imagem de pôr do sol">
-            <i class="fa-solid fa-camera-retro" style="color:var(--color-brand-orange); font-size:16px;"></i>
-            <span>Amostra</span>
+
+          <button type="button" class="btn-composer-icon" id="btn-tool-emoji" onclick="toggleEmojiDrawer()" title="Inserir emoji">
+            <i class="fa-regular fa-face-smile"></i>
           </button>
+
+          <button type="button" class="btn-composer-icon" onclick="document.getElementById('post-file-input').click()" title="Adicionar foto ou mídia">
+            <i class="fa-regular fa-image"></i>
+          </button>
+
+          <button type="button" class="btn-composer-icon" id="btn-tool-badge" onclick="toggleTagsDrawer()" title="Destacar conquista, PR ou modalidade">
+            <i class="fa-solid fa-certificate"></i>
+          </button>
+
+          <button type="button" class="btn-composer-icon" onclick="selectSampleImage('../images/post-sunset.png')" title="Mais opções / Anexar foto de amostra">
+            <i class="fa-solid fa-plus"></i>
+          </button>
+
+          <!-- Colaboradores ao lado do + (conforme solicitado) -->
+          <div class="composer-pill-wrap">
+            <button type="button" class="composer-pill-btn" id="pill-collab-btn" onclick="toggleComposerDropdown('collab-menu', event)" title="Adicionar colaboradores">
+              <i class="fa-solid fa-user-plus pill-lead-icon"></i>
+              <span id="pill-collab-label">Adicionar colaboradores</span>
+            </button>
+
+            <div class="composer-dropdown-menu drop-up" id="collab-menu">
+              <span class="dropdown-section-label">Marcar parceiros de treino</span>
+
+              <button type="button" class="dropdown-option-item" data-collab-user="@rijalxp" onclick="toggleCollaborator(this)">
+                <div class="dropdown-option-left">
+                  <img src="../images/avatar-rijalxp.png" alt="rijalxp" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
+                  <div class="dropdown-option-texts">
+                    <span class="dropdown-option-title">rijalxp</span>
+                    <span class="dropdown-option-sub">Parceiro de treino · Segue você</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-check dropdown-option-check"></i>
+              </button>
+
+              <button type="button" class="dropdown-option-item" data-collab-user="@broyin" onclick="toggleCollaborator(this)">
+                <div class="dropdown-option-left">
+                  <img src="../images/avatar-broyin.png" alt="broyin" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
+                  <div class="dropdown-option-texts">
+                    <span class="dropdown-option-title">broyin</span>
+                    <span class="dropdown-option-sub">Membro GymRats Elite</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-check dropdown-option-check"></i>
+              </button>
+
+              <button type="button" class="dropdown-option-item" data-collab-user="@den.a" onclick="toggleCollaborator(this)">
+                <div class="dropdown-option-left">
+                  <img src="../images/avatar-dena.png" alt="den.a" style="width:28px; height:28px; border-radius:50%; object-fit:cover;">
+                  <div class="dropdown-option-texts">
+                    <span class="dropdown-option-title">den.a</span>
+                    <span class="dropdown-option-sub">Corredores da Madrugada</span>
+                  </div>
+                </div>
+                <i class="fa-solid fa-check dropdown-option-check"></i>
+              </button>
+            </div>
+          </div>
         </div>
 
-        <button type="button" class="btn-submit-post" onclick="submitNewPost()">
-          <i class="fa-solid fa-paper-plane" style="margin-right:6px;"></i>
-          Publicar
-        </button>
+        <div class="create-post-char-count" id="post-char-counter">0 / 500</div>
       </div>
+
+      <!-- 4. Bottom Footer: Divider + Schedule Clock + Publicar Button -->
+      <div class="composer-bottom-footer">
+        <div class="composer-schedule-status" id="composer-schedule-status"></div>
+
+        <div class="composer-footer-actions">
+          <button type="button" class="btn-schedule-post" id="btn-schedule-post" onclick="toggleSchedulePost()" title="Agendar horário da publicação">
+            <i class="fa-regular fa-clock"></i>
+          </button>
+
+          <button type="button" class="btn-submit-post" id="btn-submit-post" onclick="submitNewPost()" disabled>
+            Publicar
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -2581,25 +3248,217 @@
       closeOptionsModal();
     }
 
-    // 10. Create Post Modal & Submission
+    // 10. Create Post Modal & Submission (Full Destination Filter + Options)
     const createPostModal = document.getElementById('create-post-modal');
     const newPostContent = document.getElementById('new-post-content');
     const postsList = document.getElementById('posts-list');
     let selectedImageSrc = '';
     let selectedPostTag = 'Geral';
+    let selectedDestType = 'account';
+    let selectedDestId = 'public';
+    let selectedDestShort = 'Conta Geral (Público)';
+    let selectedCollaborators = [];
+    let isPostScheduled = false;
+    let reviseSuggestedText = '';
 
     function openCreatePostModal() {
       createPostModal.classList.add('active');
-      newPostContent.focus();
+      updateSubmitButtonState();
+      setTimeout(() => newPostContent.focus(), 80);
     }
 
     function closeCreatePostModal() {
       createPostModal.classList.remove('active');
+      closeAllComposerDropdowns();
+    }
+
+    function closeAllComposerDropdowns() {
+      document.querySelectorAll('.composer-dropdown-menu').forEach(m => m.classList.remove('show'));
+      document.querySelectorAll('.composer-pill-btn').forEach(b => b.classList.remove('open'));
+    }
+
+    function toggleComposerDropdown(menuId, event) {
+      if (event) event.stopPropagation();
+      const menu = document.getElementById(menuId);
+      if (!menu) return;
+      const isShowing = menu.classList.contains('show');
+      closeAllComposerDropdowns();
+      if (!isShowing) {
+        menu.classList.add('show');
+        const parentBtn = menu.parentElement?.querySelector('.composer-pill-btn');
+        if (parentBtn) parentBtn.classList.add('open');
+      }
+    }
+
+    // Close dropdowns when clicking anywhere inside modal outside menus
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.composer-pill-wrap') && !e.target.closest('.composer-name-dropdown-btn')) {
+        closeAllComposerDropdowns();
+      }
+    });
+
+    function selectPostDestination(optionBtn) {
+      document.querySelectorAll('#dest-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+
+      selectedDestType = optionBtn.getAttribute('data-dest-type') || 'account';
+      selectedDestId = optionBtn.getAttribute('data-dest-id') || 'public';
+      const label = optionBtn.getAttribute('data-dest-label') || 'Destino: Conta em geral';
+      selectedDestShort = optionBtn.getAttribute('data-dest-short') || 'Conta Geral';
+      const iconClass = optionBtn.getAttribute('data-dest-icon') || 'fa-solid fa-layer-group';
+
+      const pillBtn = document.getElementById('pill-dest-btn');
+      const pillLabel = document.getElementById('pill-dest-label');
+      const pillIcon = document.getElementById('pill-dest-icon');
+
+      if (pillLabel) pillLabel.textContent = label;
+      if (pillIcon) pillIcon.className = `${iconClass} pill-lead-icon`;
+
+      if (pillBtn) {
+        if (selectedDestType === 'community') {
+          pillBtn.classList.add('active-community');
+        } else {
+          pillBtn.classList.remove('active-community');
+        }
+      }
+
+      renderActiveSubBadges();
+      closeAllComposerDropdowns();
+      showToast(`Destino alterado para: ${selectedDestShort}`);
+    }
+
+    function selectVisibilityPermission(optionBtn) {
+      document.querySelectorAll('#visibility-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+      const label = optionBtn.getAttribute('data-vis-label') || 'Publicar para qualquer ...';
+      const iconClass = optionBtn.getAttribute('data-vis-icon') || 'fa-solid fa-eye';
+      const pillLabel = document.getElementById('pill-visibility-label');
+      const pillIcon = document.getElementById('pill-visibility-icon');
+      if (pillLabel) pillLabel.textContent = label;
+      if (pillIcon) pillIcon.className = `${iconClass} pill-lead-icon`;
+      closeAllComposerDropdowns();
+      showToast(`Visibilidade atualizada: ${label}`);
+    }
+
+    function selectCommentsPermission(optionBtn) {
+      document.querySelectorAll('#comments-menu .dropdown-option-item').forEach(item => item.classList.remove('selected'));
+      optionBtn.classList.add('selected');
+      const label = optionBtn.getAttribute('data-comm-label') || 'Comentários: qualquer ...';
+      const pillLabel = document.getElementById('pill-comments-label');
+      if (pillLabel) pillLabel.textContent = label;
+      closeAllComposerDropdowns();
+      showToast(`Configuração atualizada: ${label}`);
+    }
+
+    function toggleCollaborator(optionBtn) {
+      const user = optionBtn.getAttribute('data-collab-user');
+      if (!user) return;
+      optionBtn.classList.toggle('selected');
+
+      if (optionBtn.classList.contains('selected')) {
+        if (!selectedCollaborators.includes(user)) selectedCollaborators.push(user);
+      } else {
+        selectedCollaborators = selectedCollaborators.filter(u => u !== user);
+      }
+
+      const collabLabel = document.getElementById('pill-collab-label');
+      if (collabLabel) {
+        collabLabel.textContent = selectedCollaborators.length > 0
+          ? `Colaboradores (${selectedCollaborators.length})`
+          : 'Adicionar colaboradores';
+      }
+
+      renderActiveSubBadges();
+    }
+
+    function renderActiveSubBadges() {
+      const container = document.getElementById('composer-active-badges');
+      if (!container) return;
+
+      const badges = [];
+      if (selectedDestType === 'community') {
+        badges.push(`<span class="composer-mini-badge"><i class="fa-solid fa-users"></i> Postando em: <strong>${selectedDestShort}</strong></span>`);
+      }
+      selectedCollaborators.forEach(u => {
+        badges.push(`<span class="composer-mini-badge"><i class="fa-solid fa-user-check"></i> Com ${u}</span>`);
+      });
+
+      if (badges.length > 0) {
+        container.innerHTML = badges.join('');
+        container.style.display = 'flex';
+      } else {
+        container.innerHTML = '';
+        container.style.display = 'none';
+      }
+    }
+
+    function updateSubmitButtonState() {
+      const submitBtn = document.getElementById('btn-submit-post');
+      if (!submitBtn) return;
+      const hasText = newPostContent.value.trim().length > 0;
+      const hasMedia = Boolean(selectedImageSrc);
+      submitBtn.disabled = !(hasText || hasMedia);
     }
 
     function handlePostTextInput(textarea) {
       const len = textarea.value.length;
-      document.getElementById('post-char-counter').textContent = `${len} / 280`;
+      document.getElementById('post-char-counter').textContent = `${len} / 500`;
+      updateSubmitButtonState();
+    }
+
+    function triggerRevisePost() {
+      const current = newPostContent.value.trim();
+      const reviseBox = document.getElementById('composer-revise-box');
+      const reviseTextSpan = document.getElementById('revise-suggestion-text');
+      if (!reviseBox || !reviseTextSpan) return;
+
+      if (!current) {
+        reviseSuggestedText = 'Mais um treino concluído com foco total! 💪 Consistência diária na arena SocialRats 🔥🐀 #SemFalhar';
+      } else {
+        reviseSuggestedText = `${current} 🔥 Consistência sempre em alta no SocialRats! 💪🏆`;
+      }
+      reviseTextSpan.textContent = `Sugestão: "${reviseSuggestedText}"`;
+      reviseBox.classList.add('show');
+    }
+
+    function applyReviseSuggestion() {
+      if (reviseSuggestedText) {
+        newPostContent.value = reviseSuggestedText;
+        handlePostTextInput(newPostContent);
+      }
+      document.getElementById('composer-revise-box')?.classList.remove('show');
+      showToast('Texto revisado e aplicado! ✨');
+    }
+
+    function toggleEmojiDrawer() {
+      const bar = document.getElementById('composer-emoji-bar');
+      const btn = document.getElementById('btn-tool-emoji');
+      if (bar) {
+        bar.classList.toggle('show');
+        btn?.classList.toggle('active', bar.classList.contains('show'));
+      }
+    }
+
+    function toggleTagsDrawer() {
+      const drawer = document.getElementById('composer-tags-drawer');
+      const btn = document.getElementById('btn-tool-badge');
+      if (drawer) {
+        drawer.classList.toggle('show');
+        btn?.classList.toggle('active', drawer.classList.contains('show'));
+      }
+    }
+
+    function toggleSchedulePost() {
+      const btn = document.getElementById('btn-schedule-post');
+      const status = document.getElementById('composer-schedule-status');
+      isPostScheduled = !isPostScheduled;
+      btn?.classList.toggle('scheduled', isPostScheduled);
+      if (status) {
+        status.innerHTML = isPostScheduled
+          ? '<i class="fa-regular fa-clock"></i> Agendado para hoje às 19:00'
+          : '';
+      }
+      showToast(isPostScheduled ? 'Publicação agendada para hoje às 19:00 ⏰' : 'Agendamento removido.');
     }
 
     function togglePostTag(btn, tag) {
@@ -2622,6 +3481,7 @@
         selectedImageSrc = evt.target.result;
         document.getElementById('post-preview-img').src = selectedImageSrc;
         document.getElementById('post-image-preview-wrap').classList.add('show');
+        updateSubmitButtonState();
         showToast('Foto adicionada à publicação!');
       };
       reader.readAsDataURL(file);
@@ -2631,7 +3491,8 @@
       selectedImageSrc = src;
       document.getElementById('post-preview-img').src = selectedImageSrc;
       document.getElementById('post-image-preview-wrap').classList.add('show');
-      showToast('Imagem de amostra anexada!');
+      updateSubmitButtonState();
+      showToast('Imagem anexada à publicação!');
     }
 
     function removeSelectedImage() {
@@ -2640,17 +3501,18 @@
       document.getElementById('post-image-preview-wrap').classList.remove('show');
       const fileInput = document.getElementById('post-file-input');
       if (fileInput) fileInput.value = '';
+      updateSubmitButtonState();
     }
 
     function submitNewPost() {
       const text = newPostContent.value.trim();
       if (!text && !selectedImageSrc) {
-        showToast('Digite uma mensagem ou adicione uma foto para publicar!');
+        showToast('Compartilhe suas ideias ou adicione uma foto para publicar!');
         return;
       }
 
-      const userName = document.getElementById('desktop-user-name')?.textContent || 'Gabriel';
-      const userAvatar = document.getElementById('desktop-user-avatar')?.src || '../images/avatar-your-story.png';
+      const userName = document.getElementById('modal-user-name')?.textContent || 'Gabriel Ricca';
+      const userAvatar = document.getElementById('modal-user-avatar')?.src || '../images/avatar-your-story.png';
       const postId = 'post-user-' + Date.now();
 
       const newArticle = document.createElement('article');
@@ -2667,7 +3529,18 @@
         `;
       }
 
-      let tagBadge = selectedPostTag !== 'Geral' ? `<span style="font-size:11px; font-weight:700; color:var(--color-brand-pink); background:rgba(255,42,109,0.12); padding:2px 8px; border-radius:12px; margin-left:6px;">#${selectedPostTag}</span>` : '';
+      let destBadgeHtml = '';
+      if (selectedDestType === 'community') {
+        destBadgeHtml = `<span style="font-size:11px; font-weight:700; color:var(--color-brand-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:2px 8px; border-radius:999px; margin-left:6px;">${selectedDestShort}</span>`;
+      } else {
+        destBadgeHtml = `<span style="font-size:11px; font-weight:600; color:var(--text-secondary); background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:2px 8px; border-radius:999px; margin-left:6px;"><i class="fa-solid fa-earth-americas" style="font-size:10px; margin-right:3px;"></i>${selectedDestShort}</span>`;
+      }
+
+      let tagBadge = selectedPostTag !== 'Geral' ? `<span style="font-size:11px; font-weight:700; color:var(--color-brand-orange); background:rgba(255,113,63,0.12); padding:2px 8px; border-radius:999px; margin-left:4px;">#${selectedPostTag}</span>` : '';
+
+      let collabText = selectedCollaborators.length > 0
+        ? `<div style="font-size:11.5px; color:var(--text-secondary); margin-bottom:8px;"><i class="fa-solid fa-user-group" style="color:var(--color-brand-purple); margin-right:4px;"></i>Em colaboração com <strong>${selectedCollaborators.join(', ')}</strong></div>`
+        : '';
 
       newArticle.innerHTML = `
         <div class="post-header">
@@ -2676,14 +3549,15 @@
               <img src="${userAvatar}" alt="${userName}" class="post-author-avatar-img">
             </div>
             <div class="post-author-details">
-              <span class="post-author-name">${userName} ${tagBadge}</span>
-              <span class="post-timestamp">Agora mesmo</span>
+              <span class="post-author-name" style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">${userName} ${destBadgeHtml} ${tagBadge}</span>
+              <span class="post-timestamp">${isPostScheduled ? '⏰ Agendado · Agora mesmo' : 'Agora mesmo'}</span>
             </div>
           </div>
           <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('${userName}')">
             <i class="fa-solid fa-ellipsis"></i>
           </button>
         </div>
+        ${collabText}
         ${mediaHtml}
         ${text ? `<div class="post-text-body">${text}</div>` : ''}
         <div class="post-actions-row">
@@ -2711,9 +3585,13 @@
       postsList.prepend(newArticle);
       newPostContent.value = '';
       removeSelectedImage();
-      document.getElementById('post-char-counter').textContent = '0 / 280';
+      document.getElementById('post-char-counter').textContent = '0 / 500';
+      document.getElementById('composer-revise-box')?.classList.remove('show');
+      updateSubmitButtonState();
       closeCreatePostModal();
-      showToast('Publicado com sucesso no SocialRats! 🔥');
+      showToast(selectedDestType === 'community'
+        ? `Publicado na comunidade ${selectedDestShort}! 🔥`
+        : 'Publicado na sua conta em geral! 🔥');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
