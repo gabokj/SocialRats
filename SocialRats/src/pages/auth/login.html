@@ -8,7 +8,7 @@
   <meta name="description" content="Acesse o SocialRats e acompanhe momentos e rotinas dos seus amigos na arena.">
 
   <!-- Favicon oficial -->
-  <link rel="icon" type="image/png" href="../images/socialrats-icon-removebg-preview (3).png">
+  <link rel="icon" type="image/png" href="../../../assets/images/socialrats-icon-removebg-preview (3).png">
 
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -530,8 +530,8 @@
     <!-- ═══════════════════════════════════════════════ -->
     <section class="left-panel">
       <!-- Top Brand Icon & Name -->
-      <a href="../index.html">
-        <img src="../images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" class="brand-icon-img">
+      <a href="../../../index.html">
+        <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Icon" class="brand-icon-img">
       </a>
 
 
@@ -544,7 +544,7 @@
 
         <!-- Image Showcase Container (Stories & Feed Posts) -->
         <div class="showcase-container">
-          <img src="../images/socialrats-feed-showcase.png" alt="SocialRats Feed e Stories" class="showcase-img">
+          <img src="../../../assets/images/socialrats-feed-showcase.png" alt="SocialRats Feed e Stories" class="showcase-img">
         </div>
       </div>
 
@@ -715,7 +715,7 @@
           } catch (err) {}
           showToast(`Conectado como ${id}! Redirecionando para o feed...`, 'success');
           setTimeout(() => {
-            window.location.href = 'feed.html';
+            window.location.href = '../app/feed.html';
           }, 800);
         }, 900);
       });
@@ -732,7 +732,7 @@
           } catch (err) {}
           showToast('Autenticado com sucesso via Google! Redirecionando...', 'success');
           setTimeout(() => {
-            window.location.href = 'feed.html';
+            window.location.href = '../app/feed.html';
           }, 800);
         }, 1100);
       });
