@@ -36,6 +36,16 @@
       --text-muted: #6f6780;
       --text-placeholder: #6f6780;
 
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-border-subtle: #30263e;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-accent-pink: #ff32b8;
+      --color-accent-orange: #ff713f;
+      --color-accent-purple: #923bff;
+
       --color-brand-orange: #ff713f;
       --color-brand-pink: #ff32b8;
       --color-brand-purple: #923bff;
@@ -333,92 +343,298 @@
     }
 
     /* ────────────────────────────────────────────────────────────
-       1. TOP BAR (FIRE + SOCIALRATS LOGO + BELL WITH BADGE)
-       ──────────────────────────────────────────────────────────── */
-    .top-direct-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 20px 10px;
-      background-color: var(--bg-mobile-app);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-    }
-
-    .direct-brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-    }
-
-    .top-flame-icon {
-      font-size: 22px;
-      background: var(--gradient-brand);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .direct-brand-title {
-      font-family: var(--font-heading);
-      font-size: 25px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      background: var(--gradient-brand);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      display: inline-block;
-    }
-
-    .btn-notification-bell {
-      position: relative;
-      background: transparent;
-      border: none;
-      color: #ffffff;
-      font-size: 22px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 4px;
-      transition: transform 0.15s ease;
-    }
-
-    .btn-notification-bell:active {
-      transform: scale(0.92);
-    }
-
-    .bell-badge-dot {
-      position: absolute;
-      top: 3px;
-      right: 4px;
-      width: 9px;
-      height: 9px;
-      background-color: var(--color-brand-pink);
-      border-radius: 50%;
-      border: 2px solid var(--bg-mobile-app);
-    }
-
-    /* ────────────────────────────────────────────────────────────
-       2. DIRECT TITLE & COMPOSE BUTTON ROW
+       1. TOP BAR: LOGGED ACCOUNT SWITCHER + COMPOSE BUTTON
        ──────────────────────────────────────────────────────────── */
     .direct-title-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 8px 20px 12px;
+      padding: 16px 20px 14px;
+      background-color: var(--bg-mobile-app);
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
-    .screen-heading {
-      font-family: var(--font-heading);
-      font-size: 26px;
-      font-weight: 800;
+    .account-switcher-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .account-switcher-btn {
+      background: none;
+      border: none;
       color: #ffffff;
-      letter-spacing: -0.4px;
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .account-switcher-btn:hover {
+      opacity: 0.88;
+    }
+
+    .account-switcher-chevron {
+      font-size: 13px;
+      color: #b7b0c5;
+      transition: transform 0.22s ease, color 0.22s ease;
+    }
+
+    .account-switcher-btn.open .account-switcher-chevron {
+      transform: rotate(180deg);
+      color: #ff32b8;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       INSTAGRAM MOBILE BOTTOM SHEET: ACCOUNT SWITCHER MODAL
+       ──────────────────────────────────────────────────────────── */
+    .account-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 4, 10, 0.78);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 950;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+
+    .account-sheet-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .account-sheet-card {
+      width: 100%;
+      max-width: 480px;
+      background: #171322;
+      border-top: 1px solid #352b47;
+      border-left: 1px solid #352b47;
+      border-right: 1px solid #352b47;
+      border-radius: 28px 28px 0 0;
+      padding: 12px 16px 26px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.92);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-sheet-overlay.show .account-sheet-card {
+      transform: translateY(0);
+    }
+
+    .account-sheet-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #5b526e;
+      margin: 0 auto 16px;
+      flex-shrink: 0;
+    }
+
+    .account-list-box {
+      background: #201a2f;
+      border: 1px solid #382e4c;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-option-btn {
+      width: 100%;
+      background: #201a2f;
+      border: none;
+      border-bottom: 1px solid #322844;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .account-option-btn:hover {
+      background: #28213b;
+    }
+
+    .account-option-btn:active {
+      background: #2f2645;
+    }
+
+    .account-option-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .account-option-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #3b3052;
+      flex-shrink: 0;
+      background: #14111e;
+    }
+
+    .account-option-btn.active .account-option-avatar {
+      border-color: #ff32b8;
+    }
+
+    .account-option-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .account-option-handle {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.1px;
+    }
+
+    .account-option-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: #b7b0c5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .account-unread-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff3b5c;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .account-option-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ff32b8;
+      color: #ffffff;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.45);
+    }
+
+    .account-option-btn.active .account-option-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .account-add-btn {
+      width: 100%;
+      background: #201a2f;
+      border: none;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .account-add-btn:hover {
+      background: #28213b;
+    }
+
+    .account-add-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #120f1c;
+      border: 1px solid #382e4c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .account-center-pill-btn {
+      margin-top: 12px;
+      width: 100%;
+      height: 46px;
+      border-radius: 9999px;
+      background: #1c172a;
+      border: 1px solid #3a3050;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .account-center-pill-btn:hover {
+      background: #261f38;
+      border-color: #ff32b8;
+    }
+
+    .account-sheet-brand-footer {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: #d6d0e3;
+      letter-spacing: -0.2px;
+    }
+
+    .account-sheet-brand-footer i {
+      color: #ff713f;
+      font-size: 13px;
     }
 
     .btn-new-message {
@@ -1122,25 +1338,19 @@
          ═══════════════════════════════════════════════════════════════ -->
     <main class="direct-center-container" id="direct-container">
 
-      <!-- 1. Top Bar: Flame + SocialRats Logo + Notification Bell -->
-      <header class="top-direct-bar">
-        <a href="feed.html" class="direct-brand-wrap">
-          <span style="font-size:22px;">🔥</span>
-          <span class="direct-brand-title">SocialRats</span>
-        </a>
-        <button type="button" class="btn-notification-bell" aria-label="Notificações" onclick="openNotificationsModal()">
-          <i class="fa-regular fa-bell"></i>
-          <span class="bell-badge-dot"></span>
-        </button>
-      </header>
+      <!-- 1. Top Header: Logged Account Switcher + Compose Button -->
+      <header class="direct-title-row">
+        <div class="account-switcher-wrap">
+          <button type="button" class="account-switcher-btn" id="account-switcher-btn" onclick="toggleAccountSwitcher(event)" aria-haspopup="dialog" aria-expanded="false">
+            <span id="direct-logged-username">gabriel</span>
+            <i class="fa-solid fa-chevron-down account-switcher-chevron"></i>
+          </button>
+        </div>
 
-      <!-- 2. Screen Title: Direct + Compose Button -->
-      <div class="direct-title-row">
-        <h1 class="screen-heading">Direct</h1>
         <button type="button" class="btn-new-message" aria-label="Nova conversa" onclick="openNewChatModal()">
           <i class="fa-regular fa-pen-to-square"></i>
         </button>
-      </div>
+      </header>
 
       <!-- 3. Search Bar: Buscar conversas -->
       <div class="search-input-wrapper">
@@ -1647,6 +1857,74 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       INSTAGRAM-STYLE BOTTOM SHEET: MULTI-ACCOUNT SWITCHER
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="account-sheet-overlay" id="account-switcher-menu" role="dialog" aria-modal="true" aria-label="Trocar de conta" onclick="closeAccountSwitcherOnBackdrop(event)">
+    <div class="account-sheet-card" onclick="event.stopPropagation()">
+      <div class="account-sheet-handle"></div>
+
+      <div class="account-list-box">
+        <!-- Conta 1 (Ativa) -->
+        <button type="button" class="account-option-btn active" data-handle="gabriel" data-name="Gabriel Silva" data-avatar="../../../assets/images/avatar-your-story.png" onclick="switchDirectAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-your-story.png" alt="gabriel" class="account-option-avatar" id="switcher-primary-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle" id="switcher-primary-handle">gabriel</span>
+              <span class="account-option-sub" id="switcher-primary-name" style="display:none;">Gabriel Silva</span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Conta 2 -->
+        <button type="button" class="account-option-btn" data-handle="gabriel_" data-name="Gabriel · Estudos & Code" data-avatar="../../../assets/images/avatar-lucas.png" onclick="switchDirectAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-lucas.png" alt="gabriel_" class="account-option-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle">gabriel_</span>
+              <span class="account-option-sub">
+                <span class="account-unread-dot"></span>
+                10 conversas
+              </span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Conta 3 -->
+        <button type="button" class="account-option-btn" data-handle="gabriel.rats" data-name="Gabriel · Gym Rats" data-avatar="../../../assets/images/avatar-rafael.png" onclick="switchDirectAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-rafael.png" alt="gabriel.rats" class="account-option-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle">gabriel.rats</span>
+              <span class="account-option-sub">
+                <span class="account-unread-dot"></span>
+                1 conversa e mais 4
+              </span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Adicionar Conta -->
+        <button type="button" class="account-add-btn" onclick="window.location.href='../auth/login.html'">
+          <div class="account-add-icon"><i class="fa-solid fa-plus"></i></div>
+          <span>Adicionar conta do SocialRats</span>
+        </button>
+      </div>
+
+      <button type="button" class="account-center-pill-btn" onclick="window.location.href='edit-profile.html'">
+        Ir para a Central de Contas
+      </button>
+
+      <div class="account-sheet-brand-footer">
+        <i class="fa-solid fa-fire-flame-curved"></i>
+        <span>SocialRats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        TOAST NOTIFICATION PILL
        ═══════════════════════════════════════════════════════════════ -->
   <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
@@ -1658,16 +1936,95 @@
        JAVASCRIPT: DIRECT INTERACTIONS & SEARCH FILTER
        ═══════════════════════════════════════════════════════════════ -->
   <script>
-    // 1. Recover Logged User
+    // 1. Recover Logged User & Account Switcher
     document.addEventListener('DOMContentLoaded', () => {
       try {
         const savedUser = localStorage.getItem('socialrats_user');
         if (savedUser) {
           const cleanName = savedUser.split('@')[0].trim();
+          const handleSlug = cleanName.toLowerCase().replace(/\s+/g, '');
           document.getElementById('desktop-user-name').textContent = cleanName;
-          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
+          document.getElementById('desktop-user-handle').textContent = '@' + handleSlug;
+          document.getElementById('direct-logged-username').textContent = handleSlug;
+          document.getElementById('switcher-primary-handle').textContent = handleSlug;
+          document.getElementById('switcher-primary-name').textContent = cleanName;
+        }
+
+        const savedProfileRaw = localStorage.getItem('socialrats_profile_data');
+        if (savedProfileRaw) {
+          const data = JSON.parse(savedProfileRaw);
+          if (data.handle) {
+            const cleanHandle = data.handle.replace(/^@/, '');
+            document.getElementById('direct-logged-username').textContent = cleanHandle;
+            document.getElementById('switcher-primary-handle').textContent = cleanHandle;
+            document.getElementById('desktop-user-handle').textContent = '@' + cleanHandle;
+          }
+          if (data.name) {
+            document.getElementById('switcher-primary-name').textContent = data.name;
+            document.getElementById('desktop-user-name').textContent = data.name;
+          }
+          if (data.avatar) {
+            document.getElementById('switcher-primary-avatar').src = data.avatar;
+            const sideAv = document.querySelector('.desktop-user-avatar');
+            if (sideAv) sideAv.src = data.avatar;
+          }
         }
       } catch (e) {}
+    });
+
+    function toggleAccountSwitcher(e) {
+      if (e) e.stopPropagation();
+      const btn = document.getElementById('account-switcher-btn');
+      const menu = document.getElementById('account-switcher-menu');
+      if (!btn || !menu) return;
+      const isOpen = menu.classList.toggle('show');
+      btn.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function closeAccountSwitcher() {
+      document.getElementById('account-switcher-menu')?.classList.remove('show');
+      const btn = document.getElementById('account-switcher-btn');
+      if (btn) {
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function closeAccountSwitcherOnBackdrop(e) {
+      if (e.target.id === 'account-switcher-menu') {
+        closeAccountSwitcher();
+      }
+    }
+
+    function switchDirectAccount(optionBtn) {
+      const handle = optionBtn.getAttribute('data-handle') || 'gabriel';
+      const name = optionBtn.getAttribute('data-name') || 'Gabriel Silva';
+      const avatar = optionBtn.getAttribute('data-avatar');
+
+      document.querySelectorAll('.account-option-btn').forEach(b => b.classList.remove('active'));
+      optionBtn.classList.add('active');
+
+      document.getElementById('direct-logged-username').textContent = handle;
+      document.getElementById('desktop-user-name').textContent = name;
+      document.getElementById('desktop-user-handle').textContent = '@' + handle;
+      if (avatar) {
+        const sideAv = document.querySelector('.desktop-user-avatar');
+        if (sideAv) sideAv.src = avatar;
+      }
+
+      try {
+        localStorage.setItem('socialrats_user', handle);
+      } catch (e) {}
+
+      closeAccountSwitcher();
+      showToast(`Conta alterada para @${handle}`);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAccountSwitcher();
+      }
     });
 
     // 2. Toast System

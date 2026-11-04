@@ -26,7 +26,8 @@ SocialRats/
         │   ├── direct.html         # Mensagens Diretas (Inbox)
         │   ├── chat.html           # Conversa individual aberta
         │   ├── notifications.html  # Central de Atividades e Notificações
-        │   └── profile.html        # Perfil do Usuário, Conquistas e Publicações
+        │   ├── profile.html        # Perfil do Usuário, Conquistas e Publicações
+        │   └── edit-profile.html   # Tela de Edição de Perfil (Foto, Bio, Foco e Privacidade)
         ├── auth/                   # Fluxos de Autenticação
         │   ├── login.html          # Tela de Login
         │   └── register.html       # Tela de Criação de Conta

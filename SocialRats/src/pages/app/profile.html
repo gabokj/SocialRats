@@ -267,14 +267,276 @@
     }
 
     .profile-top-username {
-      display: flex;
+      background: none;
+      border: none;
+      display: inline-flex;
       align-items: center;
       gap: 8px;
       font-family: var(--font-heading);
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 800;
       color: #ffffff;
       letter-spacing: -0.3px;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .profile-top-username:hover {
+      opacity: 0.88;
+    }
+
+    .profile-top-chevron {
+      font-size: 12px;
+      color: #b7b0c5;
+      transition: transform 0.22s ease, color 0.22s ease;
+    }
+
+    .profile-top-username.open .profile-top-chevron {
+      transform: rotate(180deg);
+      color: #ff32b8;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       INSTAGRAM MOBILE BOTTOM SHEET: ACCOUNT SWITCHER MODAL
+       ──────────────────────────────────────────────────────────── */
+    .account-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 4, 10, 0.78);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1500;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+
+    .account-sheet-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .account-sheet-card {
+      width: 100%;
+      max-width: 480px;
+      background: #171322;
+      border-top: 1px solid #352b47;
+      border-left: 1px solid #352b47;
+      border-right: 1px solid #352b47;
+      border-radius: 28px 28px 0 0;
+      padding: 12px 16px 26px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.92);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-sheet-overlay.show .account-sheet-card {
+      transform: translateY(0);
+    }
+
+    .account-sheet-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #5b526e;
+      margin: 0 auto 16px;
+      flex-shrink: 0;
+    }
+
+    .account-list-box {
+      background: #201a2f;
+      border: 1px solid #382e4c;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-option-btn {
+      width: 100%;
+      background: #201a2f;
+      border: none;
+      border-bottom: 1px solid #322844;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .account-option-btn:hover {
+      background: #28213b;
+    }
+
+    .account-option-btn:active {
+      background: #2f2645;
+    }
+
+    .account-option-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      min-width: 0;
+    }
+
+    .account-option-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #3b3052;
+      flex-shrink: 0;
+      background: #14111e;
+    }
+
+    .account-option-btn.active .account-option-avatar {
+      border-color: #ff32b8;
+    }
+
+    .account-option-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .account-option-handle {
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      letter-spacing: -0.1px;
+    }
+
+    .account-option-sub {
+      font-size: 13px;
+      font-weight: 500;
+      color: #b7b0c5;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .account-unread-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ff3b5c;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .account-option-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #ff32b8;
+      color: #ffffff;
+      font-size: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.45);
+    }
+
+    .account-option-btn.active .account-option-check {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .account-add-btn {
+      width: 100%;
+      background: #201a2f;
+      border: none;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .account-add-btn:hover {
+      background: #28213b;
+    }
+
+    .account-add-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #120f1c;
+      border: 1px solid #382e4c;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 19px;
+      color: #ffffff;
+      flex-shrink: 0;
+    }
+
+    .account-center-pill-btn {
+      margin-top: 12px;
+      width: 100%;
+      height: 46px;
+      border-radius: 9999px;
+      background: #1c172a;
+      border: 1px solid #3a3050;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 14.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .account-center-pill-btn:hover {
+      background: #261f38;
+      border-color: #ff32b8;
+    }
+
+    .account-sheet-brand-footer {
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 700;
+      color: #d6d0e3;
+      letter-spacing: -0.2px;
+    }
+
+    .account-sheet-brand-footer i {
+      color: #ff713f;
+      font-size: 13px;
     }
 
     .profile-top-actions {
@@ -306,11 +568,18 @@
        ──────────────────────────────────────────────────────────── */
     .profile-cover-banner {
       width: 100%;
-      height: 125px;
+      height: 148px;
       background: linear-gradient(135deg, #181228 0%, #291238 50%, #150e24 100%);
       position: relative;
       border-bottom: 1px solid var(--color-border-subtle);
       overflow: hidden;
+    }
+
+    .profile-cover-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .cover-glow-orb {
@@ -1299,11 +1568,11 @@
 
       <!-- 1. Top Bar: Back / Username / Actions -->
       <header class="profile-top-bar">
-        <div class="profile-top-username">
+        <button type="button" class="profile-top-username" id="account-switcher-btn" onclick="toggleAccountSwitcher(event)" aria-haspopup="dialog" aria-expanded="false">
           <i class="fa-solid fa-lock" style="font-size:13px; color:var(--color-text-muted);"></i>
           <span id="top-username-label">gabriel</span>
-          <i class="fa-solid fa-chevron-down" style="font-size:11px; color:var(--color-text-secondary); cursor:pointer;"></i>
-        </div>
+          <i class="fa-solid fa-chevron-down profile-top-chevron"></i>
+        </button>
 
         <div class="profile-top-actions">
           <button type="button" class="btn-top-action" title="Notificações" onclick="openNotificationsModal()" style="position:relative;">
@@ -1320,8 +1589,9 @@
       </header>
 
       <!-- 2. Cover Banner -->
-      <div class="profile-cover-banner">
-        <div class="cover-glow-orb"></div>
+      <div class="profile-cover-banner" id="profile-cover-banner">
+        <img src="../../../assets/images/post-sunset.png" alt="Capa do perfil" id="profile-cover-img" style="display:none;">
+        <div class="cover-glow-orb" id="profile-cover-orb"></div>
       </div>
 
       <!-- 3. Profile Info Section -->
@@ -1331,7 +1601,7 @@
         <div class="profile-avatar-row">
           <div class="profile-avatar-wrap">
             <div class="profile-avatar-inner">
-              <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img">
+              <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img" id="profile-main-avatar">
             </div>
             <div class="profile-streak-badge" title="Foguinho ativo por 14 dias!">
               🔥 14
@@ -1339,9 +1609,9 @@
           </div>
 
           <div class="profile-actions-group">
-            <button type="button" class="btn-profile-primary" onclick="showToast('Editor de perfil aberto!')">Editar Perfil</button>
+            <button type="button" class="btn-profile-primary" onclick="window.location.href='edit-profile.html'">Editar Perfil</button>
             <button type="button" class="btn-profile-primary" onclick="shareProfile()">Compartilhar</button>
-            <button type="button" class="btn-profile-icon" title="Opções" onclick="showToast('Opções da conta')">
+            <button type="button" class="btn-profile-icon" title="Editar Perfil" onclick="window.location.href='edit-profile.html'">
               <i class="fa-solid fa-sliders"></i>
             </button>
           </div>
@@ -1349,29 +1619,29 @@
 
         <!-- Name & Handle -->
         <div class="profile-name-title">
-          <span>Gabriel Silva</span>
+          <span id="profile-display-name">Gabriel Silva</span>
           <i class="fa-solid fa-circle-check verified-icon" title="Verificado SocialRats"></i>
         </div>
 
         <div class="profile-handle-row">
-          <span class="profile-handle">@gabriel</span>
-          <span class="profile-level-badge">🏅 Rato Alfa · Nível 14</span>
+          <span class="profile-handle" id="profile-display-handle">@gabriel</span>
+          <span class="profile-level-badge" id="profile-display-badge">🏅 Rato Alfa · Nível 14</span>
         </div>
 
         <!-- Bio text -->
-        <p class="profile-bio-text">
+        <p class="profile-bio-text" id="profile-display-bio">
           Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥
         </p>
 
         <!-- Metadata row -->
         <div class="profile-meta-details">
-          <div class="profile-meta-item">
+          <div class="profile-meta-item" id="profile-meta-location-wrap">
             <i class="fa-solid fa-location-dot"></i>
-            <span>São Paulo, Brasil</span>
+            <span id="profile-display-location">São Paulo, Brasil</span>
           </div>
-          <div class="profile-meta-item">
+          <div class="profile-meta-item" id="profile-meta-website-wrap">
             <i class="fa-solid fa-link"></i>
-            <a href="#" style="color:var(--color-accent-pink); text-decoration:none;" onclick="showToast('Link do SocialRats'); return false;">socialrats.com/@gabriel</a>
+            <a href="#" id="profile-display-website" style="color:var(--color-accent-pink); text-decoration:none;" onclick="showToast('Link do SocialRats'); return false;">socialrats.com/@gabriel</a>
           </div>
           <div class="profile-meta-item">
             <i class="fa-regular fa-calendar"></i>
@@ -2244,6 +2514,73 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       INSTAGRAM-STYLE BOTTOM SHEET: MULTI-ACCOUNT SWITCHER
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="account-sheet-overlay" id="account-switcher-menu" role="dialog" aria-modal="true" aria-label="Trocar de conta" onclick="closeAccountSwitcherOnBackdrop(event)">
+    <div class="account-sheet-card" onclick="event.stopPropagation()">
+      <div class="account-sheet-handle"></div>
+
+      <div class="account-list-box">
+        <!-- Conta 1 (Ativa) -->
+        <button type="button" class="account-option-btn active" data-handle="gabriel" data-name="Gabriel Silva" data-avatar="../../../assets/images/avatar-your-story.png" data-bio="Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥" data-badge="🏅 Rato Alfa · Nível 14" onclick="switchProfileAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-your-story.png" alt="gabriel" class="account-option-avatar" id="switcher-primary-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle" id="switcher-primary-handle">gabriel</span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Conta 2 -->
+        <button type="button" class="account-option-btn" data-handle="gabriel_" data-name="Gabriel · Estudos & Code" data-avatar="../../../assets/images/avatar-lucas.png" data-bio="Full-Stack Developer & IA 💻 Construindo sistemas de alta performance na madrugada." data-badge="💻 Líder Devs · Nível 19" onclick="switchProfileAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-lucas.png" alt="gabriel_" class="account-option-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle">gabriel_</span>
+              <span class="account-option-sub">
+                <span class="account-unread-dot"></span>
+                10 conversas
+              </span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Conta 3 -->
+        <button type="button" class="account-option-btn" data-handle="gabriel.rats" data-name="Gabriel · Gym Rats" data-avatar="../../../assets/images/avatar-rafael.png" data-bio="Calistenia, PRs pesados e rotina de atleta 🏋️‍♂️🔥 Sem desculpas." data-badge="🔥 Lenda da Arena · Nível 22" onclick="switchProfileAccount(this)">
+          <div class="account-option-left">
+            <img src="../../../assets/images/avatar-rafael.png" alt="gabriel.rats" class="account-option-avatar">
+            <div class="account-option-texts">
+              <span class="account-option-handle">gabriel.rats</span>
+              <span class="account-option-sub">
+                <span class="account-unread-dot"></span>
+                1 conversa e mais 4
+              </span>
+            </div>
+          </div>
+          <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+        </button>
+
+        <!-- Adicionar Conta -->
+        <button type="button" class="account-add-btn" onclick="window.location.href='../auth/login.html'">
+          <div class="account-add-icon"><i class="fa-solid fa-plus"></i></div>
+          <span>Adicionar conta do SocialRats</span>
+        </button>
+      </div>
+
+      <button type="button" class="account-center-pill-btn" onclick="window.location.href='edit-profile.html'">
+        Ir para a Central de Contas
+      </button>
+
+      <div class="account-sheet-brand-footer">
+        <i class="fa-solid fa-fire-flame-curved"></i>
+        <span>SocialRats</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        TOAST NOTIFICATION PILL
        ═══════════════════════════════════════════════════════════════ -->
   <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
@@ -2255,7 +2592,7 @@
        JAVASCRIPT: TAB SWITCHER & USER INTERACTIONS
        ═══════════════════════════════════════════════════════════════ -->
   <script>
-    // 1. Recover Logged User
+    // 1. Recover Logged User & Saved Profile Edits
     document.addEventListener('DOMContentLoaded', () => {
       try {
         const savedUser = localStorage.getItem('socialrats_user');
@@ -2263,7 +2600,141 @@
           const cleanName = savedUser.split('@')[0].trim();
           document.getElementById('top-username-label').textContent = cleanName.toLowerCase().replace(/\s+/g, '');
         }
+
+        const savedProfileRaw = localStorage.getItem('socialrats_profile_data');
+        if (savedProfileRaw) {
+          const data = JSON.parse(savedProfileRaw);
+          if (data.name) {
+            const nameEl = document.getElementById('profile-display-name');
+            if (nameEl) nameEl.textContent = data.name;
+            const sideName = document.querySelector('.desktop-user-name');
+            if (sideName) sideName.textContent = data.name;
+          }
+          if (data.handle) {
+            const handleEl = document.getElementById('profile-display-handle');
+            if (handleEl) handleEl.textContent = data.handle;
+            const sideHandle = document.querySelector('.desktop-user-handle');
+            if (sideHandle) sideHandle.textContent = data.handle;
+            const cleanHandle = data.handle.replace(/^@/, '');
+            document.getElementById('top-username-label').textContent = cleanHandle;
+            const swHandle = document.getElementById('switcher-primary-handle');
+            if (swHandle) swHandle.textContent = cleanHandle;
+          }
+          if (typeof data.bio === 'string') {
+            const bioEl = document.getElementById('profile-display-bio');
+            if (bioEl) bioEl.textContent = data.bio;
+          }
+          if (typeof data.location === 'string') {
+            const locWrap = document.getElementById('profile-meta-location-wrap');
+            const locEl = document.getElementById('profile-display-location');
+            if (locEl) locEl.textContent = data.location;
+            if (locWrap) locWrap.style.display = data.location ? 'flex' : 'none';
+          }
+          if (typeof data.website === 'string') {
+            const webWrap = document.getElementById('profile-meta-website-wrap');
+            const webEl = document.getElementById('profile-display-website');
+            if (webEl) webEl.textContent = data.website;
+            if (webWrap) webWrap.style.display = data.website ? 'flex' : 'none';
+          }
+          if (data.avatar) {
+            const mainAv = document.getElementById('profile-main-avatar');
+            if (mainAv) mainAv.src = data.avatar;
+            const sideAv = document.querySelector('.desktop-user-avatar');
+            if (sideAv) sideAv.src = data.avatar;
+            const swAv = document.getElementById('switcher-primary-avatar');
+            if (swAv) swAv.src = data.avatar;
+          }
+          if (data.banner) {
+            const coverImg = document.getElementById('profile-cover-img');
+            const coverOrb = document.getElementById('profile-cover-orb');
+            if (coverImg) {
+              coverImg.src = data.banner;
+              coverImg.style.display = 'block';
+            }
+            if (coverOrb) coverOrb.style.display = 'none';
+          }
+          if (data.badge) {
+            const badgeEl = document.getElementById('profile-display-badge');
+            if (badgeEl) badgeEl.textContent = data.badge;
+          }
+        }
       } catch (e) {}
+    });
+
+    function toggleAccountSwitcher(e) {
+      if (e) e.stopPropagation();
+      const btn = document.getElementById('account-switcher-btn');
+      const menu = document.getElementById('account-switcher-menu');
+      if (!btn || !menu) return;
+      const isOpen = menu.classList.toggle('show');
+      btn.classList.toggle('open', isOpen);
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+
+    function closeAccountSwitcher() {
+      document.getElementById('account-switcher-menu')?.classList.remove('show');
+      const btn = document.getElementById('account-switcher-btn');
+      if (btn) {
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    }
+
+    function closeAccountSwitcherOnBackdrop(e) {
+      if (e.target.id === 'account-switcher-menu') {
+        closeAccountSwitcher();
+      }
+    }
+
+    function switchProfileAccount(optionBtn) {
+      const handle = optionBtn.getAttribute('data-handle') || 'gabriel';
+      const name = optionBtn.getAttribute('data-name') || 'Gabriel Silva';
+      const avatar = optionBtn.getAttribute('data-avatar');
+      const bio = optionBtn.getAttribute('data-bio');
+      const badge = optionBtn.getAttribute('data-badge');
+
+      document.querySelectorAll('.account-option-btn').forEach(b => b.classList.remove('active'));
+      optionBtn.classList.add('active');
+
+      const topLabel = document.getElementById('top-username-label');
+      if (topLabel) topLabel.textContent = handle;
+
+      const displayName = document.getElementById('profile-display-name');
+      if (displayName) displayName.textContent = name;
+
+      const displayHandle = document.getElementById('profile-display-handle');
+      if (displayHandle) displayHandle.textContent = '@' + handle;
+
+      const displayWebsite = document.getElementById('profile-display-website');
+      if (displayWebsite) displayWebsite.textContent = `socialrats.com/@${handle}`;
+
+      if (bio) {
+        const displayBio = document.getElementById('profile-display-bio');
+        if (displayBio) displayBio.textContent = bio;
+      }
+
+      if (badge) {
+        const displayBadge = document.getElementById('profile-display-badge');
+        if (displayBadge) displayBadge.textContent = badge;
+      }
+
+      if (avatar) {
+        const mainAv = document.getElementById('profile-main-avatar');
+        if (mainAv) mainAv.src = avatar;
+      }
+
+      try {
+        localStorage.setItem('socialrats_user', handle);
+      } catch (e) {}
+
+      closeAccountSwitcher();
+      showToast(`Conta alterada para @${handle}`);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeAccountSwitcher();
+      }
     });
 
     // 2. Interactive Profile Tabs Switcher

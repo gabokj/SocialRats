@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Editar Perfil</title>
+  <meta name="description" content="Edite suas informações de perfil, foto, biografia e preferências no SocialRats.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../../../assets/images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS — SOCIALRATS (DESIGN_SYSTEM.MD)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-border-subtle: #30263e;
+      --color-overlay: rgba(11, 9, 19, 0.78);
+
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+      --color-text-inverse: #0b0913;
+
+      --color-accent-pink: #ff32b8;
+      --color-accent-purple: #923bff;
+      --color-accent-orange: #ff713f;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.16);
+      --color-online-green: #34d399;
+      --color-danger: #f87171;
+
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+
+      --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.35);
+      --shadow-glow-pink: 0 0 24px rgba(255, 50, 184, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.45;
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       RESPONSIVE APP SHELL (MOBILE-FIRST + DESKTOP 3-COLUMN)
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP LEFT SIDEBAR (Visible >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-right: 1px solid var(--color-border-subtle);
+      background-color: #07050d;
+      flex-shrink: 0;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 36px;
+      padding-left: 8px;
+    }
+
+    .desktop-brand img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .desktop-brand-text {
+      font-family: var(--font-heading);
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desktop-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .desktop-nav-item a {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 13px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+
+    .desktop-nav-item a i {
+      font-size: 19px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .desktop-nav-item a:hover {
+      background-color: var(--color-surface);
+      color: var(--color-text-primary);
+    }
+
+    .desktop-nav-item.active a {
+      background-color: rgba(255, 50, 184, 0.14);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-user-pill {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .desktop-user-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .desktop-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .desktop-user-name {
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: block;
+    }
+
+    .desktop-user-handle {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .btn-logout-icon {
+      background: none;
+      border: none;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      font-size: 16px;
+      padding: 6px;
+      border-radius: 8px;
+      transition: color 0.15s ease;
+    }
+
+    .btn-logout-icon:hover {
+      color: var(--color-danger);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN EDIT PROFILE COLUMN
+       ═══════════════════════════════════════════════════════════════ */
+    .edit-profile-center-container {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 104px;
+      transition: all 0.3s ease;
+    }
+
+    .app-viewport.mockup-mode {
+      align-items: center;
+      padding: 24px 12px;
+      background: radial-gradient(circle at 50% 20%, #1c102b 0%, #06050a 75%);
+    }
+
+    .app-viewport.mockup-mode .edit-profile-center-container {
+      width: 400px;
+      max-width: 400px;
+      min-height: 844px;
+      max-height: 880px;
+      border-radius: 44px;
+      border: 8px solid #1e1b29;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .app-viewport.mockup-mode .edit-profile-center-container::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       1. STICKY HEADER BAR (Cancel / Editar perfil / Salvar)
+       ─────────────────────────────────────────────────────────────── */
+    .edit-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(11, 9, 19, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .btn-header-cancel {
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-header-cancel:hover {
+      opacity: 0.75;
+    }
+
+    .edit-top-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .btn-header-save {
+      background: none;
+      border: none;
+      color: var(--color-accent-pink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .btn-header-save:hover {
+      opacity: 0.85;
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       2. BANNER COVER & OVERLAPPING AVATAR HEADER (REFERENCE LAYOUT)
+       ─────────────────────────────────────────────────────────────── */
+    .edit-hero-media-block {
+      position: relative;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+
+    .edit-banner-uploader {
+      position: relative;
+      width: 100%;
+      height: 176px;
+      background: linear-gradient(135deg, #181228 0%, #291238 50%, #150e24 100%);
+      overflow: hidden;
+      cursor: pointer;
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .edit-banner-uploader img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.25s ease, filter 0.2s ease;
+    }
+
+    .edit-banner-uploader:hover img {
+      filter: brightness(0.84);
+    }
+
+    .edit-banner-overlay-badge {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: var(--radius-full);
+      background: rgba(11, 9, 19, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      backdrop-filter: blur(8px);
+      transition: all 0.15s ease;
+    }
+
+    .edit-banner-uploader:hover .edit-banner-overlay-badge {
+      background: rgba(255, 50, 184, 0.85);
+      border-color: rgba(255, 255, 255, 0.45);
+    }
+
+    /* Avatar + Pill Action Row below Banner */
+    .edit-avatar-action-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 16px;
+      padding: 0 18px;
+      margin-top: -46px;
+      position: relative;
+      z-index: 10;
+    }
+
+    .edit-avatar-circle-wrap {
+      position: relative;
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      background: var(--color-background);
+      border: 4px solid var(--color-background);
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.55);
+    }
+
+    .edit-avatar-circle-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      filter: brightness(0.76);
+      transition: filter 0.2s ease, transform 0.2s ease;
+    }
+
+    .edit-avatar-circle-wrap:hover img {
+      filter: brightness(0.62);
+      transform: scale(1.04);
+    }
+
+    /* Centered Camera+ Icon Overlay inside Avatar (Matching Screenshot) */
+    .edit-avatar-center-cam {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      pointer-events: none;
+    }
+
+    .edit-avatar-center-cam svg {
+      width: 34px;
+      height: 34px;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.65));
+    }
+
+    .edit-photo-pills-col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding-bottom: 6px;
+    }
+
+    .btn-pill-edit-media {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: var(--radius-full);
+      background: rgba(20, 17, 30, 0.85);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-pill-edit-media i {
+      font-size: 14px;
+      color: var(--color-text-primary);
+    }
+
+    .btn-pill-edit-media:hover {
+      border-color: var(--color-accent-pink);
+      background: var(--color-surface-elevated);
+    }
+
+    .edit-form-wrapper {
+      padding: 16px 16px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .edit-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    /* Form Fields (Section 14.8 of DESIGN_SYSTEM.md) */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .form-label-hint {
+      font-size: 11.5px;
+      font-weight: 400;
+      color: var(--color-text-secondary);
+    }
+
+    .form-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .form-input-prefix {
+      position: absolute;
+      left: 14px;
+      color: var(--color-text-secondary);
+      font-size: 14px;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      height: 46px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0 14px;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .form-input.has-prefix {
+      padding-left: 30px;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.7;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--color-accent-pink);
+    }
+
+    .form-textarea {
+      height: auto;
+      min-height: 92px;
+      padding: 12px 14px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+
+    /* Focus / Modality Chips (Section 14.13) */
+    .focus-chips-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .focus-chip {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .focus-chip:hover {
+      color: var(--color-text-primary);
+      border-color: rgba(255, 50, 184, 0.4);
+    }
+
+    .focus-chip.active {
+      background: var(--color-accent-pink-soft);
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+      font-weight: 600;
+    }
+
+    /* Privacy Toggle Row */
+    .setting-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 4px;
+    }
+
+    .setting-toggle-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .setting-toggle-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .setting-toggle-sub {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .switch-btn {
+      width: 46px;
+      height: 26px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      position: relative;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .switch-btn::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .switch-btn.active {
+      background: var(--color-accent-pink);
+      border-color: var(--color-accent-pink);
+    }
+
+    .switch-btn.active::after {
+      left: 23px;
+      background: #ffffff;
+    }
+
+    /* Primary Submit & Cancel Actions */
+    .edit-actions-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-save-primary {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: var(--shadow-glow-pink);
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-save-primary:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-save-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cancel-secondary {
+      width: 100%;
+      height: 44px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-cancel-secondary:hover {
+      border-color: var(--color-accent-pink);
+    }
+
+    /* ───────────────────────────────────────────────────────────────
+       BOTTOM NAVIGATION DOCK
+       ─────────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background-color: rgba(11, 9, 19, 0.96);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--color-border-subtle);
+      z-index: 90;
+      padding: 8px 12px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: sticky;
+      bottom: 0;
+      left: 0;
+      transform: none;
+      max-width: 100%;
+      border-bottom-left-radius: 34px;
+      border-bottom-right-radius: 34px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+    }
+
+    .nav-tab-btn {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      cursor: pointer;
+      padding: 4px 10px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-icon {
+      width: 42px;
+      height: 30px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-tab-btn.active {
+      color: var(--color-text-primary);
+    }
+
+    .nav-tab-btn.active .nav-tab-icon {
+      background-color: var(--color-accent-pink);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(255, 50, 184, 0.45);
+    }
+
+    .nav-tab-btn.active .nav-tab-label {
+      font-weight: 700;
+    }
+
+    .mobile-home-indicator {
+      width: 134px;
+      height: 5px;
+      background-color: #ffffff;
+      border-radius: 100px;
+      opacity: 0.9;
+    }
+
+    /* DESKTOP RIGHT SIDEBAR */
+    .desktop-right-sidebar {
+      display: none;
+      width: 310px;
+      padding: 28px 20px;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      border-left: 1px solid var(--color-border-subtle);
+      background-color: #07050d;
+      flex-shrink: 0;
+    }
+
+    .sidebar-widget-card {
+      background-color: var(--color-surface);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .widget-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* Toast Pill */
+    .toast-pill {
+      position: fixed;
+      bottom: 88px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--color-surface-elevated);
+      color: #ffffff;
+      padding: 11px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.65);
+      border: 1px solid rgba(255, 50, 184, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 300;
+      white-space: nowrap;
+    }
+
+    .toast-pill.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Responsive Breakpoints */
+    @media (min-width: 992px) {
+      .app-viewport:not(.mockup-mode) .desktop-sidebar {
+        display: flex;
+      }
+
+      .app-viewport:not(.mockup-mode) .edit-profile-center-container {
+        max-width: 580px;
+        border-left: 1px solid var(--color-border-subtle);
+        border-right: 1px solid var(--color-border-subtle);
+        padding-bottom: 40px;
+      }
+
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+    }
+
+    @media (min-width: 1240px) {
+      .app-viewport:not(.mockup-mode) .desktop-right-sidebar {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP LEFT SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats Logo">
+          <span class="desktop-brand-text">SocialRats</span>
+        </a>
+
+        <ul class="desktop-nav-links">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-paper-plane"></i>
+              <span>Direct</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="notifications.html">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="profile.html">
+              <i class="fa-solid fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="desktop-user-pill">
+        <div class="desktop-user-info">
+          <img src="../../../assets/images/avatar-your-story.png" alt="Seu Perfil" class="desktop-user-avatar"
+            id="sidebar-user-avatar">
+          <div>
+            <span class="desktop-user-name" id="sidebar-user-name">Gabriel Silva</span>
+            <span class="desktop-user-handle" id="sidebar-user-handle">@gabriel</span>
+          </div>
+        </div>
+        <button type="button" class="btn-logout-icon" title="Sair da conta"
+          onclick="window.location.href='../auth/login.html'">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN EDIT PROFILE CENTER COLUMN
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="edit-profile-center-container">
+
+      <!-- 1. Sticky Top Bar (Cancelar / Editar perfil / Salvar) -->
+      <header class="edit-top-bar">
+        <a href="profile.html" class="btn-header-cancel">Cancelar</a>
+        <h1 class="edit-top-title">Editar perfil</h1>
+        <button type="button" class="btn-header-save" onclick="saveProfileChanges()">Salvar</button>
+      </header>
+
+      <!-- 2. Hero Media Block: Cover Banner + Overlapping Avatar with Camera+ & Action Pill -->
+      <section class="edit-hero-media-block" aria-label="Foto de capa e foto de perfil">
+        <input type="file" id="banner-file-input" accept="image/*" style="display: none;"
+          onchange="handleBannerUpload(event)">
+        <input type="file" id="avatar-file-input" accept="image/*" style="display: none;"
+          onchange="handleAvatarUpload(event)">
+
+        <!-- Banner Cover -->
+        <div class="edit-banner-uploader" onclick="document.getElementById('banner-file-input').click()"
+          title="Clique para alterar o banner de fundo">
+          <img src="../../../assets/images/post-sunset.png" alt="Banner de fundo do perfil" id="edit-banner-preview">
+          <div class="edit-banner-overlay-badge">
+            <i class="fa-solid fa-camera"></i>
+            <span>Alterar banner</span>
+          </div>
+        </div>
+
+        <!-- Overlapping Avatar + Pill Button Row -->
+        <div class="edit-avatar-action-bar">
+          <div class="edit-avatar-circle-wrap" onclick="document.getElementById('avatar-file-input').click()"
+            title="Alterar foto de perfil">
+            <img src="../../../assets/images/avatar-your-story.png" alt="Foto de perfil" id="edit-avatar-preview">
+            <div class="edit-avatar-center-cam">
+              <!-- Camera+ Icon matching the reference image -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z">
+                </path>
+                <circle cx="12" cy="13" r="3"></circle>
+                <path d="M19 2v4M17 4h4"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="edit-photo-pills-col">
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Form Content -->
+      <form class="edit-form-wrapper" id="edit-profile-form" onsubmit="handleEditFormSubmit(event)">
+
+        <div class="edit-card">
+
+          <!-- Nome -->
+          <div class="form-group">
+            <label class="form-label" for="input-profile-name">
+              <span>Nome</span>
+              <span class="form-label-hint">Máx. 40 caracteres</span>
+            </label>
+            <input type="text" id="input-profile-name" class="form-input" maxlength="40" required value="Gabriel Silva"
+              placeholder="Seu nome completo">
+          </div>
+
+          <!-- Nome de usuário (@handle) -->
+          <div class="form-group">
+            <label class="form-label" for="input-profile-handle">
+              <span>Nome de usuário</span>
+              <span class="form-label-hint">Sem espaços</span>
+            </label>
+            <div class="form-input-wrap">
+              <span class="form-input-prefix">@</span>
+              <input type="text" id="input-profile-handle" class="form-input has-prefix" maxlength="28" required
+                value="gabriel" placeholder="seu_usuario" oninput="sanitizeHandleInput(this)">
+            </div>
+          </div>
+
+          <!-- Biografia -->
+          <div class="form-group">
+            <label class="form-label" for="input-profile-bio">
+              <span>Biografia</span>
+              <span class="form-label-hint" id="bio-char-count">97 / 150</span>
+            </label>
+            <textarea id="input-profile-bio" class="form-textarea" maxlength="150"
+              placeholder="Conte um pouco sobre sua rotina, objetivos e treinos..."
+              oninput="updateBioCounter(this)">Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥</textarea>
+          </div>
+
+          <!-- Localização -->
+          <div class="form-group">
+            <label class="form-label" for="input-profile-location">
+              <span>Localização</span>
+              <span class="form-label-hint">Opcional</span>
+            </label>
+            <input type="text" id="input-profile-location" class="form-input" maxlength="45" value="São Paulo, Brasil"
+              placeholder="Ex: São Paulo, Brasil">
+          </div>
+
+          <!-- Link / Site -->
+          <div class="form-group">
+            <label class="form-label" for="input-profile-website">
+              <span>Link</span>
+              <span class="form-label-hint">Opcional</span>
+            </label>
+            <input type="text" id="input-profile-website" class="form-input" maxlength="60"
+              value="socialrats.com/@gabriel" placeholder="Ex: github.com/seu-usuario">
+          </div>
+
+          <!-- Foco Principal (Chips) -->
+          <div class="form-group">
+            <label class="form-label">
+              <span>Foco principal</span>
+              <span class="form-label-hint">Exibido no perfil</span>
+            </label>
+            <input type="hidden" id="input-profile-badge" value="🏅 Rato Alfa · Nível 14">
+            <div class="focus-chips-wrap" id="focus-chips-wrap">
+              <button type="button" class="focus-chip active" data-badge="🏅 Rato Alfa · Nível 14"
+                onclick="selectFocusChip(this)">Musculação & Força</button>
+              <button type="button" class="focus-chip" data-badge="🏃 Corredor · Nível 14"
+                onclick="selectFocusChip(this)">Corrida & Cardio</button>
+              <button type="button" class="focus-chip" data-badge="🤸 Calistenia · Nível 14"
+                onclick="selectFocusChip(this)">Calistenia</button>
+              <button type="button" class="focus-chip" data-badge="💻 Dev & Foco · Nível 14"
+                onclick="selectFocusChip(this)">Programação & Estudos</button>
+              <button type="button" class="focus-chip" data-badge="🥊 Cross & Funcional · Nível 14"
+                onclick="selectFocusChip(this)">Cross & Funcional</button>
+            </div>
+          </div>
+
+          <!-- Privacidade da Conta -->
+          <div class="setting-toggle-row">
+            <div class="setting-toggle-texts">
+              <span class="setting-toggle-title">Conta privada</span>
+              <span class="setting-toggle-sub">Somente seguidores aprovados podem ver seus posts</span>
+            </div>
+            <button type="button" class="switch-btn" id="switch-private-account" onclick="toggleSwitch(this)"
+              aria-label="Alternar conta privada"></button>
+          </div>
+
+        </div>
+
+        <!-- Primary & Cancel Buttons -->
+        <div class="edit-actions-footer">
+          <button type="submit" class="btn-save-primary">
+            <i class="fa-solid fa-check"></i>
+            <span>Salvar alterações</span>
+          </button>
+          <a href="profile.html" class="btn-cancel-secondary">Cancelar</a>
+        </div>
+
+      </form>
+
+      <!-- Bottom Navigation Dock -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Início</span>
+          </a>
+          <a href="search.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+          <a href="profile.html" class="nav-tab-btn active">
+            <div class="nav-tab-icon"><i class="fa-solid fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP RIGHT SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Dicas do Perfil">
+      <div class="sidebar-widget-card">
+        <span class="widget-title">Seu Perfil no SocialRats</span>
+        <p style="font-size:12.5px; color:var(--color-text-secondary); line-height:1.5;">
+          Mantenha sua foto, biografia e foco atualizados para se conectar com membros das mesmas comunidades e
+          desafios.
+        </p>
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" style="color:var(--color-accent-pink);"></i>
+    <span id="toast-text">Alterações salvas!</span>
+  </div>
+
+  <script>
+    let currentSelectedAvatar = '../../../assets/images/avatar-your-story.png';
+    let currentSelectedBanner = '../../../assets/images/post-sunset.png';
+
+    // Load existing profile data from localStorage on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      try {
+        const raw = localStorage.getItem('socialrats_profile_data');
+        if (raw) {
+          const data = JSON.parse(raw);
+          if (data.name) {
+            document.getElementById('input-profile-name').value = data.name;
+            document.getElementById('sidebar-user-name').textContent = data.name;
+          }
+          if (data.handle) {
+            const cleanHandle = data.handle.replace(/^@/, '');
+            document.getElementById('input-profile-handle').value = cleanHandle;
+            document.getElementById('sidebar-user-handle').textContent = '@' + cleanHandle;
+          }
+          if (typeof data.bio === 'string') {
+            const bioEl = document.getElementById('input-profile-bio');
+            bioEl.value = data.bio;
+            updateBioCounter(bioEl);
+          }
+          if (typeof data.location === 'string') {
+            document.getElementById('input-profile-location').value = data.location;
+          }
+          if (typeof data.website === 'string') {
+            document.getElementById('input-profile-website').value = data.website;
+          }
+          if (data.avatar) {
+            currentSelectedAvatar = data.avatar;
+            document.getElementById('edit-avatar-preview').src = data.avatar;
+            document.getElementById('sidebar-user-avatar').src = data.avatar;
+          }
+          if (data.banner) {
+            currentSelectedBanner = data.banner;
+            document.getElementById('edit-banner-preview').src = data.banner;
+          }
+          if (data.badge) {
+            document.getElementById('input-profile-badge').value = data.badge;
+            document.querySelectorAll('.focus-chip').forEach(chip => {
+              chip.classList.toggle('active', chip.getAttribute('data-badge') === data.badge);
+            });
+          }
+          if (data.isPrivate) {
+            document.getElementById('switch-private-account').classList.add('active');
+          }
+        } else {
+          updateBioCounter(document.getElementById('input-profile-bio'));
+        }
+      } catch (e) { }
+    });
+
+    function handleAvatarUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        currentSelectedAvatar = e.target.result;
+        document.getElementById('edit-avatar-preview').src = currentSelectedAvatar;
+        showToast('Nova foto de perfil carregada!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleBannerUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        currentSelectedBanner = e.target.result;
+        document.getElementById('edit-banner-preview').src = currentSelectedBanner;
+        showToast('Novo banner de capa carregado!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function sanitizeHandleInput(input) {
+      input.value = input.value.toLowerCase().replace(/[^a-z0-9_.]/g, '');
+    }
+
+    function updateBioCounter(textarea) {
+      const countEl = document.getElementById('bio-char-count');
+      if (countEl && textarea) {
+        countEl.textContent = `${textarea.value.length} / 150`;
+      }
+    }
+
+    function selectFocusChip(btnEl) {
+      document.querySelectorAll('#focus-chips-wrap .focus-chip').forEach(c => c.classList.remove('active'));
+      btnEl.classList.add('active');
+      const badge = btnEl.getAttribute('data-badge');
+      if (badge) {
+        document.getElementById('input-profile-badge').value = badge;
+      }
+    }
+
+    function toggleSwitch(btnEl) {
+      btnEl.classList.toggle('active');
+    }
+
+    function handleEditFormSubmit(e) {
+      e.preventDefault();
+      saveProfileChanges();
+    }
+
+    function saveProfileChanges() {
+      const name = document.getElementById('input-profile-name').value.trim() || 'Gabriel Silva';
+      const handleClean = document.getElementById('input-profile-handle').value.trim().replace(/^@/, '') || 'gabriel';
+      const bio = document.getElementById('input-profile-bio').value.trim();
+      const location = document.getElementById('input-profile-location').value.trim();
+      const website = document.getElementById('input-profile-website').value.trim();
+      const badge = document.getElementById('input-profile-badge').value;
+      const isPrivate = document.getElementById('switch-private-account').classList.contains('active');
+
+      const profileData = {
+        name,
+        handle: '@' + handleClean,
+        bio,
+        location,
+        website,
+        avatar: currentSelectedAvatar,
+        banner: currentSelectedBanner,
+        badge,
+        isPrivate
+      };
+
+      try {
+        localStorage.setItem('socialrats_profile_data', JSON.stringify(profileData));
+        localStorage.setItem('socialrats_user', handleClean);
+      } catch (e) { }
+
+      showToast('Perfil atualizado com sucesso!');
+      setTimeout(() => {
+        window.location.href = 'profile.html';
+      }, 550);
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast-pill');
+      const toastText = document.getElementById('toast-text');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2800);
+    }
+  </script>
+</body>
+
+</html>
