@@ -42,3 +42,4 @@ Basta abrir o arquivo [`index.html`](./index.html) no navegador ou iniciar um se
 ```bash
 npx serve .
 ```
+
