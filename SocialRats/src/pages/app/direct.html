@@ -2221,6 +2221,10 @@
 
     // 4. Open Chat with contact
     function openChatWith(id, name) {
+      if (window.SocialRatsUser && window.SocialRatsUser.dm && window.SocialRatsUser.dm.markConversationAsRead) {
+        window.SocialRatsUser.dm.markConversationAsRead(id);
+      }
+      syncConversationReadState();
       window.location.href = `chat.html?contact=${id}`;
     }
 
@@ -2416,6 +2420,81 @@
       }
     }
 
+    // Sincroniza estado de leitura e contadores de mensagens não lidas
+    function syncConversationReadState() {
+      const dm = window.SocialRatsUser && window.SocialRatsUser.dm;
+      if (!dm) return;
+
+      let totalUnread = 0;
+
+      document.querySelectorAll('a.conversation-row').forEach((row) => {
+        const href = row.getAttribute('href') || '';
+        let key = null;
+        if (href.includes('contact=')) {
+          key = new URL(href, location.href).searchParams.get('contact');
+        } else if (href.includes('group=')) {
+          key = 'group:' + new URL(href, location.href).searchParams.get('group');
+        }
+
+        if (!key) return;
+
+        const isRead = dm.isConversationRead(key);
+        const badge = row.querySelector('.conv-unread-badge');
+
+        if (badge) {
+          if (isRead) {
+            badge.style.display = 'none';
+          } else {
+            const count = parseInt(badge.textContent.trim(), 10) || 1;
+            totalUnread += count;
+            badge.style.display = '';
+          }
+        }
+      });
+
+      // Atualiza link de topo "X não lidas"
+      const unreadLink = document.querySelector('.messages-unread-link');
+      if (unreadLink) {
+        if (totalUnread > 0) {
+          unreadLink.innerHTML = `${totalUnread} não lida${totalUnread > 1 ? 's' : ''} <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>`;
+          unreadLink.style.display = 'flex';
+        } else {
+          unreadLink.innerHTML = `Todas lidas <i class="fa-solid fa-check" style="font-size: 11px; margin-left:2px;"></i>`;
+          unreadLink.style.opacity = '0.6';
+        }
+      }
+
+      // Atualiza badge auxiliar da sidebar caso exista
+      const widgetBadge = document.querySelector('.sidebar-widget-card [style*="color:var(--color-brand-pink)"]');
+      if (widgetBadge && dm.isConversationRead('lucas')) {
+        widgetBadge.textContent = 'Lida';
+        widgetBadge.style.color = 'var(--text-muted)';
+      }
+    }
+
+    // Intercepta cliques nos links de conversas para marcar como lida imediatamente antes de navegar
+    function bindConversationRowClicks() {
+      document.querySelectorAll('a.conversation-row').forEach((row) => {
+        if (row.dataset.readBound) return;
+        row.dataset.readBound = 'true';
+        row.addEventListener('click', (e) => {
+          const href = row.getAttribute('href') || '';
+          let key = null;
+          if (href.includes('contact=')) {
+            key = new URL(href, location.href).searchParams.get('contact');
+          } else if (href.includes('group=')) {
+            key = 'group:' + new URL(href, location.href).searchParams.get('group');
+          }
+          if (key && window.SocialRatsUser && window.SocialRatsUser.dm) {
+            window.SocialRatsUser.dm.markConversationAsRead(key);
+            const badge = row.querySelector('.conv-unread-badge');
+            if (badge) badge.style.display = 'none';
+            syncConversationReadState();
+          }
+        });
+      });
+    }
+
     // Sincroniza bloqueio e silêncio (configurações do Direct) com a lista de conversas
     function syncConversationSettings() {
       const dm = window.SocialRatsUser && window.SocialRatsUser.dm;
@@ -2461,13 +2540,27 @@
         row.querySelector('.conv-preview').textContent = (g.members.length + 1) + ' participantes';
         list.insertBefore(row, list.firstChild);
       });
+      bindConversationRowClicks();
+      syncConversationReadState();
     }
-    document.addEventListener('DOMContentLoaded', renderGroupConversations);
-    window.addEventListener('sr:dm-updated', renderGroupConversations);
-    window.addEventListener('pageshow', renderGroupConversations);
-    document.addEventListener('DOMContentLoaded', syncConversationSettings);
-    window.addEventListener('sr:dm-updated', syncConversationSettings);
-    window.addEventListener('pageshow', syncConversationSettings);
+    document.addEventListener('DOMContentLoaded', () => {
+      renderGroupConversations();
+      bindConversationRowClicks();
+      syncConversationReadState();
+      syncConversationSettings();
+    });
+    window.addEventListener('sr:dm-updated', () => {
+      renderGroupConversations();
+      syncConversationSettings();
+      syncConversationReadState();
+    });
+    window.addEventListener('sr:dm-read-updated', syncConversationReadState);
+    window.addEventListener('pageshow', () => {
+      renderGroupConversations();
+      bindConversationRowClicks();
+      syncConversationReadState();
+      syncConversationSettings();
+    });
   </script>
 
   

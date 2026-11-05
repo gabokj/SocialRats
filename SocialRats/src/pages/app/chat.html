@@ -2980,6 +2980,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      // Marcar conversa atual (individual ou grupo) como lida imediatamente
+      if (window.SocialRatsUser && window.SocialRatsUser.dm && window.SocialRatsUser.dm.markConversationAsRead) {
+        const currentConvKey = isGroup ? 'group:' + groupId : contactKey;
+        window.SocialRatsUser.dm.markConversationAsRead(currentConvKey);
+      }
+
       syncContactStoryUI();
       // Set Header info
       document.getElementById('chat-contact-name').textContent = contact.name;

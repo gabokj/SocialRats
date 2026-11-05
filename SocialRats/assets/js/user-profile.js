@@ -562,6 +562,7 @@
      Persistido em localStorage, vinculado ao usuário logado (handle).
      ═══════════════════════════════════════════════════════════════ */
   const DM_STORAGE_KEY = 'socialrats_dm_settings_v1';
+  const DM_READ_STATUS_STORAGE_KEY = 'socialrats_dm_read_status_v1';
   const DM_DEFAULT_SETTINGS = Object.freeze({ blocked: false, muted: false, theme: 'default' });
 
   function readDmStore() {
@@ -580,6 +581,41 @@
       localStorage.setItem(DM_STORAGE_KEY, JSON.stringify(store));
     } catch (e) { /* storage indisponível */ }
     window.dispatchEvent(new CustomEvent('sr:dm-updated'));
+  }
+
+  function readDmReadStatus() {
+    try {
+      const raw = localStorage.getItem(DM_READ_STATUS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') return parsed;
+      }
+    } catch (e) {}
+    return {};
+  }
+
+  function writeDmReadStatus(map) {
+    try {
+      localStorage.setItem(DM_READ_STATUS_STORAGE_KEY, JSON.stringify(map));
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('sr:dm-read-updated'));
+  }
+
+  function isConversationRead(key) {
+    if (!key) return true;
+    const cleanKey = String(key).toLowerCase().replace(/^@/, '');
+    const map = readDmReadStatus();
+    return Boolean(map[cleanKey]);
+  }
+
+  function markConversationAsRead(key) {
+    if (!key) return;
+    const cleanKey = String(key).toLowerCase().replace(/^@/, '');
+    const map = readDmReadStatus();
+    if (!map[cleanKey]) {
+      map[cleanKey] = { readAt: Date.now() };
+      writeDmReadStatus(map);
+    }
   }
 
   const DM_GROUPS_KEY = 'socialrats_dm_groups_v1';
@@ -788,11 +824,14 @@
     },
     getReports(contactKey) {
       return readDmStore().reports.filter((r) => !contactKey || r.contactKey === contactKey);
-    }
+    },
+    isConversationRead,
+    markConversationAsRead
   };
 
   window.addEventListener('storage', (event) => {
     if (event.key === DM_STORAGE_KEY || event.key === DM_GROUPS_KEY || event.key === PLAN_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:dm-updated'));
+    if (event.key === DM_READ_STATUS_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:dm-read-updated'));
   });
 
   window.SocialRatsUser = {
