@@ -617,9 +617,23 @@
       width: 90px;
       height: 90px;
       border-radius: 50%;
-      background: var(--gradient-story);
+      background: transparent;
       padding: 3px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .profile-avatar-wrap.has-story {
+      background: var(--sr-story-gradient, var(--gradient-story)) !important;
+      cursor: pointer;
+    }
+
+    .profile-avatar-wrap.has-story:hover {
+      transform: scale(1.04);
+    }
+
+    .profile-avatar-wrap.has-story.story-viewed {
+      background: var(--sr-story-viewed, #4b4958) !important;
     }
 
     .profile-avatar-inner {
@@ -2299,7 +2313,7 @@
 
         <!-- Avatar & Profile Actions Row -->
         <div class="profile-avatar-row">
-          <div class="profile-avatar-wrap">
+          <div class="profile-avatar-wrap" id="profile-avatar-wrap" onclick="openProfileStory(event)" title="Ver Stories do Perfil">
             <div class="profile-avatar-inner">
               <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img"
                 id="profile-main-avatar">
@@ -3804,6 +3818,37 @@
       }
       window.location.href = `community.html?id=${encodeURIComponent(id || name)}`;
     }
+
+    function openProfileStory(e) {
+      if (e) e.stopPropagation();
+      const urlParams = new URLSearchParams(window.location.search);
+      const profileUser = urlParams.get('user') || 'gabriel';
+      if (window.SocialRatsStories) {
+        if (window.SocialRatsStories.hasStory(profileUser)) {
+          window.SocialRatsStories.open(profileUser, 'profile');
+        } else if (window.SocialRatsStories.hasStory('your-story')) {
+          window.SocialRatsStories.open('your-story', 'profile');
+        } else {
+          showToast('Nenhum story ativo nas últimas 24 horas.');
+        }
+      }
+    }
+
+    // Reflete usuário específico na URL caso informado (?user=lucas, etc.)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlUser = new URLSearchParams(window.location.search).get('user');
+      if (urlUser && window.SocialRatsStories) {
+        const acc = window.SocialRatsStories.findAccount(urlUser);
+        if (acc) {
+          const nameEl = document.getElementById('profile-display-name');
+          const handleEl = document.getElementById('profile-display-handle');
+          const avatarEl = document.getElementById('profile-main-avatar');
+          if (nameEl) nameEl.textContent = acc.author;
+          if (handleEl) handleEl.textContent = `@${acc.key}`;
+          if (avatarEl) avatarEl.src = acc.avatar;
+        }
+      }
+    });
   </script>
 </body>
 

@@ -2379,7 +2379,7 @@
 
     function openChatStoryViewer(key) {
       if (window.SocialRatsStories) {
-        window.SocialRatsStories.open(key);
+        window.SocialRatsStories.open(key, 'direct');
         return;
       }
       if (window.SocialRatsUser && window.SocialRatsUser.markStoryAsViewed) {

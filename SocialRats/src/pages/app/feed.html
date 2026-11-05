@@ -3791,7 +3791,7 @@
 
     function openStoryViewer(author, avatarSrc, mediaSrc, isYourStory = false) {
       if (window.SocialRatsStories) {
-        window.SocialRatsStories.open(isYourStory ? 'your-story' : author);
+        window.SocialRatsStories.open(isYourStory ? 'your-story' : author, 'feed');
         return;
       }
       buildStoryProgressSegments();

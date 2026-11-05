@@ -2,20 +2,22 @@
  * ═══════════════════════════════════════════════════════════════
  * SOCIALRATS UNIFIED STORIES ENGINE (DESIGN_SYSTEM.MD COMPLIANT)
  * ═══════════════════════════════════════════════════════════════
- * Centraliza e padroniza os Stories em todo o aplicativo:
- * - Feed, Direct, Chat, Perfil, Comunidades e Busca.
- * - Barra superior segmentada por conta/usuário:
- *     * Ex: Se broyin postou 2 stories -> 2 barras.
+ * Centraliza e padroniza os Stories em todo o SocialRats:
+ * - Navegação contextual inteligente inspirada no Instagram:
+ *     * CONTEXTO DIRECT: Exclusivo do contato selecionado (não avança para outros contatos).
+ *     * CONTEXTO PERFIL: Exclusivo do perfil selecionado (não avança para outros usuários).
+ *     * CONTEXTO FEED: Navegação sequencial entre contas com Stories NÃO visualizados (exclui já vistos da fila automática).
+ * - Barra superior segmentada por conta:
+ *     * Ex: Se Lucas postou 2 stories -> 2 barras.
  *     * Se rijalxp postou 1 story -> 1 barra.
- *     * Ao terminar os stories de uma conta, avança automaticamente para a próxima.
- * - Stories visualizados continuam acessíveis por 24h (anel cinza #4b4958).
- * - Stories não visualizados com destaque gradiente vibrante (--gradient-story).
- * - Sem stories -> sem anel ao redor da foto.
- * - Expiração automática de 24 horas por story.
- * - Navegação lateral por swipe touch, cliques nas laterais e setas do teclado.
- * - Curtir com persistência e feedback visual instantâneo.
- * - Responder no Direct integrado à conversa e histórico.
- * - Compartilhar no Direct para contatos individuais e grupos.
+ * - Stories visualizados continuam disponíveis por 24h:
+ *     * Indicador visual novo: anel gradiente vibrante (--sr-story-gradient).
+ *     * Indicador visual visto: anel cinza discreto (#4b4958).
+ *     * Sem stories: sem anel em volta do avatar.
+ * - Navegação completa: swipe lateral touch, toques esquerda/direita e setas.
+ * - Curtidas com persistência e animação de batimento.
+ * - Respostas vinculadas diretamente à conversa no Direct.
+ * - Compartilhamento contextual com contatos e grupos.
  */
 
 (function (window) {
@@ -26,7 +28,7 @@
   const USER_STORIES_STORAGE_KEY = 'socialrats_user_stories_v2';
   const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 horas
 
-  // Contas base com seus respectivos stories
+  // Contas base do SocialRats com stories realistas dentro do período de 24 horas
   const BASE_ACCOUNTS = [
     {
       key: 'lucas',
@@ -148,15 +150,50 @@
         {
           id: 'story-dena-1',
           media: '../../../assets/images/scoring.jpg',
-          caption: 'Fechando a semana com chave de ouro.',
+          caption: 'Fechando a semana de treinos com chave de ouro.',
           createdAt: new Date(Date.now() - 16 * 3600 * 1000).toISOString(),
           time: '16h atrás'
+        }
+      ]
+    },
+    {
+      key: 'chrex',
+      author: 'chrex',
+      avatar: '../../../assets/images/avatar-chrex.png',
+      stories: [
+        {
+          id: 'story-chrex-1',
+          media: '../../../assets/images/post-blue-orange.png',
+          caption: 'Treino de alta intensidade concluído! ⚡',
+          createdAt: new Date(Date.now() - 18 * 3600 * 1000).toISOString(),
+          time: '18h atrás'
+        }
+      ]
+    },
+    {
+      key: 'gabriel',
+      author: 'Gabriel Ricca',
+      avatar: '../../../assets/images/avatar-your-story.png',
+      stories: [
+        {
+          id: 'story-gabriel-1',
+          media: '../../../assets/images/post-sunset-crop.png',
+          caption: 'Treino concluído na Arena SocialRats! Foco nos 100 pontos 🎯💪',
+          createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
+          time: '3h atrás'
+        },
+        {
+          id: 'story-gabriel-2',
+          media: '../../../assets/images/challenges.jpg',
+          caption: 'Disciplina é o que constrói o resultado diário.',
+          createdAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
+          time: '1h atrás'
         }
       ]
     }
   ];
 
-  // Armazenamento de visualizações
+  // Armazenamento persistente de visualizações
   function getViewedMap() {
     try {
       return JSON.parse(localStorage.getItem(VIEWED_STORAGE_KEY) || '{}');
@@ -171,7 +208,7 @@
     } catch (e) {}
   }
 
-  // Armazenamento de curtidas
+  // Armazenamento persistente de curtidas
   function getLikesSet() {
     try {
       const arr = JSON.parse(localStorage.getItem(LIKES_STORAGE_KEY) || '[]');
@@ -187,12 +224,12 @@
     } catch (e) {}
   }
 
-  // Armazenamento de stories criados pelo usuário logado
+  // Armazenamento de stories criados pelo próprio usuário logado
   function getUserStories() {
     try {
       const arr = JSON.parse(localStorage.getItem(USER_STORIES_STORAGE_KEY) || '[]');
       const now = Date.now();
-      // Remove apenas expirados (> 24h)
+      // Remove somente expirados (> 24h)
       const valid = arr.filter((item) => now - new Date(item.createdAt).getTime() < EXPIRATION_MS);
       if (valid.length !== arr.length) {
         saveUserStories(valid);
@@ -209,10 +246,21 @@
     } catch (e) {}
   }
 
-  // Objeto público do motor de Stories
+  function detectContext() {
+    const path = (window.location.pathname || '').toLowerCase();
+    if (path.includes('chat.html') || path.includes('direct.html')) {
+      return 'direct';
+    }
+    if (path.includes('profile.html')) {
+      return 'profile';
+    }
+    return 'feed';
+  }
+
+  // Objeto público da engine de Stories
   const engine = {
     /**
-     * Retorna lista de contas ativas com stories válidos (< 24h)
+     * Retorna todas as contas com stories ativos (< 24h)
      */
     getActiveAccounts() {
       const now = Date.now();
@@ -227,7 +275,7 @@
           author: 'Seu Story',
           avatar:
             (window.SocialRatsUser && window.SocialRatsUser.DEFAULT_AVATAR) ||
-            '../../../assets/images/profile-hero.jpg',
+            '../../../assets/images/avatar-your-story.png',
           isYourStory: true,
           stories: userStories.map((s, idx) => ({
             id: s.id || `story-me-${idx}`,
@@ -238,7 +286,7 @@
             author: 'Seu Story',
             avatar:
               (window.SocialRatsUser && window.SocialRatsUser.DEFAULT_AVATAR) ||
-              '../../../assets/images/profile-hero.jpg',
+              '../../../assets/images/avatar-your-story.png',
             userKey: 'your-story',
             isYourStory: true
           }))
@@ -282,15 +330,13 @@
         accounts.find((acc) => {
           if (acc.key.toLowerCase() === clean) return true;
           if (acc.author.toLowerCase() === clean) return true;
-          if (clean === 'me' && acc.key === 'your-story') return true;
+          if ((clean === 'me' || clean === 'your story') && acc.key === 'your-story') return true;
+          if (clean === 'gabriel silva' && (acc.key === 'gabriel' || acc.key === 'your-story')) return true;
           return acc.stories.some((s) => s.id.toLowerCase() === clean);
         }) || null
       );
     },
 
-    /**
-     * Retorna todos os stories em formato linear (para compatibilidade legada)
-     */
     getAllStories() {
       const accounts = engine.getActiveAccounts();
       const list = [];
@@ -317,33 +363,40 @@
     },
 
     /**
-     * Verifica se uma conta ou story específico já foi visualizado
-     * Uma conta é considerada visualizada se TODOS os seus stories foram visualizados
+     * Verifica se um story individual já foi visualizado
      */
-    isViewed(keyOrId) {
-      if (!keyOrId) return false;
-      const clean = String(keyOrId).toLowerCase().replace(/^@/, '');
+    isStoryViewed(storyId) {
+      if (!storyId) return false;
       const map = getViewedMap();
-      const now = Date.now();
-
-      const acc = engine.findAccount(clean);
-      if (acc) {
-        // Se a conta não tem stories
-        if (!acc.stories.length) return false;
-        // Todos os stories da conta precisam ter sido visualizados dentro de 24h
-        return acc.stories.every((s) => {
-          const viewedAt = map[s.id];
-          return viewedAt && now - viewedAt < EXPIRATION_MS;
-        });
-      }
-
-      // Verificação direta por ID de story
-      const viewedAt = map[clean];
-      return Boolean(viewedAt && now - viewedAt < EXPIRATION_MS);
+      const viewedAt = map[storyId];
+      if (!viewedAt) return false;
+      return Date.now() - viewedAt < EXPIRATION_MS;
     },
 
-    isStoryViewed(keyOrId) {
-      return engine.isViewed(keyOrId);
+    /**
+     * Verifica se TODOS os stories ativos da conta já foram visualizados
+     */
+    isAccountFullyViewed(keyOrId) {
+      const acc = engine.findAccount(keyOrId);
+      if (!acc || !acc.stories.length) return false;
+      return acc.stories.every((s) => engine.isStoryViewed(s.id));
+    },
+
+    /**
+     * Verifica se a conta possui ao menos 1 story NÃO visualizado
+     */
+    hasUnviewedStories(keyOrId) {
+      const acc = engine.findAccount(keyOrId);
+      if (!acc || !acc.stories.length) return false;
+      return acc.stories.some((s) => !engine.isStoryViewed(s.id));
+    },
+
+    isViewed(keyOrId) {
+      const acc = engine.findAccount(keyOrId);
+      if (acc) {
+        return engine.isAccountFullyViewed(acc.key);
+      }
+      return engine.isStoryViewed(keyOrId);
     },
 
     markAsViewed(storyId) {
@@ -392,7 +445,7 @@
       stories.unshift(newStory);
       saveUserStories(stories);
 
-      // Limpa marcação de visualizado para o seu próprio novo story
+      // Limpa marcação de visto para o novo story
       const map = getViewedMap();
       delete map[newStory.id];
       saveViewedMap(map);
@@ -498,12 +551,12 @@
       document.querySelectorAll('.story-item[data-story-id]').forEach((el) => {
         const id = el.getAttribute('data-story-id');
         const has = engine.hasStory(id);
-        const viewed = has && engine.isViewed(id);
-        el.classList.toggle('story-viewed', viewed);
+        const fullyViewed = has && engine.isAccountFullyViewed(id);
+        el.classList.toggle('story-viewed', fullyViewed);
         const wrap = el.querySelector('.story-avatar-wrap');
         if (wrap) {
           wrap.classList.toggle('has-story', has);
-          wrap.classList.toggle('story-viewed', viewed);
+          wrap.classList.toggle('story-viewed', fullyViewed);
         }
       });
 
@@ -514,13 +567,13 @@
           (item.classList.contains('your-story') ? 'your-story' : '');
         if (!userKey) return;
         const has = engine.hasStory(userKey);
-        const viewed = has && engine.isViewed(userKey);
+        const fullyViewed = has && engine.isAccountFullyViewed(userKey);
         const wrap = item.querySelector('.connection-avatar-wrap');
         if (wrap) {
           wrap.classList.toggle('has-story', has);
-          wrap.classList.toggle('story-viewed', viewed);
+          wrap.classList.toggle('story-viewed', fullyViewed);
         }
-        item.classList.toggle('story-viewed', viewed);
+        item.classList.toggle('story-viewed', fullyViewed);
       });
 
       // 3. Linhas de conversa do Direct (.conversation-row[href*="contact="])
@@ -529,9 +582,9 @@
         const wrap = row.querySelector('.conv-avatar-wrap');
         if (wrap && key) {
           const has = engine.hasStory(key);
-          const viewed = has && engine.isViewed(key);
+          const fullyViewed = has && engine.isAccountFullyViewed(key);
           wrap.classList.toggle('has-story', has);
-          wrap.classList.toggle('story-viewed', viewed);
+          wrap.classList.toggle('story-viewed', fullyViewed);
         }
       });
 
@@ -542,14 +595,14 @@
 
       if (contactKey && !isGroup) {
         const has = engine.hasStory(contactKey);
-        const viewed = has && engine.isViewed(contactKey);
+        const fullyViewed = has && engine.isAccountFullyViewed(contactKey);
 
         const headWrap = document.getElementById('chat-avatar-wrap');
         if (headWrap) {
           headWrap.classList.toggle('has-story', has);
-          headWrap.classList.toggle('story-viewed', viewed);
+          headWrap.classList.toggle('story-viewed', fullyViewed);
           headWrap.title = has
-            ? viewed
+            ? fullyViewed
               ? 'Story já visualizado (toque para rever)'
               : 'Ver story'
             : '';
@@ -558,24 +611,30 @@
         const sideWrap = document.getElementById('sidebar-avatar-wrap');
         if (sideWrap) {
           sideWrap.classList.toggle('has-story', has);
-          sideWrap.classList.toggle('story-viewed', viewed);
+          sideWrap.classList.toggle('story-viewed', fullyViewed);
         }
 
         const heroWrap = document.getElementById('dm-hero-avatar-wrap');
         if (heroWrap) {
           heroWrap.classList.toggle('has-story', has);
-          heroWrap.classList.toggle('story-viewed', viewed);
+          heroWrap.classList.toggle('story-viewed', fullyViewed);
         }
       } else {
-        // Se for grupo ou não tiver contato específico, remove o anel de story
         const headWrap = document.getElementById('chat-avatar-wrap');
-        if (headWrap) {
-          headWrap.classList.remove('has-story', 'story-viewed');
-        }
+        if (headWrap) headWrap.classList.remove('has-story', 'story-viewed');
         const heroWrap = document.getElementById('dm-hero-avatar-wrap');
-        if (heroWrap) {
-          heroWrap.classList.remove('has-story', 'story-viewed');
-        }
+        if (heroWrap) heroWrap.classList.remove('has-story', 'story-viewed');
+      }
+
+      // 5. Perfil de usuário (.profile-avatar-wrap)
+      const profileWrap = document.querySelector('.profile-avatar-wrap');
+      if (profileWrap) {
+        const profUser = urlParams.get('user') || 'gabriel';
+        const has = engine.hasStory(profUser) || engine.hasStory('your-story');
+        const targetKey = engine.hasStory(profUser) ? profUser : 'your-story';
+        const fullyViewed = has && engine.isAccountFullyViewed(targetKey);
+        profileWrap.classList.toggle('has-story', has);
+        profileWrap.classList.toggle('story-viewed', fullyViewed);
       }
     }
   };
@@ -584,6 +643,7 @@
    * ESTILOS E COMPONENTE CENTRALIZADO DO VISUALIZADOR DE STORIES
    * ═══════════════════════════════════════════════════════════════ */
   let modalEl = null;
+  let activeContext = 'feed'; // 'feed' | 'profile' | 'direct'
   let activeAccounts = [];
   let currentAccountIndex = 0;
   let currentStoryIndex = 0;
@@ -606,7 +666,8 @@
       .connection-avatar-wrap.has-story,
       .conv-avatar-wrap.has-story,
       .chat-avatar-wrap.has-story,
-      .dm-hero-avatar-wrap.has-story {
+      .dm-hero-avatar-wrap.has-story,
+      .profile-avatar-wrap.has-story {
         background: var(--sr-story-gradient) !important;
         border: none !important;
         padding: 2.5px !important;
@@ -624,6 +685,7 @@
       .conv-avatar-wrap.has-story.story-viewed,
       .chat-avatar-wrap.has-story.story-viewed,
       .dm-hero-avatar-wrap.has-story.story-viewed,
+      .profile-avatar-wrap.has-story.story-viewed,
       .story-item.story-viewed .story-avatar-wrap,
       .connection-item.story-viewed .connection-avatar-wrap {
         background: var(--sr-story-viewed) !important;
@@ -704,7 +766,7 @@
         transition: width 0.1s linear;
       }
 
-      /* Top Header: Autor e Botão Fechar */
+      /* Top Header: Autor, Context Badge & Botão Fechar */
       .sr-story-header {
         position: absolute;
         top: 24px;
@@ -1189,6 +1251,7 @@
         resumeTimer();
         const diffX = e.changedTouches[0].clientX - touchStartX;
         const diffY = e.changedTouches[0].clientY - touchStartY;
+        // Deslizar para a esquerda: avançar | Deslizar para a direita: voltar
         if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
           if (diffX < 0) {
             engine.next();
@@ -1386,7 +1449,7 @@
 
   /**
    * Constrói as barras de progresso especificamente para a CONTA ATUAL
-   * Ex: Se broyin postou 2 stories -> 2 barras
+   * Ex: Se Lucas postou 2 stories -> 2 barras
    *     Se rijalxp postou 1 story -> 1 barra
    */
   function buildProgressSegmentsForCurrentAccount() {
@@ -1418,7 +1481,13 @@
 
     if (currentStoryIndex < 0) currentStoryIndex = 0;
     if (currentStoryIndex >= acc.stories.length) {
-      // Passou do último story da conta atual: vai para a próxima conta
+      // Direct e Perfil: terminam na própria conta
+      if (activeContext === 'direct' || activeContext === 'profile') {
+        engine.close();
+        return;
+      }
+
+      // Contexto Feed: passa para a próxima conta com stories não visualizados
       if (currentAccountIndex < activeAccounts.length - 1) {
         currentAccountIndex++;
         currentStoryIndex = 0;
@@ -1438,7 +1507,7 @@
     progressPercent = 0;
     isPaused = false;
 
-    // Marca este story específico como visualizado (mantém acessível e atualiza anel para cinza #4b4958 quando todos forem vistos)
+    // Registra visualização individual deste Story
     engine.markAsViewed(story.id);
 
     // Atualiza cabeçalho com informações do autor do story
@@ -1451,7 +1520,7 @@
     const replyInput = document.getElementById('sr-story-reply-input');
 
     if (authorAvatar) authorAvatar.src = acc.avatar;
-    if (authorWrap) authorWrap.classList.toggle('viewed', engine.isViewed(acc.key));
+    if (authorWrap) authorWrap.classList.toggle('viewed', engine.isAccountFullyViewed(acc.key));
     if (authorName) authorName.textContent = acc.author;
     if (authorTime) authorTime.textContent = story.time || 'Recente';
     if (mediaImg) mediaImg.src = story.media;
@@ -1501,42 +1570,88 @@
     }, 100); // 5 segundos por story
   }
 
-  engine.open = function (startKeyOrId) {
+  /**
+   * Abre o visualizador com navegação inteligente baseada em CONTEXTO:
+   * - context = 'direct': Exclusivo do contato (não avança para outros contatos)
+   * - context = 'profile': Exclusivo do perfil (não avança para outros usuários)
+   * - context = 'feed': Sequência entre contas com stories não visualizados
+   */
+  engine.open = function (startKeyOrId, context) {
     ensureViewerModal();
-    activeAccounts = engine.getActiveAccounts();
-    if (!activeAccounts.length) return;
 
-    let targetAccIdx = 0;
+    activeContext = context || detectContext();
+    const allAccounts = engine.getActiveAccounts();
+    if (!allAccounts.length) return;
+
+    let targetAccIdx = -1;
     let targetStoryIdx = 0;
 
-    if (startKeyOrId) {
-      const clean = String(startKeyOrId).toLowerCase().replace(/^@/, '');
-      const foundIdx = activeAccounts.findIndex((acc) => {
+    const clean = String(startKeyOrId || '').toLowerCase().replace(/^@/, '');
+    if (clean) {
+      targetAccIdx = allAccounts.findIndex((acc) => {
         if (acc.key.toLowerCase() === clean) return true;
         if (acc.author.toLowerCase() === clean) return true;
-        if (clean === 'me' && acc.key === 'your-story') return true;
+        if ((clean === 'me' || clean === 'your story') && acc.key === 'your-story') return true;
+        if (clean === 'gabriel silva' && (acc.key === 'gabriel' || acc.key === 'your-story')) return true;
         return acc.stories.some((s) => s.id.toLowerCase() === clean);
       });
-
-      if (foundIdx !== -1) {
-        targetAccIdx = foundIdx;
-        const matchedStoryIdx = activeAccounts[foundIdx].stories.findIndex(
-          (s) => s.id.toLowerCase() === clean
-        );
-        if (matchedStoryIdx !== -1) {
-          targetStoryIdx = matchedStoryIdx;
-        } else {
-          // Começa no primeiro story ainda não visualizado da conta, ou no primeiro caso todos já tenham sido vistos
-          const firstUnviewed = activeAccounts[foundIdx].stories.findIndex(
-            (s) => !engine.isViewed(s.id)
-          );
-          targetStoryIdx = firstUnviewed !== -1 ? firstUnviewed : 0;
-        }
-      }
     }
 
-    currentAccountIndex = targetAccIdx;
-    currentStoryIndex = targetStoryIdx;
+    if (targetAccIdx === -1) {
+      targetAccIdx = 0;
+    }
+
+    const startAccount = allAccounts[targetAccIdx];
+
+    // Identifica story inicial dentro da conta
+    const matchedStoryIdx = startAccount.stories.findIndex((s) => s.id.toLowerCase() === clean);
+    if (matchedStoryIdx !== -1) {
+      targetStoryIdx = matchedStoryIdx;
+    } else {
+      // Inicia no primeiro story ainda não visualizado, ou no 0 caso todos já tenham sido vistos
+      const firstUnviewed = startAccount.stories.findIndex((s) => !engine.isStoryViewed(s.id));
+      targetStoryIdx = firstUnviewed !== -1 ? firstUnviewed : 0;
+    }
+
+    if (activeContext === 'direct' || activeContext === 'profile') {
+      // ══════════════════════════════════════════════════════════════
+      // CONTEXTO DIRECT & PERFIL:
+      // Exibe EXCLUSIVAMENTE os stories desta conta.
+      // NÃO avança automaticamente para stories de outros contatos!
+      // ══════════════════════════════════════════════════════════════
+      activeAccounts = [startAccount];
+      currentAccountIndex = 0;
+      currentStoryIndex = targetStoryIdx;
+    } else {
+      // ══════════════════════════════════════════════════════════════
+      // CONTEXTO FEED:
+      // Inicia na conta selecionada (mesmo que já vista pelo toque manual).
+      // Para as contas seguintes da sequência do Feed:
+      // INCLUI APENAS contas que possuem stories NÃO visualizados!
+      // (Contas já visualizadas NÃO são incluídas na sequência automática)
+      // ══════════════════════════════════════════════════════════════
+      const feedQueue = [startAccount];
+
+      // Contas seguintes na lista
+      for (let i = targetAccIdx + 1; i < allAccounts.length; i++) {
+        const candidate = allAccounts[i];
+        if (engine.hasUnviewedStories(candidate.key)) {
+          feedQueue.push(candidate);
+        }
+      }
+
+      // Contas anteriores na lista que ainda não foram vistas
+      for (let i = 0; i < targetAccIdx; i++) {
+        const candidate = allAccounts[i];
+        if (engine.hasUnviewedStories(candidate.key)) {
+          feedQueue.push(candidate);
+        }
+      }
+
+      activeAccounts = feedQueue;
+      currentAccountIndex = 0;
+      currentStoryIndex = targetStoryIdx;
+    }
 
     buildProgressSegmentsForCurrentAccount();
     modalEl.classList.add('active');
@@ -1550,39 +1665,50 @@
       return;
     }
 
-    // Se a conta ainda tem mais stories
+    // Se a conta atual ainda tem mais stories
     if (currentStoryIndex < acc.stories.length - 1) {
       currentStoryIndex++;
       renderCurrentStory(false);
     } else {
-      // Passa para o story da próxima pessoa
-      if (currentAccountIndex < activeAccounts.length - 1) {
-        currentAccountIndex++;
-        currentStoryIndex = 0;
-        buildProgressSegmentsForCurrentAccount();
-        renderCurrentStory(false);
-      } else {
+      // Chegou ao fim dos stories da conta atual
+      if (activeContext === 'direct' || activeContext === 'profile') {
+        // Direct e Perfil: NÃO avançam para outros contatos/perfis. Encerram aqui.
         engine.close();
+      } else {
+        // Contexto Feed: passa para o próximo usuário com stories não visualizados
+        if (currentAccountIndex < activeAccounts.length - 1) {
+          currentAccountIndex++;
+          currentStoryIndex = 0;
+          buildProgressSegmentsForCurrentAccount();
+          renderCurrentStory(false);
+        } else {
+          // Finalizou a fila do Feed
+          engine.close();
+        }
       }
     }
   };
 
   engine.prev = function () {
-    // Se não estiver no primeiro story da conta
+    // Se não estiver no primeiro story da conta atual
     if (currentStoryIndex > 0) {
       currentStoryIndex--;
       renderCurrentStory(false);
     } else {
-      // Volta para a conta anterior (se houver)
-      if (currentAccountIndex > 0) {
-        currentAccountIndex--;
-        const prevAcc = activeAccounts[currentAccountIndex];
-        currentStoryIndex = prevAcc.stories.length - 1;
-        buildProgressSegmentsForCurrentAccount();
+      if (activeContext === 'direct' || activeContext === 'profile') {
+        // Direct e Perfil: não voltam para outros contatos. Reiniciam o story 0.
         renderCurrentStory(false);
       } else {
-        // Reinicia o primeiro story da conta atual
-        renderCurrentStory(false);
+        // Contexto Feed: volta para o último story da conta anterior na fila
+        if (currentAccountIndex > 0) {
+          currentAccountIndex--;
+          const prevAcc = activeAccounts[currentAccountIndex];
+          currentStoryIndex = prevAcc.stories.length - 1;
+          buildProgressSegmentsForCurrentAccount();
+          renderCurrentStory(false);
+        } else {
+          renderCurrentStory(false);
+        }
       }
     }
   };

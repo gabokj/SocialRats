@@ -2235,7 +2235,7 @@
 
     function openDirectStoryViewer(storyKey) {
       if (window.SocialRatsStories) {
-        window.SocialRatsStories.open(storyKey);
+        window.SocialRatsStories.open(storyKey, 'direct');
         return;
       }
       if (window.SocialRatsUser && window.SocialRatsUser.markStoryAsViewed) {
