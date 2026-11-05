@@ -3536,6 +3536,11 @@
           `;
           chatStream.insertBefore(replyGroup, typingIndicator);
           scrollToBottom();
+
+          // Se o usuário não estiver na tela (ou quando ele voltar), a nova mensagem conta como não lida
+          if (document.hidden && window.SocialRatsUser && window.SocialRatsUser.dm && window.SocialRatsUser.dm.incrementConversationUnread) {
+            window.SocialRatsUser.dm.incrementConversationUnread(contactKey, 1);
+          }
         }, 1500);
       }, 900);
     }

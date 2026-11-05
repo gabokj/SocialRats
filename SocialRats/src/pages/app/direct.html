@@ -2438,16 +2438,26 @@
 
         if (!key) return;
 
-        const isRead = dm.isConversationRead(key);
-        const badge = row.querySelector('.conv-unread-badge');
+        const count = dm.getConversationUnreadCount(key);
+        let badge = row.querySelector('.conv-unread-badge');
 
-        if (badge) {
-          if (isRead) {
+        if (count > 0) {
+          totalUnread += count;
+          if (!badge) {
+            badge = document.createElement('span');
+            badge.className = 'conv-unread-badge';
+            const metaCol = row.querySelector('.conv-meta-col');
+            if (metaCol) metaCol.after(badge);
+            else {
+              const right = row.querySelector('.conversation-right');
+              if (right) right.insertBefore(badge, right.lastElementChild);
+            }
+          }
+          badge.textContent = count;
+          badge.style.display = 'flex';
+        } else {
+          if (badge) {
             badge.style.display = 'none';
-          } else {
-            const count = parseInt(badge.textContent.trim(), 10) || 1;
-            totalUnread += count;
-            badge.style.display = '';
           }
         }
       });
@@ -2458,6 +2468,7 @@
         if (totalUnread > 0) {
           unreadLink.innerHTML = `${totalUnread} não lida${totalUnread > 1 ? 's' : ''} <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>`;
           unreadLink.style.display = 'flex';
+          unreadLink.style.opacity = '1';
         } else {
           unreadLink.innerHTML = `Todas lidas <i class="fa-solid fa-check" style="font-size: 11px; margin-left:2px;"></i>`;
           unreadLink.style.opacity = '0.6';
@@ -2466,9 +2477,15 @@
 
       // Atualiza badge auxiliar da sidebar caso exista
       const widgetBadge = document.querySelector('.sidebar-widget-card [style*="color:var(--color-brand-pink)"]');
-      if (widgetBadge && dm.isConversationRead('lucas')) {
-        widgetBadge.textContent = 'Lida';
-        widgetBadge.style.color = 'var(--text-muted)';
+      if (widgetBadge) {
+        const lucasCount = dm.getConversationUnreadCount('lucas');
+        if (lucasCount > 0) {
+          widgetBadge.textContent = `${lucasCount} nova${lucasCount > 1 ? 's' : ''}`;
+          widgetBadge.style.color = 'var(--color-brand-pink)';
+        } else {
+          widgetBadge.textContent = 'Lida';
+          widgetBadge.style.color = 'var(--text-muted)';
+        }
       }
     }
 
@@ -2508,7 +2525,7 @@
         row.style.opacity = s.blocked ? '0.6' : '';
         if (preview) preview.textContent = s.blocked ? 'Você bloqueou este contato' : preview.dataset.original;
         const badge = row.querySelector('.conv-unread-badge');
-        if (badge) badge.style.display = s.blocked || s.muted ? 'none' : '';
+        if (badge && (s.blocked || s.muted)) badge.style.display = 'none';
         let mutedIcon = row.querySelector('.conv-muted-icon');
         if (nameRow && s.muted && !mutedIcon) {
           mutedIcon = document.createElement('i');

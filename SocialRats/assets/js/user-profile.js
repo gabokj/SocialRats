@@ -558,12 +558,24 @@
   });
 
   /* ═══════════════════════════════════════════════════════════════
-     DIRECT · Configurações por conversa, bloqueios e denúncias
+     DIRECT · Estado de mensagens, leitura e contadores de não lidas
      Persistido em localStorage, vinculado ao usuário logado (handle).
      ═══════════════════════════════════════════════════════════════ */
   const DM_STORAGE_KEY = 'socialrats_dm_settings_v1';
   const DM_READ_STATUS_STORAGE_KEY = 'socialrats_dm_read_status_v1';
   const DM_DEFAULT_SETTINGS = Object.freeze({ blocked: false, muted: false, theme: 'default' });
+
+  // Contadores iniciais pré-definidos das conversas mockadas
+  const DM_DEFAULT_UNREAD_COUNTS = Object.freeze({
+    lucas: 3,
+    ana: 1,
+    rafael: 2,
+    carol: 1,
+    matheus: 4,
+    gabriela: 0,
+    pedro: 0,
+    juliana: 0
+  });
 
   function readDmStore() {
     try {
@@ -601,21 +613,44 @@
     window.dispatchEvent(new CustomEvent('sr:dm-read-updated'));
   }
 
-  function isConversationRead(key) {
-    if (!key) return true;
+  function getConversationUnreadCount(key) {
+    if (!key) return 0;
     const cleanKey = String(key).toLowerCase().replace(/^@/, '');
     const map = readDmReadStatus();
-    return Boolean(map[cleanKey]);
+    const entry = map[cleanKey];
+
+    // Se houver registro explícito salvo
+    if (entry !== undefined) {
+      if (typeof entry === 'number') return Math.max(0, entry);
+      if (typeof entry === 'object' && entry !== null) {
+        return typeof entry.unreadCount === 'number' ? Math.max(0, entry.unreadCount) : 0;
+      }
+      return 0; // Se marcou como lida (true ou objeto {readAt}), não lidas = 0
+    }
+
+    // Se nunca foi aberta, retorna a contagem mockada padrão (ou 0 se grupo/desconhecido)
+    return DM_DEFAULT_UNREAD_COUNTS[cleanKey] || 0;
+  }
+
+  function isConversationRead(key) {
+    return getConversationUnreadCount(key) === 0;
   }
 
   function markConversationAsRead(key) {
     if (!key) return;
     const cleanKey = String(key).toLowerCase().replace(/^@/, '');
     const map = readDmReadStatus();
-    if (!map[cleanKey]) {
-      map[cleanKey] = { readAt: Date.now() };
-      writeDmReadStatus(map);
-    }
+    map[cleanKey] = { unreadCount: 0, readAt: Date.now() };
+    writeDmReadStatus(map);
+  }
+
+  function incrementConversationUnread(key, amount = 1) {
+    if (!key) return;
+    const cleanKey = String(key).toLowerCase().replace(/^@/, '');
+    const current = getConversationUnreadCount(cleanKey);
+    const map = readDmReadStatus();
+    map[cleanKey] = { unreadCount: current + amount, receivedAt: Date.now() };
+    writeDmReadStatus(map);
   }
 
   const DM_GROUPS_KEY = 'socialrats_dm_groups_v1';
@@ -826,7 +861,9 @@
       return readDmStore().reports.filter((r) => !contactKey || r.contactKey === contactKey);
     },
     isConversationRead,
-    markConversationAsRead
+    getConversationUnreadCount,
+    markConversationAsRead,
+    incrementConversationUnread
   };
 
   window.addEventListener('storage', (event) => {
