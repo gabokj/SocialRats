@@ -1536,7 +1536,7 @@
       <!-- ═══════════════════════════════════════════════════════════
            SCREEN 1: LANDING DISCOVERY (MATCHING ATTACHED IMAGE)
            ═══════════════════════════════════════════════════════════ -->
-      <div class="screen-view" id="screen-landing">
+      <div class="screen-view hidden" id="screen-landing">
         
         <!-- Staggered Floating Matrix Showcase -->
         <div class="landing-top-showcase">
@@ -1672,7 +1672,7 @@
       <div class="screen-view hidden" id="screen-create">
         
         <header class="screen-header-top">
-          <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
+          <button type="button" class="btn-back-nav" onclick="showScreen('explore')" title="Voltar">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
           <h2 class="screen-header-title">Criar comunidade</h2>
@@ -1809,10 +1809,10 @@
       <!-- ═══════════════════════════════════════════════════════════
            SCREEN 3: ENTRAR EM UMA COMUNIDADE / BUSCA & EM ALTA
            ═══════════════════════════════════════════════════════════ -->
-      <div class="screen-view hidden" id="screen-explore">
+      <div class="screen-view" id="screen-explore">
         
         <header class="screen-header-top">
-          <button type="button" class="btn-back-nav" onclick="showScreen('landing')" title="Voltar">
+          <button type="button" class="btn-back-nav" onclick="goBackFromCommunities()" title="Voltar">
             <i class="fa-solid fa-arrow-left"></i>
           </button>
           <h2 class="screen-header-title">Comunidades</h2>
@@ -2222,16 +2222,12 @@
     function handleCardClick(name, e) {
       if (e.target.closest('button') || e.target.closest('a')) return;
       if (window.SocialRatsMetrics) {
-        const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+        window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
           targetId: 'visit-' + name,
           label: `Interação na comunidade ${name}`
         });
-        if (res.awarded) {
-          showToast(`Abrindo ${name} (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`);
-          return;
-        }
       }
-      showToast(`Abrindo ${name}`);
+      window.location.href = `community.html?id=${encodeURIComponent(name)}`;
     }
 
     // Search Filtering
@@ -2355,6 +2351,33 @@
 
       communitiesDatabase.unshift(newComm);
 
+      try {
+        const commStateRaw = localStorage.getItem('socialrats_communities_state_v1');
+        const commState = commStateRaw ? JSON.parse(commStateRaw) : {};
+        commState[newComm.id] = {
+          id: newComm.id,
+          name: newComm.name,
+          shortName: newComm.name,
+          handle: newComm.handle,
+          handleClean: newComm.handle.replace(/^@/, ''),
+          categoryBadge: newComm.modalityName,
+          modalityName: newComm.modalityName,
+          metricFocus: newComm.metric,
+          privacy: newComm.privacy === 'private' ? 'Comunidade Restrita' : 'Comunidade Aberta',
+          activeNow: '1 membro ativo hoje',
+          banner: newComm.image,
+          avatar: newComm.image,
+          description: newComm.description,
+          membersCount: 1,
+          basePostsCount: 0,
+          baseLikesCount: 0,
+          joined: true,
+          seedPosts: [],
+          rankingMembers: []
+        };
+        localStorage.setItem('socialrats_communities_state_v1', JSON.stringify(commState));
+      } catch (err) {}
+
       let ptsText = '';
       if (window.SocialRatsMetrics) {
         window.SocialRatsMetrics.updateCommunitiesCount(1, false);
@@ -2372,7 +2395,7 @@
       handleManuallyEdited = false;
 
       setTimeout(() => {
-        showScreen('explore');
+        window.location.href = `community.html?id=${encodeURIComponent(newComm.id)}`;
       }, 450);
     }
 
@@ -2423,11 +2446,18 @@
       }
     }
 
+    function goBackFromCommunities() {
+      if (document.referrer && (document.referrer.includes('search.html') || document.referrer.includes('profile.html') || document.referrer.includes('feed.html') || document.referrer.includes('community.html'))) {
+        window.history.back();
+      } else {
+        window.location.href = 'search.html';
+      }
+    }
+
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
-      // Check URL parameters or defaults
       const urlParams = new URLSearchParams(window.location.search);
-      const initialScreen = urlParams.get('screen') || 'landing';
+      const initialScreen = urlParams.get('screen') || 'explore';
       showScreen(initialScreen);
     });
   </script>

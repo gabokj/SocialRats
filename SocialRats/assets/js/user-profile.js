@@ -202,14 +202,15 @@
       text: typeof postData.text === 'string' ? postData.text.trim() : '',
       media: postData.media || '',
       destType: postData.destType || 'account',
+      destId: postData.destId || 'public',
       destShort: postData.destShort || 'Conta Geral (Público)',
       tag: postData.tag || 'Geral',
       collaborators: Array.isArray(postData.collaborators) ? postData.collaborators : [],
       isScheduled: Boolean(postData.isScheduled),
       timestampLabel: postData.timestampLabel || 'Agora mesmo',
-      likes: 0,
-      comments: 0,
-      reposts: 0,
+      likes: Number(postData.likes) || 0,
+      comments: Number(postData.comments) || 0,
+      reposts: Number(postData.reposts) || 0,
       createdAt: Date.now()
     };
 

@@ -1,0 +1,3184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SocialRats · Comunidade</title>
+  <meta name="description"
+    content="Acompanhe as publicações, o ranking de membros e as métricas da sua comunidade no SocialRats.">
+
+  <!-- Favicon oficial -->
+  <link rel="icon" type="image/png" href="../../../assets/images/socialrats-icon-removebg-preview (3).png">
+
+  <!-- Google Fonts: Outfit & Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       DESIGN SYSTEM TOKENS — SOCIALRATS COMMUNITY (DESIGN_SYSTEM.MD)
+       ═══════════════════════════════════════════════════════════════ */
+    :root {
+      --color-background: #0b0913;
+      --color-surface: #14111e;
+      --color-surface-elevated: #1c1728;
+      --color-surface-hover: #221c32;
+      --color-border-subtle: #30263e;
+
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #b7b0c5;
+      --color-text-muted: #6f6780;
+
+      --color-accent-pink: #ff32b8;
+      --color-accent-pink-soft: rgba(255, 50, 184, 0.12);
+      --color-accent-purple: #923bff;
+      --color-accent-purple-soft: rgba(146, 59, 255, 0.12);
+      --color-accent-orange: #ff713f;
+      --color-accent-orange-soft: rgba(255, 113, 63, 0.12);
+      --color-heart-red: #ff3355;
+      --color-online-green: #34d399;
+      --color-warning: #fbbf24;
+      --color-error: #ff4d6d;
+
+      --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
+      --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+
+      --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background-color: var(--color-background);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       LAYOUT SHELL: RESPONSIVE WEB & MOBILE DUAL ADAPTATION
+       ═══════════════════════════════════════════════════════════════ */
+    .app-viewport {
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100%;
+      position: relative;
+    }
+
+    /* DESKTOP SIDEBAR (Visible on >= 992px) */
+    .desktop-sidebar {
+      display: none;
+      width: 250px;
+      padding: 28px 20px 24px;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 1px solid var(--color-border-subtle);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      background-color: #07050d;
+      z-index: 100;
+    }
+
+    .desktop-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      margin-bottom: 32px;
+      padding-left: 6px;
+    }
+
+    .brand-logo-text {
+      font-family: var(--font-heading);
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      background: var(--gradient-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .desktop-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .desktop-nav-item a,
+    .desktop-nav-item button {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: 14px;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .desktop-nav-item a:hover,
+    .desktop-nav-item button:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .desktop-nav-item.active a {
+      background: rgba(255, 50, 184, 0.12);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .desktop-nav-item.active i {
+      color: var(--color-accent-pink);
+    }
+
+    .desktop-nav-item i {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+    }
+
+    .btn-create-post-sidebar {
+      margin-top: 16px;
+      width: 100%;
+      padding: 13px;
+      background: var(--gradient-brand);
+      border: none;
+      border-radius: 14px;
+      color: #ffffff;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-create-post-sidebar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.45);
+    }
+
+    /* ═══════════════════════════════════════════════════════════════
+       MAIN COMMUNITY CENTER CONTAINER (MATCHING PROFILE STRUCTURE)
+       ═══════════════════════════════════════════════════════════════ */
+    .profile-center-container {
+      width: 100%;
+      max-width: 500px;
+      min-height: 100vh;
+      background-color: var(--color-background);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      border-left: 1px solid var(--color-border-subtle);
+      border-right: 1px solid var(--color-border-subtle);
+      padding-bottom: 90px;
+    }
+
+    .app-viewport.mockup-mode {
+      background-color: #05040a;
+      padding: 24px 0;
+      align-items: center;
+    }
+
+    .app-viewport.mockup-mode .profile-center-container {
+      max-width: 430px;
+      height: 900px;
+      min-height: unset;
+      border-radius: 44px;
+      border: 8px solid #1f1b2d;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 35px rgba(255, 50, 184, 0.15);
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+
+    .app-viewport.mockup-mode .profile-center-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .view-mode-toggle {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #181424;
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 30px;
+      padding: 6px 14px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      z-index: 999;
+      cursor: pointer;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .view-mode-toggle:hover {
+      background: #251f38;
+      border-color: var(--color-accent-pink);
+      transform: translateY(-2px);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       1. TOP BAR (BACK + COMMUNITY SELECTOR + QUICK ICONS)
+       ──────────────────────────────────────────────────────────── */
+    .profile-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px 12px;
+      background-color: rgba(11, 9, 19, 0.95);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      gap: 10px;
+    }
+
+    .top-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .btn-back-circle {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .btn-back-circle:hover {
+      background: var(--color-surface-elevated);
+      border-color: var(--color-accent-pink);
+    }
+
+    .profile-top-username {
+      background: none;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+      cursor: pointer;
+      padding: 4px 0;
+      min-width: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .profile-top-username span {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 210px;
+    }
+
+    .profile-top-username:hover {
+      opacity: 0.88;
+    }
+
+    .profile-top-chevron {
+      font-size: 11px;
+      color: #b7b0c5;
+      transition: transform 0.22s ease, color 0.22s ease;
+    }
+
+    .profile-top-username.open .profile-top-chevron {
+      transform: rotate(180deg);
+      color: var(--color-accent-pink);
+    }
+
+    .profile-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+
+    .btn-top-action {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 19px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease, transform 0.15s ease;
+    }
+
+    .btn-top-action:hover {
+      color: var(--color-accent-pink);
+      transform: scale(1.08);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       2. COVER BANNER & COMMUNITY HEADER (SAME AS PROFILE)
+       ──────────────────────────────────────────────────────────── */
+    .profile-cover-banner {
+      width: 100%;
+      height: 148px;
+      background: linear-gradient(135deg, #181228 0%, #291238 50%, #150e24 100%);
+      position: relative;
+      border-bottom: 1px solid var(--color-border-subtle);
+      overflow: hidden;
+    }
+
+    .profile-cover-banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.85;
+    }
+
+    .cover-dark-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(11, 9, 19, 0.15) 0%, rgba(11, 9, 19, 0.72) 100%);
+      pointer-events: none;
+    }
+
+    .profile-info-section {
+      padding: 0 20px 18px;
+      position: relative;
+    }
+
+    .profile-avatar-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-top: -46px;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .profile-avatar-wrap {
+      position: relative;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: var(--gradient-story);
+      padding: 3px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      flex-shrink: 0;
+    }
+
+    .profile-avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background-color: var(--color-background);
+      overflow: hidden;
+      padding: 2px;
+    }
+
+    .profile-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .comm-category-badge {
+      position: absolute;
+      bottom: 0;
+      right: -2px;
+      background: #14111e;
+      border: 1.5px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    .profile-actions-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Botão Entrar / Sair da Comunidade */
+    .btn-comm-join-main {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 700;
+      padding: 9px 20px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(255, 50, 184, 0.3);
+      transition: all 0.15s ease;
+    }
+
+    .btn-comm-join-main:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-comm-join-main.joined {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+      box-shadow: none;
+    }
+
+    .btn-comm-join-main.joined:hover {
+      border-color: var(--color-error);
+      color: var(--color-error);
+    }
+
+    .btn-profile-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-profile-icon:hover {
+      background: #251e36;
+      color: var(--color-accent-pink);
+      border-color: var(--color-accent-pink);
+    }
+
+    .profile-name-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .verified-icon {
+      width: 19px;
+      height: 19px;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    .profile-handle-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 3px;
+      margin-bottom: 10px;
+    }
+
+    .profile-handle {
+      font-size: 13.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .profile-level-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: var(--radius-full);
+      background: var(--color-accent-pink-soft);
+      border: 1px solid rgba(255, 50, 184, 0.25);
+      color: var(--color-accent-pink);
+    }
+
+    .profile-bio-text {
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: #eceaf0;
+      margin-bottom: 12px;
+    }
+
+    .profile-meta-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .profile-meta-item i {
+      color: var(--color-text-muted);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       3. MÉTRICAS DA COMUNIDADE (MEMBROS | PUBLICAÇÕES | CURTIDAS)
+       ──────────────────────────────────────────────────────────── */
+    .profile-stats-card {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .stat-counter-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+      position: relative;
+    }
+
+    .stat-counter-block:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -3px;
+      top: 18%;
+      height: 64%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .stat-counter-block:hover {
+      opacity: 0.85;
+    }
+
+    .stat-number {
+      font-family: var(--font-heading);
+      font-size: 16.5px;
+      font-weight: 800;
+      color: #ffffff;
+      white-space: nowrap;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      white-space: nowrap;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       4. NAVEGAÇÃO DE ABAS DA COMUNIDADE
+       [Feed | Ranking | Sobre]
+       ──────────────────────────────────────────────────────────── */
+    .profile-tabs-nav {
+      width: 100%;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background-color: var(--color-background);
+      position: sticky;
+      top: 57px;
+      z-index: 45;
+    }
+
+    .profile-tabs-scroll {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding: 0 8px;
+    }
+
+    .profile-tabs-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .profile-tab-item {
+      background: transparent;
+      border: none;
+      padding: 14px 12px;
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: color 0.15s ease;
+      flex: 1;
+      text-align: center;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .profile-tab-item:hover {
+      color: #ffffff;
+    }
+
+    .profile-tab-item.active {
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .profile-tab-item.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 18%;
+      width: 64%;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--gradient-brand);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       5. CONTEÚDO DAS ABAS (FEED, RANKING, INFORMAÇÕES)
+       ──────────────────────────────────────────────────────────── */
+    .profile-tab-content-area {
+      padding: 16px 14px 24px;
+    }
+
+    .tab-panel {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeInTab 0.22s ease;
+    }
+
+    .tab-panel.active {
+      display: flex;
+    }
+
+    @keyframes fadeInTab {
+      from {
+        opacity: 0;
+        transform: translateY(5px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Quick Composer Box inside Community Feed */
+    .comm-quick-composer {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .comm-composer-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .comm-composer-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1.5px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .comm-composer-input {
+      flex: 1;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 13.5px;
+      line-height: 1.4;
+      resize: none;
+      min-height: 60px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .comm-composer-input::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.75;
+    }
+
+    .comm-composer-input:focus {
+      border-color: var(--color-accent-pink);
+    }
+
+    .comm-inline-preview {
+      position: relative;
+      display: none;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--color-border-subtle);
+      max-height: 220px;
+      background: #08060e;
+    }
+
+    .comm-inline-preview.show {
+      display: block;
+    }
+
+    .comm-inline-preview img {
+      width: 100%;
+      max-height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .btn-remove-inline-media {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(11, 9, 19, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .comm-composer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 2px;
+    }
+
+    .comm-composer-tools {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-comm-tool {
+      height: 32px;
+      padding: 0 11px;
+      border-radius: var(--radius-full);
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-comm-tool:hover {
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+
+    .btn-comm-publish {
+      height: 34px;
+      padding: 0 18px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .btn-comm-publish:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Feed Post Card (Reused from Feed & Profile) */
+    .post-card {
+      background-color: var(--color-surface);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 16px;
+      border: 1px solid var(--color-border-subtle);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .post-author-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .post-author-avatar-wrap {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .post-author-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .post-author-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.25;
+      min-width: 0;
+    }
+
+    .post-author-name {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .post-timestamp {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    .post-media-container {
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background-color: #0b0c10;
+    }
+
+    .post-media-img,
+    .post-media-video {
+      width: 100%;
+      height: auto;
+      max-height: 340px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .post-text-body {
+      font-size: 14px;
+      line-height: 1.45;
+      color: #eceaf0;
+      margin-bottom: 12px;
+      word-break: break-word;
+    }
+
+    .post-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .post-actions-left {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .action-btn {
+      background: transparent;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, color 0.15s ease;
+    }
+
+    .action-btn:active {
+      transform: scale(0.92);
+    }
+
+    .action-btn.liked i {
+      color: var(--color-heart-red);
+    }
+
+    .action-btn i {
+      font-size: 18px;
+    }
+
+    /* ─── ABA 2: RANKING DA COMUNIDADE ─── */
+    .ranking-summary-banner {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .ranking-banner-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ranking-banner-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .ranking-banner-sub {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .ranking-my-pill {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--color-accent-pink);
+      white-space: nowrap;
+    }
+
+    .ranking-list-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ranking-member-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      transition: background 0.15s ease;
+    }
+
+    .ranking-member-row:last-child {
+      border-bottom: none;
+    }
+
+    .ranking-member-row:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .ranking-member-row.is-me {
+      background: rgba(255, 50, 184, 0.07);
+    }
+
+    .ranking-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .ranking-pos {
+      width: 26px;
+      font-family: var(--font-heading);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--color-text-secondary);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .ranking-pos.pos-1 {
+      color: #fbbf24;
+      font-size: 15px;
+    }
+
+    .ranking-pos.pos-2 {
+      color: #e2e8f0;
+      font-size: 15px;
+    }
+
+    .ranking-pos.pos-3 {
+      color: #ff713f;
+      font-size: 15px;
+    }
+
+    .ranking-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid var(--color-border-subtle);
+      flex-shrink: 0;
+    }
+
+    .ranking-member-row.is-me .ranking-avatar {
+      border-color: var(--color-accent-pink);
+    }
+
+    .ranking-user-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .ranking-user-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .ranking-you-tag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: var(--radius-full);
+      background: var(--color-accent-pink-soft);
+      color: var(--color-accent-pink);
+    }
+
+    .ranking-user-handle {
+      font-size: 11.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .ranking-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .ranking-streak-pill {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-full);
+      padding: 3px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--color-accent-orange);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .ranking-points-box {
+      text-align: right;
+      min-width: 68px;
+    }
+
+    .ranking-points-val {
+      font-family: var(--font-heading);
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #ffffff;
+      display: block;
+    }
+
+    .ranking-points-label {
+      font-size: 10.5px;
+      color: var(--color-text-secondary);
+      display: block;
+    }
+
+    /* ─── ABA 3: INFORMAÇÕES / SOBRE A COMUNIDADE ─── */
+    .info-section-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .info-card-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-card-title i {
+      color: var(--color-accent-pink);
+      font-size: 14px;
+    }
+
+    .info-rules-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .info-rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.45;
+    }
+
+    .info-rule-num {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .info-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .info-metric-tile {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .info-metric-val {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .info-metric-lbl {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       6. BOTTOM SHEET: TROCAR DE COMUNIDADE RÁPIDO
+       ──────────────────────────────────────────────────────────── */
+    .account-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 4, 10, 0.78);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1500;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.22s ease, visibility 0.22s ease;
+    }
+
+    .account-sheet-overlay.show {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    .account-sheet-card {
+      width: 100%;
+      max-width: 480px;
+      background: #171322;
+      border-top: 1px solid #352b47;
+      border-left: 1px solid #352b47;
+      border-right: 1px solid #352b47;
+      border-radius: 28px 28px 0 0;
+      padding: 12px 16px 26px;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.92);
+      transform: translateY(100%);
+      transition: transform 0.28s cubic-bezier(0.2, 0.9, 0.25, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-sheet-overlay.show .account-sheet-card {
+      transform: translateY(0);
+    }
+
+    .account-sheet-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 9999px;
+      background: #5b526e;
+      margin: 0 auto 14px;
+    }
+
+    .account-list-box {
+      background: #201a2f;
+      border: 1px solid #382e4c;
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .account-option-btn {
+      width: 100%;
+      background: #201a2f;
+      border: none;
+      border-bottom: 1px solid #322844;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      cursor: pointer;
+      text-align: left;
+      transition: background 0.15s ease;
+    }
+
+    .account-option-btn:last-child {
+      border-bottom: none;
+    }
+
+    .account-option-btn:hover {
+      background: #28213b;
+    }
+
+    .account-option-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .account-option-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #3b3052;
+      flex-shrink: 0;
+    }
+
+    .account-option-btn.active .account-option-avatar {
+      border-color: var(--color-accent-pink);
+    }
+
+    .account-option-texts {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .account-option-handle {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .account-option-sub {
+      font-size: 12px;
+      color: #b7b0c5;
+    }
+
+    .account-option-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+
+    .account-option-btn.active .account-option-check {
+      opacity: 1;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       7. BOTTOM NAVIGATION DOCK & RIGHT SIDEBAR
+       ──────────────────────────────────────────────────────────── */
+    .bottom-nav-dock {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(14, 11, 22, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--color-border-subtle);
+      display: flex;
+      flex-direction: column;
+      z-index: 100;
+      padding-top: 8px;
+    }
+
+    .app-viewport.mockup-mode .bottom-nav-dock {
+      position: absolute;
+      max-width: 100%;
+      border-bottom-left-radius: 36px;
+      border-bottom-right-radius: 36px;
+    }
+
+    .bottom-nav-items {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      padding: 0 8px;
+    }
+
+    .nav-tab-btn {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #ffffff;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 6px 12px;
+      flex: 1;
+      transition: transform 0.15s ease;
+    }
+
+    .nav-tab-btn:active {
+      transform: scale(0.92);
+    }
+
+    .nav-tab-icon {
+      font-size: 20px;
+      height: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b0b3b8;
+    }
+
+    .nav-tab-label {
+      font-size: 10.5px;
+      font-weight: 500;
+      color: #b0b3b8;
+    }
+
+    .nav-tab-btn.active .nav-tab-icon,
+    .nav-tab-btn.active .nav-tab-label {
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .mobile-home-indicator {
+      width: 134px;
+      height: 4px;
+      background-color: #ffffff;
+      border-radius: 9999px;
+      margin: 8px auto 6px;
+      opacity: 0.9;
+    }
+
+    .desktop-right-sidebar {
+      display: none;
+      width: 320px;
+      padding: 28px 24px 24px;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      background-color: #07050d;
+      border-left: 1px solid var(--color-border-subtle);
+    }
+
+    .sidebar-widget-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+    }
+
+    .widget-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    /* Modals & Toast */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .notif-modal-card {
+      width: 92%;
+      max-width: 440px;
+      max-height: 80vh;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75);
+    }
+
+    .notif-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-elevated);
+    }
+
+    .notif-modal-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .notif-modal-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .toast-pill {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-30px);
+      background: #1e192c;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+    }
+
+    .toast-pill.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    @media (min-width: 992px) {
+      .desktop-sidebar {
+        display: flex;
+      }
+
+      .view-mode-toggle {
+        display: flex;
+      }
+
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+
+      .app-viewport:not(.mockup-mode) .profile-center-container {
+        padding-bottom: 30px;
+        max-width: 540px;
+      }
+    }
+
+    @media (min-width: 1280px) {
+      .desktop-right-sidebar {
+        display: flex;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .profile-center-container {
+        max-width: 100%;
+        border-left: none;
+        border-right: none;
+      }
+
+      .bottom-nav-dock {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="app-viewport" id="app-viewport">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         LEFT DESKTOP SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
+      <div>
+        <a href="feed.html" class="desktop-brand">
+          <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats"
+            style="width:40px; height:40px; object-fit:contain;">
+          <span class="brand-logo-text">SocialRats</span>
+        </a>
+
+        <ul class="desktop-nav-list">
+          <li class="desktop-nav-item">
+            <a href="feed.html">
+              <i class="fa-solid fa-house"></i>
+              <span>Início</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item active">
+            <a href="search.html">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <span>Buscar</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="metrics.html">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="direct.html">
+              <i class="fa-regular fa-envelope"></i>
+              <span>Direct</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="notifications.html">
+              <i class="fa-regular fa-bell"></i>
+              <span>Notificações</span>
+            </a>
+          </li>
+          <li class="desktop-nav-item">
+            <a href="profile.html">
+              <i class="fa-regular fa-user"></i>
+              <span>Perfil</span>
+            </a>
+          </li>
+        </ul>
+
+        <button type="button" class="btn-create-post-sidebar" onclick="focusCommunityComposer()">
+          <i class="fa-solid fa-plus"></i>
+          <span>Publicar na Comunidade</span>
+        </button>
+      </div>
+
+      <div
+        style="padding:14px; background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:14px; font-size:12px; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:space-between;">
+        <span>Conectado como <strong data-sr-user="handle">@gabriel</strong></span>
+        <a href="profile.html" style="color:var(--color-accent-pink); text-decoration:none; font-weight:700;">Perfil</a>
+      </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN COMMUNITY CENTER COLUMN (PROFILE-STYLE LAYOUT)
+         ═══════════════════════════════════════════════════════════════ -->
+    <main class="profile-center-container" id="community-container">
+
+      <!-- 1. Top Bar: Back + Community Switcher + Quick Actions -->
+      <header class="profile-top-bar">
+        <div class="top-bar-left">
+          <button type="button" class="btn-back-circle" onclick="goBackFromCommunity()" title="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <button type="button" class="profile-top-username" id="comm-switcher-btn"
+            onclick="toggleCommSwitcher(event)" aria-haspopup="dialog" aria-expanded="false">
+            <span id="top-comm-handle">gymrats_br</span>
+            <i class="fa-solid fa-chevron-down profile-top-chevron"></i>
+          </button>
+        </div>
+
+        <div class="profile-top-actions">
+          <button type="button" class="btn-top-action" title="Explorar todas as comunidades"
+            onclick="window.location.href='communities.html?screen=explore'">
+            <i class="fa-regular fa-compass"></i>
+          </button>
+          <button type="button" class="btn-top-action" title="Compartilhar Comunidade" onclick="shareCommunity()">
+            <i class="fa-solid fa-arrow-up-from-bracket"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- 2. Cover Banner da Comunidade -->
+      <div class="profile-cover-banner" id="comm-cover-banner">
+        <img src="../../../assets/images/challenges.jpg" alt="Capa da comunidade" id="comm-cover-img">
+        <div class="cover-dark-gradient"></div>
+      </div>
+
+      <!-- 3. Community Header Info Section (Padrão Perfil) -->
+      <section class="profile-info-section" aria-label="Informações da Comunidade">
+
+        <!-- Avatar / Ícone da Comunidade + Botão Entrar/Sair -->
+        <div class="profile-avatar-row">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar-inner">
+              <img src="../../../assets/images/challenges.jpg" alt="Ícone da comunidade" class="profile-avatar-img"
+                id="comm-avatar-img">
+            </div>
+            <div class="comm-category-badge" id="comm-category-pill">
+              🏋️‍♂️ Musculação
+            </div>
+          </div>
+
+          <div class="profile-actions-group">
+            <button type="button" class="btn-comm-join-main joined" id="btn-join-community"
+              onclick="toggleCommunityMembership()">
+              <i class="fa-solid fa-check"></i>
+              <span>Membro</span>
+            </button>
+            <button type="button" class="btn-profile-icon" title="Compartilhar" onclick="shareCommunity()">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Nome da Comunidade & Verificado -->
+        <div class="profile-name-title">
+          <span id="comm-display-name">GymRats Musculação & Elite</span>
+          <svg class="verified-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="Comunidade Oficial SocialRats">
+            <path
+              d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
+              fill="#0095F6" />
+          </svg>
+        </div>
+
+        <!-- Identificador & Métrica Foco -->
+        <div class="profile-handle-row">
+          <span class="profile-handle" id="comm-display-handle">@gymrats_br</span>
+          <span class="profile-level-badge" id="comm-display-metric-badge">Cargas & PRs · +2 Rat Points por interação</span>
+        </div>
+
+        <!-- Descrição da Comunidade -->
+        <p class="profile-bio-text" id="comm-display-desc">
+          Comunidade oficial focada em progressão de carga, hipertrofia e consistência diária. Registre seu treino, mantenha o foguinho aceso e suba no ranking da tribo.
+        </p>
+
+        <!-- Metadados Principais -->
+        <div class="profile-meta-details">
+          <div class="profile-meta-item">
+            <i class="fa-solid fa-earth-americas"></i>
+            <span id="comm-display-privacy">Comunidade Aberta</span>
+          </div>
+          <div class="profile-meta-item">
+            <i class="fa-solid fa-fire-flame-curved" style="color:var(--color-accent-orange);"></i>
+            <span id="comm-display-active-now">1.238 membros ativos hoje</span>
+          </div>
+        </div>
+
+        <!-- 4. Resumo de Métricas da Comunidade (Membros | Publicações | Curtidas) -->
+        <div class="profile-stats-card">
+          <div class="stat-counter-block"
+            onclick="switchCommunityTab(document.querySelectorAll('.profile-tab-item')[1], 'ranking-panel')"
+            title="Quantidade total de membros">
+            <span class="stat-number" id="comm-stat-members">998,2k</span>
+            <span class="stat-label">Membros</span>
+          </div>
+          <div class="stat-counter-block"
+            onclick="switchCommunityTab(document.querySelectorAll('.profile-tab-item')[0], 'feed-panel')"
+            title="Total de publicações na comunidade">
+            <span class="stat-number" id="comm-stat-posts">1.420</span>
+            <span class="stat-label">Publicações</span>
+          </div>
+          <div class="stat-counter-block"
+            onclick="switchCommunityTab(document.querySelectorAll('.profile-tab-item')[0], 'feed-panel')"
+            title="Total de curtidas recebidas pela comunidade">
+            <span class="stat-number" id="comm-stat-likes">48,5k</span>
+            <span class="stat-label">Curtidas</span>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- 5. Navegação Compacta da Comunidade (Feed | Ranking | Informações) -->
+      <nav class="profile-tabs-nav" aria-label="Navegação da comunidade">
+        <div class="profile-tabs-scroll">
+          <button type="button" class="profile-tab-item active" onclick="switchCommunityTab(this, 'feed-panel')">
+            <span>Feed</span>
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchCommunityTab(this, 'ranking-panel')">
+            <span>Ranking</span>
+          </button>
+          <button type="button" class="profile-tab-item" onclick="switchCommunityTab(this, 'info-panel')">
+            <span>Informações</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- 6. Conteúdo das Abas -->
+      <div class="profile-tab-content-area">
+
+        <!-- ───────────────────────────────────────────
+             ABA 1: FEED DE PUBLICAÇÕES DA COMUNIDADE
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel active" id="feed-panel">
+
+          <!-- Campo para criar nova publicação diretamente na comunidade -->
+          <div class="comm-quick-composer" id="comm-composer-card">
+            <div class="comm-composer-top">
+              <img src="../../../assets/images/avatar-your-story.png" alt="Você" class="comm-composer-avatar"
+                data-sr-user="avatar">
+              <textarea id="comm-post-textarea" class="comm-composer-input" maxlength="500"
+                placeholder="Compartilhe seu treino ou evolução nesta comunidade..."></textarea>
+            </div>
+
+            <!-- Preview de imagem ou vídeo anexado -->
+            <div class="comm-inline-preview" id="comm-inline-preview">
+              <img src="" alt="Mídia anexada" id="comm-inline-preview-img">
+              <button type="button" class="btn-remove-inline-media" onclick="clearCommunityPostMedia()"
+                title="Remover mídia">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <input type="file" id="comm-file-input" accept="image/*,video/*" style="display:none;"
+              onchange="handleCommunityMediaUpload(event)">
+
+            <div class="comm-composer-bottom">
+              <div class="comm-composer-tools">
+                <button type="button" class="btn-comm-tool"
+                  onclick="document.getElementById('comm-file-input').click()">
+                  <i class="fa-regular fa-image" style="color:var(--color-accent-pink);"></i>
+                  <span>Foto / Vídeo</span>
+                </button>
+                <button type="button" class="btn-comm-tool" onclick="attachSampleWorkoutMedia()">
+                  <i class="fa-solid fa-dumbbell" style="color:var(--color-accent-orange);"></i>
+                  <span>Prova de Treino</span>
+                </button>
+              </div>
+              <button type="button" class="btn-comm-publish" onclick="submitCommunityPost()">
+                Publicar
+              </button>
+            </div>
+          </div>
+
+          <!-- Lista de Publicações da Comunidade -->
+          <div id="comm-posts-list" style="display:flex; flex-direction:column; gap:14px;">
+            <!-- Renderizado dinamicamente via JS -->
+          </div>
+
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 2: RANKING DA COMUNIDADE
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="ranking-panel">
+
+          <div class="ranking-summary-banner">
+            <div class="ranking-banner-left">
+              <span class="ranking-banner-title">Ranking da Comunidade</span>
+              <span class="ranking-banner-sub">Ordenado por Rat Points acumulados e foguinho ativo</span>
+            </div>
+            <span class="ranking-my-pill" id="ranking-my-position-pill">Sua posição: #2</span>
+          </div>
+
+          <div class="ranking-list-card" id="comm-ranking-list">
+            <!-- Renderizado dinamicamente em ordem decrescente de Rat Points -->
+          </div>
+
+        </div>
+
+        <!-- ───────────────────────────────────────────
+             ABA 3: INFORMAÇÕES DA COMUNIDADE
+             ─────────────────────────────────────────── -->
+        <div class="tab-panel" id="info-panel">
+
+          <!-- Resumo de Métricas Detalhadas -->
+          <div class="info-section-card">
+            <h3 class="info-card-title">
+              <i class="fa-solid fa-chart-simple"></i>
+              <span>Métricas de Participação</span>
+            </h3>
+            <div class="info-metrics-grid">
+              <div class="info-metric-tile">
+                <span class="info-metric-val" id="info-metric-members">998,2k</span>
+                <span class="info-metric-lbl">Membros</span>
+              </div>
+              <div class="info-metric-tile">
+                <span class="info-metric-val" id="info-metric-posts">1.420</span>
+                <span class="info-metric-lbl">Publicações</span>
+              </div>
+              <div class="info-metric-tile">
+                <span class="info-metric-val" id="info-metric-likes">48,5k</span>
+                <span class="info-metric-lbl">Curtidas</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sobre e Propósito -->
+          <div class="info-section-card">
+            <h3 class="info-card-title">
+              <i class="fa-solid fa-circle-info"></i>
+              <span>Sobre a comunidade</span>
+            </h3>
+            <p style="font-size:13.5px; color:var(--color-text-secondary); line-height:1.5;" id="info-about-text">
+              Esta comunidade reúne membros do SocialRats focados em evolução constante, compartilhamento de treinos, PRs e apoio mútuo para manter a sequência diária ativa.
+            </p>
+            <div style="display:flex; flex-direction:column; gap:8px; padding-top:6px; border-top:1px solid rgba(255,255,255,0.04); font-size:12.5px; color:var(--color-text-secondary);">
+              <div style="display:flex; justify-content:space-between;">
+                <span>Categoria principal</span>
+                <strong style="color:#ffffff;" id="info-modality-name">Musculação</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span>Métrica acompanhada</span>
+                <strong style="color:var(--color-accent-pink);" id="info-metric-focus">Cargas & Séries</strong>
+              </div>
+              <div style="display:flex; justify-content:space-between;">
+                <span>Bonificação SocialRats</span>
+                <strong style="color:var(--color-online-green);">Rat Points + Multiplicador de Foguinho</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Diretrizes e Pontuação -->
+          <div class="info-section-card">
+            <h3 class="info-card-title">
+              <i class="fa-solid fa-shield-halved"></i>
+              <span>Regras e Pontuação na Tribo</span>
+            </h3>
+            <ul class="info-rules-list">
+              <li class="info-rule-item">
+                <span class="info-rule-num">1</span>
+                <span>Publicações na comunidade somam <strong>+20 Rat Points</strong> (+10 pts com foto ou vídeo) multiplicados pelo seu foguinho atual.</span>
+              </li>
+              <li class="info-rule-item">
+                <span class="info-rule-num">2</span>
+                <span>Curtir e comentar as publicações dos membros fortalece a comunidade e gera Rat Points diários.</span>
+              </li>
+              <li class="info-rule-item">
+                <span class="info-rule-num">3</span>
+                <span>Mantenha respeito, foco na evolução e compartilhe registros reais dos seus treinos ou estudos.</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 7. Fixed Bottom Navigation Dock -->
+      <nav class="bottom-nav-dock" aria-label="Navegação Inferior Mobile">
+        <div class="bottom-nav-items">
+          <a href="feed.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-house"></i></div>
+            <span class="nav-tab-label">Início</span>
+          </a>
+
+          <a href="search.html" class="nav-tab-btn active">
+            <div class="nav-tab-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+            <span class="nav-tab-label">Buscar</span>
+          </a>
+
+          <a href="metrics.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-solid fa-chart-simple"></i></div>
+            <span class="nav-tab-label">Métricas</span>
+          </a>
+
+          <a href="direct.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-envelope"></i></div>
+            <span class="nav-tab-label">Direct</span>
+          </a>
+
+          <a href="profile.html" class="nav-tab-btn">
+            <div class="nav-tab-icon"><i class="fa-regular fa-user"></i></div>
+            <span class="nav-tab-label">Perfil</span>
+          </a>
+        </div>
+
+        <div class="mobile-home-indicator"></div>
+      </nav>
+
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         DESKTOP RIGHT SIDEBAR
+         ═══════════════════════════════════════════════════════════════ -->
+    <aside class="desktop-right-sidebar" aria-label="Resumo e Outras Comunidades">
+
+      <!-- Seu Desempenho na Comunidade -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Sua Identidade SocialRats</span>
+          <a href="metrics.html"
+            style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;">Métricas</a>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <img src="../../../assets/images/avatar-your-story.png" alt="Você" data-sr-user="avatar"
+            style="width:42px; height:42px; border-radius:50%; object-fit:cover; border:1.5px solid var(--color-accent-pink);">
+          <div style="min-width:0;">
+            <div style="font-size:13.5px; font-weight:700; color:#ffffff;" data-sr-user="name">Gabriel Silva</div>
+            <div style="font-size:11.5px; color:var(--color-text-secondary);" data-sr-user="handle">@gabriel</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:9px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Seus Rat Points</span>
+            <span style="color:#ffffff; font-weight:700;" data-sr-metric="ratPoints">340</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Foguinho atual</span>
+            <span style="color:var(--color-accent-orange); font-weight:700;" data-sr-metric="currentStreakDays">5 dias</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Multiplicador ativo</span>
+            <span style="color:var(--color-accent-pink); font-weight:700;" data-sr-metric="multiplierLabel">1,25x</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outras Comunidades Populares -->
+      <div class="sidebar-widget-card">
+        <div class="widget-title-row">
+          <span class="widget-title">Outras Comunidades</span>
+          <a href="communities.html?screen=explore"
+            style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;">Explorar</a>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;" id="sidebar-comm-shortcuts">
+          <!-- Preenchido via JS -->
+        </div>
+      </div>
+
+      <footer style="font-size:11.5px; color:var(--color-text-muted); line-height:1.6;">
+        <a href="communities.html" style="color:var(--color-text-muted); text-decoration:none;">Descobrir</a> ·
+        <a href="profile.html" style="color:var(--color-text-muted); text-decoration:none;">Perfil</a> ·
+        <a href="metrics.html" style="color:var(--color-text-muted); text-decoration:none;">Pontuação</a><br>
+        <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Comunidades</span>
+      </footer>
+
+    </aside>
+
+  </div>
+
+  <!-- Botão Alternar Moldura Mobile / Web -->
+  <button type="button" class="view-mode-toggle" id="btn-toggle-view" onclick="toggleViewMode()">
+    <i class="fa-solid fa-mobile-screen"></i>
+    <span id="view-mode-label">Ver em Moldura Mobile</span>
+  </button>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BOTTOM SHEET: ALTERNAR COMUNIDADE RAPIDAMENTE
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="account-sheet-overlay" id="comm-switcher-sheet" role="dialog" aria-modal="true"
+    aria-label="Selecionar comunidade" onclick="if(event.target === this) closeCommSwitcher()">
+    <div class="account-sheet-card" onclick="event.stopPropagation()">
+      <div class="account-sheet-handle"></div>
+      <div style="font-family:var(--font-heading); font-size:15px; font-weight:800; color:#ffffff; text-align:center; margin-bottom:12px;">
+        Alternar Comunidade
+      </div>
+      <div class="account-list-box" id="comm-switcher-list">
+        <!-- Preenchido dinamicamente -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MODAL DE COMENTÁRIOS DA COMUNIDADE (SINCRONIZADO COM PERFIL)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="comm-comments-modal" role="dialog" aria-modal="true" aria-label="Comentários">
+    <div class="notif-modal-card">
+      <div class="notif-modal-header">
+        <h3 class="notif-modal-title" id="comm-comments-title">Comentários</h3>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeCommCommentsModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="notif-modal-list" id="comm-comments-list" style="max-height:300px;">
+        <!-- Comentários renderizados dinamicamente -->
+      </div>
+
+      <form onsubmit="submitCommComment(event)"
+        style="display:flex; align-items:center; gap:10px; padding:12px 16px; border-top:1px solid var(--color-border-subtle); background:var(--color-surface);">
+        <img src="../../../assets/images/avatar-your-story.png" alt="Você" data-sr-user="avatar"
+          style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--color-border-subtle);">
+        <input type="text" id="comm-comment-input" placeholder="Adicionar comentário..." autocomplete="off"
+          style="flex:1; height:38px; border-radius:999px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:0 14px; color:#ffffff; font-size:13px; outline:none;">
+        <button type="submit"
+          style="height:36px; padding:0 14px; border-radius:999px; border:none; background:var(--gradient-brand); color:#ffffff; font-size:12.5px; font-weight:700; cursor:pointer;">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Pill -->
+  <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
+    <i class="fa-solid fa-circle-check" style="color:var(--color-accent-pink);"></i>
+    <span id="toast-text">Mensagem</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCRIPTS CENTRALIZADOS: MÉTRICAS + IDENTIDADE DO USUÁRIO + COMUNIDADE
+       ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
+  <script src="../../../assets/js/user-profile.js"></script>
+  <script>
+    const COMM_STATE_STORAGE_KEY = 'socialrats_communities_state_v1';
+
+    // Catálogo centralizado de Comunidades do SocialRats
+    const DEFAULT_COMMUNITIES = {
+      gymrats_br: {
+        id: 'gymrats_br',
+        name: 'GymRats Musculação & Elite',
+        shortName: '🏋️‍♂️ GymRats Elite',
+        handle: '@gymrats_br',
+        handleClean: 'gymrats_br',
+        categoryBadge: '🏋️‍♂️ Musculação',
+        modalityName: 'Musculação & Hipertrofia',
+        metricFocus: 'Cargas & PRs',
+        privacy: 'Comunidade Aberta',
+        activeNow: '1.238 membros ativos hoje',
+        banner: '../../../assets/images/challenges.jpg',
+        avatar: '../../../assets/images/challenges.jpg',
+        description: 'Comunidade oficial focada em progressão de carga, hipertrofia e consistência diária. Registre seu treino, mantenha o foguinho aceso e suba no ranking da tribo.',
+        membersCount: 998200,
+        basePostsCount: 1418,
+        baseLikesCount: 48520,
+        joined: true,
+        seedPosts: [
+          {
+            id: 'comm-seed-gym-1',
+            authorName: 'Lucas Bodybuilder',
+            authorHandle: '@lucas_bodybuilder',
+            authorAvatar: '../../../assets/images/avatar-lucas.png',
+            timestamp: 'Há 45 min · Treino Pago',
+            text: 'Novo PR no Supino Reto hoje: 120kg para 6 repetições limpas! A constância na comunidade não falha. Quem mais já treinou hoje? 🔥🏋️‍♂️',
+            media: '../../../assets/images/proof.jpg',
+            likes: 184,
+            comments: 26,
+            reposts: 12,
+            liked: false,
+            commentsList: [
+              { author: 'carlos_iron', avatar: '../../../assets/images/avatar-ana.png', time: '30 min', text: 'Carga absurda irmão! Parabéns pelo PR 🔥' },
+              { author: 'rijalxp', avatar: '../../../assets/images/avatar-rijalxp.png', time: '18 min', text: 'Rumo aos 130kg agora!' }
+            ]
+          },
+          {
+            id: 'comm-seed-gym-2',
+            authorName: 'Marina Fitness',
+            authorHandle: '@marina_fitness',
+            authorAvatar: '../../../assets/images/avatar-gabriela.png',
+            timestamp: 'Há 3 horas · Leg Day',
+            text: 'Leg day concluído às 06h da manhã antes do trabalho. +1 dia de foguinho garantido e foco total no desafio da semana! 💪',
+            media: '../../../assets/images/challenges.jpg',
+            likes: 142,
+            comments: 19,
+            reposts: 8,
+            liked: true,
+            commentsList: [
+              { author: 'broyin', avatar: '../../../assets/images/avatar-broyin.png', time: '2h', text: 'Disciplina de milhões! 👏' }
+            ]
+          }
+        ],
+        rankingMembers: [
+          { name: 'Lucas Bodybuilder', handle: '@lucas_bodybuilder', avatar: '../../../assets/images/avatar-lucas.png', points: 620, streak: 21 },
+          { name: 'Marina Fitness', handle: '@marina_fitness', avatar: '../../../assets/images/avatar-gabriela.png', points: 485, streak: 16 },
+          { name: 'rijalxp', handle: '@rijalxp', avatar: '../../../assets/images/avatar-rijalxp.png', points: 310, streak: 9 },
+          { name: 'Carlos Iron', handle: '@carlos_iron', avatar: '../../../assets/images/avatar-ana.png', points: 275, streak: 7 },
+          { name: 'Pedro Lift', handle: '@pedro_lift', avatar: '../../../assets/images/avatar-pedro.png', points: 190, streak: 4 }
+        ]
+      },
+
+      devs_foco: {
+        id: 'devs_foco',
+        name: 'Programação Devs & Foco',
+        shortName: '💻 Programação Devs',
+        handle: '@devs_foco',
+        handleClean: 'devs_foco',
+        categoryBadge: '💻 Devs & Foco',
+        modalityName: 'Tecnologia & Alta Performance',
+        metricFocus: 'Horas de Foco & Treino',
+        privacy: 'Comunidade Aberta',
+        activeNow: '642 devs online agora',
+        banner: '../../../assets/images/post-blue-orange.png',
+        avatar: '../../../assets/images/post-blue-orange.png',
+        description: 'Para desenvolvedores e estudantes de tecnologia que equilibram código intenso, projetos e disciplina nos treinos todos os dias.',
+        membersCount: 128400,
+        basePostsCount: 842,
+        baseLikesCount: 29400,
+        joined: true,
+        seedPosts: [
+          {
+            id: 'comm-seed-dev-1',
+            authorName: 'rijalxp',
+            authorHandle: '@rijalxp',
+            authorAvatar: '../../../assets/images/avatar-rijalxp.png',
+            timestamp: 'Há 1 hora · Deep Work',
+            text: '4 horas de código focado no projeto + 1h de treino pesado à noite. Mente sã, código limpo! 💻⚡',
+            media: '../../../assets/images/post-blue-orange.png',
+            likes: 215,
+            comments: 31,
+            reposts: 14,
+            liked: false,
+            commentsList: [
+              { author: 'den.a', avatar: '../../../assets/images/avatar-dena.png', time: '40 min', text: 'Melhor combo possível!' }
+            ]
+          },
+          {
+            id: 'comm-seed-dev-2',
+            authorName: 'Carol Tech',
+            authorHandle: '@carol_dev',
+            authorAvatar: '../../../assets/images/avatar-carol.png',
+            timestamp: 'Há 4 horas · Produtividade',
+            text: 'Deploy sem bugs na sexta-feira e cardio de 5km pago! Quem mais bateu a meta de hoje na tribo?',
+            media: '',
+            likes: 98,
+            comments: 15,
+            reposts: 5,
+            liked: false,
+            commentsList: []
+          }
+        ],
+        rankingMembers: [
+          { name: 'rijalxp', handle: '@rijalxp', avatar: '../../../assets/images/avatar-rijalxp.png', points: 540, streak: 18 },
+          { name: 'Carol Tech', handle: '@carol_dev', avatar: '../../../assets/images/avatar-carol.png', points: 410, streak: 12 },
+          { name: 'Matheus Fullstack', handle: '@matheus_js', avatar: '../../../assets/images/avatar-matheus.png', points: 295, streak: 8 },
+          { name: 'Dena UI', handle: '@den.a', avatar: '../../../assets/images/avatar-dena.png', points: 240, streak: 6 }
+        ]
+      },
+
+      calistenia: {
+        id: 'calistenia',
+        name: 'Calistenia & Musculação',
+        shortName: '🤸 Calistenia & Street',
+        handle: '@calistenia_br',
+        handleClean: 'calistenia_br',
+        categoryBadge: '🤸 Calistenia',
+        modalityName: 'Calistenia & Street Workout',
+        metricFocus: 'Repetições & Domínio Corporal',
+        privacy: 'Comunidade Aberta',
+        activeNow: '518 atletas treinando',
+        banner: '../../../assets/images/hero.jpg',
+        avatar: '../../../assets/images/hero.jpg',
+        description: 'Domínio do peso corporal: barra fixa, paralelas, muscle-ups, handstand e progressões de força.',
+        membersCount: 41200,
+        basePostsCount: 510,
+        baseLikesCount: 16800,
+        joined: true,
+        seedPosts: [
+          {
+            id: 'comm-seed-cal-1',
+            authorName: 'Rafael Street',
+            authorHandle: '@rafael_bars',
+            authorAvatar: '../../../assets/images/avatar-rafael.png',
+            timestamp: 'Há 2 horas · Parque Ibirapuera',
+            text: 'Finalmente saiu o primeiro Muscle-Up limpo sem kipping! 3 meses de progressão diária compartilhada aqui na comunidade 🔥🤸',
+            media: '../../../assets/images/hero.jpg',
+            likes: 167,
+            comments: 28,
+            reposts: 11,
+            liked: false,
+            commentsList: []
+          }
+        ],
+        rankingMembers: [
+          { name: 'Rafael Street', handle: '@rafael_bars', avatar: '../../../assets/images/avatar-rafael.png', points: 510, streak: 19 },
+          { name: 'Juliana Flex', handle: '@ju_calistenia', avatar: '../../../assets/images/avatar-juliana.png', points: 390, streak: 11 },
+          { name: 'Broyin', handle: '@broyin', avatar: '../../../assets/images/avatar-broyin.png', points: 260, streak: 6 }
+        ]
+      },
+
+      madrugada: {
+        id: 'madrugada',
+        name: 'Corredores da Madrugada',
+        shortName: '🏃 Corredores da Madrugada',
+        handle: '@corredores_madrugada',
+        handleClean: 'corredores_madrugada',
+        categoryBadge: '🏃 Corrida',
+        modalityName: 'Corrida de Rua & Pace',
+        metricFocus: 'Distância & Pace',
+        privacy: 'Comunidade Aberta',
+        activeNow: '890 corredores ativos',
+        banner: '../../../assets/images/post-sunset.png',
+        avatar: '../../../assets/images/proof.jpg',
+        description: 'Para quem vence o despertador às 5h da manhã. Treinos de 5k, 10k, meia maratona e evolução de pace.',
+        membersCount: 940200,
+        basePostsCount: 1120,
+        baseLikesCount: 39100,
+        joined: true,
+        seedPosts: [
+          {
+            id: 'comm-seed-run-1',
+            authorName: 'Dena Runner',
+            authorHandle: '@den.a',
+            authorAvatar: '../../../assets/images/avatar-dena.png',
+            timestamp: 'Hoje às 05:45 · 10km Pace 4:52',
+            text: '10km entregues antes do sol nascer! Pace médio de 4:52/km e sensação incrível. Bom dia tribo! 🏃💨',
+            media: '../../../assets/images/post-sunset.png',
+            likes: 204,
+            comments: 34,
+            reposts: 16,
+            liked: true,
+            commentsList: []
+          }
+        ],
+        rankingMembers: [
+          { name: 'Dena Runner', handle: '@den.a', avatar: '../../../assets/images/avatar-dena.png', points: 590, streak: 24 },
+          { name: 'Broyin Pace', handle: '@broyin', avatar: '../../../assets/images/avatar-broyin.png', points: 430, streak: 15 },
+          { name: 'Ana Marathon', handle: '@ana_run', avatar: '../../../assets/images/avatar-ana.png', points: 315, streak: 9 }
+        ]
+      },
+
+      ia_tech: {
+        id: 'ia_tech',
+        name: 'IA & Tecnologia',
+        shortName: '🧠 IA & Tecnologia',
+        handle: '@ia_tecnologia',
+        handleClean: 'ia_tecnologia',
+        categoryBadge: '🧠 IA & Tech',
+        modalityName: 'Inteligência Artificial & Estudos',
+        metricFocus: 'Projetos & Consistência',
+        privacy: 'Comunidade Aberta',
+        activeNow: '412 membros online',
+        banner: '../../../assets/images/scoring.jpg',
+        avatar: '../../../assets/images/scoring.jpg',
+        description: 'Discussões práticas sobre Inteligência Artificial, engenharia de software, automação e rotina de estudos.',
+        membersCount: 96000,
+        basePostsCount: 640,
+        baseLikesCount: 21300,
+        joined: true,
+        seedPosts: [
+          {
+            id: 'comm-seed-ia-1',
+            authorName: 'Matheus AI',
+            authorHandle: '@matheus_ai',
+            authorAvatar: '../../../assets/images/avatar-matheus.png',
+            timestamp: 'Há 2 horas · Estudo Diário',
+            text: 'Finalizando mais um agente inteligente integrado ao fluxo do projeto. Consistência nos estudos vale tanto quanto no treino! 🧠🚀',
+            media: '../../../assets/images/scoring.jpg',
+            likes: 128,
+            comments: 19,
+            reposts: 9,
+            liked: false,
+            commentsList: []
+          }
+        ],
+        rankingMembers: [
+          { name: 'Matheus AI', handle: '@matheus_ai', avatar: '../../../assets/images/avatar-matheus.png', points: 470, streak: 14 },
+          { name: 'Carol Tech', handle: '@carol_dev', avatar: '../../../assets/images/avatar-carol.png', points: 360, streak: 10 },
+          { name: 'rijalxp', handle: '@rijalxp', avatar: '../../../assets/images/avatar-rijalxp.png', points: 290, streak: 7 }
+        ]
+      }
+    };
+
+    let currentCommId = 'gymrats_br';
+    let pendingCommunityMedia = '';
+    let activeCommentPostId = null;
+
+    function normalizeCommunityId(raw) {
+      if (!raw) return 'gymrats_br';
+      const clean = String(raw).toLowerCase().trim();
+      if (DEFAULT_COMMUNITIES[clean]) return clean;
+      try {
+        const savedRaw = localStorage.getItem(COMM_STATE_STORAGE_KEY);
+        if (savedRaw) {
+          const saved = JSON.parse(savedRaw) || {};
+          if (saved[raw]) return raw;
+          if (saved[clean]) return clean;
+        }
+      } catch (e) {}
+      if (clean.includes('dev') || clean.includes('prog') || clean.includes('flutter') || clean.includes('python')) return 'devs_foco';
+      if (clean.includes('calist')) return 'calistenia';
+      if (clean.includes('madrug') || clean.includes('corr')) return 'madrugada';
+      if (clean.includes('ia') || clean.includes('tech') || clean.includes('estud') || clean.includes('design')) return 'ia_tech';
+      return 'gymrats_br';
+    }
+
+    function loadCommunitiesState() {
+      let saved = {};
+      try {
+        const raw = localStorage.getItem(COMM_STATE_STORAGE_KEY);
+        if (raw) saved = JSON.parse(raw) || {};
+      } catch (e) {}
+
+      // Mesclar defaults com alterações salvas (membros, curtidas, posts)
+      const merged = {};
+      Object.keys(DEFAULT_COMMUNITIES).forEach(key => {
+        const def = DEFAULT_COMMUNITIES[key];
+        const custom = saved[key] || {};
+        merged[key] = Object.assign({}, def, custom, {
+          seedPosts: Array.isArray(custom.seedPosts) ? custom.seedPosts : def.seedPosts,
+          rankingMembers: Array.isArray(custom.rankingMembers) ? custom.rankingMembers : def.rankingMembers
+        });
+      });
+
+      // Incluir também comunidades customizadas criadas na tela communities.html se existirem
+      Object.keys(saved).forEach(key => {
+        if (!merged[key] && saved[key] && saved[key].name) {
+          merged[key] = saved[key];
+        }
+      });
+
+      return merged;
+    }
+
+    function saveCommunitiesState(state) {
+      try {
+        localStorage.setItem(COMM_STATE_STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function formatCompact(n) {
+      const num = Number(n) || 0;
+      if (num >= 1000000) {
+        return (num / 1000000).toFixed(1).replace(/\.0$/, '').replace('.', ',') + 'M';
+      }
+      if (num >= 10000) {
+        return (num / 1000).toFixed(1).replace(/\.0$/, '').replace('.', ',') + 'k';
+      }
+      return num.toLocaleString('pt-BR');
+    }
+
+    function getUserCommunityPosts(comm) {
+      if (!window.SocialRatsUser) return [];
+      const allUserPosts = window.SocialRatsUser.getUserPosts();
+      return allUserPosts.filter(p => {
+        if (p.destType !== 'community') return false;
+        if (p.destId && p.destId === comm.id) return true;
+        const short = (p.destShort || '').toLowerCase();
+        return (
+          short.includes(comm.id.split('_')[0]) ||
+          short.includes(comm.name.toLowerCase().split(' ')[0])
+        );
+      });
+    }
+
+    function calculateCommunityTotals(comm) {
+      const userPosts = getUserCommunityPosts(comm);
+      const seedPosts = comm.seedPosts || [];
+      const totalPosts = (comm.basePostsCount || 0) + seedPosts.length + userPosts.length;
+
+      const seedLikes = seedPosts.reduce((acc, p) => acc + (Number(p.likes) || 0), 0);
+      const userLikes = userPosts.reduce((acc, p) => acc + (Number(p.likes) || 0), 0);
+      const totalLikes = (comm.baseLikesCount || 0) + seedLikes + userLikes;
+
+      return {
+        members: comm.membersCount || 1,
+        posts: totalPosts,
+        likes: totalLikes
+      };
+    }
+
+    function renderActiveCommunity() {
+      const allComms = loadCommunitiesState();
+      const comm = allComms[currentCommId] || allComms.gymrats_br;
+      currentCommId = comm.id;
+
+      // 1. Cabeçalho e Identidade da Comunidade
+      document.title = `SocialRats · ${comm.name}`;
+      document.getElementById('top-comm-handle').textContent = comm.handleClean || comm.handle.replace(/^@/, '');
+      document.getElementById('comm-cover-img').src = comm.banner || comm.avatar;
+      document.getElementById('comm-avatar-img').src = comm.avatar;
+      document.getElementById('comm-category-pill').textContent = comm.categoryBadge || '🏋️‍♂️ Comunidade';
+      document.getElementById('comm-display-name').textContent = comm.name;
+      document.getElementById('comm-display-handle').textContent = comm.handle;
+      document.getElementById('comm-display-metric-badge').textContent = `${comm.metricFocus} · +2 Rat Points por interação`;
+      document.getElementById('comm-display-desc').textContent = comm.description;
+      document.getElementById('comm-display-privacy').textContent = comm.privacy || 'Comunidade Aberta';
+      document.getElementById('comm-display-active-now').textContent = comm.activeNow || 'Membros ativos hoje';
+
+      // Botão Entrar / Sair
+      const joinBtn = document.getElementById('btn-join-community');
+      if (comm.joined) {
+        joinBtn.className = 'btn-comm-join-main joined';
+        joinBtn.innerHTML = '<i class="fa-solid fa-check"></i><span>Membro</span>';
+      } else {
+        joinBtn.className = 'btn-comm-join-main';
+        joinBtn.innerHTML = '<i class="fa-solid fa-plus"></i><span>Entrar na comunidade</span>';
+      }
+
+      // 2. Métricas Reais (Membros | Publicações | Curtidas)
+      const totals = calculateCommunityTotals(comm);
+      document.getElementById('comm-stat-members').textContent = formatCompact(totals.members);
+      document.getElementById('comm-stat-posts').textContent = totals.posts.toLocaleString('pt-BR');
+      document.getElementById('comm-stat-likes').textContent = formatCompact(totals.likes);
+
+      // Sincronizar aba Informações
+      document.getElementById('info-metric-members').textContent = formatCompact(totals.members);
+      document.getElementById('info-metric-posts').textContent = totals.posts.toLocaleString('pt-BR');
+      document.getElementById('info-metric-likes').textContent = formatCompact(totals.likes);
+      document.getElementById('info-about-text').textContent = comm.description;
+      document.getElementById('info-modality-name').textContent = comm.modalityName || 'Esportes & Evolução';
+      document.getElementById('info-metric-focus').textContent = comm.metricFocus || 'Consistência Diária';
+
+      // 3. Renderizar Feed da Comunidade
+      renderCommunityFeed(comm);
+
+      // 4. Renderizar Ranking da Comunidade
+      renderCommunityRanking(comm);
+
+      // 5. Renderizar Switcher e Atalhos Laterais
+      renderCommunitySwitchers(allComms);
+
+      // 6. Garantir sincronização da foto e nome do usuário logado
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.syncAllDOMElements();
+      }
+      if (window.SocialRatsMetrics) {
+        window.SocialRatsMetrics.syncAllDOMElements();
+      }
+    }
+
+    function renderCommunityFeed(comm) {
+      const listEl = document.getElementById('comm-posts-list');
+      if (!listEl) return;
+      listEl.innerHTML = '';
+
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : {
+        name: 'Gabriel Silva',
+        handle: '@gabriel',
+        avatar: '../../../assets/images/avatar-your-story.png'
+      };
+
+      // A. Publicações criadas pelo usuário autenticado nesta comunidade
+      const userPosts = getUserCommunityPosts(comm);
+      userPosts.forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'post-card';
+        article.id = post.id;
+        article.setAttribute('data-own-post', 'true');
+
+        const mediaHtml = post.media
+          ? `<div class="post-media-container">
+               <img src="${post.media}" alt="Mídia da publicação" class="post-media-img" loading="eager">
+             </div>`
+          : '';
+
+        article.innerHTML = `
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="${profile.avatar}" alt="${profile.name}" class="post-author-avatar-img" data-sr-user="avatar">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">
+                  <span data-sr-user="name">${profile.name}</span>
+                  <span style="font-size:11px; font-weight:700; color:var(--color-accent-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:1px 7px; border-radius:999px;">${comm.shortName || comm.name}</span>
+                </span>
+                <span class="post-timestamp">${post.timestampLabel || 'Agora mesmo'}</span>
+              </div>
+            </div>
+            <button type="button" class="btn-top-action" style="font-size:15px; color:var(--color-text-secondary);" onclick="shareCommunity()">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+          ${mediaHtml}
+          ${post.text ? `<p class="post-text-body"></p>` : ''}
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <button type="button" class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleCommPostLike('${post.id}', true, this)">
+                <i class="fa-solid fa-heart"></i>
+                <span>${post.likes || 0}</span>
+              </button>
+              <button type="button" class="action-btn" onclick="openCommCommentsModal('${post.id}', true)">
+                <i class="fa-regular fa-comment"></i>
+                <span>${post.comments || 0}</span>
+              </button>
+              <button type="button" class="action-btn" onclick="shareCommunity()">
+                <i class="fa-solid fa-repeat"></i>
+                <span>${post.reposts || 0}</span>
+              </button>
+            </div>
+            <button type="button" class="action-btn" onclick="showToast('Publicação salva nos seus favoritos!')">
+              <i class="fa-regular fa-bookmark"></i>
+            </button>
+          </div>
+        `;
+        if (post.text) {
+          article.querySelector('.post-text-body').textContent = post.text;
+        }
+        listEl.appendChild(article);
+      });
+
+      // B. Publicações dos membros da comunidade
+      (comm.seedPosts || []).forEach(post => {
+        const article = document.createElement('article');
+        article.className = 'post-card';
+        article.id = post.id;
+
+        const mediaHtml = post.media
+          ? `<div class="post-media-container">
+               <img src="${post.media}" alt="Publicação de ${post.authorName}" class="post-media-img" loading="eager">
+             </div>`
+          : '';
+
+        article.innerHTML = `
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="${post.authorAvatar}" alt="${post.authorName}" class="post-author-avatar-img">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name">
+                  <span>${post.authorName}</span>
+                  <span style="font-size:11.5px; font-weight:500; color:var(--color-text-secondary);">${post.authorHandle || ''}</span>
+                </span>
+                <span class="post-timestamp">${post.timestamp}</span>
+              </div>
+            </div>
+            <button type="button" class="btn-top-action" style="font-size:15px; color:var(--color-text-secondary);" onclick="shareCommunity()">
+              <i class="fa-solid fa-share-nodes"></i>
+            </button>
+          </div>
+          ${mediaHtml}
+          <p class="post-text-body">${post.text}</p>
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <button type="button" class="action-btn ${post.liked ? 'liked' : ''}" onclick="toggleCommPostLike('${post.id}', false, this)">
+                <i class="fa-solid fa-heart"></i>
+                <span>${post.likes}</span>
+              </button>
+              <button type="button" class="action-btn" onclick="openCommCommentsModal('${post.id}', false)">
+                <i class="fa-regular fa-comment"></i>
+                <span>${post.comments}</span>
+              </button>
+              <button type="button" class="action-btn" onclick="shareCommunity()">
+                <i class="fa-solid fa-repeat"></i>
+                <span>${post.reposts || 0}</span>
+              </button>
+            </div>
+            <button type="button" class="action-btn" onclick="showToast('Salvo nos favoritos!')">
+              <i class="fa-regular fa-bookmark"></i>
+            </button>
+          </div>
+        `;
+        listEl.appendChild(article);
+      });
+    }
+
+    /**
+     * Renderiza o Ranking da Comunidade reutilizando o sistema real de Rat Points e Foguinho
+     * e os dados sincronizados do perfil do usuário autenticado.
+     */
+    function renderCommunityRanking(comm) {
+      const rankingEl = document.getElementById('comm-ranking-list');
+      if (!rankingEl) return;
+
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : {
+        name: 'Gabriel Silva',
+        handle: '@gabriel',
+        avatar: '../../../assets/images/avatar-your-story.png'
+      };
+      const metrics = window.SocialRatsMetrics ? window.SocialRatsMetrics.getSummary() : {
+        ratPoints: 340,
+        currentStreak: 5
+      };
+
+      // Combinar membros da comunidade + usuário logado com sua pontuação real e ordenar decrescente
+      const entries = (comm.rankingMembers || []).map(m => Object.assign({}, m, { isMe: false }));
+      entries.push({
+        name: profile.name,
+        handle: profile.handle,
+        avatar: profile.avatar,
+        points: metrics.ratPoints,
+        streak: metrics.currentStreak,
+        isMe: true
+      });
+
+      entries.sort((a, b) => b.points - a.points);
+
+      let myPos = 1;
+      rankingEl.innerHTML = entries.map((member, index) => {
+        const pos = index + 1;
+        if (member.isMe) myPos = pos;
+
+        const posClass = pos === 1 ? 'pos-1' : pos === 2 ? 'pos-2' : pos === 3 ? 'pos-3' : '';
+        const medalPrefix = pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : `${pos}º`;
+
+        return `
+          <div class="ranking-member-row ${member.isMe ? 'is-me' : ''}">
+            <div class="ranking-left">
+              <span class="ranking-pos ${posClass}">${medalPrefix}</span>
+              <img src="${member.avatar}" alt="${member.name}" class="ranking-avatar" ${member.isMe ? 'data-sr-user="avatar"' : ''}>
+              <div class="ranking-user-info">
+                <div class="ranking-user-name">
+                  <span ${member.isMe ? 'data-sr-user="name"' : ''}>${member.name}</span>
+                  ${member.isMe ? '<span class="ranking-you-tag">Você</span>' : ''}
+                </div>
+                <span class="ranking-user-handle" ${member.isMe ? 'data-sr-user="handle"' : ''}>${member.handle}</span>
+              </div>
+            </div>
+
+            <div class="ranking-right">
+              <span class="ranking-streak-pill" title="Foguinho atual">
+                🔥 ${member.streak}d
+              </span>
+              <div class="ranking-points-box">
+                <span class="ranking-points-val">${member.points.toLocaleString('pt-BR')}</span>
+                <span class="ranking-points-label">Rat Points</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      const myPill = document.getElementById('ranking-my-position-pill');
+      if (myPill) {
+        myPill.textContent = `Sua posição: #${myPos}`;
+      }
+    }
+
+    function renderCommunitySwitchers(allComms) {
+      const sheetList = document.getElementById('comm-switcher-list');
+      const sidebarList = document.getElementById('sidebar-comm-shortcuts');
+      const keys = Object.keys(allComms);
+
+      if (sheetList) {
+        sheetList.innerHTML = keys.map(key => {
+          const c = allComms[key];
+          const isActive = c.id === currentCommId;
+          return `
+            <button type="button" class="account-option-btn ${isActive ? 'active' : ''}" onclick="selectCommunity('${c.id}')">
+              <div class="account-option-left">
+                <img src="${c.avatar}" alt="${c.name}" class="account-option-avatar">
+                <div class="account-option-texts">
+                  <span class="account-option-handle">${c.name}</span>
+                  <span class="account-option-sub">${formatCompact(c.membersCount)} membros · ${c.metricFocus || 'Ativa'}</span>
+                </div>
+              </div>
+              <span class="account-option-check"><i class="fa-solid fa-check"></i></span>
+            </button>
+          `;
+        }).join('');
+      }
+
+      if (sidebarList) {
+        sidebarList.innerHTML = keys.map(key => {
+          const c = allComms[key];
+          const isActive = c.id === currentCommId;
+          return `
+            <div onclick="selectCommunity('${c.id}')" style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:7px 8px; border-radius:12px; cursor:pointer; background:${isActive ? 'rgba(255,50,184,0.1)' : 'transparent'}; border:1px solid ${isActive ? 'rgba(255,50,184,0.3)' : 'transparent'};">
+              <div style="display:flex; align-items:center; gap:10px; min-width:0;">
+                <img src="${c.avatar}" alt="${c.name}" style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+                <div style="min-width:0;">
+                  <div style="font-size:13px; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.name}</div>
+                  <div style="font-size:11px; color:var(--color-text-secondary);">${formatCompact(c.membersCount)} membros</div>
+                </div>
+              </div>
+              <i class="fa-solid fa-chevron-right" style="font-size:11px; color:${isActive ? 'var(--color-accent-pink)' : 'var(--color-text-muted)'};"></i>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // INTERAÇÕES: ENTRAR/SAIR, CRIAR PUBLICAÇÃO, CURTIR, COMENTAR
+    // ────────────────────────────────────────────────────────────
+    function toggleCommunityMembership() {
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      if (!comm) return;
+
+      comm.joined = !comm.joined;
+      if (comm.joined) {
+        comm.membersCount = (comm.membersCount || 0) + 1;
+        let ptsMsg = '';
+        if (window.SocialRatsMetrics) {
+          window.SocialRatsMetrics.updateCommunitiesCount(1, false);
+          const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+            targetId: 'join-comm-' + comm.id,
+            label: `Entrou na comunidade ${comm.name}`
+          });
+          if (res.awarded) {
+            ptsMsg = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
+          }
+        }
+        showToast(`Você entrou em ${comm.name}!${ptsMsg}`);
+      } else {
+        comm.membersCount = Math.max(0, (comm.membersCount || 1) - 1);
+        if (window.SocialRatsMetrics) {
+          window.SocialRatsMetrics.updateCommunitiesCount(-1, false);
+        }
+        showToast(`Você saiu da comunidade ${comm.name}.`);
+      }
+
+      saveCommunitiesState(state);
+      renderActiveCommunity();
+    }
+
+    function handleCommunityMediaUpload(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function (evt) {
+        pendingCommunityMedia = evt.target.result;
+        document.getElementById('comm-inline-preview-img').src = pendingCommunityMedia;
+        document.getElementById('comm-inline-preview').classList.add('show');
+        showToast('Mídia anexada à publicação!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function attachSampleWorkoutMedia() {
+      pendingCommunityMedia = '../../../assets/images/proof.jpg';
+      document.getElementById('comm-inline-preview-img').src = pendingCommunityMedia;
+      document.getElementById('comm-inline-preview').classList.add('show');
+      showToast('Foto de prova de treino anexada!');
+    }
+
+    function clearCommunityPostMedia() {
+      pendingCommunityMedia = '';
+      document.getElementById('comm-inline-preview-img').src = '';
+      document.getElementById('comm-inline-preview').classList.remove('show');
+      const fileInput = document.getElementById('comm-file-input');
+      if (fileInput) fileInput.value = '';
+    }
+
+    function submitCommunityPost() {
+      const textarea = document.getElementById('comm-post-textarea');
+      const text = textarea ? textarea.value.trim() : '';
+      if (!text && !pendingCommunityMedia) {
+        showToast('Escreva uma mensagem ou adicione uma foto para publicar!');
+        return;
+      }
+
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      const hasMedia = Boolean(pendingCommunityMedia);
+      const postId = 'post-comm-' + Date.now();
+
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.addUserPost({
+          id: postId,
+          text,
+          media: pendingCommunityMedia,
+          destType: 'community',
+          destId: comm.id,
+          destShort: comm.shortName || comm.name,
+          timestampLabel: 'Agora mesmo'
+        });
+      }
+
+      if (textarea) textarea.value = '';
+      clearCommunityPostMedia();
+
+      let totalPts = 0;
+      let multLabel = '1x';
+      if (window.SocialRatsMetrics) {
+        const postRes = window.SocialRatsMetrics.recordActivity('FEED_POST', {
+          hasMedia,
+          text,
+          targetId: postId,
+          label: `Publicação na comunidade ${comm.name}`
+        });
+        if (postRes.awarded) {
+          totalPts += postRes.pointsAdded;
+          multLabel = postRes.multiplierLabel;
+        }
+        const commRes = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+          targetId: 'comm-act-' + postId,
+          label: `Participação em ${comm.name}`
+        });
+        if (commRes.awarded) {
+          totalPts += commRes.pointsAdded;
+          multLabel = commRes.multiplierLabel;
+        }
+      }
+
+      renderActiveCommunity();
+
+      const ptsSuffix = totalPts > 0 ? ` (+${totalPts} Rat Points · ${multLabel}) 🔥` : ' 🔥';
+      showToast(`Publicado em ${comm.name}!${ptsSuffix}`);
+    }
+
+    function toggleCommPostLike(postId, isUserOwnPost, btnEl) {
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      if (!comm) return;
+
+      if (isUserOwnPost) {
+        const isLiked = btnEl.classList.toggle('liked');
+        const span = btnEl.querySelector('span');
+        const currentVal = parseInt(span.textContent, 10) || 0;
+        span.textContent = isLiked ? currentVal + 1 : Math.max(0, currentVal - 1);
+        showToast(isLiked ? 'Você curtiu sua publicação! (Curtidas próprias não geram Rat Points)' : 'Curtida removida.');
+        return;
+      }
+
+      const post = (comm.seedPosts || []).find(p => p.id === postId);
+      if (!post) return;
+
+      post.liked = !post.liked;
+      post.likes = post.liked ? (post.likes + 1) : Math.max(0, post.likes - 1);
+      saveCommunitiesState(state);
+
+      renderActiveCommunity();
+
+      if (post.liked && window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('LIKE', {
+          targetAuthor: post.authorHandle,
+          targetId: 'comm-like-' + postId,
+          label: `Curtida em ${comm.name}`
+        });
+        if (res.awarded) {
+          showToast(`Curtido! +${res.pointsAdded} Rat Point (${res.multiplierLabel}) ❤️`);
+          renderCommunityRanking(comm);
+          return;
+        }
+      }
+      showToast(post.liked ? 'Você curtiu esta publicação! ❤️' : 'Curtida removida.');
+    }
+
+    function openCommCommentsModal(postId, isUserPost) {
+      activeCommentPostId = { id: postId, isUserPost };
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      const listEl = document.getElementById('comm-comments-list');
+      const modal = document.getElementById('comm-comments-modal');
+      if (!listEl || !modal) return;
+
+      let comments = [];
+      if (!isUserPost && comm) {
+        const post = (comm.seedPosts || []).find(p => p.id === postId);
+        if (post && Array.isArray(post.commentsList)) {
+          comments = post.commentsList;
+        }
+      }
+
+      if (comments.length === 0) {
+        listEl.innerHTML = `<p style="font-size:13px; color:var(--color-text-secondary); text-align:center; padding:16px 0;">Seja o primeiro a comentar nesta publicação da comunidade!</p>`;
+      } else {
+        listEl.innerHTML = comments.map(c => `
+          <div style="display:flex; gap:10px; align-items:flex-start;">
+            <img src="${c.avatar}" alt="${c.author}" style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12.5px; font-weight:700; color:#ffffff;">${c.author} <span style="font-weight:400; color:var(--color-text-secondary); font-size:11px;">· ${c.time}</span></div>
+              <p style="font-size:13px; color:#e2e0eb; margin-top:2px; line-height:1.4;">${c.text}</p>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      modal.classList.add('active');
+      setTimeout(() => document.getElementById('comm-comment-input')?.focus(), 80);
+    }
+
+    function closeCommCommentsModal() {
+      document.getElementById('comm-comments-modal')?.classList.remove('active');
+    }
+
+    function submitCommComment(e) {
+      e.preventDefault();
+      const input = document.getElementById('comm-comment-input');
+      const text = input ? input.value.trim() : '';
+      if (!text || !activeCommentPostId) return;
+
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : {
+        name: 'Gabriel Silva',
+        avatar: '../../../assets/images/avatar-your-story.png'
+      };
+
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      if (comm && !activeCommentPostId.isUserPost) {
+        const post = (comm.seedPosts || []).find(p => p.id === activeCommentPostId.id);
+        if (post) {
+          post.comments = (post.comments || 0) + 1;
+          post.commentsList = post.commentsList || [];
+          post.commentsList.push({
+            author: profile.name,
+            avatar: profile.avatar,
+            time: 'Agora mesmo',
+            text
+          });
+          saveCommunitiesState(state);
+        }
+      }
+
+      input.value = '';
+      openCommCommentsModal(activeCommentPostId.id, activeCommentPostId.isUserPost);
+      renderActiveCommunity();
+
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('COMMENT', {
+          text,
+          targetId: 'comm-comment-' + Date.now(),
+          label: `Comentário na comunidade ${comm ? comm.name : ''}`
+        });
+        if (res.awarded) {
+          showToast(`Comentário enviado! +${res.pointsAdded} Rat Points (${res.multiplierLabel}) 💬`);
+          renderCommunityRanking(comm);
+          return;
+        }
+      }
+      showToast('Comentário publicado na comunidade!');
+    }
+
+    // ────────────────────────────────────────────────────────────
+    // NAVEGAÇÃO ENTRE ABAS, SELETOR DE COMUNIDADES E UTILITÁRIOS
+    // ────────────────────────────────────────────────────────────
+    function switchCommunityTab(button, panelId) {
+      document.querySelectorAll('.profile-tab-item').forEach(btn => btn.classList.remove('active'));
+      if (button) button.classList.add('active');
+
+      document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+      const target = document.getElementById(panelId);
+      if (target) target.classList.add('active');
+    }
+
+    function selectCommunity(commId) {
+      currentCommId = normalizeCommunityId(commId);
+      try {
+        const url = new URL(window.location.href);
+        url.searchParams.set('id', currentCommId);
+        window.history.replaceState({}, '', url);
+      } catch (e) {}
+      closeCommSwitcher();
+      renderActiveCommunity();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleCommSwitcher(e) {
+      if (e) e.stopPropagation();
+      const sheet = document.getElementById('comm-switcher-sheet');
+      const btn = document.getElementById('comm-switcher-btn');
+      if (!sheet) return;
+      const isOpen = sheet.classList.toggle('show');
+      if (btn) btn.classList.toggle('open', isOpen);
+    }
+
+    function closeCommSwitcher() {
+      document.getElementById('comm-switcher-sheet')?.classList.remove('show');
+      document.getElementById('comm-switcher-btn')?.classList.remove('open');
+    }
+
+    function focusCommunityComposer() {
+      switchCommunityTab(document.querySelectorAll('.profile-tab-item')[0], 'feed-panel');
+      const input = document.getElementById('comm-post-textarea');
+      if (input) {
+        input.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => input.focus(), 200);
+      }
+    }
+
+    function goBackFromCommunity() {
+      if (document.referrer && (document.referrer.includes('profile.html') || document.referrer.includes('communities.html') || document.referrer.includes('search.html') || document.referrer.includes('feed.html'))) {
+        window.history.back();
+      } else {
+        window.location.href = 'communities.html';
+      }
+    }
+
+    function shareCommunity() {
+      const state = loadCommunitiesState();
+      const comm = state[currentCommId];
+      if (navigator.share && comm) {
+        navigator.share({
+          title: `${comm.name} no SocialRats`,
+          url: window.location.href
+        }).catch(() => {});
+      } else {
+        showToast('Link da comunidade copiado para a área de transferência! 📋');
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(message) {
+      const toast = document.getElementById('toast-pill');
+      const toastText = document.getElementById('toast-text');
+      if (!toast || !toastText) return;
+      if (toastTimer) clearTimeout(toastTimer);
+      toastText.textContent = message;
+      toast.classList.add('show');
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+
+    function toggleViewMode() {
+      const viewport = document.getElementById('app-viewport');
+      const label = document.getElementById('view-mode-label');
+      const isMockup = viewport.classList.toggle('mockup-mode');
+      label.textContent = isMockup ? 'Modo Web Completo' : 'Ver em Moldura Mobile';
+      showToast(isMockup ? 'Visualização na moldura mobile ativada!' : 'Modo Web Expandido ativado.');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedId = params.get('id') || params.get('comm');
+      if (requestedId) {
+        currentCommId = normalizeCommunityId(requestedId);
+      }
+      renderActiveCommunity();
+    });
+
+    window.addEventListener('sr:profile-updated', () => {
+      renderActiveCommunity();
+    });
+  </script>
+</body>
+
+</html>

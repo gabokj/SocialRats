@@ -343,7 +343,7 @@
           <div class="section-title-wrap">
             <h2 class="section-header-title">Comunidades em alta</h2>
           </div>
-          <a href="communities.html" class="section-header-link" title="Ver todas as comunidades">
+          <a href="communities.html?screen=explore" class="section-header-link" title="Ver todas as comunidades">
             <span>Ver tudo</span>
             <i class="fa-solid fa-chevron-right" style="font-size:10px;"></i>
           </a>
@@ -851,7 +851,7 @@
     }
 
     function openCommunity(commName) {
-      showToast(`Abrindo comunidade: ${commName}`);
+      window.location.href = `community.html?id=${encodeURIComponent(commName)}`;
     }
 
     function openCreateModal() {

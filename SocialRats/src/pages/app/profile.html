@@ -2668,7 +2668,7 @@
           </div>
 
           <button type="button" class="btn-create-post-sidebar" style="margin-top:8px;"
-            onclick="window.location.href='communities.html'">
+            onclick="window.location.href='communities.html?screen=explore'">
             <i class="fa-solid fa-compass"></i>
             <span>Explorar Novas Comunidades</span>
           </button>
@@ -3795,17 +3795,13 @@
     }
 
     function handleProfileCommunityClick(name, id) {
-      let ptsMsg = '';
       if (window.SocialRatsMetrics) {
-        const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+        window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
           targetId: 'profile-comm-' + id,
           label: `Interação na comunidade ${name}`
         });
-        if (res.awarded) {
-          ptsMsg = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
-        }
       }
-      showToast(`Acessando comunidade ${name}${ptsMsg}`);
+      window.location.href = `community.html?id=${encodeURIComponent(id || name)}`;
     }
   </script>
 </body>
