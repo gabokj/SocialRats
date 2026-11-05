@@ -1929,26 +1929,26 @@
           <span class="widget-title">🔥 Desafios da Semana</span>
         </div>
         <div style="display:flex; flex-direction:column; gap:12px;">
-          <div>
+          <div style="cursor:pointer;" onclick="handleJoinWeeklyChallenge('desafio_100t', 'Desafio 100 Toneladas')">
             <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:4px;">
               <span style="color:#ffffff; font-weight:700;">🏋️‍♂️ Desafio 100 Toneladas</span>
-              <span style="color:var(--color-accent-orange); font-weight:700;">78%</span>
+              <span style="color:var(--color-accent-orange); font-weight:700;">+5 pts</span>
             </div>
             <div style="width:100%; height:6px; background:var(--color-surface-elevated); border-radius:10px; overflow:hidden;">
               <div style="width:78%; height:100%; background:var(--gradient-brand); border-radius:10px;"></div>
             </div>
-            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">GymRats Elite</span>
+            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">GymRats Elite · Clique para participar</span>
           </div>
 
-          <div>
+          <div style="cursor:pointer;" onclick="handleJoinWeeklyChallenge('desafio_500km', '500km da Madrugada')">
             <div style="display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:4px;">
               <span style="color:#ffffff; font-weight:700;">🏃 500km da Madrugada</span>
-              <span style="color:var(--color-success); font-weight:700;">92%</span>
+              <span style="color:var(--color-success); font-weight:700;">+5 pts</span>
             </div>
             <div style="width:100%; height:6px; background:var(--color-surface-elevated); border-radius:10px; overflow:hidden;">
               <div style="width:92%; height:100%; background:var(--color-success); border-radius:10px;"></div>
             </div>
-            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">Corredores da Madrugada</span>
+            <span style="font-size:11px; color:var(--color-text-secondary); margin-top:3px; display:block;">Corredores da Madrugada · Clique para participar</span>
           </div>
         </div>
       </div>
@@ -1972,6 +1972,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: LOGIC & SCREEN ROUTING
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
   <script>
     // Master Communities Catalog
     const communitiesDatabase = [
@@ -2195,9 +2196,23 @@
       comm.joined = !comm.joined;
       if (comm.joined) {
         comm.members += 1;
-        showToast(`Você entrou em ${comm.name}`);
+        let ptsText = '';
+        if (window.SocialRatsMetrics) {
+          window.SocialRatsMetrics.updateCommunitiesCount(1, false);
+          const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+            targetId: 'join-' + comm.id,
+            label: `Entrou na comunidade ${comm.name}`
+          });
+          if (res.awarded) {
+            ptsText = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
+          }
+        }
+        showToast(`Você entrou em ${comm.name}${ptsText}`);
       } else {
         comm.members -= 1;
+        if (window.SocialRatsMetrics) {
+          window.SocialRatsMetrics.updateCommunitiesCount(-1, false);
+        }
         showToast(`Você saiu de ${comm.name}`);
       }
       renderExploreCards();
@@ -2205,6 +2220,16 @@
 
     function handleCardClick(name, e) {
       if (e.target.closest('button') || e.target.closest('a')) return;
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+          targetId: 'visit-' + name,
+          label: `Interação na comunidade ${name}`
+        });
+        if (res.awarded) {
+          showToast(`Abrindo ${name} (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`);
+          return;
+        }
+      }
       showToast(`Abrindo ${name}`);
     }
 
@@ -2329,13 +2354,41 @@
 
       communitiesDatabase.unshift(newComm);
 
-      showToast(`Comunidade "${name}" criada`);
+      let ptsText = '';
+      if (window.SocialRatsMetrics) {
+        window.SocialRatsMetrics.updateCommunitiesCount(1, false);
+        const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+          targetId: 'create-' + newComm.id,
+          label: `Criou a comunidade ${name}`
+        });
+        if (res.awarded) {
+          ptsText = ` (+${res.pointsAdded} Rat Points)`;
+        }
+      }
+
+      showToast(`Comunidade "${name}" criada${ptsText}`);
       document.getElementById('form-community').reset();
       handleManuallyEdited = false;
 
       setTimeout(() => {
         showScreen('explore');
       }, 450);
+    }
+
+    function handleJoinWeeklyChallenge(challengeId, challengeName) {
+      if (!window.SocialRatsMetrics) {
+        showToast(`Participação registrada em ${challengeName}!`);
+        return;
+      }
+      const res = window.SocialRatsMetrics.recordActivity('CHALLENGE_PARTICIPATION', {
+        targetId: 'weekly-' + challengeId,
+        label: `Participou de ${challengeName}`
+      });
+      if (res.awarded) {
+        showToast(`Desafio aceito! +${res.pointsAdded} Rat Points (${res.multiplierLabel}) 🏆`);
+      } else {
+        showToast(res.reasonMessage || 'Você já registrou participação neste desafio hoje.');
+      }
     }
 
     // Toast Feedback

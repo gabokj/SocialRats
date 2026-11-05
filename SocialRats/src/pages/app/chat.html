@@ -1004,6 +1004,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: REAL-TIME CHAT & DYNAMIC CONTACT LOADING
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
   <script>
     // 1. Contact Presets Database (Matching Direct screen exactly!)
     const contactsData = {
@@ -1140,6 +1141,17 @@
       chatStream.insertBefore(sentGroup, typingIndicator);
       chatInput.value = '';
       scrollToBottom();
+
+      // Registrar atividade válida no Direct para manter/avançar o foguinho diário (sem farming de pontos por mensagem)
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('DIRECT_INTERACTION', {
+          text,
+          label: `Mensagem enviada para ${contact.name} no Direct`
+        });
+        if (res.streakAdvanced) {
+          showToast(`🔥 Foguinho diário atualizado: ${res.currentStreak} dias consecutivos!`);
+        }
+      }
 
       // Update checkmark to double check after 600ms
       setTimeout(() => {

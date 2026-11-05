@@ -729,12 +729,12 @@
 
     .profile-level-badge {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       padding: 2px 8px;
       border-radius: var(--radius-full);
-      background: linear-gradient(90deg, rgba(255, 113, 63, 0.2) 0%, rgba(255, 50, 184, 0.2) 100%);
-      border: 1px solid rgba(255, 50, 184, 0.35);
-      color: #ffffff;
+      background: var(--color-accent-pink-soft);
+      border: 1px solid rgba(255, 50, 184, 0.25);
+      color: var(--color-accent-pink);
     }
 
     .profile-bio-text {
@@ -763,15 +763,23 @@
       color: var(--color-text-muted);
     }
 
-    /* Stats Counters Row */
+    /* Stats Counters Row (5 MVP Profile Metrics) */
     .profile-stats-card {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
+      gap: 4px;
       background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
       border-radius: var(--radius-md);
       padding: 12px 6px;
       text-align: center;
+    }
+
+    @media (max-width: 390px) {
+      .profile-stats-card {
+        grid-template-columns: repeat(3, 1fr);
+        row-gap: 10px;
+      }
     }
 
     .stat-counter-block {
@@ -791,11 +799,13 @@
       font-size: 16px;
       font-weight: 800;
       color: #ffffff;
+      white-space: nowrap;
     }
 
     .stat-label {
       font-size: 11px;
       color: var(--color-text-secondary);
+      white-space: nowrap;
     }
 
     /* ────────────────────────────────────────────────────────────
@@ -1606,8 +1616,8 @@
             <div class="profile-avatar-inner">
               <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img" id="profile-main-avatar">
             </div>
-            <div class="profile-streak-badge" title="Foguinho ativo por 14 dias!">
-              🔥 14
+            <div class="profile-streak-badge" data-sr-metric="currentStreak" title="Foguinho diário ativo!">
+              🔥 5
             </div>
           </div>
 
@@ -1630,7 +1640,7 @@
 
         <div class="profile-handle-row">
           <span class="profile-handle" id="profile-display-handle">@gabriel</span>
-          <span class="profile-level-badge" id="profile-display-badge">🏅 Rato Alfa · Nível 14</span>
+          <span class="profile-level-badge" id="profile-display-badge" data-sr-metric="badgeSummary">🐀 340 Rat Points · Multiplicador 1,25x</span>
         </div>
 
         <!-- Bio text -->
@@ -1654,23 +1664,27 @@
           </div>
         </div>
 
-        <!-- Stats Counters Card -->
+        <!-- Stats Counters Card (MVP Simplified Metrics) -->
         <div class="profile-stats-card">
-          <div class="stat-counter-block">
-            <span class="stat-number">142</span>
-            <span class="stat-label">Posts</span>
+          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Rat Points acumulados">
+            <span class="stat-number" data-sr-metric="ratPoints">340</span>
+            <span class="stat-label">Rat Points</span>
           </div>
-          <div class="stat-counter-block" onclick="showToast('1.840 Seguidores')">
-            <span class="stat-number">1.8k</span>
-            <span class="stat-label">Seguidores</span>
+          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Sequência atual do foguinho diário">
+            <span class="stat-number" style="color:var(--color-accent-orange);" data-sr-metric="currentStreak">🔥 5</span>
+            <span class="stat-label">Foguinho</span>
           </div>
-          <div class="stat-counter-block" onclick="showToast('420 Seguindo')">
-            <span class="stat-number">420</span>
-            <span class="stat-label">Seguindo</span>
+          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Recorde de dias consecutivos">
+            <span class="stat-number" data-sr-metric="bestStreak">14 dias</span>
+            <span class="stat-label">Recorde</span>
           </div>
-          <div class="stat-counter-block" onclick="showToast('Sequência ativa de 14 dias!')">
-            <span class="stat-number" style="color:var(--color-accent-orange);">🔥 14</span>
-            <span class="stat-label">Dias</span>
+          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Total de Stories publicados">
+            <span class="stat-number" data-sr-metric="totalStories">12</span>
+            <span class="stat-label">Stories</span>
+          </div>
+          <div class="stat-counter-block" onclick="switchProfileTab(document.querySelectorAll('.profile-tab-item')[2], 'communities-panel')" title="Quantidade de comunidades participantes">
+            <span class="stat-number" data-sr-metric="communitiesCount">5</span>
+            <span class="stat-label">Comunidades</span>
           </div>
         </div>
 
@@ -1863,7 +1877,7 @@
           <div class="communities-grid">
 
             <!-- Comunidade 1: Programação Devs -->
-            <div class="community-profile-card" onclick="showToast('Acessando comunidade Programação Devs')">
+            <div class="community-profile-card" onclick="handleProfileCommunityClick('Programação Devs', 'comm_devs')">
               <div class="comm-card-left">
                 <div class="comm-icon-box" style="border-color:rgba(255, 50, 184, 0.4);">
                   <i class="fa-solid fa-code" style="color:var(--color-accent-pink);"></i>
@@ -1872,7 +1886,7 @@
                   <span class="comm-profile-title">Programação Devs</span>
                   <div class="comm-profile-meta">
                     <span>128k membros</span>
-                    <span class="comm-role-badge">Líder Alfa</span>
+                    <span class="comm-role-badge">Membro Ativo</span>
                   </div>
                 </div>
               </div>
@@ -1880,7 +1894,7 @@
             </div>
 
             <!-- Comunidade 2: Calistenia & Musculação -->
-            <div class="community-profile-card" onclick="showToast('Acessando comunidade Calistenia & Musculação')">
+            <div class="community-profile-card" onclick="handleProfileCommunityClick('Calistenia & Musculação', 'comm_calistenia')">
               <div class="comm-card-left">
                 <div class="comm-icon-box" style="border-color:rgba(255, 113, 63, 0.4);">
                   <i class="fa-solid fa-dumbbell" style="color:var(--color-accent-orange);"></i>
@@ -1889,7 +1903,7 @@
                   <span class="comm-profile-title">Calistenia & Musculação</span>
                   <div class="comm-profile-meta">
                     <span>41k membros</span>
-                    <span class="comm-role-badge" style="border-color:var(--color-accent-orange);">Top 5%</span>
+                    <span class="comm-role-badge" style="border-color:var(--color-accent-orange);">Participante</span>
                   </div>
                 </div>
               </div>
@@ -1897,7 +1911,7 @@
             </div>
 
             <!-- Comunidade 3: IA & Tecnologia -->
-            <div class="community-profile-card" onclick="showToast('Acessando comunidade IA & Tecnologia')">
+            <div class="community-profile-card" onclick="handleProfileCommunityClick('IA & Tecnologia', 'comm_ia')">
               <div class="comm-card-left">
                 <div class="comm-icon-box" style="border-color:rgba(146, 59, 255, 0.4);">
                   <i class="fa-solid fa-brain" style="color:var(--color-accent-purple);"></i>
@@ -1914,7 +1928,7 @@
             </div>
 
             <!-- Comunidade 4: Desafios da Madrugada -->
-            <div class="community-profile-card" onclick="showToast('Acessando comunidade Desafios da Madrugada')">
+            <div class="community-profile-card" onclick="handleProfileCommunityClick('Desafios da Madrugada', 'comm_madrugada')">
               <div class="comm-card-left">
                 <div class="comm-icon-box">
                   <i class="fa-solid fa-fire" style="color:var(--color-accent-orange);"></i>
@@ -1931,7 +1945,7 @@
             </div>
 
             <!-- Comunidade 5: Foco & Estudos -->
-            <div class="community-profile-card" onclick="showToast('Acessando comunidade Foco & Estudos')">
+            <div class="community-profile-card" onclick="handleProfileCommunityClick('Foco & Estudos', 'comm_estudos')">
               <div class="comm-card-left">
                 <div class="comm-icon-box">
                   <i class="fa-solid fa-graduation-cap"></i>
@@ -2150,54 +2164,63 @@
     <!-- ═══════════════════════════════════════════════════════════════
          DESKTOP RIGHT SIDEBAR (WEB ADAPTATION)
          ═══════════════════════════════════════════════════════════════ -->
-    <aside class="desktop-right-sidebar" aria-label="Conquistas e Estatísticas">
+    <aside class="desktop-right-sidebar" aria-label="Resumo de Métricas MVP">
 
-      <!-- Conquistas de Gabriel -->
+      <!-- Resumo de Métricas MVP -->
       <div class="sidebar-widget-card">
         <div class="widget-title-row">
-          <span class="widget-title">🏆 Suas Conquistas</span>
-          <a href="#" style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;" onclick="showToast('Ver todas'); return false;">Ver todas</a>
+          <span class="widget-title">Métricas do perfil</span>
+          <a href="metrics.html" style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;">Ver tudo</a>
         </div>
-        <div>
-          <div class="achievement-item">
-            <div class="achievement-badge-circle">🔥</div>
-            <div>
-              <div style="font-size:13px; font-weight:700; color:#ffffff;">Fogo Eterno</div>
-              <div style="font-size:11.5px; color:var(--color-text-secondary);">14 dias seguidos de treino ativo</div>
-            </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Rat Points</span>
+            <span style="color:#ffffff; font-weight:700;" data-sr-metric="ratPoints">340</span>
           </div>
-
-          <div class="achievement-item">
-            <div class="achievement-badge-circle">👑</div>
-            <div>
-              <div style="font-size:13px; font-weight:700; color:#ffffff;">Rato de Elite</div>
-              <div style="font-size:11.5px; color:var(--color-text-secondary);">Top 1% de consistência mensal</div>
-            </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Foguinho atual</span>
+            <span style="color:var(--color-accent-orange); font-weight:700;" data-sr-metric="currentStreakDays">5 dias</span>
           </div>
-
-          <div class="achievement-item">
-            <div class="achievement-badge-circle">🤝</div>
-            <div>
-              <div style="font-size:13px; font-weight:700; color:#ffffff;">Líder de Comunidade</div>
-              <div style="font-size:11.5px; color:var(--color-text-secondary);">Mais de 100k atletas engajados</div>
-            </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Multiplicador</span>
+            <span style="color:var(--color-accent-pink); font-weight:700;" data-sr-metric="multiplierLabel">1,25x</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Recorde de dias</span>
+            <span style="color:#ffffff; font-weight:700;" data-sr-metric="bestStreak">14 dias</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Stories publicados</span>
+            <span style="color:#ffffff; font-weight:700;" data-sr-metric="totalStories">12</span>
+          </div>
+          <div style="display:flex; justify-content:space-between; font-size:13px;">
+            <span style="color:var(--color-text-secondary);">Comunidades</span>
+            <span style="color:#ffffff; font-weight:700;" data-sr-metric="communitiesCount">5</span>
           </div>
         </div>
       </div>
 
-      <!-- Desempenho Semanal -->
+      <!-- Multiplicadores do Foguinho -->
       <div class="sidebar-widget-card">
         <div class="widget-title-row">
-          <span class="widget-title">Estatísticas da Semana</span>
+          <span class="widget-title">Multiplicadores</span>
         </div>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-          <div style="display:flex; justify-content:space-between; font-size:13px;">
-            <span style="color:#ffffff;">Hustle Points</span>
-            <span style="color:var(--color-accent-pink); font-weight:700;">+2.450 pts</span>
+        <div style="display:flex; flex-direction:column; gap:8px; font-size:12px; color:var(--color-text-secondary);">
+          <div style="display:flex; justify-content:space-between;">
+            <span>1º e 2º dia</span>
+            <strong style="color:#ffffff;">1x</strong>
           </div>
-          <div style="display:flex; justify-content:space-between; font-size:13px;">
-            <span style="color:#ffffff;">Treinos Registrados</span>
-            <span style="color:var(--color-online-green); font-weight:700;">6 / 7 dias</span>
+          <div style="display:flex; justify-content:space-between;">
+            <span>3º ao 9º dia</span>
+            <strong style="color:#ffffff;">1,25x</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span>10º ao 29º dia</span>
+            <strong style="color:#ffffff;">1,5x</strong>
+          </div>
+          <div style="display:flex; justify-content:space-between;">
+            <span>30+ dias</span>
+            <strong style="color:#ffffff;">2x</strong>
           </div>
         </div>
       </div>
@@ -2596,6 +2619,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: TAB SWITCHER & USER INTERACTIONS
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
   <script>
     // 1. Recover Logged User & Saved Profile Edits
     document.addEventListener('DOMContentLoaded', () => {
@@ -2762,6 +2786,9 @@
     function toggleLike(button, likedVal, unlikedVal) {
       const isLiked = button.classList.contains('liked');
       const countSpan = button.querySelector('span');
+      const card = button.closest('.post-card');
+      const authorEl = card ? card.querySelector('.post-author-name') : null;
+      const authorName = authorEl ? authorEl.textContent.trim().split(/\s+/)[0] : 'gabriel';
 
       if (isLiked) {
         button.classList.remove('liked');
@@ -2770,6 +2797,22 @@
       } else {
         button.classList.add('liked');
         if (countSpan) countSpan.textContent = likedVal || '1';
+
+        if (window.SocialRatsMetrics) {
+          const res = window.SocialRatsMetrics.recordActivity('LIKE', {
+            targetAuthor: authorName,
+            targetId: 'profile-post-' + (authorName + '-' + (likedVal || '1')),
+            label: `Curtida em publicação de @${authorName}`
+          });
+          if (res.reason === 'own_like') {
+            showToast('Você curtiu sua publicação! (Curtidas próprias não geram Rat Points)');
+            return;
+          }
+          if (res.awarded) {
+            showToast(`Você curtiu! +${res.pointsAdded} Rat Point (${res.multiplierLabel}) ❤️`);
+            return;
+          }
+        }
         showToast('Você curtiu esta publicação! ❤️');
       }
     }
@@ -3028,9 +3071,43 @@
       textarea.value = '';
       handleProfilePostInput(textarea);
       closeCreatePostModal();
+
+      let pointsMsg = '';
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('FEED_POST', {
+          hasMedia: false,
+          text,
+          label: profileSelectedDestType === 'community'
+            ? `Publicação na comunidade ${profileSelectedDestShort}`
+            : 'Publicação no feed'
+        });
+        if (profileSelectedDestType === 'community') {
+          window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+            label: `Interação em ${profileSelectedDestShort}`
+          });
+        }
+        if (res.awarded) {
+          pointsMsg = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
+        }
+      }
+
       showToast(profileSelectedDestType === 'community'
-        ? `Publicado na comunidade ${profileSelectedDestShort}! 🔥`
-        : 'Publicado na sua conta em geral! 🔥');
+        ? `Publicado em ${profileSelectedDestShort}!${pointsMsg} 🔥`
+        : `Publicado no seu perfil!${pointsMsg} 🔥`);
+    }
+
+    function handleProfileCommunityClick(name, id) {
+      let ptsMsg = '';
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+          targetId: 'profile-comm-' + id,
+          label: `Interação na comunidade ${name}`
+        });
+        if (res.awarded) {
+          ptsMsg = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
+        }
+      }
+      showToast(`Acessando comunidade ${name}${ptsMsg}`);
     }
   </script>
 </body>

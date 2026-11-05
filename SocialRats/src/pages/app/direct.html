@@ -1366,7 +1366,7 @@
 
         <div class="connections-scroll-track">
           <!-- Story 1: Seu story (+) -->
-          <div class="connection-item your-story" onclick="showToast('Adicionar story ao seu perfil...')">
+          <div class="connection-item your-story" onclick="publishDirectStory()">
             <div class="connection-avatar-wrap">
               <div class="connection-avatar-inner">
                 <i class="fa-solid fa-plus"></i>
@@ -1935,6 +1935,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: DIRECT INTERACTIONS & SEARCH FILTER
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
   <script>
     // 1. Recover Logged User & Account Switcher
     document.addEventListener('DOMContentLoaded', () => {
@@ -2066,6 +2067,20 @@
 
     function openNewChatModal() {
       showToast('Selecione uma conversa para iniciar o bate-papo!');
+    }
+
+    function publishDirectStory() {
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('STORY_PUBLISHED', {
+          label: 'Story publicado pelo Direct'
+        });
+        if (res.awarded) {
+          const streakNote = res.streakAdvanced ? ` · 🔥 Foguinho ${res.currentStreak} dias!` : '';
+          showToast(`Story publicado! +${res.pointsAdded} Rat Points (${res.multiplierLabel})${streakNote}`);
+          return;
+        }
+      }
+      showToast('Story adicionado ao seu perfil!');
     }
 
     function handleLogout() {

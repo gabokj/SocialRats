@@ -2452,7 +2452,7 @@
           <div class="story-item your-story" onclick="openStoryViewer('Your story', '../../../assets/images/avatar-your-story.png', '../../../assets/images/post-sunset-crop.png', true)">
             <div class="story-avatar-wrap">
               <img src="../../../assets/images/avatar-your-story.png" alt="Your story" class="story-avatar-img">
-              <div class="your-story-plus-badge" title="Adicionar ao story">
+              <div class="your-story-plus-badge" title="Publicar novo Story (+10 Rat Points)" onclick="publishUserStory(event)">
                 <i class="fa-solid fa-plus"></i>
               </div>
             </div>
@@ -3389,6 +3389,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: INTERACTIVE FEED LOGIC & APP BEHAVIORS
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/metrics-engine.js"></script>
   <script>
     // 1. Recover Logged User from localStorage (if logged via login.html)
     document.addEventListener('DOMContentLoaded', () => {
@@ -3420,6 +3421,10 @@
     function toggleLike(button, likedVal, unlikedVal) {
       const isLiked = button.classList.contains('liked');
       const countSpan = button.querySelector('.action-count');
+      const card = button.closest('.post-card');
+      const authorEl = card ? card.querySelector('.post-author-name') : null;
+      const authorName = authorEl ? authorEl.textContent.trim().split(/\s+/)[0] : '';
+      const postId = card ? (card.id || authorName) : authorName;
 
       button.classList.add('pop-anim');
       setTimeout(() => button.classList.remove('pop-anim'), 350);
@@ -3431,6 +3436,23 @@
       } else {
         button.classList.add('liked');
         if (countSpan) countSpan.textContent = likedVal || '1';
+
+        if (window.SocialRatsMetrics) {
+          const res = window.SocialRatsMetrics.recordActivity('LIKE', {
+            targetAuthor: authorName,
+            targetId: 'feed-like-' + postId,
+            label: `Curtida na publicação de @${authorName || 'usuário'}`
+          });
+          if (res.reason === 'own_like') {
+            showToast('Você curtiu sua publicação! (Curtidas próprias não geram Rat Points)');
+            return;
+          }
+          if (res.awarded) {
+            const streakNote = res.streakAdvanced ? ` · 🔥 Foguinho ${res.currentStreak}d!` : '';
+            showToast(`Você curtiu! +${res.pointsAdded} Rat Point (${res.multiplierLabel})${streakNote} ❤️`);
+            return;
+          }
+        }
         showToast('Você curtiu esta publicação! ❤️');
       }
     }
@@ -3691,6 +3713,21 @@
       }
     }
 
+    function publishUserStory(e) {
+      if (e) e.stopPropagation();
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('STORY_PUBLISHED', {
+          label: 'Story publicado no Feed'
+        });
+        if (res.awarded) {
+          const streakNote = res.streakAdvanced ? ` · 🔥 Foguinho ${res.currentStreak} dias!` : '';
+          showToast(`Novo Story publicado! +${res.pointsAdded} Rat Points (${res.multiplierLabel})${streakNote}`);
+          return;
+        }
+      }
+      showToast('Novo Story publicado no seu perfil! 📸');
+    }
+
     function toggleStoryLike(e) {
       if (e) e.stopPropagation();
       const item = storiesList[currentStoryIndex];
@@ -3698,6 +3735,22 @@
       item.liked = !item.liked;
       syncStoryLikeUI();
       if (item.liked) {
+        if (window.SocialRatsMetrics) {
+          const res = window.SocialRatsMetrics.recordActivity('LIKE', {
+            targetAuthor: item.rawKey || item.author,
+            targetId: 'story-like-' + item.id,
+            isOwn: item.id === 'your-story',
+            label: `Curtida no story de ${item.author}`
+          });
+          if (res.reason === 'own_like') {
+            showToast('Curtida no próprio story não gera Rat Points.');
+            return;
+          }
+          if (res.awarded) {
+            showToast(`Você curtiu o story de ${item.author}! +${res.pointsAdded} Rat Point (${res.multiplierLabel}) ❤️`);
+            return;
+          }
+        }
         showToast(`Você curtiu o story de ${item.author} ❤️`);
       }
     }
@@ -3714,6 +3767,18 @@
       input.value = '';
       input.blur();
       isStoryPaused = false;
+
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('COMMENT', {
+          text,
+          targetAuthor: item ? item.author : '',
+          label: `Comentário no story de ${item ? item.author : 'usuário'}`
+        });
+        if (res.awarded) {
+          showToast(`Comentário enviado! +${res.pointsAdded} Rat Points (${res.multiplierLabel}) 💬`);
+          return;
+        }
+      }
       showToast(`Comentário enviado para ${item ? item.author : 'o story'}!`);
     }
 
@@ -4129,6 +4194,10 @@
         </div>
       `;
 
+      const hadMedia = Boolean(selectedImageSrc);
+      const postedInComm = selectedDestType === 'community';
+      const postedDestName = selectedDestShort;
+
       postsList.prepend(newArticle);
       newPostContent.value = '';
       removeSelectedImage();
@@ -4136,9 +4205,33 @@
       document.getElementById('composer-revise-box')?.classList.remove('show');
       updateSubmitButtonState();
       closeCreatePostModal();
-      showToast(selectedDestType === 'community'
-        ? `Publicado na comunidade ${selectedDestShort}! 🔥`
-        : 'Publicado na sua conta em geral! 🔥');
+
+      let ptsInfo = '';
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('FEED_POST', {
+          hasMedia: hadMedia,
+          text,
+          targetId: postId,
+          label: hadMedia ? 'Publicação no feed com foto/vídeo' : 'Publicação no feed'
+        });
+        let totalAdded = res.awarded ? res.pointsAdded : 0;
+
+        if (postedInComm) {
+          const commRes = window.SocialRatsMetrics.recordActivity('COMMUNITY_INTERACTION', {
+            targetId: 'comm-post-' + postId,
+            label: `Publicação na comunidade ${postedDestName}`
+          });
+          if (commRes.awarded) totalAdded += commRes.pointsAdded;
+        }
+
+        if (totalAdded > 0) {
+          ptsInfo = ` (+${totalAdded} Rat Points · ${res.multiplierLabel})`;
+        }
+      }
+
+      showToast(postedInComm
+        ? `Publicado em ${postedDestName}!${ptsInfo} 🔥`
+        : `Publicado no feed!${ptsInfo} 🔥`);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
