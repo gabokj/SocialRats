@@ -2235,6 +2235,10 @@
 
     function openDirectStoryViewer(storyKey) {
       if (window.SocialRatsStories) {
+        if (storyKey === 'your-story' && !window.SocialRatsStories.hasStory('your-story')) {
+          window.SocialRatsStories.openCreator();
+          return;
+        }
         window.SocialRatsStories.open(storyKey, 'direct');
         return;
       }

@@ -3,22 +3,20 @@
  * SOCIALRATS UNIFIED STORIES ENGINE (DESIGN_SYSTEM.MD COMPLIANT)
  * ═══════════════════════════════════════════════════════════════
  * Centraliza e padroniza os Stories em todo o SocialRats:
- * - "Meus Stories": Foto de perfil, nome e dados sincronizados 100% com a conta logada.
- * - Navegação contextual inteligente inspirada no Instagram:
- *     * CONTEXTO DIRECT: Exclusivo do contato selecionado (não avança para outros contatos).
- *     * CONTEXTO PERFIL: Exclusivo do perfil selecionado (não avança para outros usuários).
- *     * CONTEXTO FEED: Navegação sequencial entre contas com Stories NÃO visualizados (exclui já vistos da fila automática).
- * - Barra superior segmentada por conta:
- *     * Ex: Se Lucas postou 2 stories -> 2 barras.
- *     * Se rijalxp postou 1 story -> 1 barra.
- * - Stories visualizados continuam disponíveis por 24h:
- *     * Indicador visual novo: anel gradiente vibrante (--sr-story-gradient).
- *     * Indicador visual visto: anel cinza discreto (#4b4958).
- *     * Sem stories: sem anel em volta do avatar.
- * - Navegação completa: swipe lateral touch, toques esquerda/direita e setas.
- * - Curtidas com persistência e animação de batimento.
- * - Respostas vinculadas diretamente à conversa no Direct.
- * - Compartilhamento contextual com contatos e grupos.
+ * - CRIAÇÃO E PUBLICAÇÃO COMPLETA DE STORIES:
+ *     * Câmera real do dispositivo (getUserMedia) com fotos e gravação de vídeos (MediaRecorder).
+ *     * Seleção de fotos e vídeos da galeria com validação de tipo e tamanho.
+ *     * Editor integrado com texto sobreposto (Aa), posicionamento, legenda e prévia.
+ *     * Publicação vinculada à conta autenticada com Rat Points (+10) e avanço do foguinho.
+ * - VISUALIZAÇÃO E NAVEGAÇÃO CONTEXTUAL (INSTAGRAM-LIKE):
+ *     * Suporte nativo a imagens e vídeos no visualizador.
+ *     * CONTEXTO DIRECT: Exclusivo do contato (sem avançar para terceiros).
+ *     * CONTEXTO PERFIL: Exclusivo do perfil do autor.
+ *     * CONTEXTO FEED: Fila automática inteligente de stories NÃO visualizados.
+ * - PERSISTÊNCIA E DESIGN SYSTEM:
+ *     * Expiração automática de 24 horas por story.
+ *     * Anel gradiente vibrante (--sr-story-gradient) para novidades e anel cinza (#4b4958) para vistos.
+ *     * Sem stories ativos = sem anel em volta do avatar.
  */
 
 (function (window) {
@@ -77,6 +75,7 @@
         {
           id: 'story-lucas-1',
           media: '../../../assets/images/post-blue-orange.png',
+          mediaType: 'image',
           caption: 'Treino de costas e bíceps na arena! Foco na evolução constante 🚀🔥',
           createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
           time: '2h atrás'
@@ -84,6 +83,7 @@
         {
           id: 'story-lucas-2',
           media: '../../../assets/images/challenges.jpg',
+          mediaType: 'image',
           caption: 'Pós-treino reforçado. Quem treinou hoje também? 💪',
           createdAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
           time: '1h atrás'
@@ -98,6 +98,7 @@
         {
           id: 'story-ana-1',
           media: '../../../assets/images/post-sunset.png',
+          mediaType: 'image',
           caption: 'Corrida de 8km no pôr do sol concluída. Constância vence! ✨💪',
           createdAt: new Date(Date.now() - 4 * 3600 * 1000).toISOString(),
           time: '4h atrás'
@@ -112,6 +113,7 @@
         {
           id: 'story-rafael-1',
           media: '../../../assets/images/challenges.jpg',
+          mediaType: 'image',
           caption: 'Desafio 30 dias de disciplina diária. Bora bater a meta! 🔥',
           createdAt: new Date(Date.now() - 6 * 3600 * 1000).toISOString(),
           time: '6h atrás'
@@ -126,6 +128,7 @@
         {
           id: 'story-carol-1',
           media: '../../../assets/images/post-sunset-crop.png',
+          mediaType: 'image',
           caption: 'Leg day com o coach. Ninguém aguenta subir a escada depois kkkk 😂🏋️‍♀️',
           createdAt: new Date(Date.now() - 8 * 3600 * 1000).toISOString(),
           time: '8h atrás'
@@ -140,6 +143,7 @@
         {
           id: 'story-matheus-1',
           media: '../../../assets/images/scoring.jpg',
+          mediaType: 'image',
           caption: 'Top 3 no ranking da semana! Tamo junto demais comunidade 👊🏆',
           createdAt: new Date(Date.now() - 10 * 3600 * 1000).toISOString(),
           time: '10h atrás'
@@ -154,6 +158,7 @@
         {
           id: 'story-rijalxp-1',
           media: '../../../assets/images/post-blue-orange.png',
+          mediaType: 'image',
           caption: 'Balanço da semana: 6 treinos concluídos com sucesso!',
           createdAt: new Date(Date.now() - 12 * 3600 * 1000).toISOString(),
           time: '12h atrás'
@@ -168,6 +173,7 @@
         {
           id: 'story-broyin-1',
           media: '../../../assets/images/post-sunset-crop.png',
+          mediaType: 'image',
           caption: 'Progresso diário > Perfeição momentânea.',
           createdAt: new Date(Date.now() - 14 * 3600 * 1000).toISOString(),
           time: '14h atrás'
@@ -175,6 +181,7 @@
         {
           id: 'story-broyin-2',
           media: '../../../assets/images/post-sunset.png',
+          mediaType: 'image',
           caption: 'Foco total nas metas da temporada! 🚀',
           createdAt: new Date(Date.now() - 13 * 3600 * 1000).toISOString(),
           time: '13h atrás'
@@ -189,6 +196,7 @@
         {
           id: 'story-dena-1',
           media: '../../../assets/images/scoring.jpg',
+          mediaType: 'image',
           caption: 'Fechando a semana de treinos com chave de ouro.',
           createdAt: new Date(Date.now() - 16 * 3600 * 1000).toISOString(),
           time: '16h atrás'
@@ -203,6 +211,7 @@
         {
           id: 'story-chrex-1',
           media: '../../../assets/images/post-blue-orange.png',
+          mediaType: 'image',
           caption: 'Treino de alta intensidade concluído! ⚡',
           createdAt: new Date(Date.now() - 18 * 3600 * 1000).toISOString(),
           time: '18h atrás'
@@ -242,42 +251,26 @@
     } catch (e) {}
   }
 
-  // Armazenamento de stories criados pelo usuário logado
+  // Armazenamento de stories reais criados pelo usuário logado
   function getUserStories() {
     try {
       const arr = JSON.parse(localStorage.getItem(USER_STORIES_STORAGE_KEY) || '[]');
       const now = Date.now();
       const logged = getLoggedUserProfile();
 
-      let valid = arr.filter((item) => now - new Date(item.createdAt).getTime() < EXPIRATION_MS);
+      const valid = arr.filter((item) => now - new Date(item.createdAt).getTime() < EXPIRATION_MS);
 
-      if (valid.length === 0) {
-        // Story inicial da conta logada
-        valid = [
-          {
-            id: 'story-user-default',
-            media: '../../../assets/images/post-sunset-crop.png',
-            caption: 'Foco total na rotina e constância diária! 🚀🔥',
-            createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
-            time: '2h atrás',
-            author: logged.name || 'Você',
-            avatar: logged.avatar
-          }
-        ];
-        saveUserStories(valid);
-      } else {
-        // Garante que todos os stories existentes reflitam a foto e o nome mais recente da conta logada
-        let updated = false;
-        valid.forEach((s) => {
-          if (s.avatar !== logged.avatar || s.author !== logged.name) {
-            s.avatar = logged.avatar;
-            s.author = logged.name;
-            updated = true;
-          }
-        });
-        if (updated || valid.length !== arr.length) {
-          saveUserStories(valid);
+      // Garante que stories existentes reflitam a foto e nome mais recentes da conta logada
+      let updated = false;
+      valid.forEach((s) => {
+        if (s.avatar !== logged.avatar || s.author !== logged.name) {
+          s.avatar = logged.avatar;
+          s.author = logged.name;
+          updated = true;
         }
+      });
+      if (updated || valid.length !== arr.length) {
+        saveUserStories(valid);
       }
       return valid;
     } catch (e) {
@@ -304,22 +297,16 @@
 
   // Objeto público da engine de Stories
   const engine = {
-    /**
-     * Retorna o perfil atual da conta logada
-     */
     getLoggedUserProfile() {
       return getLoggedUserProfile();
     },
 
-    /**
-     * Retorna todas as contas com stories ativos (< 24h)
-     */
     getActiveAccounts() {
       const now = Date.now();
       const accounts = [];
       const loggedProfile = getLoggedUserProfile();
 
-      // 1. Stories do próprio usuário logado (sempre com a foto e nome da conta logada)
+      // 1. Stories reais do usuário logado
       const userStories = getUserStories();
       if (userStories.length > 0) {
         accounts.push({
@@ -331,7 +318,9 @@
           stories: userStories.map((s, idx) => ({
             id: s.id || `story-me-${idx}`,
             media: s.media,
+            mediaType: s.mediaType || (s.media && s.media.startsWith('data:video') ? 'video' : 'image'),
             caption: s.caption || '',
+            textOverlay: s.textOverlay || null,
             createdAt: s.createdAt,
             time: s.time || 'Recente',
             author: loggedProfile.name || 'Você',
@@ -342,7 +331,7 @@
         });
       }
 
-      // 2. Contas base (filtra conta que coincida com o usuário logado para evitar duplicidade)
+      // 2. Contas base
       const loggedHandle = (loggedProfile.handleClean || '').toLowerCase();
       BASE_ACCOUNTS.forEach((acc) => {
         if (acc.key === loggedHandle || (loggedHandle === 'gabriel' && acc.key === 'gabriel')) {
@@ -371,9 +360,6 @@
       return accounts;
     },
 
-    /**
-     * Busca uma conta pelo userKey, author ou id de story
-     */
     findAccount(keyOrId) {
       if (!keyOrId) return null;
       const clean = String(keyOrId).toLowerCase().replace(/^@/, '');
@@ -413,15 +399,13 @@
     hasStory(keyOrId) {
       if (!keyOrId) return false;
       const clean = String(keyOrId).toLowerCase().replace(/^@/, '');
-      if (clean === 'your-story' || clean === 'me') {
+      const logged = getLoggedUserProfile();
+      if (clean === 'your-story' || clean === 'me' || clean === 'your story' || clean === logged.handleClean) {
         return getUserStories().length > 0;
       }
       return Boolean(engine.findAccount(clean));
     },
 
-    /**
-     * Verifica se um story individual já foi visualizado
-     */
     isStoryViewed(storyId) {
       if (!storyId) return false;
       const map = getViewedMap();
@@ -430,18 +414,12 @@
       return Date.now() - viewedAt < EXPIRATION_MS;
     },
 
-    /**
-     * Verifica se TODOS os stories ativos da conta já foram visualizados
-     */
     isAccountFullyViewed(keyOrId) {
       const acc = engine.findAccount(keyOrId);
       if (!acc || !acc.stories.length) return false;
       return acc.stories.every((s) => engine.isStoryViewed(s.id));
     },
 
-    /**
-     * Verifica se a conta possui ao menos 1 story NÃO visualizado
-     */
     hasUnviewedStories(keyOrId) {
       const acc = engine.findAccount(keyOrId);
       if (!acc || !acc.stories.length) return false;
@@ -491,38 +469,55 @@
       return isNowLiked;
     },
 
-    publishUserStory(mediaUrl, caption) {
+    /**
+     * Publica um Story real criado pelo usuário autenticado
+     */
+    publishUserStory(mediaUrl, caption = '', textOverlay = null, mediaType = 'image') {
       const logged = getLoggedUserProfile();
       const stories = getUserStories();
+
       const newStory = {
         id: 'story-user-' + Date.now().toString(36),
-        media: mediaUrl || '../../../assets/images/post-sunset-crop.png',
-        caption: caption || '',
+        media: mediaUrl,
+        mediaType: mediaType || 'image',
+        caption: String(caption || '').trim(),
+        textOverlay: textOverlay || null,
         createdAt: new Date().toISOString(),
         time: 'Agora',
         author: logged.name || 'Você',
-        avatar: logged.avatar
+        avatar: logged.avatar,
+        userKey: 'your-story',
+        isYourStory: true
       };
+
       stories.unshift(newStory);
       saveUserStories(stories);
 
-      // Limpa marcação de visto para o novo story
+      // Limpa marcação de visto para este novo story
       const map = getViewedMap();
       delete map[newStory.id];
+      delete map['your-story'];
       saveViewedMap(map);
 
+      // Registra métrica com Rat Points (+10) e avanço do foguinho
+      let pointsBonusText = '';
       if (window.SocialRatsMetrics) {
-        window.SocialRatsMetrics.recordActivity('STORY_PUBLISHED', {
+        const res = window.SocialRatsMetrics.recordActivity('STORY_PUBLISHED', {
+          targetId: newStory.id,
           label: 'Story publicado no SocialRats'
         });
+        if (res && res.awarded) {
+          pointsBonusText = ` (+${res.pointsAdded} Rat Points · ${res.multiplierLabel})`;
+        }
       }
+
       engine.syncAllStoryElements();
       window.dispatchEvent(new CustomEvent('sr:stories-updated'));
-      return newStory;
+      return { story: newStory, pointsBonusText };
     },
 
-    publishMyStory(mediaUrl, caption) {
-      return engine.publishUserStory(mediaUrl, caption);
+    publishMyStory(mediaUrl, caption, textOverlay, mediaType) {
+      return engine.publishUserStory(mediaUrl, caption, textOverlay, mediaType);
     },
 
     replyToStory(story, messageText) {
@@ -590,7 +585,11 @@
                 <img src="${story.avatar}" style="width:18px; height:18px; border-radius:50%; object-fit:cover;">
                 <strong>${escapeHtml(story.author)}</strong>
               </div>
-              <img src="${story.media}" style="width:100%; height:130px; object-fit:cover; border-radius:10px; margin-bottom:6px; display:block;">
+              ${
+                story.mediaType === 'video'
+                  ? `<video src="${story.media}" style="width:100%; height:130px; object-fit:cover; border-radius:10px; margin-bottom:6px; display:block;" muted autoplay loop></video>`
+                  : `<img src="${story.media}" style="width:100%; height:130px; object-fit:cover; border-radius:10px; margin-bottom:6px; display:block;">`
+              }
               <span style="font-size:12px; opacity:0.85;">Story compartilhado</span>
               <div class="message-meta-row">
                 <span>${now}</span>
@@ -624,7 +623,6 @@
           wrap.classList.toggle('story-viewed', fullyViewed);
         }
 
-        // Se for o item "Your story", garante a foto de perfil da conta logada
         if (isMe) {
           const img = el.querySelector('.story-avatar-img');
           if (img && loggedProfile.avatar) {
@@ -724,21 +722,12 @@
   };
 
   /* ═══════════════════════════════════════════════════════════════
-   * ESTILOS E COMPONENTE CENTRALIZADO DO VISUALIZADOR DE STORIES
+   * ESTILOS GERAIS DO ENGINE (VIEWER + CRIADOR + EDITOR)
    * ═══════════════════════════════════════════════════════════════ */
-  let modalEl = null;
-  let activeContext = 'feed'; // 'feed' | 'profile' | 'direct'
-  let activeAccounts = [];
-  let currentAccountIndex = 0;
-  let currentStoryIndex = 0;
-  let timerInterval = null;
-  let progressPercent = 0;
-  let isPaused = false;
-
-  function injectViewerStyles() {
-    if (document.getElementById('sr-stories-viewer-styles')) return;
+  function injectAllStyles() {
+    if (document.getElementById('sr-stories-combined-styles')) return;
     const style = document.createElement('style');
-    style.id = 'sr-stories-viewer-styles';
+    style.id = 'sr-stories-combined-styles';
     style.textContent = `
       :root {
         --sr-story-gradient: linear-gradient(135deg, #ff32b8 0%, #ff5e62 50%, #ff9900 100%);
@@ -776,11 +765,12 @@
         filter: grayscale(0.2);
       }
 
-      /* Modal Overlay Fullscreen */
-      .sr-story-overlay {
+      /* Overlays Fullscreen */
+      .sr-story-overlay,
+      .sr-creator-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(5, 4, 9, 0.94);
+        background: rgba(5, 4, 9, 0.95);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         z-index: 99999;
@@ -791,13 +781,15 @@
         transition: opacity 0.22s ease;
       }
 
-      .sr-story-overlay.active {
+      .sr-story-overlay.active,
+      .sr-creator-overlay.active {
         display: flex;
         opacity: 1;
       }
 
-      /* Cartão Central Proporcional aos Stories Mobile/Feed */
-      .sr-story-card {
+      /* Cartões Centrais Proporcionais (9:16 mobile friendly) */
+      .sr-story-card,
+      .sr-creator-card {
         width: 100%;
         max-width: 420px;
         height: 100%;
@@ -814,7 +806,8 @@
       }
 
       @media (max-width: 600px) {
-        .sr-story-card {
+        .sr-story-card,
+        .sr-creator-card {
           max-width: 100vw;
           max-height: 100vh;
           border-radius: 0;
@@ -822,7 +815,7 @@
         }
       }
 
-      /* Barras de Progresso no Topo (Segmentadas por conta) */
+      /* Barras de Progresso no Topo do Viewer */
       .sr-story-progress-bar {
         position: absolute;
         top: 12px;
@@ -850,7 +843,7 @@
         transition: width 0.1s linear;
       }
 
-      /* Top Header: Autor & Botão Fechar */
+      /* Top Header do Viewer */
       .sr-story-header {
         position: absolute;
         top: 24px;
@@ -934,7 +927,7 @@
         transform: scale(1.08);
       }
 
-      /* Mídia Central */
+      /* Mídia Central do Viewer */
       .sr-story-body {
         flex: 1;
         width: 100%;
@@ -947,7 +940,8 @@
         user-select: none;
       }
 
-      .sr-story-img {
+      .sr-story-img,
+      .sr-story-video {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -955,7 +949,7 @@
         pointer-events: none;
       }
 
-      /* Zonas de Toque Laterais Invisíveis */
+      /* Zonas de Toque Laterais */
       .sr-story-tap-zone {
         position: absolute;
         top: 0;
@@ -966,15 +960,10 @@
         background: transparent;
       }
 
-      .sr-story-tap-zone.prev {
-        left: 0;
-      }
+      .sr-story-tap-zone.prev { left: 0; }
+      .sr-story-tap-zone.next { right: 0; }
 
-      .sr-story-tap-zone.next {
-        right: 0;
-      }
-
-      /* Legenda sobreposta */
+      /* Legenda e Texto Sobreposto no Viewer */
       .sr-story-caption-badge {
         position: absolute;
         bottom: 86px;
@@ -992,7 +981,30 @@
         text-shadow: 0 1px 3px rgba(0,0,0,0.6);
       }
 
-      /* Barra Inferior de Ações */
+      .sr-story-text-badge {
+        position: absolute;
+        max-width: 85%;
+        padding: 10px 18px;
+        background: rgba(14, 11, 23, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 16px;
+        color: #ffffff;
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+        z-index: 26;
+        word-break: break-word;
+        pointer-events: none;
+      }
+
+      .sr-story-text-badge.pos-top { top: 22%; left: 50%; transform: translateX(-50%); }
+      .sr-story-text-badge.pos-center { top: 48%; left: 50%; transform: translate(-50%, -50%); }
+      .sr-story-text-badge.pos-bottom { bottom: 22%; left: 50%; transform: translateX(-50%); }
+
+      /* Barra Inferior do Viewer */
       .sr-story-footer {
         position: absolute;
         bottom: 0;
@@ -1025,16 +1037,6 @@
         font-size: 13.5px;
         outline: none;
         backdrop-filter: blur(10px);
-        transition: border-color 0.18s ease, background 0.18s ease;
-      }
-
-      .sr-story-reply-input::placeholder {
-        color: rgba(255, 255, 255, 0.65);
-      }
-
-      .sr-story-reply-input:focus {
-        border-color: var(--color-accent-pink, #ff32b8);
-        background: rgba(20, 17, 30, 0.96);
       }
 
       .sr-story-reply-send-btn {
@@ -1053,7 +1055,6 @@
         cursor: pointer;
         opacity: 0;
         pointer-events: none;
-        transition: opacity 0.15s ease, transform 0.15s ease;
       }
 
       .sr-story-reply-input:not(:placeholder-shown) + .sr-story-reply-send-btn {
@@ -1074,17 +1075,6 @@
         justify-content: center;
         cursor: pointer;
         flex-shrink: 0;
-        backdrop-filter: blur(8px);
-        transition: transform 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-      }
-
-      .sr-story-action-btn:hover {
-        background: rgba(28, 23, 40, 0.95);
-        border-color: rgba(255, 255, 255, 0.4);
-      }
-
-      .sr-story-action-btn:active {
-        transform: scale(0.9);
       }
 
       .sr-story-action-btn.liked {
@@ -1115,17 +1105,9 @@
         display: none;
         flex-direction: column;
         gap: 12px;
-        animation: srSlideUp 0.18s ease-out;
       }
 
-      .sr-story-share-sheet.open {
-        display: flex;
-      }
-
-      @keyframes srSlideUp {
-        from { opacity: 0; transform: translateY(12px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
+      .sr-story-share-sheet.open { display: flex; }
 
       .sr-story-share-header {
         display: flex;
@@ -1142,11 +1124,6 @@
         gap: 12px;
         overflow-x: auto;
         padding: 4px 0 8px;
-        scrollbar-width: none;
-      }
-
-      .sr-story-share-list::-webkit-scrollbar {
-        display: none;
       }
 
       .sr-share-dest-btn {
@@ -1157,17 +1134,9 @@
         align-items: center;
         gap: 6px;
         cursor: pointer;
-        color: var(--color-text-secondary, #b7b0c5);
-        font-family: inherit;
+        color: #b7b0c5;
         font-size: 11px;
-        font-weight: 500;
         min-width: 58px;
-        transition: transform 0.15s ease, color 0.15s ease;
-      }
-
-      .sr-share-dest-btn:hover {
-        color: #ffffff;
-        transform: translateY(-2px);
       }
 
       .sr-share-dest-btn img {
@@ -1175,22 +1144,16 @@
         height: 44px;
         border-radius: 50%;
         object-fit: cover;
-        border: 1.5px solid var(--color-border-subtle, #30263e);
-        transition: border-color 0.15s ease;
-      }
-
-      .sr-share-dest-btn:hover img {
-        border-color: var(--color-accent-pink, #ff32b8);
+        border: 1.5px solid #30263e;
       }
 
       .sr-copy-link-btn {
         width: 100%;
         height: 40px;
         border-radius: 12px;
-        background: var(--color-surface-elevated, #1c1728);
-        border: 1px solid var(--color-border-subtle, #30263e);
+        background: #1c1728;
+        border: 1px solid #30263e;
         color: #ffffff;
-        font-family: inherit;
         font-size: 13px;
         font-weight: 600;
         display: flex;
@@ -1198,18 +1161,536 @@
         justify-content: center;
         gap: 8px;
         cursor: pointer;
-        transition: background 0.15s ease;
       }
 
-      .sr-copy-link-btn:hover {
-        background: #251f38;
+      /* ═══════════════════════════════════════════════════════════════
+       * ESTILOS DO CRIADOR & EDITOR DE STORIES
+       * ═══════════════════════════════════════════════════════════════ */
+      .sr-creator-screen {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        background: #090710;
+      }
+
+      .sr-creator-topbar {
+        position: absolute;
+        top: 18px;
+        left: 16px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 60;
+      }
+
+      .sr-creator-icon-btn {
+        background: rgba(14, 11, 23, 0.7);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+        font-size: 18px;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.15s ease, background 0.15s ease;
+      }
+
+      .sr-creator-icon-btn:hover {
+        background: rgba(255, 50, 184, 0.35);
+        transform: scale(1.06);
+      }
+
+      .sr-creator-top-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sr-creator-tool-btn {
+        background: rgba(14, 11, 23, 0.75);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        color: #ffffff;
+        font-family: var(--font-body, 'Inter', sans-serif);
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 8px 14px;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: background 0.15s ease, border-color 0.15s ease;
+      }
+
+      .sr-creator-tool-btn:hover {
+        background: rgba(255, 50, 184, 0.25);
+        border-color: #ff32b8;
+      }
+
+      /* Viewport da Câmera */
+      .sr-camera-viewport,
+      .sr-editor-viewport {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        background: #000000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      #sr-camera-stream {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .sr-editor-media-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .sr-screen-flash {
+        position: absolute;
+        inset: 0;
+        background: #ffffff;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 55;
+        transition: opacity 0.12s ease;
+      }
+
+      .sr-screen-flash.active {
+        opacity: 0.9;
+      }
+
+      /* Timer de Gravação de Vídeo */
+      .sr-recording-badge {
+        position: absolute;
+        top: 70px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(230, 20, 50, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 9999px;
+        padding: 6px 14px;
+        color: #ffffff;
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 13px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 58;
+        box-shadow: 0 4px 16px rgba(230, 20, 50, 0.6);
+      }
+
+      .sr-rec-dot {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #ffffff;
+        animation: recPulse 0.9s infinite alternate ease-in-out;
+      }
+
+      @keyframes recPulse {
+        from { transform: scale(0.8); opacity: 0.5; }
+        to { transform: scale(1.2); opacity: 1; }
+      }
+
+      /* Fallback de Câmera */
+      .sr-camera-fallback {
+        position: absolute;
+        inset: 20px;
+        background: #14111e;
+        border: 1px solid #30263e;
+        border-radius: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 24px;
+        text-align: center;
+        z-index: 50;
+      }
+
+      .sr-fallback-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        background: rgba(255, 50, 184, 0.15);
+        color: #ff32b8;
+        font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+        border: 1px solid rgba(255, 50, 184, 0.4);
+      }
+
+      .sr-camera-fallback h3 {
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 18px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 8px;
+      }
+
+      .sr-camera-fallback p {
+        font-size: 13px;
+        color: #b7b0c5;
+        line-height: 1.45;
+        margin-bottom: 22px;
+      }
+
+      .sr-creator-cta-btn {
+        background: var(--gradient-brand, #ff32b8);
+        border: none;
+        color: #ffffff;
+        font-family: var(--font-body, 'Inter', sans-serif);
+        font-size: 14px;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 9999px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(255, 50, 184, 0.35);
+      }
+
+      /* Barra Inferior da Câmera (Shutter & Galeria) */
+      .sr-creator-bottombar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px 24px 28px;
+        background: linear-gradient(to top, rgba(7, 5, 12, 0.95) 0%, rgba(7, 5, 12, 0.6) 60%, transparent 100%);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 60;
+      }
+
+      .sr-gallery-picker-btn {
+        background: rgba(28, 23, 40, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 14px;
+        color: #ffffff;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 600;
+        backdrop-filter: blur(8px);
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+
+      .sr-gallery-picker-btn i {
+        font-size: 20px;
+      }
+
+      .sr-gallery-picker-btn:hover {
+        transform: scale(1.05);
+        border-color: #ff32b8;
+      }
+
+      .sr-shutter-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .sr-shutter-btn {
+        width: 76px;
+        height: 76px;
+        border-radius: 50%;
+        background: transparent;
+        border: 4px solid #ffffff;
+        padding: 4px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.15s ease, border-color 0.15s ease;
+      }
+
+      .sr-shutter-btn:hover {
+        transform: scale(1.06);
+        border-color: #ff32b8;
+      }
+
+      .sr-shutter-btn.recording {
+        border-color: #ff2b4e;
+        animation: shutterRecPulse 1s infinite alternate ease-in-out;
+      }
+
+      @keyframes shutterRecPulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.12); }
+      }
+
+      .sr-shutter-inner {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(--gradient-story);
+        display: block;
+        transition: border-radius 0.2s ease, background 0.2s ease;
+      }
+
+      .sr-shutter-btn.recording .sr-shutter-inner {
+        background: #ff2b4e;
+        border-radius: 10px;
+        width: 65%;
+        height: 65%;
+      }
+
+      .sr-shutter-hint {
+        font-size: 10.5px;
+        color: rgba(255, 255, 255, 0.7);
+        text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+      }
+
+      /* Texto Sobreposto no Editor */
+      .sr-editor-text-overlay {
+        position: absolute;
+        max-width: 85%;
+        padding: 10px 18px;
+        background: rgba(14, 11, 23, 0.9);
+        border: 1.5px solid rgba(255, 255, 255, 0.25);
+        border-radius: 16px;
+        color: #ffffff;
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 17px;
+        font-weight: 700;
+        text-align: center;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8);
+        z-index: 55;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sr-editor-text-overlay.pos-top { top: 22%; left: 50%; transform: translateX(-50%); }
+      .sr-editor-text-overlay.pos-center { top: 48%; left: 50%; transform: translate(-50%, -50%); }
+      .sr-editor-text-overlay.pos-bottom { bottom: 22%; left: 50%; transform: translateX(-50%); }
+
+      .sr-overlay-text-remove {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: #fff;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        cursor: pointer;
+      }
+
+      /* Dialog Modal para Editar Texto */
+      .sr-text-input-dialog {
+        position: absolute;
+        inset: 0;
+        background: rgba(7, 5, 12, 0.85);
+        backdrop-filter: blur(10px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 70;
+      }
+
+      .sr-text-dialog-card {
+        width: 100%;
+        max-width: 340px;
+        background: #14111e;
+        border: 1px solid #30263e;
+        border-radius: 18px;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        box-shadow: 0 16px 40px rgba(0,0,0,0.9);
+      }
+
+      .sr-text-dialog-card h4 {
+        color: #ffffff;
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 15px;
+        margin: 0;
+      }
+
+      .sr-text-dialog-card input {
+        width: 100%;
+        height: 44px;
+        border-radius: 12px;
+        background: #1c1728;
+        border: 1px solid #30263e;
+        color: #ffffff;
+        padding: 0 14px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .sr-text-dialog-card input:focus {
+        border-color: #ff32b8;
+      }
+
+      .sr-text-dialog-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .sr-dialog-btn {
+        padding: 8px 16px;
+        border-radius: 10px;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        border: none;
+      }
+
+      .sr-dialog-btn.secondary {
+        background: #1c1728;
+        color: #b7b0c5;
+        border: 1px solid #30263e;
+      }
+
+      .sr-dialog-btn.primary {
+        background: var(--gradient-brand, #ff32b8);
+        color: #ffffff;
+      }
+
+      /* Barra Inferior do Editor */
+      .sr-editor-bottombar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 16px 18px 22px;
+        background: linear-gradient(to top, rgba(7, 5, 12, 0.98) 0%, rgba(7, 5, 12, 0.7) 65%, transparent 100%);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        z-index: 60;
+      }
+
+      .sr-editor-caption-wrap input {
+        width: 100%;
+        height: 42px;
+        border-radius: 9999px;
+        background: rgba(28, 23, 40, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        padding: 0 16px;
+        font-size: 13.5px;
+        outline: none;
+      }
+
+      .sr-editor-caption-wrap input:focus {
+        border-color: #ff32b8;
+      }
+
+      .sr-editor-action-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .sr-btn-discard-draft {
+        background: rgba(28, 23, 40, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #b7b0c5;
+        border-radius: 9999px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .sr-btn-discard-draft:hover {
+        color: #ffffff;
+        background: rgba(28, 23, 40, 0.95);
+      }
+
+      .sr-btn-publish-story {
+        flex: 1;
+        background: var(--gradient-brand, #ff32b8);
+        border: none;
+        color: #ffffff;
+        border-radius: 9999px;
+        padding: 11px 20px;
+        font-family: var(--font-heading, 'Outfit', sans-serif);
+        font-size: 14px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(255, 50, 184, 0.4);
+        transition: transform 0.15s ease;
+      }
+
+      .sr-btn-publish-story:hover {
+        transform: scale(1.02);
+      }
+
+      .sr-btn-publish-story img {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 1px solid #ffffff;
       }
     `;
     document.head.appendChild(style);
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+   * COMPONENTE CENTRALIZADO DO VISUALIZADOR DE STORIES (VIEWER)
+   * ═══════════════════════════════════════════════════════════════ */
+  let modalEl = null;
+  let activeContext = 'feed'; // 'feed' | 'profile' | 'direct'
+  let activeAccounts = [];
+  let currentAccountIndex = 0;
+  let currentStoryIndex = 0;
+  let timerInterval = null;
+  let progressPercent = 0;
+  let isPaused = false;
+
   function ensureViewerModal() {
-    injectViewerStyles();
+    injectAllStyles();
     if (document.getElementById('sr-unified-story-modal')) return;
 
     modalEl = document.createElement('div');
@@ -1240,13 +1721,15 @@
           </button>
         </div>
 
-        <!-- Mídia Central -->
+        <!-- Mídia Central (Imagem ou Vídeo) -->
         <div class="sr-story-body">
           <div class="sr-story-tap-zone prev" id="sr-tap-prev" aria-label="Story anterior"></div>
           <img src="" alt="Story" class="sr-story-img" id="sr-story-media-img">
+          <video class="sr-story-video" id="sr-story-media-video" playsinline muted style="display:none;"></video>
           <div class="sr-story-tap-zone next" id="sr-tap-next" aria-label="Próximo story"></div>
 
-          <!-- Legenda -->
+          <!-- Texto Sobreposto e Legenda -->
+          <div class="sr-story-text-badge pos-center" id="sr-story-text-overlay" style="display:none;"></div>
           <div class="sr-story-caption-badge" id="sr-story-caption" style="display:none;"></div>
 
           <!-- Share Sheet Popover -->
@@ -1335,7 +1818,6 @@
         resumeTimer();
         const diffX = e.changedTouches[0].clientX - touchStartX;
         const diffY = e.changedTouches[0].clientY - touchStartY;
-        // Deslizar para a esquerda: avançar | Deslizar para a direita: voltar
         if (Math.abs(diffX) > 45 && Math.abs(diffX) > Math.abs(diffY)) {
           if (diffX < 0) {
             engine.next();
@@ -1439,6 +1921,10 @@
 
   function pauseTimer() {
     isPaused = true;
+    const mediaVideo = document.getElementById('sr-story-media-video');
+    if (mediaVideo && !mediaVideo.paused) {
+      mediaVideo.pause();
+    }
   }
 
   function resumeTimer() {
@@ -1448,6 +1934,10 @@
       return;
     }
     isPaused = false;
+    const mediaVideo = document.getElementById('sr-story-media-video');
+    if (mediaVideo && mediaVideo.paused && mediaVideo.style.display !== 'none') {
+      mediaVideo.play().catch(() => {});
+    }
   }
 
   function renderShareDestinations() {
@@ -1531,11 +2021,6 @@
     return acc.stories[currentStoryIndex] || acc.stories[0];
   }
 
-  /**
-   * Constrói as barras de progresso especificamente para a CONTA ATUAL
-   * Ex: Se Lucas postou 2 stories -> 2 barras
-   *     Se rijalxp postou 1 story -> 1 barra
-   */
   function buildProgressSegmentsForCurrentAccount() {
     const bar = document.getElementById('sr-story-progress-bar');
     if (!bar) return;
@@ -1565,13 +2050,11 @@
 
     if (currentStoryIndex < 0) currentStoryIndex = 0;
     if (currentStoryIndex >= acc.stories.length) {
-      // Direct e Perfil: terminam na própria conta
       if (activeContext === 'direct' || activeContext === 'profile') {
         engine.close();
         return;
       }
 
-      // Contexto Feed: passa para a próxima conta com stories não visualizados
       if (currentAccountIndex < activeAccounts.length - 1) {
         currentAccountIndex++;
         currentStoryIndex = 0;
@@ -1594,19 +2077,20 @@
     // Registra visualização individual deste Story
     engine.markAsViewed(story.id);
 
-    // Obtém perfil atualizado para garantir a foto da conta logada
+    // Dados da conta e do autor
     const loggedProfile = getLoggedUserProfile();
     const currentAvatar = acc.isYourStory ? loggedProfile.avatar : (story.avatar || acc.avatar);
     const currentAuthor = acc.isYourStory ? (loggedProfile.name || 'Você') : acc.author;
 
-    // Atualiza cabeçalho com informações do autor do story
     const authorAvatar = document.getElementById('sr-story-author-avatar');
     const authorWrap = document.getElementById('sr-story-author-avatar-wrap');
     const authorName = document.getElementById('sr-story-author-name');
     const authorTime = document.getElementById('sr-story-author-time');
     const userInfoEl = document.getElementById('sr-story-user-info');
     const mediaImg = document.getElementById('sr-story-media-img');
+    const mediaVideo = document.getElementById('sr-story-media-video');
     const captionEl = document.getElementById('sr-story-caption');
+    const textOverlayEl = document.getElementById('sr-story-text-overlay');
     const replyInput = document.getElementById('sr-story-reply-input');
 
     if (authorAvatar) {
@@ -1625,10 +2109,45 @@
     if (userInfoEl) {
       userInfoEl.href = acc.isYourStory ? 'profile.html' : `profile.html?user=${encodeURIComponent(acc.key)}`;
     }
-    if (mediaImg) {
-      mediaImg.src = story.media;
+
+    // Suporte inteligente a Imagem vs. Vídeo
+    const isVideo =
+      story.mediaType === 'video' ||
+      (story.media && (story.media.startsWith('data:video') || /\.(mp4|webm|mov)(\?.*)?$/i.test(story.media)));
+
+    if (isVideo) {
+      if (mediaImg) mediaImg.style.display = 'none';
+      if (mediaVideo) {
+        mediaVideo.style.display = 'block';
+        mediaVideo.src = story.media;
+        mediaVideo.currentTime = 0;
+        mediaVideo.play().catch(() => {});
+        mediaVideo.onended = () => engine.next();
+      }
+    } else {
+      if (mediaVideo) {
+        mediaVideo.pause();
+        mediaVideo.style.display = 'none';
+        mediaVideo.src = '';
+      }
+      if (mediaImg) {
+        mediaImg.style.display = 'block';
+        mediaImg.src = story.media;
+      }
     }
 
+    // Texto Sobreposto do Editor
+    if (textOverlayEl) {
+      if (story.textOverlay && story.textOverlay.text) {
+        textOverlayEl.textContent = story.textOverlay.text;
+        textOverlayEl.className = `sr-story-text-badge pos-${story.textOverlay.position || 'center'}`;
+        textOverlayEl.style.display = 'block';
+      } else {
+        textOverlayEl.style.display = 'none';
+      }
+    }
+
+    // Legenda
     if (captionEl) {
       if (story.caption) {
         captionEl.textContent = story.caption;
@@ -1645,7 +2164,7 @@
 
     syncLikeUI(engine.isLiked(story.id));
 
-    // Atualiza preenchimento das barras de progresso da conta atual
+    // Atualiza barras de progresso
     acc.stories.forEach((_, idx) => {
       const fill = document.getElementById(`sr-story-seg-${idx}`);
       if (!fill) return;
@@ -1674,12 +2193,6 @@
     }, 100); // 5 segundos por story
   }
 
-  /**
-   * Abre o visualizador com navegação inteligente baseada em CONTEXTO:
-   * - context = 'direct': Exclusivo do contato (não avança para outros contatos)
-   * - context = 'profile': Exclusivo do perfil (não avança para outros usuários)
-   * - context = 'feed': Sequência entre contas com stories não visualizados
-   */
   engine.open = function (startKeyOrId, context) {
     ensureViewerModal();
 
@@ -1712,44 +2225,26 @@
 
     const startAccount = allAccounts[targetAccIdx];
 
-    // Identifica story inicial dentro da conta
     const matchedStoryIdx = startAccount.stories.findIndex((s) => s.id.toLowerCase() === clean);
     if (matchedStoryIdx !== -1) {
       targetStoryIdx = matchedStoryIdx;
     } else {
-      // Inicia no primeiro story ainda não visualizado, ou no 0 caso todos já tenham sido vistos
       const firstUnviewed = startAccount.stories.findIndex((s) => !engine.isStoryViewed(s.id));
       targetStoryIdx = firstUnviewed !== -1 ? firstUnviewed : 0;
     }
 
     if (activeContext === 'direct' || activeContext === 'profile') {
-      // ══════════════════════════════════════════════════════════════
-      // CONTEXTO DIRECT & PERFIL:
-      // Exibe EXCLUSIVAMENTE os stories desta conta.
-      // NÃO avança automaticamente para stories de outros contatos!
-      // ══════════════════════════════════════════════════════════════
       activeAccounts = [startAccount];
       currentAccountIndex = 0;
       currentStoryIndex = targetStoryIdx;
     } else {
-      // ══════════════════════════════════════════════════════════════
-      // CONTEXTO FEED:
-      // Inicia na conta selecionada (mesmo que já vista pelo toque manual).
-      // Para as contas seguintes da sequência do Feed:
-      // INCLUI APENAS contas que possuem stories NÃO visualizados!
-      // (Contas já visualizadas NÃO são incluídas na sequência automática)
-      // ══════════════════════════════════════════════════════════════
       const feedQueue = [startAccount];
-
-      // Contas seguintes na lista
       for (let i = targetAccIdx + 1; i < allAccounts.length; i++) {
         const candidate = allAccounts[i];
         if (engine.hasUnviewedStories(candidate.key)) {
           feedQueue.push(candidate);
         }
       }
-
-      // Contas anteriores na lista que ainda não foram vistas
       for (let i = 0; i < targetAccIdx; i++) {
         const candidate = allAccounts[i];
         if (engine.hasUnviewedStories(candidate.key)) {
@@ -1774,24 +2269,19 @@
       return;
     }
 
-    // Se a conta atual ainda tem mais stories
     if (currentStoryIndex < acc.stories.length - 1) {
       currentStoryIndex++;
       renderCurrentStory(false);
     } else {
-      // Chegou ao fim dos stories da conta atual
       if (activeContext === 'direct' || activeContext === 'profile') {
-        // Direct e Perfil: NÃO avançam para outros contatos/perfis. Encerram aqui.
         engine.close();
       } else {
-        // Contexto Feed: passa para o próximo usuário com stories não visualizados
         if (currentAccountIndex < activeAccounts.length - 1) {
           currentAccountIndex++;
           currentStoryIndex = 0;
           buildProgressSegmentsForCurrentAccount();
           renderCurrentStory(false);
         } else {
-          // Finalizou a fila do Feed
           engine.close();
         }
       }
@@ -1799,16 +2289,13 @@
   };
 
   engine.prev = function () {
-    // Se não estiver no primeiro story da conta atual
     if (currentStoryIndex > 0) {
       currentStoryIndex--;
       renderCurrentStory(false);
     } else {
       if (activeContext === 'direct' || activeContext === 'profile') {
-        // Direct e Perfil: não voltam para outros contatos. Reiniciam o story 0.
         renderCurrentStory(false);
       } else {
-        // Contexto Feed: volta para o último story da conta anterior na fila
         if (currentAccountIndex > 0) {
           currentAccountIndex--;
           const prevAcc = activeAccounts[currentAccountIndex];
@@ -1825,10 +2312,624 @@
   engine.close = function () {
     if (timerInterval) clearInterval(timerInterval);
     isPaused = false;
+    const mediaVideo = document.getElementById('sr-story-media-video');
+    if (mediaVideo) {
+      mediaVideo.pause();
+      mediaVideo.src = '';
+    }
     if (modalEl) {
       modalEl.classList.remove('active');
       document.getElementById('sr-story-share-sheet')?.classList.remove('open');
     }
+    engine.syncAllStoryElements();
+  };
+
+  /* ═══════════════════════════════════════════════════════════════
+   * MÓDULO DE CRIAÇÃO E PUBLICAÇÃO DE STORIES (CÂMERA, ARQUIVO E EDITOR)
+   * ═══════════════════════════════════════════════════════════════ */
+  let creatorModalEl = null;
+  let cameraStream = null;
+  let currentFacingMode = 'user'; // 'user' (frontal) | 'environment' (traseira)
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let recordingInterval = null;
+  let recordingSeconds = 0;
+  let isRecording = false;
+
+  // Estado do rascunho em edição
+  let draftMedia = null;
+  let draftMediaType = 'image'; // 'image' | 'video'
+  let draftTextOverlay = null; // { text: '...', position: 'center' }
+  const textPositions = ['center', 'top', 'bottom'];
+  let currentPosIndex = 0;
+
+  function ensureCreatorModal() {
+    injectAllStyles();
+    if (document.getElementById('sr-story-creator-modal')) return;
+
+    creatorModalEl = document.createElement('div');
+    creatorModalEl.className = 'sr-creator-overlay';
+    creatorModalEl.id = 'sr-story-creator-modal';
+    creatorModalEl.setAttribute('role', 'dialog');
+    creatorModalEl.setAttribute('aria-modal', 'true');
+    creatorModalEl.setAttribute('aria-label', 'Criador de Stories SocialRats');
+
+    creatorModalEl.innerHTML = `
+      <div class="sr-creator-card" id="sr-creator-card">
+
+        <!-- 1. TELA DE CAPTURA / CÂMERA / GALERIA -->
+        <div class="sr-creator-screen" id="sr-capture-screen">
+          <div class="sr-creator-topbar">
+            <button type="button" class="sr-creator-icon-btn" id="sr-creator-close-btn" title="Fechar">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="sr-creator-top-actions">
+              <button type="button" class="sr-creator-icon-btn" id="sr-creator-flash-btn" title="Flash da tela">
+                <i class="fa-solid fa-bolt"></i>
+              </button>
+              <button type="button" class="sr-creator-icon-btn" id="sr-creator-flip-cam-btn" title="Alternar câmera">
+                <i class="fa-solid fa-camera-rotate"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="sr-camera-viewport" id="sr-camera-viewport">
+            <video id="sr-camera-stream" autoplay playsinline muted></video>
+            <canvas id="sr-camera-canvas" style="display:none;"></canvas>
+            <div id="sr-screen-flash" class="sr-screen-flash"></div>
+
+            <!-- Timer de Gravação -->
+            <div class="sr-recording-badge" id="sr-recording-badge" style="display:none;">
+              <span class="sr-rec-dot"></span>
+              <span id="sr-rec-timer">00:00</span> / 00:15
+            </div>
+
+            <!-- Fallback de Câmera -->
+            <div class="sr-camera-fallback" id="sr-camera-fallback" style="display:none;">
+              <div class="sr-fallback-icon">
+                <i class="fa-solid fa-camera"></i>
+              </div>
+              <h3>Câmera Não Disponível</h3>
+              <p id="sr-fallback-msg">Permita o acesso à câmera no navegador ou selecione uma foto/vídeo da galeria.</p>
+              <button type="button" class="sr-creator-cta-btn" id="sr-btn-fallback-gallery">
+                <i class="fa-regular fa-image"></i> Escolher da Galeria
+              </button>
+            </div>
+          </div>
+
+          <div class="sr-creator-bottombar">
+            <input type="file" id="sr-creator-file-input" accept="image/png,image/jpeg,image/webp,video/mp4,video/webm" style="display:none;">
+            <button type="button" class="sr-gallery-picker-btn" id="sr-btn-open-gallery" title="Escolher da Galeria">
+              <i class="fa-regular fa-image"></i>
+              <span>Galeria</span>
+            </button>
+
+            <div class="sr-shutter-container">
+              <button type="button" class="sr-shutter-btn" id="sr-shutter-btn" title="Toque para foto, segure para vídeo">
+                <span class="sr-shutter-inner" id="sr-shutter-inner"></span>
+              </button>
+              <div class="sr-shutter-hint" id="sr-shutter-hint">Toque p/ foto · Segure p/ vídeo</div>
+            </div>
+
+            <button type="button" class="sr-gallery-picker-btn" id="sr-btn-flip-bottom" title="Inverter câmera">
+              <i class="fa-solid fa-rotate"></i>
+              <span>Virar</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. TELA DO EDITOR DE STORIES -->
+        <div class="sr-creator-screen" id="sr-editor-screen" style="display:none;">
+          <div class="sr-creator-topbar">
+            <button type="button" class="sr-creator-icon-btn" id="sr-editor-back-btn" title="Descartar e voltar">
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <div class="sr-creator-top-actions">
+              <button type="button" class="sr-creator-tool-btn" id="sr-editor-text-btn" title="Adicionar texto">
+                <i class="fa-solid fa-font"></i> <span>Texto</span>
+              </button>
+              <button type="button" class="sr-creator-tool-btn" id="sr-editor-pos-btn" title="Posição do texto">
+                <i class="fa-solid fa-arrows-up-down"></i> <span>Posição</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="sr-editor-viewport" id="sr-editor-viewport">
+            <img id="sr-editor-img-preview" class="sr-editor-media-preview" alt="Prévia" style="display:none;">
+            <video id="sr-editor-video-preview" class="sr-editor-media-preview" autoplay loop playsinline muted controls style="display:none;"></video>
+
+            <!-- Texto sobreposto (Posicionável e Editável) -->
+            <div class="sr-editor-text-overlay pos-center" id="sr-editor-text-overlay" style="display:none;">
+              <span id="sr-overlay-text-content">Seu texto aqui</span>
+              <button type="button" class="sr-overlay-text-remove" id="sr-remove-overlay-text" title="Remover texto">
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+
+            <!-- Input dialog para editar texto -->
+            <div class="sr-text-input-dialog" id="sr-text-input-dialog" style="display:none;">
+              <div class="sr-text-dialog-card">
+                <h4>Adicionar Texto ao Story</h4>
+                <input type="text" id="sr-text-dialog-input" placeholder="Digite algo marcante..." maxlength="120" autocomplete="off">
+                <div class="sr-text-dialog-actions">
+                  <button type="button" class="sr-dialog-btn secondary" id="sr-btn-cancel-text">Cancelar</button>
+                  <button type="button" class="sr-dialog-btn primary" id="sr-btn-confirm-text">Adicionar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sr-editor-bottombar">
+            <div class="sr-editor-caption-wrap">
+              <input type="text" id="sr-editor-caption-input" placeholder="Adicionar legenda ao Story..." maxlength="160" autocomplete="off">
+            </div>
+            <div class="sr-editor-action-row">
+              <button type="button" class="sr-btn-discard-draft" id="sr-btn-discard">
+                <i class="fa-regular fa-trash-can"></i> Descartar
+              </button>
+              <button type="button" class="sr-btn-publish-story" id="sr-btn-publish">
+                <img id="sr-publish-user-avatar" src="" alt="Você">
+                <span>Publicar Story</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    `;
+
+    document.body.appendChild(creatorModalEl);
+    setupCreatorEventListeners();
+  }
+
+  function setupCreatorEventListeners() {
+    // 1. Fechar Criador
+    const closeBtn = document.getElementById('sr-creator-close-btn');
+    if (closeBtn) closeBtn.onclick = () => engine.closeCreator();
+
+    // 2. Alternar Câmera
+    const flipBtn = document.getElementById('sr-creator-flip-cam-btn');
+    const flipBottom = document.getElementById('sr-btn-flip-bottom');
+    const toggleCam = () => {
+      currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+      startCamera(currentFacingMode);
+    };
+    if (flipBtn) flipBtn.onclick = toggleCam;
+    if (flipBottom) flipBottom.onclick = toggleCam;
+
+    // 3. Flash da tela
+    const flashBtn = document.getElementById('sr-creator-flash-btn');
+    const flashEl = document.getElementById('sr-screen-flash');
+    if (flashBtn && flashEl) {
+      flashBtn.onclick = () => {
+        flashEl.classList.toggle('active');
+        showStoryToast(flashEl.classList.contains('active') ? 'Flash da tela ativado ⚡' : 'Flash desativado');
+      };
+    }
+
+    // 4. Galeria de Arquivos
+    const galleryBtn = document.getElementById('sr-btn-open-gallery');
+    const fallbackGalleryBtn = document.getElementById('sr-btn-fallback-gallery');
+    const fileInput = document.getElementById('sr-creator-file-input');
+
+    const triggerFileInput = () => {
+      if (fileInput) fileInput.click();
+    };
+    if (galleryBtn) galleryBtn.onclick = triggerFileInput;
+    if (fallbackGalleryBtn) fallbackGalleryBtn.onclick = triggerFileInput;
+
+    if (fileInput) {
+      fileInput.onchange = (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file) return;
+
+        // Validação de Tamanho (Máx 35MB)
+        if (file.size > 35 * 1024 * 1024) {
+          showStoryToast('Arquivo muito grande! Escolha uma mídia de até 35MB.');
+          return;
+        }
+
+        const isVid = file.type.startsWith('video/');
+        const isImg = file.type.startsWith('image/');
+        if (!isVid && !isImg) {
+          showStoryToast('Formato não suportado. Escolha uma foto ou vídeo.');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          stopCamera();
+          openEditorWithMedia(reader.result, isVid ? 'video' : 'image');
+        };
+        reader.onerror = () => {
+          showStoryToast('Erro ao ler o arquivo selecionado.');
+        };
+        reader.readAsDataURL(file);
+      };
+    }
+
+    // 5. Botão Obturador / Shutter (Toque = Foto, Segurar = Gravação)
+    const shutterBtn = document.getElementById('sr-shutter-btn');
+    let pressTimer = null;
+    let didHold = false;
+
+    const startRecordingAction = () => {
+      if (isRecording) return;
+      isRecording = true;
+      recordedChunks = [];
+      recordingSeconds = 0;
+
+      const video = document.getElementById('sr-camera-stream');
+      const recBadge = document.getElementById('sr-recording-badge');
+      const recTimer = document.getElementById('sr-rec-timer');
+      if (recBadge) recBadge.style.display = 'flex';
+      if (shutterBtn) shutterBtn.classList.add('recording');
+
+      recordingInterval = setInterval(() => {
+        recordingSeconds++;
+        const s = String(recordingSeconds % 60).padStart(2, '0');
+        const m = String(Math.floor(recordingSeconds / 60)).padStart(2, '0');
+        if (recTimer) recTimer.textContent = `${m}:${s}`;
+        if (recordingSeconds >= 15) {
+          stopRecordingAction();
+        }
+      }, 1000);
+
+      // Inicia MediaRecorder real da câmera se suportado
+      if (window.MediaRecorder && cameraStream) {
+        try {
+          let mime = 'video/webm';
+          if (MediaRecorder.isTypeSupported('video/mp4')) mime = 'video/mp4';
+          mediaRecorder = new MediaRecorder(cameraStream, { mimeType: mime });
+          mediaRecorder.ondataavailable = (evt) => {
+            if (evt.data && evt.data.size > 0) recordedChunks.push(evt.data);
+          };
+          mediaRecorder.onstop = () => {
+            const blob = new Blob(recordedChunks, { type: mime });
+            const reader = new FileReader();
+            reader.onload = () => {
+              stopCamera();
+              openEditorWithMedia(reader.result, 'video');
+            };
+            reader.readAsDataURL(blob);
+          };
+          mediaRecorder.start();
+        } catch (err) {
+          console.warn('MediaRecorder fallback:', err);
+        }
+      }
+    };
+
+    const stopRecordingAction = () => {
+      if (!isRecording) return;
+      isRecording = false;
+      if (recordingInterval) clearInterval(recordingInterval);
+      const recBadge = document.getElementById('sr-recording-badge');
+      if (recBadge) recBadge.style.display = 'none';
+      if (shutterBtn) shutterBtn.classList.remove('recording');
+
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+      } else {
+        // Fallback: se o dispositivo não gerou stream de vídeo, captura foto instantânea
+        takeSnapshotPhoto();
+      }
+    };
+
+    const takeSnapshotPhoto = () => {
+      const video = document.getElementById('sr-camera-stream');
+      const canvas = document.getElementById('sr-camera-canvas');
+      if (!video || !canvas) return;
+
+      const w = video.videoWidth || 720;
+      const h = video.videoHeight || 1280;
+      canvas.width = Math.min(w, 1080);
+      canvas.height = Math.min(h, 1920);
+
+      const ctx = canvas.getContext('2d');
+      if (currentFacingMode === 'user') {
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+      }
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+      stopCamera();
+      openEditorWithMedia(dataUrl, 'image');
+    };
+
+    if (shutterBtn) {
+      shutterBtn.addEventListener('mousedown', () => {
+        didHold = false;
+        pressTimer = setTimeout(() => {
+          didHold = true;
+          startRecordingAction();
+        }, 400);
+      });
+
+      shutterBtn.addEventListener('mouseup', () => {
+        if (pressTimer) clearTimeout(pressTimer);
+        if (didHold) {
+          stopRecordingAction();
+        } else {
+          takeSnapshotPhoto();
+        }
+      });
+
+      shutterBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        didHold = false;
+        pressTimer = setTimeout(() => {
+          didHold = true;
+          startRecordingAction();
+        }, 400);
+      });
+
+      shutterBtn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        if (pressTimer) clearTimeout(pressTimer);
+        if (didHold) {
+          stopRecordingAction();
+        } else {
+          takeSnapshotPhoto();
+        }
+      });
+    }
+
+    // 6. Voltar do Editor para a Câmera
+    const backBtn = document.getElementById('sr-editor-back-btn');
+    const discardBtn = document.getElementById('sr-btn-discard');
+    const returnToCapture = () => {
+      document.getElementById('sr-editor-screen').style.display = 'none';
+      document.getElementById('sr-capture-screen').style.display = 'flex';
+      draftMedia = null;
+      draftTextOverlay = null;
+      const overlayEl = document.getElementById('sr-editor-text-overlay');
+      if (overlayEl) overlayEl.style.display = 'none';
+      const cap = document.getElementById('sr-editor-caption-input');
+      if (cap) cap.value = '';
+      startCamera(currentFacingMode);
+    };
+    if (backBtn) backBtn.onclick = returnToReturnOrClose;
+    if (discardBtn) discardBtn.onclick = returnToReturnOrClose;
+
+    function returnToReturnOrClose() {
+      returnToCapture();
+    }
+
+    // 7. Ferramenta de Texto (Aa) e Posicionamento
+    const textToolBtn = document.getElementById('sr-editor-text-btn');
+    const textDialog = document.getElementById('sr-text-input-dialog');
+    const textInput = document.getElementById('sr-text-dialog-input');
+    const cancelTextBtn = document.getElementById('sr-btn-cancel-text');
+    const confirmTextBtn = document.getElementById('sr-btn-confirm-text');
+    const textOverlayEl = document.getElementById('sr-editor-text-overlay');
+    const overlayContent = document.getElementById('sr-overlay-text-content');
+    const removeTextBtn = document.getElementById('sr-remove-overlay-text');
+    const posBtn = document.getElementById('sr-editor-pos-btn');
+
+    if (textToolBtn && textDialog && textInput) {
+      textToolBtn.onclick = () => {
+        textDialog.style.display = 'flex';
+        textInput.value = draftTextOverlay ? draftTextOverlay.text : '';
+        textInput.focus();
+      };
+    }
+    if (cancelTextBtn && textDialog) {
+      cancelTextBtn.onclick = () => {
+        textDialog.style.display = 'none';
+      };
+    }
+    if (confirmTextBtn && textDialog && textInput && textOverlayEl && overlayContent) {
+      confirmTextBtn.onclick = () => {
+        const val = textInput.value.trim();
+        if (val) {
+          draftTextOverlay = {
+            text: val,
+            position: textPositions[currentPosIndex]
+          };
+          overlayContent.textContent = val;
+          textOverlayEl.className = `sr-editor-text-overlay pos-${draftTextOverlay.position}`;
+          textOverlayEl.style.display = 'flex';
+        } else {
+          draftTextOverlay = null;
+          textOverlayEl.style.display = 'none';
+        }
+        textDialog.style.display = 'none';
+      };
+    }
+    if (removeTextBtn && textOverlayEl) {
+      removeTextBtn.onclick = (e) => {
+        e.stopPropagation();
+        draftTextOverlay = null;
+        textOverlayEl.style.display = 'none';
+      };
+    }
+    if (textOverlayEl) {
+      textOverlayEl.onclick = () => {
+        if (textDialog && textInput) {
+          textDialog.style.display = 'flex';
+          textInput.value = draftTextOverlay ? draftTextOverlay.text : '';
+          textInput.focus();
+        }
+      };
+    }
+    if (posBtn && textOverlayEl) {
+      posBtn.onclick = () => {
+        currentPosIndex = (currentPosIndex + 1) % textPositions.length;
+        const newPos = textPositions[currentPosIndex];
+        if (draftTextOverlay) {
+          draftTextOverlay.position = newPos;
+        }
+        textOverlayEl.className = `sr-editor-text-overlay pos-${newPos}`;
+        showStoryToast(`Posição: ${newPos === 'top' ? 'Topo' : newPos === 'center' ? 'Centro' : 'Base'}`);
+      };
+    }
+
+    // 8. Publicar Story
+    const publishBtn = document.getElementById('sr-btn-publish');
+    if (publishBtn) {
+      publishBtn.onclick = () => {
+        if (!draftMedia) {
+          showStoryToast('Nenhuma mídia para publicar!');
+          return;
+        }
+
+        const captionInput = document.getElementById('sr-editor-caption-input');
+        const caption = captionInput ? captionInput.value.trim() : '';
+
+        // Executa a publicação real
+        const result = engine.publishUserStory(draftMedia, caption, draftTextOverlay, draftMediaType);
+
+        // Encerra criador
+        engine.closeCreator();
+
+        // Feedback de Sucesso
+        showStoryToast(`Story publicado com sucesso!${result.pointsBonusText || ' (+10 pts) 🔥'}`);
+
+        // Abre o Story recém-criado no visualizador
+        setTimeout(() => {
+          engine.open('your-story');
+        }, 300);
+      };
+    }
+  }
+
+  function startCamera(facing = 'user') {
+    const video = document.getElementById('sr-camera-stream');
+    const fallback = document.getElementById('sr-camera-fallback');
+    const fallbackMsg = document.getElementById('sr-fallback-msg');
+
+    stopCamera();
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      if (fallback) fallback.style.display = 'flex';
+      if (fallbackMsg) fallbackMsg.textContent = 'Este navegador não suporta acesso direto à câmera. Escolha uma foto ou vídeo da galeria.';
+      return;
+    }
+
+    const constraints = {
+      video: {
+        facingMode: facing,
+        width: { ideal: 1280 },
+        height: { ideal: 720 }
+      },
+      audio: false
+    };
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => {
+        cameraStream = stream;
+        if (video) {
+          video.srcObject = stream;
+          video.play().catch(() => {});
+        }
+        if (fallback) fallback.style.display = 'none';
+      })
+      .catch((err) => {
+        console.warn('Acesso à câmera bloqueado ou indisponível:', err);
+        if (fallback) fallback.style.display = 'flex';
+        if (fallbackMsg) {
+          fallbackMsg.textContent =
+            err.name === 'NotAllowedError'
+              ? 'Permissão de câmera negada. Habilite a permissão nas configurações do navegador ou selecione um arquivo da galeria.'
+              : 'Não foi possível iniciar a câmera. Você pode escolher uma foto ou vídeo da galeria.';
+        }
+      });
+  }
+
+  function stopCamera() {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach((track) => track.stop());
+      cameraStream = null;
+    }
+    const video = document.getElementById('sr-camera-stream');
+    if (video) {
+      video.srcObject = null;
+    }
+  }
+
+  function openEditorWithMedia(mediaDataUrl, mediaType = 'image') {
+    draftMedia = mediaDataUrl;
+    draftMediaType = mediaType;
+    draftTextOverlay = null;
+
+    document.getElementById('sr-capture-screen').style.display = 'none';
+    document.getElementById('sr-editor-screen').style.display = 'flex';
+
+    const imgPreview = document.getElementById('sr-editor-img-preview');
+    const vidPreview = document.getElementById('sr-editor-video-preview');
+    const textOverlayEl = document.getElementById('sr-editor-text-overlay');
+    const pubAvatar = document.getElementById('sr-publish-user-avatar');
+
+    const logged = getLoggedUserProfile();
+    if (pubAvatar) pubAvatar.src = logged.avatar;
+
+    if (textOverlayEl) textOverlayEl.style.display = 'none';
+
+    if (mediaType === 'video') {
+      if (imgPreview) imgPreview.style.display = 'none';
+      if (vidPreview) {
+        vidPreview.style.display = 'block';
+        vidPreview.src = mediaDataUrl;
+        vidPreview.play().catch(() => {});
+      }
+    } else {
+      if (vidPreview) {
+        vidPreview.pause();
+        vidPreview.style.display = 'none';
+        vidPreview.src = '';
+      }
+      if (imgPreview) {
+        imgPreview.style.display = 'block';
+        imgPreview.src = mediaDataUrl;
+      }
+    }
+  }
+
+  /**
+   * Abre a interface completa de Criação de Stories (Câmera + Galeria)
+   */
+  engine.openCreator = function () {
+    ensureCreatorModal();
+
+    // Fecha o visualizador se estiver aberto
+    if (modalEl && modalEl.classList.contains('active')) {
+      engine.close();
+    }
+
+    // Prepara tela de captura
+    document.getElementById('sr-editor-screen').style.display = 'none';
+    document.getElementById('sr-capture-screen').style.display = 'flex';
+    document.getElementById('sr-camera-fallback').style.display = 'none';
+
+    creatorModalEl.classList.add('active');
+
+    // Inicia a câmera
+    startCamera(currentFacingMode);
+  };
+
+  /**
+   * Encerra o Criador e para todos os recursos da câmera
+   */
+  engine.closeCreator = function () {
+    stopCamera();
+    if (isRecording) {
+      isRecording = false;
+      if (recordingInterval) clearInterval(recordingInterval);
+    }
+    if (creatorModalEl) {
+      creatorModalEl.classList.remove('active');
+      const vidPreview = document.getElementById('sr-editor-video-preview');
+      if (vidPreview) {
+        vidPreview.pause();
+        vidPreview.src = '';
+      }
+    }
+    draftMedia = null;
+    draftTextOverlay = null;
     engine.syncAllStoryElements();
   };
 
@@ -1845,6 +2946,7 @@
   // Inicialização Automática e Sincronização em Todas as Páginas
   document.addEventListener('DOMContentLoaded', () => {
     ensureViewerModal();
+    ensureCreatorModal();
     engine.syncAllStoryElements();
   });
 

@@ -3791,6 +3791,10 @@
 
     function openStoryViewer(author, avatarSrc, mediaSrc, isYourStory = false) {
       if (window.SocialRatsStories) {
+        if (isYourStory && !window.SocialRatsStories.hasStory('your-story')) {
+          window.SocialRatsStories.openCreator();
+          return;
+        }
         window.SocialRatsStories.open(isYourStory ? 'your-story' : author, 'feed');
         return;
       }
@@ -3831,9 +3835,8 @@
 
     function publishUserStory(e) {
       if (e) e.stopPropagation();
-      if (window.SocialRatsStories) {
-        window.SocialRatsStories.publishUserStory();
-        showToast('Novo Story publicado no seu perfil! 📸');
+      if (window.SocialRatsStories && window.SocialRatsStories.openCreator) {
+        window.SocialRatsStories.openCreator();
         return;
       }
       if (e) e.stopPropagation();
