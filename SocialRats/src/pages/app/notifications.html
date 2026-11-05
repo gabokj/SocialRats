@@ -1144,12 +1144,12 @@
             <!-- Item 6: Mention in Comment -->
             <article class="notif-item" data-category="comments" onclick="handleNotifClick('feed', 'mention_1')">
               <div class="notif-avatar-wrap">
-                <img src="../../../assets/images/avatar-your-story.png" alt="Rafael Nutri" class="notif-avatar">
+                <img src="../../../assets/images/avatar-rafael.png" alt="Rafael Nutri" class="notif-avatar">
                 <span class="notif-icon-badge badge-mention"><i class="fa-solid fa-at"></i></span>
               </div>
               <div class="notif-content">
                 <p class="notif-text">
-                  <span class="notif-username">rafael_nutri</span> mencionou você: <span class="notif-comment-snippet">"@gabrielricca a divisão ABC tá trazendo muita densidade!"</span>
+                  <span class="notif-username">rafael_nutri</span> mencionou você: <span class="notif-comment-snippet">"<strong data-sr-user="handle">@gabriel</strong> a divisão ABC tá trazendo muita densidade!"</span>
                 </p>
                 <div class="notif-meta">
                   <span class="notif-time">2d</span>
@@ -1370,6 +1370,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        JAVASCRIPT: NOTIFICATIONS & INTERACTIONS
        ═══════════════════════════════════════════════════════════════ -->
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     // 1. Toast Notification Helper
     function showToast(msg) {
@@ -1506,13 +1507,8 @@
           const toggleText = document.getElementById('view-mode-text');
           if (toggleText) toggleText.textContent = 'Modo Web';
         }
-        const savedUser = localStorage.getItem('socialrats_user');
-        if (savedUser) {
-          const cleanName = savedUser.split('@')[0].trim();
-          const nameEl = document.getElementById('desktop-user-name');
-          const handleEl = document.getElementById('desktop-user-handle');
-          if (nameEl) nameEl.textContent = cleanName.charAt(0).toUpperCase() + cleanName.slice(1);
-          if (handleEl) handleEl.textContent = '@' + cleanName.toLowerCase();
+        if (window.SocialRatsUser) {
+          window.SocialRatsUser.syncAllDOMElements();
         }
       } catch (e) {}
     });

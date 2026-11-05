@@ -717,16 +717,12 @@
   </div>
 
   <!-- JAVASCRIPT -->
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      try {
-        const savedUser = localStorage.getItem('socialrats_user');
-        if (savedUser) {
-          const cleanName = savedUser.split('@')[0].trim();
-          document.getElementById('desktop-user-name').textContent = cleanName;
-          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
-        }
-      } catch (e) {}
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.syncAllDOMElements();
+      }
     });
 
     const toast = document.getElementById('toast-pill');

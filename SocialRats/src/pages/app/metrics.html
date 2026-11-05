@@ -2337,9 +2337,9 @@
         </div>
 
         <div style="display:flex; align-items:center; gap:12px;">
-          <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel" style="width:44px; height:44px; border-radius:50%; border:1px solid rgba(255,255,255,0.2);">
+          <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel" data-sr-user="avatar" data-sr-share-avatar style="width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid rgba(255,255,255,0.2);">
           <div>
-            <div style="font-size:15px; font-weight:700; color:#fff;">Gabriel (@gabriel)</div>
+            <div style="font-size:15px; font-weight:700; color:#fff;" data-sr-user="name-and-handle">Gabriel Silva (@gabriel)</div>
             <div style="font-size:12px; color:var(--color-text-secondary);">🔥 <span data-sr-metric="currentStreakDays">5 dias</span> de foguinho</div>
           </div>
         </div>
@@ -2364,7 +2364,7 @@
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--color-text-muted); border-top:1px solid rgba(255,255,255,0.06); padding-top:10px;">
-          <span>socialrats.app/u/gabriel</span>
+          <span data-sr-user="share-url">socialrats.app/u/gabriel</span>
           <span>SocialRats</span>
         </div>
       </div>
@@ -2498,6 +2498,7 @@
        JAVASCRIPT: RAT POINTS MVP & STREAK ENGINE BINDING
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     function renderMetricsMVP() {
       if (!window.SocialRatsMetrics) return;

@@ -649,6 +649,7 @@
   <!-- ═══════════════════════════════════════════════ -->
   <!-- JAVASCRIPT: AUTHENTICATION INTERACTION          -->
   <!-- ═══════════════════════════════════════════════ -->
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     // 1. Password Toggle Visibility
     const pwdInput = document.getElementById('login-password');
@@ -710,9 +711,19 @@
         setTimeout(() => {
           btnSubmit.innerHTML = originalText;
           btnSubmit.disabled = false;
-          try {
-            localStorage.setItem('socialrats_user', id);
-          } catch (err) {}
+          const cleanHandle = id.split('@')[0].trim().toLowerCase().replace(/[^a-z0-9_.]/g, '') || 'gabriel';
+          if (window.SocialRatsUser) {
+            const current = window.SocialRatsUser.getProfile();
+            const isDefaultName = !current.name || current.name === 'Gabriel Silva';
+            window.SocialRatsUser.saveProfile({
+              handle: '@' + cleanHandle,
+              name: isDefaultName && !id.includes('@') && id.trim().length > 1 ? id.trim() : current.name
+            });
+          } else {
+            try {
+              localStorage.setItem('socialrats_user', cleanHandle);
+            } catch (err) {}
+          }
           showToast(`Conectado como ${id}! Redirecionando para o feed...`, 'success');
           setTimeout(() => {
             window.location.href = '../app/feed.html';

@@ -992,6 +992,14 @@
           </div>
 
           <div class="edit-photo-pills-col">
+            <button type="button" class="btn-pill-edit-media" onclick="document.getElementById('avatar-file-input').click()">
+              <i class="fa-solid fa-camera"></i>
+              <span>Alterar foto</span>
+            </button>
+            <button type="button" class="btn-pill-edit-media" onclick="resetToDefaultAvatar()" title="Usar avatar padrão do sistema">
+              <i class="fa-regular fa-user"></i>
+              <span>Avatar padrão</span>
+            </button>
           </div>
         </div>
       </section>
@@ -1149,24 +1157,23 @@
     <span id="toast-text">Alterações salvas!</span>
   </div>
 
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     let currentSelectedAvatar = '../../../assets/images/avatar-your-story.png';
     let currentSelectedBanner = '../../../assets/images/post-sunset.png';
 
-    // Load existing profile data from localStorage on page load
+    // Load existing profile data from centralized SocialRatsUser on page load
     document.addEventListener('DOMContentLoaded', () => {
       try {
-        const raw = localStorage.getItem('socialrats_profile_data');
-        if (raw) {
-          const data = JSON.parse(raw);
+        const data = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : null;
+        if (data) {
           if (data.name) {
             document.getElementById('input-profile-name').value = data.name;
             document.getElementById('sidebar-user-name').textContent = data.name;
           }
-          if (data.handle) {
-            const cleanHandle = data.handle.replace(/^@/, '');
-            document.getElementById('input-profile-handle').value = cleanHandle;
-            document.getElementById('sidebar-user-handle').textContent = '@' + cleanHandle;
+          if (data.handleClean) {
+            document.getElementById('input-profile-handle').value = data.handleClean;
+            document.getElementById('sidebar-user-handle').textContent = '@' + data.handleClean;
           }
           if (typeof data.bio === 'string') {
             const bioEl = document.getElementById('input-profile-bio');
@@ -1211,9 +1218,17 @@
       reader.onload = function (e) {
         currentSelectedAvatar = e.target.result;
         document.getElementById('edit-avatar-preview').src = currentSelectedAvatar;
+        document.getElementById('sidebar-user-avatar').src = currentSelectedAvatar;
         showToast('Nova foto de perfil carregada!');
       };
       reader.readAsDataURL(file);
+    }
+
+    function resetToDefaultAvatar() {
+      currentSelectedAvatar = window.SocialRatsUser ? window.SocialRatsUser.DEFAULT_AVATAR : 'default';
+      document.getElementById('edit-avatar-preview').src = currentSelectedAvatar;
+      document.getElementById('sidebar-user-avatar').src = currentSelectedAvatar;
+      showToast('Avatar padrão selecionado!');
     }
 
     function handleBannerUpload(event) {
@@ -1279,12 +1294,16 @@
         isPrivate
       };
 
-      try {
-        localStorage.setItem('socialrats_profile_data', JSON.stringify(profileData));
-        localStorage.setItem('socialrats_user', handleClean);
-      } catch (e) { }
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.saveProfile(profileData);
+      } else {
+        try {
+          localStorage.setItem('socialrats_profile_data', JSON.stringify(profileData));
+          localStorage.setItem('socialrats_user', handleClean);
+        } catch (e) { }
+      }
 
-      showToast('Perfil atualizado com sucesso!');
+      showToast('Perfil atualizado em todo o SocialRats!');
       setTimeout(() => {
         window.location.href = 'profile.html';
       }, 550);

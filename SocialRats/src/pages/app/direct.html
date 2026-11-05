@@ -1367,10 +1367,11 @@
         <div class="connections-scroll-track">
           <!-- Story 1: Seu story (+) -->
           <div class="connection-item your-story" onclick="publishDirectStory()">
-            <div class="connection-avatar-wrap">
+            <div class="connection-avatar-wrap" style="position:relative;">
               <div class="connection-avatar-inner">
-                <i class="fa-solid fa-plus"></i>
+                <img src="../../../assets/images/avatar-your-story.png" alt="Seu story" class="connection-avatar-img" data-sr-user="avatar" style="opacity:0.85;">
               </div>
+              <span style="position:absolute; bottom:-1px; right:-1px; width:19px; height:19px; border-radius:50%; background:var(--color-brand-pink, #ff32b8); color:#fff; font-size:10px; display:flex; align-items:center; justify-content:center; border:2px solid var(--bg-mobile-app, #0f1019);"><i class="fa-solid fa-plus"></i></span>
             </div>
             <span class="connection-name">Seu story</span>
           </div>
@@ -1936,41 +1937,13 @@
        JAVASCRIPT: DIRECT INTERACTIONS & SEARCH FILTER
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
-    // 1. Recover Logged User & Account Switcher
+    // 1. Recover Logged User & Account Switcher via Centralized SocialRatsUser
     document.addEventListener('DOMContentLoaded', () => {
-      try {
-        const savedUser = localStorage.getItem('socialrats_user');
-        if (savedUser) {
-          const cleanName = savedUser.split('@')[0].trim();
-          const handleSlug = cleanName.toLowerCase().replace(/\s+/g, '');
-          document.getElementById('desktop-user-name').textContent = cleanName;
-          document.getElementById('desktop-user-handle').textContent = '@' + handleSlug;
-          document.getElementById('direct-logged-username').textContent = handleSlug;
-          document.getElementById('switcher-primary-handle').textContent = handleSlug;
-          document.getElementById('switcher-primary-name').textContent = cleanName;
-        }
-
-        const savedProfileRaw = localStorage.getItem('socialrats_profile_data');
-        if (savedProfileRaw) {
-          const data = JSON.parse(savedProfileRaw);
-          if (data.handle) {
-            const cleanHandle = data.handle.replace(/^@/, '');
-            document.getElementById('direct-logged-username').textContent = cleanHandle;
-            document.getElementById('switcher-primary-handle').textContent = cleanHandle;
-            document.getElementById('desktop-user-handle').textContent = '@' + cleanHandle;
-          }
-          if (data.name) {
-            document.getElementById('switcher-primary-name').textContent = data.name;
-            document.getElementById('desktop-user-name').textContent = data.name;
-          }
-          if (data.avatar) {
-            document.getElementById('switcher-primary-avatar').src = data.avatar;
-            const sideAv = document.querySelector('.desktop-user-avatar');
-            if (sideAv) sideAv.src = data.avatar;
-          }
-        }
-      } catch (e) {}
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.syncAllDOMElements();
+      }
     });
 
     function toggleAccountSwitcher(e) {
@@ -2006,17 +1979,24 @@
       document.querySelectorAll('.account-option-btn').forEach(b => b.classList.remove('active'));
       optionBtn.classList.add('active');
 
-      document.getElementById('direct-logged-username').textContent = handle;
-      document.getElementById('desktop-user-name').textContent = name;
-      document.getElementById('desktop-user-handle').textContent = '@' + handle;
-      if (avatar) {
-        const sideAv = document.querySelector('.desktop-user-avatar');
-        if (sideAv) sideAv.src = avatar;
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.saveProfile({
+          name,
+          handle: '@' + handle,
+          avatar: avatar || undefined
+        });
+      } else {
+        document.getElementById('direct-logged-username').textContent = handle;
+        document.getElementById('desktop-user-name').textContent = name;
+        document.getElementById('desktop-user-handle').textContent = '@' + handle;
+        if (avatar) {
+          const sideAv = document.querySelector('.desktop-user-avatar');
+          if (sideAv) sideAv.src = avatar;
+        }
+        try {
+          localStorage.setItem('socialrats_user', handle);
+        } catch (e) {}
       }
-
-      try {
-        localStorage.setItem('socialrats_user', handle);
-      } catch (e) {}
 
       closeAccountSwitcher();
       showToast(`Conta alterada para @${handle}`);

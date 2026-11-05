@@ -1567,7 +1567,7 @@
       </div>
 
       <div style="padding:14px; background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:14px; font-size:12px; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:space-between;">
-        <span>Conectado como <strong>@gabriel</strong></span>
+        <span>Conectado como <strong data-sr-user="handle">@gabriel</strong></span>
         <button type="button" onclick="handleLogout()" style="background:none; border:none; color:#ff4d6d; cursor:pointer;" title="Sair">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
@@ -2451,7 +2451,7 @@
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon"><i class="fa-solid fa-user"></i></div>
                 <div class="dropdown-option-texts">
-                  <span class="dropdown-option-title">Sua Conta em Geral (@gabriel)</span>
+                  <span class="dropdown-option-title" data-sr-user="account-dest-title">Sua Conta em Geral (@gabriel)</span>
                   <span class="dropdown-option-sub">Publicar no feed principal e no seu perfil</span>
                 </div>
               </div>
@@ -2620,74 +2620,14 @@
        JAVASCRIPT: TAB SWITCHER & USER INTERACTIONS
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
-    // 1. Recover Logged User & Saved Profile Edits
+    // 1. Recover Logged User & Saved Profile Edits via Centralized SocialRatsUser
     document.addEventListener('DOMContentLoaded', () => {
-      try {
-        const savedUser = localStorage.getItem('socialrats_user');
-        if (savedUser) {
-          const cleanName = savedUser.split('@')[0].trim();
-          document.getElementById('top-username-label').textContent = cleanName.toLowerCase().replace(/\s+/g, '');
-        }
-
-        const savedProfileRaw = localStorage.getItem('socialrats_profile_data');
-        if (savedProfileRaw) {
-          const data = JSON.parse(savedProfileRaw);
-          if (data.name) {
-            const nameEl = document.getElementById('profile-display-name');
-            if (nameEl) nameEl.textContent = data.name;
-            const sideName = document.querySelector('.desktop-user-name');
-            if (sideName) sideName.textContent = data.name;
-          }
-          if (data.handle) {
-            const handleEl = document.getElementById('profile-display-handle');
-            if (handleEl) handleEl.textContent = data.handle;
-            const sideHandle = document.querySelector('.desktop-user-handle');
-            if (sideHandle) sideHandle.textContent = data.handle;
-            const cleanHandle = data.handle.replace(/^@/, '');
-            document.getElementById('top-username-label').textContent = cleanHandle;
-            const swHandle = document.getElementById('switcher-primary-handle');
-            if (swHandle) swHandle.textContent = cleanHandle;
-          }
-          if (typeof data.bio === 'string') {
-            const bioEl = document.getElementById('profile-display-bio');
-            if (bioEl) bioEl.textContent = data.bio;
-          }
-          if (typeof data.location === 'string') {
-            const locWrap = document.getElementById('profile-meta-location-wrap');
-            const locEl = document.getElementById('profile-display-location');
-            if (locEl) locEl.textContent = data.location;
-            if (locWrap) locWrap.style.display = data.location ? 'flex' : 'none';
-          }
-          if (typeof data.website === 'string') {
-            const webWrap = document.getElementById('profile-meta-website-wrap');
-            const webEl = document.getElementById('profile-display-website');
-            if (webEl) webEl.textContent = data.website;
-            if (webWrap) webWrap.style.display = data.website ? 'flex' : 'none';
-          }
-          if (data.avatar) {
-            const mainAv = document.getElementById('profile-main-avatar');
-            if (mainAv) mainAv.src = data.avatar;
-            const sideAv = document.querySelector('.desktop-user-avatar');
-            if (sideAv) sideAv.src = data.avatar;
-            const swAv = document.getElementById('switcher-primary-avatar');
-            if (swAv) swAv.src = data.avatar;
-          }
-          if (data.banner) {
-            const coverImg = document.getElementById('profile-cover-img');
-            const coverOrb = document.getElementById('profile-cover-orb');
-            if (coverImg) {
-              coverImg.src = data.banner;
-              coverImg.style.display = 'block';
-            }
-            if (coverOrb) coverOrb.style.display = 'none';
-          }
-          if (data.badge) {
-            const badgeEl = document.getElementById('profile-display-badge');
-            if (badgeEl) badgeEl.textContent = data.badge;
-          }
-        }
-      } catch (e) {}
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.renderPersistedUserPosts();
+        window.SocialRatsUser.syncAllDOMElements();
+      }
     });
 
     function toggleAccountSwitcher(e) {
@@ -2725,36 +2665,20 @@
       document.querySelectorAll('.account-option-btn').forEach(b => b.classList.remove('active'));
       optionBtn.classList.add('active');
 
-      const topLabel = document.getElementById('top-username-label');
-      if (topLabel) topLabel.textContent = handle;
-
-      const displayName = document.getElementById('profile-display-name');
-      if (displayName) displayName.textContent = name;
-
-      const displayHandle = document.getElementById('profile-display-handle');
-      if (displayHandle) displayHandle.textContent = '@' + handle;
-
-      const displayWebsite = document.getElementById('profile-display-website');
-      if (displayWebsite) displayWebsite.textContent = `socialrats.com/@${handle}`;
-
-      if (bio) {
-        const displayBio = document.getElementById('profile-display-bio');
-        if (displayBio) displayBio.textContent = bio;
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.saveProfile({
+          name,
+          handle: '@' + handle,
+          avatar: avatar || undefined,
+          bio: bio || undefined,
+          website: `socialrats.com/@${handle}`,
+          badge: badge || undefined
+        });
+      } else {
+        try {
+          localStorage.setItem('socialrats_user', handle);
+        } catch (e) {}
       }
-
-      if (badge) {
-        const displayBadge = document.getElementById('profile-display-badge');
-        if (displayBadge) displayBadge.textContent = badge;
-      }
-
-      if (avatar) {
-        const mainAv = document.getElementById('profile-main-avatar');
-        if (mainAv) mainAv.src = avatar;
-      }
-
-      try {
-        localStorage.setItem('socialrats_user', handle);
-      } catch (e) {}
 
       closeAccountSwitcher();
       showToast(`Conta alterada para @${handle}`);
@@ -3022,21 +2946,33 @@
       if (!text) return;
 
       const panel = document.getElementById('posts-panel');
-      if (panel) {
+      if (window.SocialRatsUser) {
+        const savedPost = window.SocialRatsUser.addUserPost({
+          text,
+          media: '',
+          destType: profileSelectedDestType,
+          destShort: profileSelectedDestShort,
+          timestampLabel: 'Agora mesmo'
+        });
+        if (panel) {
+          panel.prepend(window.SocialRatsUser.buildUserPostElement(savedPost, 'profile'));
+        }
+      } else if (panel) {
         const badgeHtml = profileSelectedDestType === 'community'
           ? `<span style="font-size:11px; font-weight:700; color:var(--color-accent-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:2px 8px; border-radius:999px; margin-left:6px;">${profileSelectedDestShort}</span>`
           : `<span style="font-size:11px; font-weight:600; color:var(--color-text-secondary); background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:2px 8px; border-radius:999px; margin-left:6px;">${profileSelectedDestShort}</span>`;
 
         const article = document.createElement('article');
         article.className = 'post-card';
+        article.setAttribute('data-own-post', 'true');
         article.innerHTML = `
           <div class="post-header">
             <div class="post-author-group">
               <div class="post-author-avatar-wrap">
-                <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel" class="post-author-avatar-img">
+                <img src="../../../assets/images/avatar-your-story.png" alt="Você" class="post-author-avatar-img" data-sr-user="avatar">
               </div>
               <div class="post-author-details">
-                <span class="post-author-name">Gabriel Ricca ${badgeHtml}</span>
+                <span class="post-author-name"><span data-sr-user="name">Gabriel Silva</span> ${badgeHtml}</span>
                 <span class="post-timestamp">Agora mesmo</span>
               </div>
             </div>

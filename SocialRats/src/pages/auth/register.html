@@ -701,6 +701,7 @@
   </footer>
 
   <!-- Scripts -->
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
     // 1. Preenchimento Dinâmico de Dias (1 a 31) e Anos (1920 a ano atual)
     const daySelect = document.getElementById('dob-day');
@@ -826,6 +827,17 @@
         setTimeout(() => {
           btnSubmit.innerHTML = originalText;
           btnSubmit.disabled = false;
+          if (window.SocialRatsUser) {
+            window.SocialRatsUser.saveProfile({
+              name: fullname,
+              handle: '@' + username,
+              website: `socialrats.com/@${username}`
+            });
+          } else {
+            try {
+              localStorage.setItem('socialrats_user', username);
+            } catch (err) {}
+          }
           showToast(`Conta criada com sucesso para @${username}!`, 'success');
 
           setTimeout(() => {

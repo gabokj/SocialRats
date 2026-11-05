@@ -3041,7 +3041,7 @@
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon"><i class="fa-solid fa-user"></i></div>
                 <div class="dropdown-option-texts">
-                  <span class="dropdown-option-title">Sua Conta em Geral (@gabrielricca)</span>
+                  <span class="dropdown-option-title" data-sr-user="account-dest-title">Sua Conta em Geral (@gabriel)</span>
                   <span class="dropdown-option-sub">Publicar no feed principal e no seu perfil</span>
                 </div>
               </div>
@@ -3379,6 +3379,38 @@
   </div>
 
   <!-- ═══════════════════════════════════════════════════════════════
+       COMMENTS MODAL / DRAWER (COM IDENTIDADE SINCRONIZADA DO PERFIL)
+       ═══════════════════════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="comments-modal" role="dialog" aria-modal="true" aria-label="Comentários">
+    <div class="notif-modal-card" style="max-width:440px;">
+      <div class="notif-modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <h3 class="notif-modal-title" id="comments-modal-title">Comentários</h3>
+        </div>
+        <button type="button" class="btn-close-modal" aria-label="Fechar" onclick="closeCommentsModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="notif-modal-list" id="comments-modal-list" style="max-height:310px; padding:12px 16px; display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; gap:10px; align-items:flex-start;">
+          <img src="../../../assets/images/avatar-lucas.png" alt="Lucas" style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff;">lucas_bodybuilder <span style="font-weight:400; color:var(--text-secondary); font-size:11px;">· 25 min</span></div>
+            <p style="font-size:13px; color:#e2e0eb; margin-top:2px; line-height:1.4;">Consistência pura! Bora pra cima 🔥💪</p>
+          </div>
+        </div>
+      </div>
+
+      <form onsubmit="submitFeedPostComment(event)" style="display:flex; align-items:center; gap:10px; padding:12px 16px; border-top:1px solid var(--color-border-subtle); background:var(--color-surface);">
+        <img src="../../../assets/images/avatar-your-story.png" alt="Seu Perfil" data-sr-user="avatar" style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--color-border-subtle);">
+        <input type="text" id="feed-comment-input" placeholder="Comentar como você..." autocomplete="off" style="flex:1; height:38px; border-radius:999px; background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:0 14px; color:#ffffff; font-size:13px; outline:none;">
+        <button type="submit" style="height:36px; padding:0 14px; border-radius:999px; border:none; background:var(--gradient-brand); color:#ffffff; font-size:12.5px; font-weight:700; cursor:pointer;">Enviar</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
        TOAST NOTIFICATION PILL
        ═══════════════════════════════════════════════════════════════ -->
   <div class="toast-pill" id="toast-pill" role="status" aria-live="polite">
@@ -3390,17 +3422,27 @@
        JAVASCRIPT: INTERACTIVE FEED LOGIC & APP BEHAVIORS
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
+  <script src="../../../assets/js/user-profile.js"></script>
   <script>
-    // 1. Recover Logged User from localStorage (if logged via login.html)
+    // 1. Recover Logged User & Sync Global Profile Data
     document.addEventListener('DOMContentLoaded', () => {
-      try {
-        const savedUser = localStorage.getItem('socialrats_user');
-        if (savedUser) {
-          const cleanName = savedUser.split('@')[0].trim();
-          document.getElementById('desktop-user-name').textContent = cleanName;
-          document.getElementById('desktop-user-handle').textContent = '@' + cleanName.toLowerCase().replace(/\s+/g, '');
+      if (window.SocialRatsUser) {
+        window.SocialRatsUser.renderPersistedUserPosts();
+        window.SocialRatsUser.syncAllDOMElements();
+        const profile = window.SocialRatsUser.getProfile();
+        if (storiesList && storiesList[0]) {
+          storiesList[0].author = profile.name;
+          storiesList[0].avatar = profile.avatar;
         }
-      } catch (e) {}
+      }
+    });
+
+    window.addEventListener('sr:profile-updated', (e) => {
+      const profile = e.detail || (window.SocialRatsUser ? window.SocialRatsUser.getProfile() : null);
+      if (profile && storiesList && storiesList[0]) {
+        storiesList[0].author = profile.name;
+        storiesList[0].avatar = profile.avatar;
+      }
     });
 
     // 2. Toast System
@@ -3636,6 +3678,12 @@
       currentStoryProgress = 0;
       isStoryPaused = false;
       const item = storiesList[currentStoryIndex];
+
+      if (item && item.id === 'your-story' && window.SocialRatsUser) {
+        const profile = window.SocialRatsUser.getProfile();
+        item.author = profile.name;
+        item.avatar = profile.avatar;
+      }
 
       storyAuthor.textContent = item.author;
       storyAvatar.src = item.avatar;
@@ -4123,82 +4171,104 @@
         return;
       }
 
-      const userName = document.getElementById('modal-user-name')?.textContent || 'Gabriel Ricca';
-      const userAvatar = document.getElementById('modal-user-avatar')?.src || '../../../assets/images/avatar-your-story.png';
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : {
+        name: document.getElementById('modal-user-name')?.textContent || 'Gabriel Silva',
+        avatar: document.getElementById('modal-user-avatar')?.src || '../../../assets/images/avatar-your-story.png'
+      };
+      const userName = profile.name;
+      const userAvatar = profile.avatar;
       const postId = 'post-user-' + Date.now();
-
-      const newArticle = document.createElement('article');
-      newArticle.className = 'post-card';
-      newArticle.id = postId;
-      newArticle.style.animation = 'fadeIn 0.3s ease';
-
-      let mediaHtml = '';
-      if (selectedImageSrc) {
-        mediaHtml = `
-          <div class="post-media-container" ondblclick="triggerDoubleTapLike('like-btn-${postId}', '${postId}')">
-            <img src="${selectedImageSrc}" alt="Mídia da publicação" class="post-media-img" loading="eager">
-          </div>
-        `;
-      }
-
-      let destBadgeHtml = '';
-      if (selectedDestType === 'community') {
-        destBadgeHtml = `<span style="font-size:11px; font-weight:700; color:var(--color-brand-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:2px 8px; border-radius:999px; margin-left:6px;">${selectedDestShort}</span>`;
-      } else {
-        destBadgeHtml = `<span style="font-size:11px; font-weight:600; color:var(--text-secondary); background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:2px 8px; border-radius:999px; margin-left:6px;"><i class="fa-solid fa-earth-americas" style="font-size:10px; margin-right:3px;"></i>${selectedDestShort}</span>`;
-      }
-
-      let tagBadge = selectedPostTag !== 'Geral' ? `<span style="font-size:11px; font-weight:700; color:var(--color-brand-orange); background:rgba(255,113,63,0.12); padding:2px 8px; border-radius:999px; margin-left:4px;">#${selectedPostTag}</span>` : '';
-
-      let collabText = selectedCollaborators.length > 0
-        ? `<div style="font-size:11.5px; color:var(--text-secondary); margin-bottom:8px;"><i class="fa-solid fa-user-group" style="color:var(--color-brand-purple); margin-right:4px;"></i>Em colaboração com <strong>${selectedCollaborators.join(', ')}</strong></div>`
-        : '';
-
-      newArticle.innerHTML = `
-        <div class="post-header">
-          <div class="post-author-group">
-            <div class="post-author-avatar-wrap">
-              <img src="${userAvatar}" alt="${userName}" class="post-author-avatar-img">
-            </div>
-            <div class="post-author-details">
-              <span class="post-author-name" style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;">${userName} ${destBadgeHtml} ${tagBadge}</span>
-              <span class="post-timestamp">${isPostScheduled ? '⏰ Agendado · Agora mesmo' : 'Agora mesmo'}</span>
-            </div>
-          </div>
-          <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('${userName}')">
-            <i class="fa-solid fa-ellipsis"></i>
-          </button>
-        </div>
-        ${collabText}
-        ${mediaHtml}
-        ${text ? `<div class="post-text-body">${text}</div>` : ''}
-        <div class="post-actions-row">
-          <div class="post-actions-left">
-            <button type="button" class="action-btn like-btn" id="like-btn-${postId}" onclick="toggleLike(this, '1', '0')">
-              <i class="fa-regular fa-heart"></i>
-              <span class="action-count">0</span>
-            </button>
-            <button type="button" class="action-btn" onclick="openCommentsModal('${userName}')">
-              <i class="fa-regular fa-comment-dots"></i>
-              <span class="action-count">0</span>
-            </button>
-            <button type="button" class="action-btn" onclick="toggleRepost(this, '0', '1')">
-              <i class="fa-solid fa-repeat"></i>
-              <span class="action-count">0</span>
-            </button>
-          </div>
-          <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
-            <i class="fa-regular fa-bookmark"></i>
-            <span class="action-count" style="font-size:13.5px; font-weight:600; margin-left:4px;">0</span>
-          </button>
-        </div>
-      `;
 
       const hadMedia = Boolean(selectedImageSrc);
       const postedInComm = selectedDestType === 'community';
       const postedDestName = selectedDestShort;
 
-      postsList.prepend(newArticle);
+      if (window.SocialRatsUser) {
+        const savedPost = window.SocialRatsUser.addUserPost({
+          id: postId,
+          text,
+          media: selectedImageSrc,
+          destType: selectedDestType,
+          destShort: selectedDestShort,
+          tag: selectedPostTag,
+          collaborators: [...selectedCollaborators],
+          isScheduled: isPostScheduled,
+          timestampLabel: 'Agora mesmo'
+        });
+        const newArticle = window.SocialRatsUser.buildUserPostElement(savedPost, 'feed');
+        newArticle.style.animation = 'fadeIn 0.3s ease';
+        postsList.prepend(newArticle);
+      } else {
+        const newArticle = document.createElement('article');
+        newArticle.className = 'post-card';
+        newArticle.id = postId;
+        newArticle.setAttribute('data-own-post', 'true');
+        newArticle.style.animation = 'fadeIn 0.3s ease';
+
+        let mediaHtml = '';
+        if (selectedImageSrc) {
+          mediaHtml = `
+            <div class="post-media-container" ondblclick="triggerDoubleTapLike('like-btn-${postId}', '${postId}')">
+              <img src="${selectedImageSrc}" alt="Mídia da publicação" class="post-media-img" loading="eager">
+            </div>
+          `;
+        }
+
+        let destBadgeHtml = '';
+        if (selectedDestType === 'community') {
+          destBadgeHtml = `<span style="font-size:11px; font-weight:700; color:var(--color-brand-pink); background:rgba(255,50,184,0.12); border:1px solid rgba(255,50,184,0.3); padding:2px 8px; border-radius:999px; margin-left:6px;">${selectedDestShort}</span>`;
+        } else {
+          destBadgeHtml = `<span style="font-size:11px; font-weight:600; color:var(--text-secondary); background:var(--color-surface-elevated); border:1px solid var(--color-border-subtle); padding:2px 8px; border-radius:999px; margin-left:6px;"><i class="fa-solid fa-earth-americas" style="font-size:10px; margin-right:3px;"></i>${selectedDestShort}</span>`;
+        }
+
+        let tagBadge = selectedPostTag !== 'Geral' ? `<span style="font-size:11px; font-weight:700; color:var(--color-brand-orange); background:rgba(255,113,63,0.12); padding:2px 8px; border-radius:999px; margin-left:4px;">#${selectedPostTag}</span>` : '';
+
+        let collabText = selectedCollaborators.length > 0
+          ? `<div style="font-size:11.5px; color:var(--text-secondary); margin-bottom:8px;"><i class="fa-solid fa-user-group" style="color:var(--color-brand-purple); margin-right:4px;"></i>Em colaboração com <strong>${selectedCollaborators.join(', ')}</strong></div>`
+          : '';
+
+        newArticle.innerHTML = `
+          <div class="post-header">
+            <div class="post-author-group">
+              <div class="post-author-avatar-wrap">
+                <img src="${userAvatar}" alt="${userName}" class="post-author-avatar-img" data-sr-user="avatar">
+              </div>
+              <div class="post-author-details">
+                <span class="post-author-name" style="display:flex; align-items:center; flex-wrap:wrap; gap:2px;"><span data-sr-user="name">${userName}</span> ${destBadgeHtml} ${tagBadge}</span>
+                <span class="post-timestamp">${isPostScheduled ? '⏰ Agendado · Agora mesmo' : 'Agora mesmo'}</span>
+              </div>
+            </div>
+            <button type="button" class="btn-post-options" aria-label="Mais opções" onclick="openOptionsModal('${userName}')">
+              <i class="fa-solid fa-ellipsis"></i>
+            </button>
+          </div>
+          ${collabText}
+          ${mediaHtml}
+          ${text ? `<div class="post-text-body">${text}</div>` : ''}
+          <div class="post-actions-row">
+            <div class="post-actions-left">
+              <button type="button" class="action-btn like-btn" id="like-btn-${postId}" onclick="toggleLike(this, '1', '0')">
+                <i class="fa-regular fa-heart"></i>
+                <span class="action-count">0</span>
+              </button>
+              <button type="button" class="action-btn" onclick="openCommentsModal('${userName}')">
+                <i class="fa-regular fa-comment-dots"></i>
+                <span class="action-count">0</span>
+              </button>
+              <button type="button" class="action-btn" onclick="toggleRepost(this, '0', '1')">
+                <i class="fa-solid fa-repeat"></i>
+                <span class="action-count">0</span>
+              </button>
+            </div>
+            <button type="button" class="bookmark-btn" onclick="toggleBookmark(this)">
+              <i class="fa-regular fa-bookmark"></i>
+              <span class="action-count" style="font-size:13.5px; font-weight:600; margin-left:4px;">0</span>
+            </button>
+          </div>
+        `;
+        postsList.prepend(newArticle);
+      }
+
       newPostContent.value = '';
       removeSelectedImage();
       document.getElementById('post-char-counter').textContent = '0 / 500';
@@ -4282,8 +4352,67 @@
       }
     }
 
+    let activeCommentTargetAuthor = '';
+
     function openCommentsModal(author) {
-      showToast(`Comentários de @${author} abertos.`);
+      activeCommentTargetAuthor = author || 'usuário';
+      const modal = document.getElementById('comments-modal');
+      const title = document.getElementById('comments-modal-title');
+      const input = document.getElementById('feed-comment-input');
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : { name: 'Gabriel Silva' };
+      if (title) title.textContent = `Comentários · ${activeCommentTargetAuthor}`;
+      if (input) input.placeholder = `Comentar como ${profile.name}...`;
+      if (modal) {
+        modal.classList.add('active');
+        setTimeout(() => input?.focus(), 80);
+      }
+    }
+
+    function closeCommentsModal() {
+      document.getElementById('comments-modal')?.classList.remove('active');
+    }
+
+    function submitFeedPostComment(e) {
+      e.preventDefault();
+      const input = document.getElementById('feed-comment-input');
+      if (!input) return;
+      const text = input.value.trim();
+      if (!text) return;
+
+      const profile = window.SocialRatsUser ? window.SocialRatsUser.getProfile() : {
+        name: 'Gabriel Silva',
+        avatar: '../../../assets/images/avatar-your-story.png'
+      };
+
+      const list = document.getElementById('comments-modal-list');
+      if (list) {
+        const item = document.createElement('div');
+        item.style.cssText = 'display:flex; gap:10px; align-items:flex-start;';
+        item.innerHTML = `
+          <img src="${profile.avatar}" alt="${profile.name}" data-sr-user="avatar" style="width:34px; height:34px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+          <div style="flex:1; min-width:0;">
+            <div style="font-size:12.5px; font-weight:700; color:#ffffff;"><span data-sr-user="name">${profile.name}</span> <span style="font-weight:400; color:var(--text-secondary); font-size:11px;">· Agora mesmo</span></div>
+            <p style="font-size:13px; color:#e2e0eb; margin-top:2px; line-height:1.4;"></p>
+          </div>
+        `;
+        item.querySelector('p').textContent = text;
+        list.appendChild(item);
+        list.scrollTop = list.scrollHeight;
+      }
+
+      input.value = '';
+      if (window.SocialRatsMetrics) {
+        const res = window.SocialRatsMetrics.recordActivity('COMMENT', {
+          text,
+          targetAuthor: activeCommentTargetAuthor,
+          label: `Comentário na publicação de ${activeCommentTargetAuthor}`
+        });
+        if (res.awarded) {
+          showToast(`Comentário publicado! +${res.pointsAdded} Rat Points (${res.multiplierLabel}) 💬`);
+          return;
+        }
+      }
+      showToast('Comentário publicado!');
     }
 
     function handleNavigation(tabName) {
