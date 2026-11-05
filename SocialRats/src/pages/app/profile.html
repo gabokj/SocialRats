@@ -3590,6 +3590,9 @@
     }
 
     function markModalNotifsAsRead() {
+      if (window.SocialRatsUser && window.SocialRatsUser.notifications) {
+        window.SocialRatsUser.notifications.markAllAsRead();
+      }
       document.querySelectorAll('.notif-modal-item.unread').forEach(it => it.classList.remove('unread'));
       const badge = document.getElementById('modal-notif-badge');
       if (badge) {

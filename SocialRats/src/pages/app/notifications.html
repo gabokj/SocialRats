@@ -1029,7 +1029,7 @@
           <div class="notif-list">
 
             <!-- Item 1: Follow (Unread) -->
-            <article class="notif-item unread" data-category="follows" onclick="handleNotifClick('profile', 'marina_fitness')">
+            <article class="notif-item unread" id="notif-item-marina" data-notif-id="notif_follow_marina" data-category="follows" onclick="handleNotifClick('profile', 'marina_fitness', 'notif_follow_marina')">
               <div class="notif-avatar-wrap">
                 <img src="../../../assets/images/avatar-gabriela.png" alt="Marina" class="notif-avatar">
                 <span class="notif-icon-badge badge-follow"><i class="fa-solid fa-user-plus"></i></span>
@@ -1044,12 +1044,12 @@
                 </div>
               </div>
               <div class="notif-right-action" onclick="event.stopPropagation()">
-                <button type="button" class="btn-follow-toggle" onclick="toggleFollowBtn(this)">Seguir de volta</button>
+                <button type="button" class="btn-follow-toggle" onclick="toggleFollowBtn(this); if(window.SocialRatsUser) SocialRatsUser.notifications.markAsRead('notif_follow_marina');">Seguir de volta</button>
               </div>
             </article>
 
             <!-- Item 2: PR Record (Unread) -->
-            <article class="notif-item unread" data-category="prs" onclick="handleNotifClick('metrics', 'supino_pr')">
+            <article class="notif-item unread" id="notif-item-pr" data-notif-id="notif_pr_supino" data-category="prs" onclick="handleNotifClick('metrics', 'supino_pr', 'notif_pr_supino')">
               <div class="notif-avatar-wrap">
                 <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats System" class="notif-avatar" style="background:#14111e; padding:4px;">
                 <span class="notif-icon-badge badge-pr"><i class="fa-solid fa-trophy"></i></span>
@@ -1071,7 +1071,7 @@
             </article>
 
             <!-- Item 3: Post Likes (Unread) -->
-            <article class="notif-item unread" data-category="likes" onclick="handleNotifClick('feed', 'post_1')">
+            <article class="notif-item unread" id="notif-item-like" data-notif-id="notif_like_treino" data-category="likes" onclick="handleNotifClick('feed', 'post_1', 'notif_like_treino')">
               <div class="notif-avatar-wrap">
                 <img src="../../../assets/images/avatar-ana.png" alt="Carlos Iron" class="notif-avatar">
                 <span class="notif-icon-badge badge-like"><i class="fa-solid fa-heart"></i></span>
@@ -1090,7 +1090,7 @@
             </article>
 
             <!-- Item 4: Comment (Unread) -->
-            <article class="notif-item unread" data-category="comments" onclick="handleNotifClick('feed', 'comment_1')">
+            <article class="notif-item unread" id="notif-item-comment" data-notif-id="notif_comment_lucas" data-category="comments" onclick="handleNotifClick('feed', 'comment_1', 'notif_comment_lucas')">
               <div class="notif-avatar-wrap">
                 <img src="../../../assets/images/avatar-lucas.png" alt="Lucas Bodybuilder" class="notif-avatar">
                 <span class="notif-icon-badge badge-comment"><i class="fa-solid fa-comment"></i></span>
@@ -1415,6 +1415,10 @@
 
     // 3. Mark All As Read
     function markAllAsRead() {
+      if (window.SocialRatsUser && window.SocialRatsUser.notifications) {
+        window.SocialRatsUser.notifications.markAllAsRead();
+      }
+
       const unreadItems = document.querySelectorAll('.notif-item.unread');
       unreadItems.forEach(item => item.classList.remove('unread'));
 
@@ -1428,6 +1432,9 @@
       if (desktopBadge) {
         desktopBadge.style.display = 'none';
       }
+
+      const sectionCount = document.querySelector('.notif-section-count');
+      if (sectionCount) sectionCount.textContent = '0 novas';
 
       showToast('Todas as notificações foram marcadas como lidas.');
     }
@@ -1477,7 +1484,10 @@
     }
 
     // 7. Notification Click Router
-    function handleNotifClick(dest, contextId) {
+    function handleNotifClick(dest, contextId, notifId) {
+      if (notifId && window.SocialRatsUser && window.SocialRatsUser.notifications) {
+        window.SocialRatsUser.notifications.markAsRead(notifId);
+      }
       if (dest === 'feed') {
         window.location.href = 'feed.html';
       } else if (dest === 'metrics') {
@@ -1501,6 +1511,39 @@
     }
 
     // 9. Load Saved Preferences & User
+    function syncNotificationsPageUI() {
+      if (!window.SocialRatsUser || !window.SocialRatsUser.notifications) return;
+      const notifs = window.SocialRatsUser.notifications;
+      let unreadCount = 0;
+
+      document.querySelectorAll('.notif-item[data-notif-id]').forEach((item) => {
+        const id = item.getAttribute('data-notif-id');
+        const isRead = notifs.isRead(id);
+        if (isRead) {
+          item.classList.remove('unread');
+        } else {
+          item.classList.add('unread');
+          unreadCount++;
+        }
+      });
+
+      const counterBadge = document.getElementById('unread-counter-badge');
+      if (counterBadge) {
+        if (unreadCount > 0) {
+          counterBadge.textContent = `${unreadCount} nova${unreadCount > 1 ? 's' : ''}`;
+          counterBadge.style.opacity = '1';
+        } else {
+          counterBadge.textContent = '0 novas';
+          counterBadge.style.opacity = '0.5';
+        }
+      }
+
+      const sectionCount = document.querySelector('.notif-section-count');
+      if (sectionCount) {
+        sectionCount.textContent = `${unreadCount} nova${unreadCount > 1 ? 's' : ''}`;
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
       try {
         if (localStorage.getItem('socialrats_mockup_mode') === 'true') {
@@ -1511,8 +1554,15 @@
         if (window.SocialRatsUser) {
           window.SocialRatsUser.syncAllDOMElements();
         }
+        syncNotificationsPageUI();
       } catch (e) {}
     });
+
+    window.addEventListener('pageshow', () => {
+      syncNotificationsPageUI();
+    });
+
+    window.addEventListener('sr:notifs-updated', syncNotificationsPageUI);
 
     // 10. Handle Logout
     function handleLogout() {

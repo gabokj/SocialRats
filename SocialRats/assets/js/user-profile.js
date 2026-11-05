@@ -537,6 +537,77 @@
         `openStoryViewer('${escapeHTML(profile.name)}', '${profile.avatar}', '../../../assets/images/post-sunset-crop.png', true)`
       );
     }
+
+    // I. Sincronização global dos badges da sidebar desktop e da top bar
+    syncGlobalBadges();
+  }
+
+  /**
+   * Atualiza indicadores visuais de Direct e Notificações em qualquer tela
+   */
+  function syncGlobalBadges() {
+    // 1. Contador do Direct na sidebar desktop
+    const directUnreadCount = getUnreadConversationsCount();
+    document.querySelectorAll('.desktop-nav-item a[href*="direct.html"]').forEach((link) => {
+      let badge = link.querySelector('.nav-badge-pill');
+      if (directUnreadCount > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'nav-badge-pill';
+          link.appendChild(badge);
+        }
+        badge.textContent = directUnreadCount;
+        badge.style.display = '';
+      } else if (badge) {
+        badge.style.display = 'none';
+      }
+    });
+
+    // 2. Contador de Notificações na sidebar desktop e modais
+    const notifUnreadCount = getUnreadNotificationsCount();
+    document.querySelectorAll('.desktop-nav-item button[onclick*="openNotificationsModal"], .desktop-nav-item a[href*="notifications.html"]').forEach((btn) => {
+      let badge = btn.querySelector('.nav-badge-pill');
+      if (notifUnreadCount > 0) {
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'nav-badge-pill';
+          btn.appendChild(badge);
+        }
+        badge.textContent = notifUnreadCount;
+        badge.style.display = '';
+      } else if (badge) {
+        badge.style.display = 'none';
+      }
+    });
+
+    // 3. Ponto no sino de notificações do cabeçalho (.bell-badge-dot)
+    document.querySelectorAll('.bell-badge-dot').forEach((dot) => {
+      dot.style.display = notifUnreadCount > 0 ? 'block' : 'none';
+    });
+
+    // 4. Modal de notificações do Instagram style (.notif-modal-badge / #modal-notif-badge)
+    document.querySelectorAll('.notif-modal-badge, #modal-notif-badge').forEach((badge) => {
+      if (notifUnreadCount > 0) {
+        badge.textContent = `${notifUnreadCount} nova${notifUnreadCount > 1 ? 's' : ''}`;
+        badge.style.opacity = '1';
+        badge.style.display = '';
+      } else {
+        badge.textContent = '0 novas';
+        badge.style.opacity = '0.5';
+      }
+    });
+
+    // 5. Tela de notificações (hub dedicado #unread-counter-badge)
+    const hubBadge = document.getElementById('unread-counter-badge');
+    if (hubBadge) {
+      if (notifUnreadCount > 0) {
+        hubBadge.textContent = `${notifUnreadCount} nova${notifUnreadCount > 1 ? 's' : ''}`;
+        hubBadge.style.opacity = '1';
+      } else {
+        hubBadge.textContent = '0 novas';
+        hubBadge.style.opacity = '0.5';
+      }
+    }
   }
 
   // Inicializar sincronização ao carregar a página e escutar alterações entre abas/telas
@@ -544,6 +615,13 @@
     renderPersistedUserPosts();
     syncAllDOMElements();
   });
+
+  window.addEventListener('pageshow', () => {
+    syncAllDOMElements();
+  });
+
+  window.addEventListener('sr:dm-read-updated', syncGlobalBadges);
+  window.addEventListener('sr:notifs-updated', syncGlobalBadges);
 
   window.addEventListener('storage', (event) => {
     if (
@@ -634,6 +712,79 @@
 
   function isConversationRead(key) {
     return getConversationUnreadCount(key) === 0;
+  }
+
+  // Retorna o número de conversas com mensagens não lidas
+  function getUnreadConversationsCount() {
+    const contacts = ['lucas', 'ana', 'rafael', 'carol', 'matheus', 'gabriela', 'pedro', 'juliana'];
+    let count = 0;
+    contacts.forEach((k) => {
+      if (getConversationUnreadCount(k) > 0) count++;
+    });
+    // Adiciona grupos criados caso possuam mensagens não lidas
+    const groups = readDmGroups().groups;
+    groups.forEach((g) => {
+      if (getConversationUnreadCount('group:' + g.id) > 0) count++;
+    });
+    return count;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     NOTIFICAÇÕES · Estado de leitura e contadores globais
+     ═══════════════════════════════════════════════════════════════ */
+  const NOTIFICATIONS_STORAGE_KEY = 'socialrats_notifications_read_v1';
+  const DEFAULT_NOTIFICATION_IDS = Object.freeze([
+    'notif_follow_marina',
+    'notif_pr_supino',
+    'notif_like_treino',
+    'notif_comment_lucas'
+  ]);
+
+  function readNotificationsState() {
+    try {
+      const raw = localStorage.getItem(NOTIFICATIONS_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === 'object') return parsed;
+      }
+    } catch (e) {}
+    return { readIds: [], allRead: false };
+  }
+
+  function writeNotificationsState(state) {
+    try {
+      localStorage.setItem(NOTIFICATIONS_STORAGE_KEY, JSON.stringify(state));
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('sr:notifs-updated'));
+  }
+
+  function getUnreadNotificationsCount() {
+    const state = readNotificationsState();
+    if (state.allRead) return 0;
+    const readSet = new Set(state.readIds || []);
+    return DEFAULT_NOTIFICATION_IDS.filter((id) => !readSet.has(id)).length;
+  }
+
+  function isNotificationRead(id) {
+    const state = readNotificationsState();
+    if (state.allRead) return true;
+    return (state.readIds || []).includes(id);
+  }
+
+  function markNotificationAsRead(id) {
+    if (!id) return;
+    const state = readNotificationsState();
+    const readSet = new Set(state.readIds || []);
+    readSet.add(id);
+    state.readIds = Array.from(readSet);
+    if (DEFAULT_NOTIFICATION_IDS.every((i) => readSet.has(i))) {
+      state.allRead = true;
+    }
+    writeNotificationsState(state);
+  }
+
+  function markAllNotificationsAsRead() {
+    writeNotificationsState({ readIds: [...DEFAULT_NOTIFICATION_IDS], allRead: true });
   }
 
   function markConversationAsRead(key) {
@@ -862,17 +1013,27 @@
     },
     isConversationRead,
     getConversationUnreadCount,
+    getUnreadConversationsCount,
     markConversationAsRead,
     incrementConversationUnread
+  };
+
+  const notifications = {
+    getUnreadCount: getUnreadNotificationsCount,
+    isRead: isNotificationRead,
+    markAsRead: markNotificationAsRead,
+    markAllAsRead: markAllNotificationsAsRead
   };
 
   window.addEventListener('storage', (event) => {
     if (event.key === DM_STORAGE_KEY || event.key === DM_GROUPS_KEY || event.key === PLAN_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:dm-updated'));
     if (event.key === DM_READ_STATUS_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:dm-read-updated'));
+    if (event.key === NOTIFICATIONS_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:notifs-updated'));
   });
 
   window.SocialRatsUser = {
     dm,
+    notifications,
     getPlan,
     hasProAccess,
     hasStory,
@@ -889,7 +1050,8 @@
     addUserPost,
     buildUserPostElement,
     renderPersistedUserPosts,
-    syncAllDOMElements
+    syncAllDOMElements,
+    syncGlobalBadges
   };
 })(window);
 
