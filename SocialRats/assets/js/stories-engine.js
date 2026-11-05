@@ -3,6 +3,7 @@
  * SOCIALRATS UNIFIED STORIES ENGINE (DESIGN_SYSTEM.MD COMPLIANT)
  * ═══════════════════════════════════════════════════════════════
  * Centraliza e padroniza os Stories em todo o SocialRats:
+ * - "Meus Stories": Foto de perfil, nome e dados sincronizados 100% com a conta logada.
  * - Navegação contextual inteligente inspirada no Instagram:
  *     * CONTEXTO DIRECT: Exclusivo do contato selecionado (não avança para outros contatos).
  *     * CONTEXTO PERFIL: Exclusivo do perfil selecionado (não avança para outros usuários).
@@ -26,7 +27,45 @@
   const VIEWED_STORAGE_KEY = 'socialrats_viewed_stories_v2';
   const LIKES_STORAGE_KEY = 'socialrats_story_likes_v2';
   const USER_STORIES_STORAGE_KEY = 'socialrats_user_stories_v2';
+  const PROFILE_STORAGE_KEY = 'socialrats_profile_data';
   const EXPIRATION_MS = 24 * 60 * 60 * 1000; // 24 horas
+
+  /**
+   * Obtém os dados centralizados do usuário autenticado no SocialRats
+   */
+  function getLoggedUserProfile() {
+    if (window.SocialRatsUser && typeof window.SocialRatsUser.getProfile === 'function') {
+      const p = window.SocialRatsUser.getProfile();
+      if (p && p.avatar) {
+        return {
+          name: p.name || 'Gabriel Silva',
+          handle: p.handle || '@gabriel',
+          handleClean: p.handleClean || 'gabriel',
+          avatar: p.avatar
+        };
+      }
+    }
+    try {
+      const raw = localStorage.getItem(PROFILE_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (parsed && parsed.avatar) {
+          return {
+            name: parsed.name || 'Gabriel Silva',
+            handle: parsed.handle || '@gabriel',
+            handleClean: (parsed.handle || 'gabriel').replace(/^@/, ''),
+            avatar: parsed.avatar
+          };
+        }
+      }
+    } catch (e) {}
+    return {
+      name: 'Gabriel Silva',
+      handle: '@gabriel',
+      handleClean: 'gabriel',
+      avatar: '../../../assets/images/avatar-your-story.png'
+    };
+  }
 
   // Contas base do SocialRats com stories realistas dentro do período de 24 horas
   const BASE_ACCOUNTS = [
@@ -169,27 +208,6 @@
           time: '18h atrás'
         }
       ]
-    },
-    {
-      key: 'gabriel',
-      author: 'Gabriel Ricca',
-      avatar: '../../../assets/images/avatar-your-story.png',
-      stories: [
-        {
-          id: 'story-gabriel-1',
-          media: '../../../assets/images/post-sunset-crop.png',
-          caption: 'Treino concluído na Arena SocialRats! Foco nos 100 pontos 🎯💪',
-          createdAt: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
-          time: '3h atrás'
-        },
-        {
-          id: 'story-gabriel-2',
-          media: '../../../assets/images/challenges.jpg',
-          caption: 'Disciplina é o que constrói o resultado diário.',
-          createdAt: new Date(Date.now() - 1 * 3600 * 1000).toISOString(),
-          time: '1h atrás'
-        }
-      ]
     }
   ];
 
@@ -224,15 +242,42 @@
     } catch (e) {}
   }
 
-  // Armazenamento de stories criados pelo próprio usuário logado
+  // Armazenamento de stories criados pelo usuário logado
   function getUserStories() {
     try {
       const arr = JSON.parse(localStorage.getItem(USER_STORIES_STORAGE_KEY) || '[]');
       const now = Date.now();
-      // Remove somente expirados (> 24h)
-      const valid = arr.filter((item) => now - new Date(item.createdAt).getTime() < EXPIRATION_MS);
-      if (valid.length !== arr.length) {
+      const logged = getLoggedUserProfile();
+
+      let valid = arr.filter((item) => now - new Date(item.createdAt).getTime() < EXPIRATION_MS);
+
+      if (valid.length === 0) {
+        // Story inicial da conta logada
+        valid = [
+          {
+            id: 'story-user-default',
+            media: '../../../assets/images/post-sunset-crop.png',
+            caption: 'Foco total na rotina e constância diária! 🚀🔥',
+            createdAt: new Date(Date.now() - 2 * 3600 * 1000).toISOString(),
+            time: '2h atrás',
+            author: logged.name || 'Você',
+            avatar: logged.avatar
+          }
+        ];
         saveUserStories(valid);
+      } else {
+        // Garante que todos os stories existentes reflitam a foto e o nome mais recente da conta logada
+        let updated = false;
+        valid.forEach((s) => {
+          if (s.avatar !== logged.avatar || s.author !== logged.name) {
+            s.avatar = logged.avatar;
+            s.author = logged.name;
+            updated = true;
+          }
+        });
+        if (updated || valid.length !== arr.length) {
+          saveUserStories(valid);
+        }
       }
       return valid;
     } catch (e) {
@@ -260,41 +305,49 @@
   // Objeto público da engine de Stories
   const engine = {
     /**
+     * Retorna o perfil atual da conta logada
+     */
+    getLoggedUserProfile() {
+      return getLoggedUserProfile();
+    },
+
+    /**
      * Retorna todas as contas com stories ativos (< 24h)
      */
     getActiveAccounts() {
       const now = Date.now();
       const accounts = [];
+      const loggedProfile = getLoggedUserProfile();
 
-      // 1. Stories do próprio usuário (se houver)
+      // 1. Stories do próprio usuário logado (sempre com a foto e nome da conta logada)
       const userStories = getUserStories();
       if (userStories.length > 0) {
         accounts.push({
           key: 'your-story',
           userKey: 'your-story',
-          author: 'Seu Story',
-          avatar:
-            (window.SocialRatsUser && window.SocialRatsUser.DEFAULT_AVATAR) ||
-            '../../../assets/images/avatar-your-story.png',
+          author: loggedProfile.name || 'Você',
+          avatar: loggedProfile.avatar,
           isYourStory: true,
           stories: userStories.map((s, idx) => ({
             id: s.id || `story-me-${idx}`,
             media: s.media,
             caption: s.caption || '',
             createdAt: s.createdAt,
-            time: 'Recente',
-            author: 'Seu Story',
-            avatar:
-              (window.SocialRatsUser && window.SocialRatsUser.DEFAULT_AVATAR) ||
-              '../../../assets/images/avatar-your-story.png',
+            time: s.time || 'Recente',
+            author: loggedProfile.name || 'Você',
+            avatar: loggedProfile.avatar,
             userKey: 'your-story',
             isYourStory: true
           }))
         });
       }
 
-      // 2. Contas base
+      // 2. Contas base (filtra conta que coincida com o usuário logado para evitar duplicidade)
+      const loggedHandle = (loggedProfile.handleClean || '').toLowerCase();
       BASE_ACCOUNTS.forEach((acc) => {
+        if (acc.key === loggedHandle || (loggedHandle === 'gabriel' && acc.key === 'gabriel')) {
+          return;
+        }
         const validStories = acc.stories.filter(
           (s) => now - new Date(s.createdAt).getTime() < EXPIRATION_MS
         );
@@ -324,14 +377,18 @@
     findAccount(keyOrId) {
       if (!keyOrId) return null;
       const clean = String(keyOrId).toLowerCase().replace(/^@/, '');
+      const loggedProfile = getLoggedUserProfile();
+      const loggedHandle = (loggedProfile.handleClean || '').toLowerCase();
+      const loggedName = (loggedProfile.name || '').toLowerCase();
       const accounts = engine.getActiveAccounts();
 
       return (
         accounts.find((acc) => {
           if (acc.key.toLowerCase() === clean) return true;
           if (acc.author.toLowerCase() === clean) return true;
-          if ((clean === 'me' || clean === 'your story') && acc.key === 'your-story') return true;
-          if (clean === 'gabriel silva' && (acc.key === 'gabriel' || acc.key === 'your-story')) return true;
+          if ((clean === 'me' || clean === 'your story' || clean === 'your-story') && acc.isYourStory) return true;
+          if (loggedHandle && clean === loggedHandle && acc.isYourStory) return true;
+          if (loggedName && clean === loggedName && acc.isYourStory) return true;
           return acc.stories.some((s) => s.id.toLowerCase() === clean);
         }) || null
       );
@@ -435,12 +492,16 @@
     },
 
     publishUserStory(mediaUrl, caption) {
+      const logged = getLoggedUserProfile();
       const stories = getUserStories();
       const newStory = {
         id: 'story-user-' + Date.now().toString(36),
         media: mediaUrl || '../../../assets/images/post-sunset-crop.png',
         caption: caption || '',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        time: 'Agora',
+        author: logged.name || 'Você',
+        avatar: logged.avatar
       };
       stories.unshift(newStory);
       saveUserStories(stories);
@@ -547,16 +608,29 @@
     },
 
     syncAllStoryElements() {
+      const loggedProfile = getLoggedUserProfile();
+
       // 1. Carrossel de Stories do Feed (.story-item[data-story-id])
       document.querySelectorAll('.story-item[data-story-id]').forEach((el) => {
         const id = el.getAttribute('data-story-id');
+        const isMe = id === 'your-story';
         const has = engine.hasStory(id);
         const fullyViewed = has && engine.isAccountFullyViewed(id);
         el.classList.toggle('story-viewed', fullyViewed);
+
         const wrap = el.querySelector('.story-avatar-wrap');
         if (wrap) {
           wrap.classList.toggle('has-story', has);
           wrap.classList.toggle('story-viewed', fullyViewed);
+        }
+
+        // Se for o item "Your story", garante a foto de perfil da conta logada
+        if (isMe) {
+          const img = el.querySelector('.story-avatar-img');
+          if (img && loggedProfile.avatar) {
+            img.src = loggedProfile.avatar;
+            img.alt = loggedProfile.name || 'Seu Story';
+          }
         }
       });
 
@@ -566,14 +640,24 @@
           item.getAttribute('data-story-user') ||
           (item.classList.contains('your-story') ? 'your-story' : '');
         if (!userKey) return;
+        const isMe = userKey === 'your-story';
         const has = engine.hasStory(userKey);
         const fullyViewed = has && engine.isAccountFullyViewed(userKey);
+
         const wrap = item.querySelector('.connection-avatar-wrap');
         if (wrap) {
           wrap.classList.toggle('has-story', has);
           wrap.classList.toggle('story-viewed', fullyViewed);
         }
         item.classList.toggle('story-viewed', fullyViewed);
+
+        if (isMe) {
+          const img = item.querySelector('.connection-avatar-img');
+          if (img && loggedProfile.avatar) {
+            img.src = loggedProfile.avatar;
+            img.alt = loggedProfile.name || 'Seu Story';
+          }
+        }
       });
 
       // 3. Linhas de conversa do Direct (.conversation-row[href*="contact="])
@@ -629,7 +713,7 @@
       // 5. Perfil de usuário (.profile-avatar-wrap)
       const profileWrap = document.querySelector('.profile-avatar-wrap');
       if (profileWrap) {
-        const profUser = urlParams.get('user') || 'gabriel';
+        const profUser = urlParams.get('user') || 'your-story';
         const has = engine.hasStory(profUser) || engine.hasStory('your-story');
         const targetKey = engine.hasStory(profUser) ? profUser : 'your-story';
         const fullyViewed = has && engine.isAccountFullyViewed(targetKey);
@@ -766,7 +850,7 @@
         transition: width 0.1s linear;
       }
 
-      /* Top Header: Autor, Context Badge & Botão Fechar */
+      /* Top Header: Autor & Botão Fechar */
       .sr-story-header {
         position: absolute;
         top: 24px;
@@ -1142,7 +1226,7 @@
 
         <!-- Top Header: Autor & Fechar -->
         <div class="sr-story-header">
-          <div class="sr-story-user-info" id="sr-story-user-info">
+          <a class="sr-story-user-info" id="sr-story-user-info" href="profile.html">
             <div class="sr-story-author-avatar-wrap" id="sr-story-author-avatar-wrap">
               <img src="" alt="" class="sr-story-author-avatar" id="sr-story-author-avatar">
             </div>
@@ -1150,7 +1234,7 @@
               <span class="sr-story-author-name" id="sr-story-author-name">Autor</span>
               <span class="sr-story-author-time" id="sr-story-author-time">Agora</span>
             </div>
-          </div>
+          </a>
           <button type="button" class="sr-btn-close-story" id="sr-btn-close-story" aria-label="Fechar história">
             <i class="fa-solid fa-xmark"></i>
           </button>
@@ -1510,20 +1594,40 @@
     // Registra visualização individual deste Story
     engine.markAsViewed(story.id);
 
+    // Obtém perfil atualizado para garantir a foto da conta logada
+    const loggedProfile = getLoggedUserProfile();
+    const currentAvatar = acc.isYourStory ? loggedProfile.avatar : (story.avatar || acc.avatar);
+    const currentAuthor = acc.isYourStory ? (loggedProfile.name || 'Você') : acc.author;
+
     // Atualiza cabeçalho com informações do autor do story
     const authorAvatar = document.getElementById('sr-story-author-avatar');
     const authorWrap = document.getElementById('sr-story-author-avatar-wrap');
     const authorName = document.getElementById('sr-story-author-name');
     const authorTime = document.getElementById('sr-story-author-time');
+    const userInfoEl = document.getElementById('sr-story-user-info');
     const mediaImg = document.getElementById('sr-story-media-img');
     const captionEl = document.getElementById('sr-story-caption');
     const replyInput = document.getElementById('sr-story-reply-input');
 
-    if (authorAvatar) authorAvatar.src = acc.avatar;
-    if (authorWrap) authorWrap.classList.toggle('viewed', engine.isAccountFullyViewed(acc.key));
-    if (authorName) authorName.textContent = acc.author;
-    if (authorTime) authorTime.textContent = story.time || 'Recente';
-    if (mediaImg) mediaImg.src = story.media;
+    if (authorAvatar) {
+      authorAvatar.src = currentAvatar;
+      authorAvatar.alt = currentAuthor;
+    }
+    if (authorWrap) {
+      authorWrap.classList.toggle('viewed', engine.isAccountFullyViewed(acc.key));
+    }
+    if (authorName) {
+      authorName.textContent = currentAuthor;
+    }
+    if (authorTime) {
+      authorTime.textContent = story.time || 'Recente';
+    }
+    if (userInfoEl) {
+      userInfoEl.href = acc.isYourStory ? 'profile.html' : `profile.html?user=${encodeURIComponent(acc.key)}`;
+    }
+    if (mediaImg) {
+      mediaImg.src = story.media;
+    }
 
     if (captionEl) {
       if (story.caption) {
@@ -1587,12 +1691,17 @@
     let targetStoryIdx = 0;
 
     const clean = String(startKeyOrId || '').toLowerCase().replace(/^@/, '');
+    const logged = getLoggedUserProfile();
+    const loggedHandle = (logged.handleClean || '').toLowerCase();
+    const loggedName = (logged.name || '').toLowerCase();
+
     if (clean) {
       targetAccIdx = allAccounts.findIndex((acc) => {
         if (acc.key.toLowerCase() === clean) return true;
         if (acc.author.toLowerCase() === clean) return true;
-        if ((clean === 'me' || clean === 'your story') && acc.key === 'your-story') return true;
-        if (clean === 'gabriel silva' && (acc.key === 'gabriel' || acc.key === 'your-story')) return true;
+        if ((clean === 'me' || clean === 'your story' || clean === 'your-story') && acc.isYourStory) return true;
+        if (loggedHandle && clean === loggedHandle && acc.isYourStory) return true;
+        if (loggedName && clean === loggedName && acc.isYourStory) return true;
         return acc.stories.some((s) => s.id.toLowerCase() === clean);
       });
     }
@@ -1745,6 +1854,12 @@
 
   window.addEventListener('sr:stories-updated', () => {
     engine.syncAllStoryElements();
+  });
+
+  window.addEventListener('storage', (e) => {
+    if (e.key === PROFILE_STORAGE_KEY || e.key === USER_STORIES_STORAGE_KEY) {
+      engine.syncAllStoryElements();
+    }
   });
 
   window.SocialRatsStories = engine;
