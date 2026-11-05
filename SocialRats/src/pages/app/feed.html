@@ -451,6 +451,21 @@
     .story-item:not(.your-story) .story-avatar-wrap {
       background: var(--gradient-story);
       padding: 2.5px;
+      transition: background 0.25s ease, border-color 0.25s ease;
+    }
+
+    /* Viewed Story State: Gray Ring around avatar */
+    .story-item:not(.your-story).story-viewed .story-avatar-wrap {
+      background: #4b4958;
+      padding: 2px;
+    }
+
+    .story-item.your-story.story-viewed .story-avatar-wrap {
+      border-color: #4b4958;
+    }
+
+    .story-item.story-viewed .story-username {
+      color: var(--text-secondary);
     }
 
     .story-item:not(.your-story) .story-avatar-inner {
@@ -2449,7 +2464,7 @@
         <div class="stories-track">
 
           <!-- Story 1: Your story -->
-          <div class="story-item your-story" onclick="openStoryViewer('Your story', '../../../assets/images/avatar-your-story.png', '../../../assets/images/post-sunset-crop.png', true)">
+          <div class="story-item your-story" data-story-id="your-story" onclick="openStoryViewer('Your story', '../../../assets/images/avatar-your-story.png', '../../../assets/images/post-sunset-crop.png', true)">
             <div class="story-avatar-wrap">
               <img src="../../../assets/images/avatar-your-story.png" alt="Your story" class="story-avatar-img">
               <div class="your-story-plus-badge" title="Publicar novo Story (+10 Rat Points)" onclick="publishUserStory(event)">
@@ -2460,7 +2475,7 @@
           </div>
 
           <!-- Story 2: rijalxp -->
-          <div class="story-item" onclick="openStoryViewer('rijalxp', '../../../assets/images/avatar-rijalxp.png', '../../../assets/images/post-blue-orange.png')">
+          <div class="story-item" data-story-id="rijalxp" onclick="openStoryViewer('rijalxp', '../../../assets/images/avatar-rijalxp.png', '../../../assets/images/post-blue-orange.png')">
             <div class="story-avatar-wrap">
               <div class="story-avatar-inner">
                 <img src="../../../assets/images/avatar-rijalxp.png" alt="rijalxp" class="story-avatar-img">
@@ -2470,7 +2485,7 @@
           </div>
 
           <!-- Story 3: broyin -->
-          <div class="story-item" onclick="openStoryViewer('broyin', '../../../assets/images/avatar-broyin.png', '../../../assets/images/post-sunset-crop.png')">
+          <div class="story-item" data-story-id="broyin" onclick="openStoryViewer('broyin', '../../../assets/images/avatar-broyin.png', '../../../assets/images/post-sunset-crop.png')">
             <div class="story-avatar-wrap">
               <div class="story-avatar-inner">
                 <img src="../../../assets/images/avatar-broyin.png" alt="broyin" class="story-avatar-img">
@@ -2480,7 +2495,7 @@
           </div>
 
           <!-- Story 4: den.a -->
-          <div class="story-item" onclick="openStoryViewer('den.a', '../../../assets/images/avatar-dena.png', '../../../assets/images/post-sunset.png')">
+          <div class="story-item" data-story-id="den.a" onclick="openStoryViewer('den.a', '../../../assets/images/avatar-dena.png', '../../../assets/images/post-sunset.png')">
             <div class="story-avatar-wrap">
               <div class="story-avatar-inner">
                 <img src="../../../assets/images/avatar-dena.png" alt="den.a" class="story-avatar-img">
@@ -2490,7 +2505,7 @@
           </div>
 
           <!-- Story 5: chrex -->
-          <div class="story-item" onclick="openStoryViewer('chrex', '../../../assets/images/avatar-chrex.png', '../../../assets/images/post-blue-orange.png')">
+          <div class="story-item" data-story-id="chrex" onclick="openStoryViewer('chrex', '../../../assets/images/avatar-chrex.png', '../../../assets/images/post-blue-orange.png')">
             <div class="story-avatar-wrap">
               <div class="story-avatar-inner">
                 <img src="../../../assets/images/avatar-chrex.png" alt="chrex" class="story-avatar-img">
@@ -3616,6 +3631,50 @@
     let currentStoryIndex = 0;
     let currentStoryProgress = 0;
     let isStoryPaused = false;
+    const VIEWED_STORIES_STORAGE_KEY = 'socialrats_viewed_stories_v1';
+
+    function getViewedStoriesSet() {
+      try {
+        const raw = localStorage.getItem(VIEWED_STORIES_STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed)) return new Set(parsed);
+        }
+      } catch (e) {}
+      return new Set();
+    }
+
+    function markStoryAsViewed(storyId) {
+      if (!storyId) return;
+      const viewed = getViewedStoriesSet();
+      viewed.add(storyId);
+      try {
+        localStorage.setItem(VIEWED_STORIES_STORAGE_KEY, JSON.stringify([...viewed]));
+      } catch (e) {}
+      syncViewedStoriesTrayUI();
+    }
+
+    function unmarkStoryAsViewed(storyId) {
+      if (!storyId) return;
+      const viewed = getViewedStoriesSet();
+      viewed.delete(storyId);
+      try {
+        localStorage.setItem(VIEWED_STORIES_STORAGE_KEY, JSON.stringify([...viewed]));
+      } catch (e) {}
+      syncViewedStoriesTrayUI();
+    }
+
+    function syncViewedStoriesTrayUI() {
+      const viewed = getViewedStoriesSet();
+      document.querySelectorAll('.story-item[data-story-id]').forEach(el => {
+        const id = el.getAttribute('data-story-id');
+        el.classList.toggle('story-viewed', viewed.has(id));
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      syncViewedStoriesTrayUI();
+    });
 
     function buildStoryProgressSegments() {
       if (!storyProgressBar) return;
@@ -3683,6 +3742,10 @@
         const profile = window.SocialRatsUser.getProfile();
         item.author = profile.name;
         item.avatar = profile.avatar;
+      }
+
+      if (item && item.id) {
+        markStoryAsViewed(item.id);
       }
 
       storyAuthor.textContent = item.author;
@@ -3763,6 +3826,7 @@
 
     function publishUserStory(e) {
       if (e) e.stopPropagation();
+      unmarkStoryAsViewed('your-story');
       if (window.SocialRatsMetrics) {
         const res = window.SocialRatsMetrics.recordActivity('STORY_PUBLISHED', {
           label: 'Story publicado no Feed'
@@ -3872,10 +3936,16 @@
       if (btn.classList.contains('following')) {
         btn.classList.remove('following');
         btn.textContent = 'Seguir';
+        if (window.SocialRatsMetrics && window.SocialRatsMetrics.updateFollowingCount) {
+          window.SocialRatsMetrics.updateFollowingCount(-1);
+        }
         showToast('Você deixou de seguir.');
       } else {
         btn.classList.add('following');
         btn.textContent = 'Seguindo';
+        if (window.SocialRatsMetrics && window.SocialRatsMetrics.updateFollowingCount) {
+          window.SocialRatsMetrics.updateFollowingCount(1);
+        }
         showToast('Seguindo com sucesso!');
       }
     }

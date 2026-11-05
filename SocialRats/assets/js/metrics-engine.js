@@ -62,6 +62,8 @@
       totalStories: 12,
       communitiesCount: 5,
       totalFeedPosts: 18,
+      followersCount: 1240,
+      followingCount: 318,
       totalLikesGiven: 42,
       totalComments: 19,
       totalChallenges: 4
@@ -140,6 +142,8 @@
       totalStories: def.totalStories,
       communitiesCount: def.communitiesCount,
       totalFeedPosts: def.totalFeedPosts,
+      followersCount: def.followersCount,
+      followingCount: def.followingCount,
       totalLikesGiven: def.totalLikesGiven,
       totalComments: def.totalComments,
       totalChallenges: def.totalChallenges,
@@ -459,6 +463,32 @@
     return state.communitiesCount;
   }
 
+  function formatCompactNumber(num) {
+    const n = Number(num) || 0;
+    if (n >= 1000) {
+      return (n / 1000).toFixed(1).replace(/\.0$/, '').replace('.', ',') + 'k';
+    }
+    return n.toLocaleString('pt-BR');
+  }
+
+  /**
+   * Atualiza quantidade de pessoas que o usuário segue (Seguindo)
+   */
+  function updateFollowingCount(deltaOrAbsolute, isAbsolute = false) {
+    const state = loadState();
+    const base = typeof state.followingCount === 'number'
+      ? state.followingCount
+      : RAT_POINTS_CONFIG.initialDefaults.followingCount;
+    if (isAbsolute) {
+      state.followingCount = Math.max(0, Number(deltaOrAbsolute) || 0);
+    } else {
+      state.followingCount = Math.max(0, base + (Number(deltaOrAbsolute) || 0));
+    }
+    saveState(state);
+    syncAllDOMElements();
+    return state.followingCount;
+  }
+
   /**
    * Retorna resumo consolidado para qualquer tela do aplicativo
    */
@@ -468,6 +498,15 @@
     const mult = getMultiplierInfo(state.currentStreak);
     const nextMilestone = getNextMultiplierMilestone(state.currentStreak);
     const isStreakActiveToday = state.lastStreakDate === today;
+    const followersCount = typeof state.followersCount === 'number'
+      ? state.followersCount
+      : RAT_POINTS_CONFIG.initialDefaults.followersCount;
+    const followingCount = typeof state.followingCount === 'number'
+      ? state.followingCount
+      : RAT_POINTS_CONFIG.initialDefaults.followingCount;
+    const totalFeedPosts = typeof state.totalFeedPosts === 'number'
+      ? state.totalFeedPosts
+      : RAT_POINTS_CONFIG.initialDefaults.totalFeedPosts;
 
     return {
       ratPoints: state.ratPoints,
@@ -476,7 +515,11 @@
       bestStreak: state.bestStreak,
       totalStories: state.totalStories,
       communitiesCount: state.communitiesCount,
-      totalFeedPosts: state.totalFeedPosts || 0,
+      totalFeedPosts,
+      followersCount,
+      followersFormatted: formatCompactNumber(followersCount),
+      followingCount,
+      followingFormatted: formatCompactNumber(followingCount),
       totalLikesGiven: state.totalLikesGiven || 0,
       totalComments: state.totalComments || 0,
       totalChallenges: state.totalChallenges || 0,
@@ -507,16 +550,24 @@
         el.textContent = `${summary.currentStreak} dias`;
       } else if (key === 'bestStreak') {
         el.textContent = `${summary.bestStreak} dias`;
+      } else if (key === 'bestStreakFlame') {
+        el.textContent = `🔥 ${summary.bestStreak}`;
       } else if (key === 'bestStreakShort') {
         el.textContent = `${summary.bestStreak}d`;
       } else if (key === 'totalStories') {
         el.textContent = summary.totalStories;
+      } else if (key === 'totalFeedPosts') {
+        el.textContent = summary.totalFeedPosts;
+      } else if (key === 'followersCount') {
+        el.textContent = summary.followersFormatted;
+      } else if (key === 'followingCount') {
+        el.textContent = summary.followingFormatted;
       } else if (key === 'communitiesCount') {
         el.textContent = summary.communitiesCount;
       } else if (key === 'multiplierLabel') {
         el.textContent = summary.multiplierLabel;
       } else if (key === 'badgeSummary') {
-        el.textContent = `🐀 ${summary.ratPointsFormatted} Rat Points · Multiplicador ${summary.multiplierLabel}`;
+        el.textContent = `${summary.ratPointsFormatted} Rat Points · Multiplicador ${summary.multiplierLabel}`;
       }
     });
   }
@@ -531,6 +582,7 @@
     getSummary,
     recordActivity,
     updateCommunitiesCount,
+    updateFollowingCount,
     getMultiplierInfo,
     syncAllDOMElements
   };

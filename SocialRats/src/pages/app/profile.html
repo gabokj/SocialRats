@@ -3,9 +3,11 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>SocialRats · Perfil</title>
-  <meta name="description" content="Perfil de usuário no SocialRats. Publicações, respostas, comunidades, mídias e conquistas.">
+  <meta name="description"
+    content="Perfil de usuário no SocialRats. Publicações, respostas, comunidades, mídias e conquistas.">
 
   <!-- Favicon oficial -->
   <link rel="icon" type="image/png" href="../../../assets/images/socialrats-icon-removebg-preview (3).png">
@@ -13,7 +15,9 @@
   <!-- Google Fonts: Outfit & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -27,24 +31,24 @@
       --color-surface: #14111e;
       --color-surface-elevated: #1c1728;
       --color-border-subtle: #30263e;
-      
+
       --color-text-primary: #ffffff;
       --color-text-secondary: #b7b0c5;
       --color-text-muted: #6f6780;
-      
+
       --color-accent-pink: #ff32b8;
       --color-accent-purple: #923bff;
       --color-accent-orange: #ff713f;
       --color-heart-red: #ff3355;
       --color-online-green: #34d399;
-      
+
       --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
       --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
       --gradient-story: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-      
+
       --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      
+
       --radius-sm: 8px;
       --radius-md: 14px;
       --radius-lg: 20px;
@@ -58,7 +62,8 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    html,
+    body {
       min-height: 100%;
       background-color: var(--color-background);
       color: var(--color-text-primary);
@@ -197,7 +202,8 @@
       position: relative;
       border-left: 1px solid var(--color-border-subtle);
       border-right: 1px solid var(--color-border-subtle);
-      padding-bottom: 90px; /* Space for bottom dock */
+      padding-bottom: 90px;
+      /* Space for bottom dock */
     }
 
     /* Desktop Phone Mockup Mode */
@@ -763,10 +769,10 @@
       color: var(--color-text-muted);
     }
 
-    /* Stats Counters Row (5 MVP Profile Metrics) */
+    /* Stats Counters Row (4 Profile Metrics: Posts | Seguidores | Seguindo | Comunidades) */
     .profile-stats-card {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 4px;
       background: var(--color-surface);
       border: 1px solid var(--color-border-subtle);
@@ -775,9 +781,9 @@
       text-align: center;
     }
 
-    @media (max-width: 390px) {
+    @media (max-width: 340px) {
       .profile-stats-card {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(2, 1fr);
         row-gap: 10px;
       }
     }
@@ -890,8 +896,15 @@
     }
 
     @keyframes fadeInTab {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* Feed Post Card (Reused from Design System) */
@@ -1396,9 +1409,18 @@
     }
 
     @media (min-width: 992px) {
-      .desktop-sidebar { display: flex; }
-      .view-mode-toggle { display: flex; }
-      .app-viewport:not(.mockup-mode) .bottom-nav-dock { display: none; }
+      .desktop-sidebar {
+        display: flex;
+      }
+
+      .view-mode-toggle {
+        display: flex;
+      }
+
+      .app-viewport:not(.mockup-mode) .bottom-nav-dock {
+        display: none;
+      }
+
       .app-viewport:not(.mockup-mode) .profile-center-container {
         padding-bottom: 30px;
         max-width: 540px;
@@ -1406,7 +1428,9 @@
     }
 
     @media (min-width: 1280px) {
-      .desktop-right-sidebar { display: flex; }
+      .desktop-right-sidebar {
+        display: flex;
+      }
     }
 
     @media (max-width: 768px) {
@@ -1415,94 +1439,748 @@
         border-left: none;
         border-right: none;
       }
-      .bottom-nav-dock { max-width: 100%; }
+
+      .bottom-nav-dock {
+        max-width: 100%;
+      }
     }
 
     /* Modal Overlay & Instagram-Style Notifications Modal Card */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
-    .modal-overlay.active { opacity: 1; pointer-events: auto; }
-    .notif-modal-card { width: 92%; max-width: 440px; max-height: 80vh; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15); animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    @keyframes notifModalIn { from { transform: scale(0.94) translateY(12px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
-    .notif-modal-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--color-border-subtle); background: var(--color-surface-elevated); }
-    .notif-modal-title { font-family: var(--font-heading); font-size: 16px; font-weight: 800; color: #ffffff; }
-    .notif-modal-badge { background: var(--gradient-brand); color: #ffffff; font-size: 10.5px; font-weight: 700; padding: 2px 7px; border-radius: 999px; }
-    .btn-notif-action { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; text-decoration: none; transition: all 0.15s ease; }
-    .btn-notif-action:hover { background: var(--color-surface-hover); color: #ffffff; border-color: var(--color-accent-pink); }
-    .btn-close-modal { background: transparent; border: none; color: var(--color-text-secondary); font-size: 16px; cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center; transition: color 0.15s ease; }
-    .btn-close-modal:hover { color: #ffffff; }
-    .notif-modal-tabs { display: flex; gap: 6px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.4); background: var(--color-background); overflow-x: auto; }
-    .notif-modal-tab { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: var(--radius-full); cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
-    .notif-modal-tab.active { background: var(--color-accent-pink); color: #ffffff; border-color: var(--color-accent-pink); }
-    .notif-modal-list { flex: 1; overflow-y: auto; padding: 4px 0; scrollbar-width: none; }
-    .notif-modal-list::-webkit-scrollbar { display: none; }
-    .notif-modal-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid rgba(48, 38, 62, 0.25); cursor: pointer; transition: background 0.15s ease; }
-    .notif-modal-item:hover { background: rgba(255, 255, 255, 0.03); }
-    .notif-modal-item.unread { background: rgba(255, 50, 184, 0.05); }
-    .notif-item-avatar-wrap { position: relative; flex-shrink: 0; }
-    .notif-item-avatar { width: 38px; height: 38px; border-radius: 50%; object-fit: cover; }
-    .notif-item-badge { position: absolute; bottom: -2px; right: -2px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; color: #ffffff; border: 1.5px solid var(--color-surface); }
-    .notif-item-info { flex: 1; min-width: 0; }
-    .notif-item-text { font-size: 12.5px; color: var(--color-text-primary); line-height: 1.35; word-break: break-word; }
-    .notif-item-time { font-size: 11px; color: var(--color-text-muted); display: block; margin-top: 2px; }
-    .btn-notif-follow { background: var(--gradient-brand); border: none; color: #ffffff; font-size: 11.5px; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-full); cursor: pointer; flex-shrink: 0; transition: all 0.15s ease; }
-    .btn-notif-follow.following { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); }
-    .notif-item-thumb { width: 38px; height: 38px; border-radius: 6px; object-fit: cover; flex-shrink: 0; border: 1px solid var(--color-border-subtle); }
-    .notif-medal-pill { width: 36px; height: 36px; border-radius: 10px; background: rgba(255, 113, 63, 0.12); border: 1px solid rgba(255, 113, 63, 0.3); display: flex; align-items: center; justify-content: center; color: var(--color-accent-orange); font-size: 15px; flex-shrink: 0; }
-    .btn-notif-modal-full { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--color-surface-elevated); border-top: 1px solid var(--color-border-subtle); color: var(--color-accent-pink); font-size: 12.5px; font-weight: 700; text-decoration: none; transition: background 0.15s ease; }
-    .btn-notif-modal-full:hover { background: var(--color-surface-hover); color: #ffffff; }
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .notif-modal-card {
+      width: 92%;
+      max-width: 440px;
+      max-height: 80vh;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), 0 0 20px rgba(255, 50, 184, 0.15);
+      animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes notifModalIn {
+      from {
+        transform: scale(0.94) translateY(12px);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .notif-modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-elevated);
+    }
+
+    .notif-modal-title {
+      font-family: var(--font-heading);
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .notif-modal-badge {
+      background: var(--gradient-brand);
+      color: #ffffff;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    .btn-notif-action {
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+
+    .btn-notif-action:hover {
+      background: var(--color-surface-hover);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s ease;
+    }
+
+    .btn-close-modal:hover {
+      color: #ffffff;
+    }
+
+    .notif-modal-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.4);
+      background: var(--color-background);
+      overflow-x: auto;
+    }
+
+    .notif-modal-tab {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .notif-modal-tab.active {
+      background: var(--color-accent-pink);
+      color: #ffffff;
+      border-color: var(--color-accent-pink);
+    }
+
+    .notif-modal-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
+    }
+
+    .notif-modal-list::-webkit-scrollbar {
+      display: none;
+    }
+
+    .notif-modal-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-bottom: 1px solid rgba(48, 38, 62, 0.25);
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .notif-modal-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .notif-modal-item.unread {
+      background: rgba(255, 50, 184, 0.05);
+    }
+
+    .notif-item-avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .notif-item-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .notif-item-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      color: #ffffff;
+      border: 1.5px solid var(--color-surface);
+    }
+
+    .notif-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-item-text {
+      font-size: 12.5px;
+      color: var(--color-text-primary);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+
+    .notif-item-time {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .btn-notif-follow {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .btn-notif-follow.following {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+    }
+
+    .notif-item-thumb {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--color-border-subtle);
+    }
+
+    .notif-medal-pill {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 113, 63, 0.12);
+      border: 1px solid rgba(255, 113, 63, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent-orange);
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+
+    .btn-notif-modal-full {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      background: var(--color-surface-elevated);
+      border-top: 1px solid var(--color-border-subtle);
+      color: var(--color-accent-pink);
+      font-size: 12.5px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+
+    .btn-notif-modal-full:hover {
+      background: var(--color-surface-hover);
+      color: #ffffff;
+    }
 
     /* Create Post Composer Modal — SocialRats Design System */
-    .create-post-modal { width: 94%; max-width: 600px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); border-radius: 24px; padding: 20px 22px 18px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 50, 184, 0.14); display: flex; flex-direction: column; gap: 12px; max-height: 92vh; overflow: visible; position: relative; animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
-    .composer-top-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: relative; }
-    .composer-user-block { display: flex; align-items: flex-start; gap: 12px; flex: 1; min-width: 0; }
-    .create-post-user-avatar { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--color-accent-pink); object-fit: cover; flex-shrink: 0; box-shadow: 0 0 12px rgba(255, 50, 184, 0.25); }
-    .composer-meta-col { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 0; }
-    .composer-name-dropdown-btn { background: transparent; border: none; color: var(--color-text-primary); font-family: var(--font-heading); font-size: 15.5px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; padding: 2px 4px; margin-left: -4px; border-radius: 8px; width: fit-content; transition: background 0.15s ease, color 0.15s ease; }
-    .composer-name-dropdown-btn:hover { background: rgba(255, 255, 255, 0.05); color: var(--color-accent-pink); }
-    .composer-name-dropdown-btn i { font-size: 11px; color: var(--color-text-secondary); }
-    .composer-pills-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .composer-pill-wrap { position: relative; }
-    .composer-pill-btn { background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-family: var(--font-body); font-size: 12px; font-weight: 600; height: 32px; padding: 0 12px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; white-space: nowrap; transition: all 0.15s ease; }
-    .composer-pill-btn:hover, .composer-pill-btn.open { background: rgba(255, 50, 184, 0.12); border-color: var(--color-accent-pink); color: var(--color-text-primary); }
-    .composer-pill-btn.active-community { background: rgba(255, 50, 184, 0.14); border-color: var(--color-accent-pink); color: var(--color-accent-pink); }
-    .composer-pill-btn i.pill-lead-icon { font-size: 12.5px; color: var(--color-accent-pink); }
-    .composer-pill-btn i.pill-caret { font-size: 10px; opacity: 0.75; margin-left: 2px; }
-    .btn-close-composer { background: transparent; border: none; color: var(--color-text-secondary); font-size: 20px; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: background 0.15s ease, color 0.15s ease; }
-    .btn-close-composer:hover { background: var(--color-surface-elevated); color: var(--color-text-primary); }
-    .composer-dropdown-menu { position: absolute; top: calc(100% + 6px); left: 0; min-width: 265px; background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); border-radius: 16px; padding: 8px; box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 50, 184, 0.15); z-index: 1200; display: none; flex-direction: column; gap: 4px; max-height: 310px; overflow-y: auto; }
-    .composer-dropdown-menu.show { display: flex; animation: notifModalIn 0.16s ease forwards; }
-    .composer-dropdown-menu.drop-up { top: auto; bottom: calc(100% + 8px); }
-    .dropdown-section-label { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); padding: 6px 10px 3px; }
-    .dropdown-option-item { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; padding: 8px 10px; border-radius: 11px; background: transparent; border: 1px solid transparent; color: var(--color-text-primary); font-family: var(--font-body); font-size: 12.5px; text-align: left; cursor: pointer; transition: all 0.15s ease; }
-    .dropdown-option-item:hover { background: rgba(255, 255, 255, 0.05); }
-    .dropdown-option-item.selected { background: rgba(255, 50, 184, 0.12); border-color: rgba(255, 50, 184, 0.35); }
-    .dropdown-option-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
-    .dropdown-option-icon { width: 30px; height: 30px; border-radius: 9px; background: var(--color-surface); border: 1px solid var(--color-border-subtle); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; color: var(--color-accent-pink); }
-    .dropdown-option-texts { display: flex; align-items: flex-start; flex-direction: column; min-width: 0; }
-    .dropdown-option-title { font-size: 12.5px; font-weight: 700; color: var(--color-text-primary); }
-    .dropdown-option-sub { font-size: 10.5px; color: var(--color-text-secondary); }
-    .dropdown-option-check { color: var(--color-accent-pink); font-size: 13px; opacity: 0; flex-shrink: 0; }
-    .dropdown-option-item.selected .dropdown-option-check { opacity: 1; }
-    .composer-dest-filter-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 12px; background: rgba(28, 23, 40, 0.65); border: 1px solid var(--color-border-subtle); border-radius: 12px; font-size: 12px; color: var(--color-text-secondary); }
-    .composer-dest-filter-left { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .dest-filter-chip { background: var(--color-surface); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 11.5px; font-weight: 600; padding: 4px 10px; border-radius: 9999px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; transition: all 0.15s ease; }
-    .dest-filter-chip:hover { color: var(--color-text-primary); border-color: rgba(255, 50, 184, 0.4); }
-    .dest-filter-chip.active { background: rgba(255, 50, 184, 0.14); border-color: var(--color-accent-pink); color: var(--color-accent-pink); font-weight: 700; }
-    .create-post-textarea { width: 100%; min-height: 150px; background: transparent; border: none; padding: 6px 2px; color: var(--color-text-primary); font-family: var(--font-body); font-size: 16px; line-height: 1.5; resize: none; outline: none; }
-    .create-post-textarea::placeholder { color: var(--color-text-secondary); opacity: 0.75; }
-    .composer-tools-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 4px; }
-    .composer-tools-left { display: flex; align-items: center; gap: 6px; }
-    .btn-revise-pill { background: transparent; border: 1px solid var(--color-border-subtle); color: var(--color-text-primary); font-family: var(--font-body); font-size: 13px; font-weight: 600; height: 34px; padding: 0 14px; border-radius: 9999px; display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all 0.15s ease; }
-    .btn-revise-pill:hover { border-color: var(--color-accent-pink); background: rgba(255, 50, 184, 0.1); color: var(--color-accent-pink); }
-    .btn-composer-icon { width: 36px; height: 36px; border-radius: 50%; background: transparent; border: none; color: var(--color-text-secondary); font-size: 18px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
-    .btn-composer-icon:hover { background: var(--color-surface-elevated); color: var(--color-accent-pink); }
-    .create-post-char-count { font-size: 11.5px; color: var(--color-text-muted); font-weight: 500; }
-    .composer-bottom-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; border-top: 1px solid var(--color-border-subtle); padding-top: 14px; margin-top: 2px; }
-    .composer-footer-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; }
-    .btn-schedule-post { width: 40px; height: 40px; border-radius: 50%; background: var(--color-surface-elevated); border: 1px solid var(--color-border-subtle); color: var(--color-text-secondary); font-size: 16px; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s ease; }
-    .btn-schedule-post:hover { border-color: var(--color-accent-orange); color: var(--color-accent-orange); background: rgba(255, 113, 63, 0.12); }
-    .btn-submit-post { background: var(--gradient-brand); border: none; color: #ffffff; font-family: var(--font-body); font-weight: 700; height: 40px; padding: 0 22px; border-radius: 9999px; cursor: pointer; font-size: 14px; box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35); transition: all 0.15s ease; }
-    .btn-submit-post:disabled { background: var(--color-surface-elevated); color: var(--color-text-muted); border: 1px solid var(--color-border-subtle); box-shadow: none; cursor: not-allowed; opacity: 0.65; }
+    .create-post-modal {
+      width: 94%;
+      max-width: 600px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 24px;
+      padding: 20px 22px 18px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.85), 0 0 24px rgba(255, 50, 184, 0.14);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-height: 92vh;
+      overflow: visible;
+      position: relative;
+      animation: notifModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .composer-top-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: relative;
+    }
+
+    .composer-user-block {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .create-post-user-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 2px solid var(--color-accent-pink);
+      object-fit: cover;
+      flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(255, 50, 184, 0.25);
+    }
+
+    .composer-meta-col {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .composer-name-dropdown-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-family: var(--font-heading);
+      font-size: 15.5px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      padding: 2px 4px;
+      margin-left: -4px;
+      border-radius: 8px;
+      width: fit-content;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .composer-name-dropdown-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--color-accent-pink);
+    }
+
+    .composer-name-dropdown-btn i {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+    }
+
+    .composer-pills-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .composer-pill-wrap {
+      position: relative;
+    }
+
+    .composer-pill-btn {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 600;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .composer-pill-btn:hover,
+    .composer-pill-btn.open {
+      background: rgba(255, 50, 184, 0.12);
+      border-color: var(--color-accent-pink);
+      color: var(--color-text-primary);
+    }
+
+    .composer-pill-btn.active-community {
+      background: rgba(255, 50, 184, 0.14);
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+    }
+
+    .composer-pill-btn i.pill-lead-icon {
+      font-size: 12.5px;
+      color: var(--color-accent-pink);
+    }
+
+    .composer-pill-btn i.pill-caret {
+      font-size: 10px;
+      opacity: 0.75;
+      margin-left: 2px;
+    }
+
+    .btn-close-composer {
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .btn-close-composer:hover {
+      background: var(--color-surface-elevated);
+      color: var(--color-text-primary);
+    }
+
+    .composer-dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 265px;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 50, 184, 0.15);
+      z-index: 1200;
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      max-height: 310px;
+      overflow-y: auto;
+    }
+
+    .composer-dropdown-menu.show {
+      display: flex;
+      animation: notifModalIn 0.16s ease forwards;
+    }
+
+    .composer-dropdown-menu.drop-up {
+      top: auto;
+      bottom: calc(100% + 8px);
+    }
+
+    .dropdown-section-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      padding: 6px 10px 3px;
+    }
+
+    .dropdown-option-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 11px;
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .dropdown-option-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .dropdown-option-item.selected {
+      background: rgba(255, 50, 184, 0.12);
+      border-color: rgba(255, 50, 184, 0.35);
+    }
+
+    .dropdown-option-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .dropdown-option-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 9px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      color: var(--color-accent-pink);
+    }
+
+    .dropdown-option-texts {
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .dropdown-option-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    .dropdown-option-sub {
+      font-size: 10.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .dropdown-option-check {
+      color: var(--color-accent-pink);
+      font-size: 13px;
+      opacity: 0;
+      flex-shrink: 0;
+    }
+
+    .dropdown-option-item.selected .dropdown-option-check {
+      opacity: 1;
+    }
+
+    .composer-dest-filter-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(28, 23, 40, 0.65);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: 12px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+
+    .composer-dest-filter-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .dest-filter-chip {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+
+    .dest-filter-chip:hover {
+      color: var(--color-text-primary);
+      border-color: rgba(255, 50, 184, 0.4);
+    }
+
+    .dest-filter-chip.active {
+      background: rgba(255, 50, 184, 0.14);
+      border-color: var(--color-accent-pink);
+      color: var(--color-accent-pink);
+      font-weight: 700;
+    }
+
+    .create-post-textarea {
+      width: 100%;
+      min-height: 150px;
+      background: transparent;
+      border: none;
+      padding: 6px 2px;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.5;
+      resize: none;
+      outline: none;
+    }
+
+    .create-post-textarea::placeholder {
+      color: var(--color-text-secondary);
+      opacity: 0.75;
+    }
+
+    .composer-tools-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .composer-tools-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-revise-pill {
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 600;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 9999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-revise-pill:hover {
+      border-color: var(--color-accent-pink);
+      background: rgba(255, 50, 184, 0.1);
+      color: var(--color-accent-pink);
+    }
+
+    .btn-composer-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--color-text-secondary);
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-composer-icon:hover {
+      background: var(--color-surface-elevated);
+      color: var(--color-accent-pink);
+    }
+
+    .create-post-char-count {
+      font-size: 11.5px;
+      color: var(--color-text-muted);
+      font-weight: 500;
+    }
+
+    .composer-bottom-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      border-top: 1px solid var(--color-border-subtle);
+      padding-top: 14px;
+      margin-top: 2px;
+    }
+
+    .composer-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: auto;
+    }
+
+    .btn-schedule-post {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .btn-schedule-post:hover {
+      border-color: var(--color-accent-orange);
+      color: var(--color-accent-orange);
+      background: rgba(255, 113, 63, 0.12);
+    }
+
+    .btn-submit-post {
+      background: var(--gradient-brand);
+      border: none;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-weight: 700;
+      height: 40px;
+      padding: 0 22px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.35);
+      transition: all 0.15s ease;
+    }
+
+    .btn-submit-post:disabled {
+      background: var(--color-surface-elevated);
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border-subtle);
+      box-shadow: none;
+      cursor: not-allowed;
+      opacity: 0.65;
+    }
   </style>
 </head>
 
@@ -1516,7 +2194,8 @@
     <aside class="desktop-sidebar" aria-label="Navegação Principal Desktop">
       <div>
         <a href="feed.html" class="desktop-brand">
-          <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" style="width:40px; height:40px; object-fit:contain;">
+          <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats"
+            style="width:40px; height:40px; object-fit:contain;">
           <span class="brand-logo-text">SocialRats</span>
         </a>
 
@@ -1549,7 +2228,8 @@
             <button type="button" onclick="openNotificationsModal()">
               <i class="fa-regular fa-bell"></i>
               <span>Notificações</span>
-              <span class="nav-badge-pill" style="margin-left:auto; background:var(--color-accent-pink); color:#ffffff; font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;">4</span>
+              <span class="nav-badge-pill"
+                style="margin-left:auto; background:var(--color-accent-pink); color:#ffffff; font-size:11px; font-weight:700; padding:2px 7px; border-radius:10px;">4</span>
             </button>
           </li>
           <li class="desktop-nav-item active">
@@ -1566,9 +2246,11 @@
         </button>
       </div>
 
-      <div style="padding:14px; background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:14px; font-size:12px; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:space-between;">
+      <div
+        style="padding:14px; background:var(--color-surface); border:1px solid var(--color-border-subtle); border-radius:14px; font-size:12px; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:space-between;">
         <span>Conectado como <strong data-sr-user="handle">@gabriel</strong></span>
-        <button type="button" onclick="handleLogout()" style="background:none; border:none; color:#ff4d6d; cursor:pointer;" title="Sair">
+        <button type="button" onclick="handleLogout()"
+          style="background:none; border:none; color:#ff4d6d; cursor:pointer;" title="Sair">
           <i class="fa-solid fa-arrow-right-from-bracket"></i>
         </button>
       </div>
@@ -1581,21 +2263,25 @@
 
       <!-- 1. Top Bar: Back / Username / Actions -->
       <header class="profile-top-bar">
-        <button type="button" class="profile-top-username" id="account-switcher-btn" onclick="toggleAccountSwitcher(event)" aria-haspopup="dialog" aria-expanded="false">
+        <button type="button" class="profile-top-username" id="account-switcher-btn"
+          onclick="toggleAccountSwitcher(event)" aria-haspopup="dialog" aria-expanded="false">
           <i class="fa-solid fa-lock" style="font-size:13px; color:var(--color-text-muted);"></i>
           <span id="top-username-label">gabriel</span>
           <i class="fa-solid fa-chevron-down profile-top-chevron"></i>
         </button>
 
         <div class="profile-top-actions">
-          <button type="button" class="btn-top-action" title="Notificações" onclick="openNotificationsModal()" style="position:relative;">
+          <button type="button" class="btn-top-action" title="Notificações" onclick="openNotificationsModal()"
+            style="position:relative;">
             <i class="fa-regular fa-bell"></i>
-            <span style="position:absolute; top:4px; right:4px; width:7px; height:7px; background:var(--color-accent-pink); border-radius:50%;"></span>
+            <span
+              style="position:absolute; top:4px; right:4px; width:7px; height:7px; background:var(--color-accent-pink); border-radius:50%;"></span>
           </button>
           <button type="button" class="btn-top-action" title="Compartilhar Perfil" onclick="shareProfile()">
             <i class="fa-solid fa-arrow-up-from-bracket"></i>
           </button>
-          <button type="button" class="btn-top-action" title="Configurações" onclick="showToast('Configurações da conta')">
+          <button type="button" class="btn-top-action" title="Configurações"
+            onclick="showToast('Configurações da conta')">
             <i class="fa-solid fa-gear"></i>
           </button>
         </div>
@@ -1603,7 +2289,8 @@
 
       <!-- 2. Cover Banner -->
       <div class="profile-cover-banner" id="profile-cover-banner">
-        <img src="../../../assets/images/post-sunset.png" alt="Capa do perfil" id="profile-cover-img" style="display:none;">
+        <img src="../../../assets/images/post-sunset.png" alt="Capa do perfil" id="profile-cover-img"
+          style="display:none;">
         <div class="cover-glow-orb" id="profile-cover-orb"></div>
       </div>
 
@@ -1614,7 +2301,8 @@
         <div class="profile-avatar-row">
           <div class="profile-avatar-wrap">
             <div class="profile-avatar-inner">
-              <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img" id="profile-main-avatar">
+              <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Silva" class="profile-avatar-img"
+                id="profile-main-avatar">
             </div>
             <div class="profile-streak-badge" data-sr-metric="currentStreak" title="Foguinho diário ativo!">
               🔥 5
@@ -1622,9 +2310,11 @@
           </div>
 
           <div class="profile-actions-group">
-            <button type="button" class="btn-profile-primary" onclick="window.location.href='edit-profile.html'">Editar Perfil</button>
+            <button type="button" class="btn-profile-primary" onclick="window.location.href='edit-profile.html'">Editar
+              Perfil</button>
             <button type="button" class="btn-profile-primary" onclick="shareProfile()">Compartilhar</button>
-            <button type="button" class="btn-profile-icon" title="Editar Perfil" onclick="window.location.href='edit-profile.html'">
+            <button type="button" class="btn-profile-icon" title="Editar Perfil"
+              onclick="window.location.href='edit-profile.html'">
               <i class="fa-solid fa-sliders"></i>
             </button>
           </div>
@@ -1633,14 +2323,17 @@
         <!-- Name & Handle -->
         <div class="profile-name-title">
           <span id="profile-display-name">Gabriel Silva</span>
-          <svg class="verified-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Verificado SocialRats" title="Verificado SocialRats">
-            <path d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z" fill="#0095F6"/>
+          <svg class="verified-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+            aria-label="Verificado SocialRats" title="Verificado SocialRats">
+            <path
+              d="M19.998 3.094 14.638 0l-2.972 5.15H5.432v6.354L0 14.64 3.094 20 0 25.359l5.432 3.137v5.905h5.975L14.638 40l5.36-3.094L25.358 40l3.232-5.6h6.162v-6.01L40 25.359 36.905 20 40 14.641l-5.248-3.03v-6.46h-6.419L25.358 0l-5.36 3.094Zm7.415 11.225 2.254 2.287-11.43 11.5-6.835-6.93 2.244-2.258 4.587 4.581 9.18-9.18Z"
+              fill="#0095F6" />
           </svg>
         </div>
 
         <div class="profile-handle-row">
           <span class="profile-handle" id="profile-display-handle">@gabriel</span>
-          <span class="profile-level-badge" id="profile-display-badge" data-sr-metric="badgeSummary">🐀 340 Rat Points · Multiplicador 1,25x</span>
+          <span class="profile-level-badge" id="profile-display-badge" data-sr-metric="badgeSummary">340 Rat Points · Multiplicador 1,25x</span>
         </div>
 
         <!-- Bio text -->
@@ -1656,7 +2349,8 @@
           </div>
           <div class="profile-meta-item" id="profile-meta-website-wrap">
             <i class="fa-solid fa-link"></i>
-            <a href="#" id="profile-display-website" style="color:var(--color-accent-pink); text-decoration:none;" onclick="showToast('Link do SocialRats'); return false;">socialrats.com/@gabriel</a>
+            <a href="#" id="profile-display-website" style="color:var(--color-accent-pink); text-decoration:none;"
+              onclick="showToast('Link do SocialRats'); return false;">socialrats.com/@gabriel</a>
           </div>
           <div class="profile-meta-item">
             <i class="fa-regular fa-calendar"></i>
@@ -1664,25 +2358,27 @@
           </div>
         </div>
 
-        <!-- Stats Counters Card (MVP Simplified Metrics) -->
+        <!-- Stats Counters Card (Posts | Seguidores | Seguindo | Comunidades) -->
         <div class="profile-stats-card">
-          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Rat Points acumulados">
-            <span class="stat-number" data-sr-metric="ratPoints">340</span>
-            <span class="stat-label">Rat Points</span>
+          <div class="stat-counter-block"
+            onclick="switchProfileTab(document.querySelectorAll('.profile-tab-item')[0], 'posts-panel')"
+            title="Quantidade de publicações">
+            <span class="stat-number" data-sr-metric="totalFeedPosts">18</span>
+            <span class="stat-label">Posts</span>
           </div>
-          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Sequência atual do foguinho diário">
-            <span class="stat-number" style="color:var(--color-accent-orange);" data-sr-metric="currentStreak">🔥 5</span>
-            <span class="stat-label">Foguinho</span>
+          <div class="stat-counter-block" onclick="showToast('Lista de seguidores')"
+            title="Quantos seguidores você tem">
+            <span class="stat-number" data-sr-metric="followersCount">1,2k</span>
+            <span class="stat-label">Seguidores</span>
           </div>
-          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Recorde de dias consecutivos">
-            <span class="stat-number" data-sr-metric="bestStreak">14 dias</span>
-            <span class="stat-label">Recorde</span>
+          <div class="stat-counter-block" onclick="showToast('Perfis que você segue')"
+            title="Quantas pessoas você segue">
+            <span class="stat-number" data-sr-metric="followingCount">318</span>
+            <span class="stat-label">Seguindo</span>
           </div>
-          <div class="stat-counter-block" onclick="window.location.href='metrics.html'" title="Total de Stories publicados">
-            <span class="stat-number" data-sr-metric="totalStories">12</span>
-            <span class="stat-label">Stories</span>
-          </div>
-          <div class="stat-counter-block" onclick="switchProfileTab(document.querySelectorAll('.profile-tab-item')[2], 'communities-panel')" title="Quantidade de comunidades participantes">
+          <div class="stat-counter-block"
+            onclick="switchProfileTab(document.querySelectorAll('.profile-tab-item')[2], 'communities-panel')"
+            title="Quantidade de comunidades participantes">
             <span class="stat-number" data-sr-metric="communitiesCount">5</span>
             <span class="stat-label">Comunidades</span>
           </div>
@@ -1731,13 +2427,15 @@
                   <span class="post-timestamp">3 horas atrás</span>
                 </div>
               </div>
-              <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);" onclick="showToast('Opções da publicação')">
+              <button type="button" class="btn-top-action" style="font-size:16px; color:var(--color-text-secondary);"
+                onclick="showToast('Opções da publicação')">
                 <i class="fa-solid fa-ellipsis"></i>
               </button>
             </div>
 
             <div class="post-media-container">
-              <img src="../../../assets/images/proof.jpg" alt="Treino finalizado" class="post-media-img" loading="eager">
+              <img src="../../../assets/images/proof.jpg" alt="Treino finalizado" class="post-media-img"
+                loading="eager">
             </div>
 
             <div class="post-actions-row">
@@ -1761,7 +2459,8 @@
             </div>
 
             <p class="post-text-body">
-              Treino de superiores finalizado com sucesso! Nova carga batida no supino e 100% de consistência esta semana. Rumo ao topo da arena! 🏋️‍♂️🔥
+              Treino de superiores finalizado com sucesso! Nova carga batida no supino e 100% de consistência esta
+              semana. Rumo ao topo da arena! 🏋️‍♂️🔥
             </p>
           </article>
 
@@ -1783,7 +2482,8 @@
             </div>
 
             <p class="post-text-body">
-              A disciplina te leva a lugares onde a motivação não consegue alcançar. Não negocie com a sua preguiça! 🐀👊
+              A disciplina te leva a lugares onde a motivação não consegue alcançar. Não negocie com a sua preguiça!
+              🐀👊
             </p>
 
             <div class="post-actions-row">
@@ -1815,7 +2515,8 @@
           <!-- Resposta 1 -->
           <div class="reply-thread-card">
             <div class="reply-parent-snippet">
-              <strong>@rijalxp:</strong> "If your favorite shades are light blue and pale pink, you can say that you prefer pastels..."
+              <strong>@rijalxp:</strong> "If your favorite shades are light blue and pale pink, you can say that you
+              prefer pastels..."
             </div>
             <div class="reply-body-wrap">
               <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel" class="reply-user-avatar">
@@ -1853,7 +2554,8 @@
           <!-- Resposta 3 -->
           <div class="reply-thread-card">
             <div class="reply-parent-snippet">
-              <strong>@chrex:</strong> "Yesterday, I met this girl near my house and she asked for a way and of course i did tell her..."
+              <strong>@chrex:</strong> "Yesterday, I met this girl near my house and she asked for a way and of course i
+              did tell her..."
             </div>
             <div class="reply-body-wrap">
               <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel" class="reply-user-avatar">
@@ -1894,7 +2596,8 @@
             </div>
 
             <!-- Comunidade 2: Calistenia & Musculação -->
-            <div class="community-profile-card" onclick="handleProfileCommunityClick('Calistenia & Musculação', 'comm_calistenia')">
+            <div class="community-profile-card"
+              onclick="handleProfileCommunityClick('Calistenia & Musculação', 'comm_calistenia')">
               <div class="comm-card-left">
                 <div class="comm-icon-box" style="border-color:rgba(255, 113, 63, 0.4);">
                   <i class="fa-solid fa-dumbbell" style="color:var(--color-accent-orange);"></i>
@@ -1928,7 +2631,8 @@
             </div>
 
             <!-- Comunidade 4: Desafios da Madrugada -->
-            <div class="community-profile-card" onclick="handleProfileCommunityClick('Desafios da Madrugada', 'comm_madrugada')">
+            <div class="community-profile-card"
+              onclick="handleProfileCommunityClick('Desafios da Madrugada', 'comm_madrugada')">
               <div class="comm-card-left">
                 <div class="comm-icon-box">
                   <i class="fa-solid fa-fire" style="color:var(--color-accent-orange);"></i>
@@ -1963,7 +2667,8 @@
 
           </div>
 
-          <button type="button" class="btn-create-post-sidebar" style="margin-top:8px;" onclick="window.location.href='communities.html'">
+          <button type="button" class="btn-create-post-sidebar" style="margin-top:8px;"
+            onclick="window.location.href='communities.html'">
             <i class="fa-solid fa-compass"></i>
             <span>Explorar Novas Comunidades</span>
           </button>
@@ -2093,7 +2798,8 @@
               </div>
 
               <p class="post-text-body">
-                Yesterday, I met this girl near my house and she asked for a way and of course i did tell her but, after 10 minutes she come back again and asking for my number! my god, she's so cute💕
+                Yesterday, I met this girl near my house and she asked for a way and of course i did tell her but, after
+                10 minutes she come back again and asking for my number! my god, she's so cute💕
               </p>
 
               <div class="post-actions-row">
@@ -2170,7 +2876,8 @@
       <div class="sidebar-widget-card">
         <div class="widget-title-row">
           <span class="widget-title">Métricas do perfil</span>
-          <a href="metrics.html" style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;">Ver tudo</a>
+          <a href="metrics.html"
+            style="font-size:12px; color:var(--color-accent-pink); text-decoration:none; font-weight:600;">Ver tudo</a>
         </div>
         <div style="display:flex; flex-direction:column; gap:10px;">
           <div style="display:flex; justify-content:space-between; font-size:13px;">
@@ -2179,7 +2886,8 @@
           </div>
           <div style="display:flex; justify-content:space-between; font-size:13px;">
             <span style="color:var(--color-text-secondary);">Foguinho atual</span>
-            <span style="color:var(--color-accent-orange); font-weight:700;" data-sr-metric="currentStreakDays">5 dias</span>
+            <span style="color:var(--color-accent-orange); font-weight:700;" data-sr-metric="currentStreakDays">5
+              dias</span>
           </div>
           <div style="display:flex; justify-content:space-between; font-size:13px;">
             <span style="color:var(--color-text-secondary);">Multiplicador</span>
@@ -2227,8 +2935,8 @@
 
       <!-- Desktop Footer -->
       <footer style="font-size:11.5px; color:var(--color-text-muted); line-height:1.6;">
-        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Sobre</a> · 
-        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Privacidade</a> · 
+        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Sobre</a> ·
+        <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Privacidade</a> ·
         <a href="#" style="color:var(--color-text-muted); text-decoration:none;">Termos</a><br>
         <span style="margin-top:6px; display:inline-block;">© 2026 SocialRats · Sua arena de evolução</span>
       </footer>
@@ -2280,20 +2988,24 @@
         <div class="notif-modal-item unread" data-cat="follows" onclick="window.location.href='profile.html'">
           <div class="notif-item-avatar-wrap">
             <img src="../../../assets/images/avatar-gabriela.png" alt="Marina" class="notif-item-avatar">
-            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-user-plus"></i></span>
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i
+                class="fa-solid fa-user-plus"></i></span>
           </div>
           <div class="notif-item-info">
             <p class="notif-item-text"><strong>marina_fitness</strong> começou a seguir você.</p>
             <span class="notif-item-time">há 12 min</span>
           </div>
-          <button type="button" class="btn-notif-follow" onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
+          <button type="button" class="btn-notif-follow"
+            onclick="event.stopPropagation(); toggleModalFollow(this);">Seguir</button>
         </div>
 
         <!-- Item 2: PR Record -->
         <div class="notif-modal-item unread" data-cat="prs" onclick="window.location.href='metrics.html'">
           <div class="notif-item-avatar-wrap">
-            <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats" class="notif-item-avatar" style="background:#14111e; padding:4px;">
-            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i class="fa-solid fa-trophy"></i></span>
+            <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="SocialRats"
+              class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:linear-gradient(135deg, #ff713f, #ff32b8);"><i
+                class="fa-solid fa-trophy"></i></span>
           </div>
           <div class="notif-item-info">
             <p class="notif-item-text"><strong>Novo Recorde!</strong> 110 kg no Supino Reto (+50 XP).</p>
@@ -2306,7 +3018,8 @@
         <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
           <div class="notif-item-avatar-wrap">
             <img src="../../../assets/images/avatar-ana.png" alt="Carlos" class="notif-item-avatar">
-            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i class="fa-solid fa-heart"></i></span>
+            <span class="notif-item-badge" style="background:var(--color-accent-pink);"><i
+                class="fa-solid fa-heart"></i></span>
           </div>
           <div class="notif-item-info">
             <p class="notif-item-text"><strong>carlos_iron</strong> e +18 curtiram seu treino.</p>
@@ -2319,7 +3032,8 @@
         <div class="notif-modal-item unread" data-cat="likes" onclick="window.location.href='feed.html'">
           <div class="notif-item-avatar-wrap">
             <img src="../../../assets/images/avatar-lucas.png" alt="Lucas" class="notif-item-avatar">
-            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i class="fa-solid fa-comment"></i></span>
+            <span class="notif-item-badge" style="background:var(--color-accent-purple);"><i
+                class="fa-solid fa-comment"></i></span>
           </div>
           <div class="notif-item-info">
             <p class="notif-item-text"><strong>lucas_bodybuilder</strong> comentou: <em>"Carga monstra! 🔥"</em></p>
@@ -2331,14 +3045,17 @@
         <!-- Item 5: Streak -->
         <div class="notif-modal-item" data-cat="prs" onclick="window.location.href='metrics.html'">
           <div class="notif-item-avatar-wrap">
-            <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="Streak" class="notif-item-avatar" style="background:#14111e; padding:4px;">
-            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i class="fa-solid fa-fire"></i></span>
+            <img src="../../../assets/images/socialrats-icon-removebg-preview (3).png" alt="Streak"
+              class="notif-item-avatar" style="background:#14111e; padding:4px;">
+            <span class="notif-item-badge" style="background:var(--color-accent-orange);"><i
+                class="fa-solid fa-fire"></i></span>
           </div>
           <div class="notif-item-info">
             <p class="notif-item-text"><strong>Sequência de 21 Dias!</strong> Foco mantido.</p>
             <span class="notif-item-time">ontem</span>
           </div>
-          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i class="fa-solid fa-fire-flame-curved"></i></div>
+          <div class="notif-medal-pill" style="color:var(--color-accent-pink);"><i
+              class="fa-solid fa-fire-flame-curved"></i></div>
         </div>
       </div>
 
@@ -2357,9 +3074,11 @@
     <div class="create-post-modal">
       <div class="composer-top-header">
         <div class="composer-user-block">
-          <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Ricca" class="create-post-user-avatar" id="modal-user-avatar">
+          <img src="../../../assets/images/avatar-your-story.png" alt="Gabriel Ricca" class="create-post-user-avatar"
+            id="modal-user-avatar">
           <div class="composer-meta-col">
-            <button type="button" class="composer-name-dropdown-btn" onclick="toggleComposerDropdown('dest-menu', event)">
+            <button type="button" class="composer-name-dropdown-btn"
+              onclick="toggleComposerDropdown('dest-menu', event)">
               <span id="modal-user-name">Gabriel Ricca</span>
               <i class="fa-solid fa-caret-down"></i>
             </button>
@@ -2367,14 +3086,17 @@
             <div class="composer-pills-row">
               <!-- Pill 1: Visibilidade -->
               <div class="composer-pill-wrap">
-                <button type="button" class="composer-pill-btn" id="pill-visibility-btn" onclick="toggleComposerDropdown('visibility-menu', event)">
+                <button type="button" class="composer-pill-btn" id="pill-visibility-btn"
+                  onclick="toggleComposerDropdown('visibility-menu', event)">
                   <i class="fa-solid fa-eye pill-lead-icon" id="pill-visibility-icon"></i>
                   <span id="pill-visibility-label">Publicar para qualquer ...</span>
                   <i class="fa-solid fa-caret-down pill-caret"></i>
                 </button>
                 <div class="composer-dropdown-menu" id="visibility-menu">
                   <span class="dropdown-section-label">Quem pode ver sua publicação</span>
-                  <button type="button" class="dropdown-option-item selected" data-vis-label="Publicar para qualquer ..." data-vis-icon="fa-solid fa-eye" onclick="selectVisibilityPermission(this)">
+                  <button type="button" class="dropdown-option-item selected"
+                    data-vis-label="Publicar para qualquer ..." data-vis-icon="fa-solid fa-eye"
+                    onclick="selectVisibilityPermission(this)">
                     <div class="dropdown-option-left">
                       <div class="dropdown-option-icon"><i class="fa-solid fa-earth-americas"></i></div>
                       <div class="dropdown-option-texts">
@@ -2384,7 +3106,8 @@
                     </div>
                     <i class="fa-solid fa-check dropdown-option-check"></i>
                   </button>
-                  <button type="button" class="dropdown-option-item" data-vis-label="Publicar: seguidores" data-vis-icon="fa-solid fa-user-group" onclick="selectVisibilityPermission(this)">
+                  <button type="button" class="dropdown-option-item" data-vis-label="Publicar: seguidores"
+                    data-vis-icon="fa-solid fa-user-group" onclick="selectVisibilityPermission(this)">
                     <div class="dropdown-option-left">
                       <div class="dropdown-option-icon"><i class="fa-solid fa-user-group"></i></div>
                       <div class="dropdown-option-texts">
@@ -2399,14 +3122,16 @@
 
               <!-- Pill 2: Comentários -->
               <div class="composer-pill-wrap">
-                <button type="button" class="composer-pill-btn" id="pill-comments-btn" onclick="toggleComposerDropdown('comments-menu', event)">
+                <button type="button" class="composer-pill-btn" id="pill-comments-btn"
+                  onclick="toggleComposerDropdown('comments-menu', event)">
                   <i class="fa-regular fa-comment-dots pill-lead-icon"></i>
                   <span id="pill-comments-label">Comentários: qualquer ...</span>
                   <i class="fa-solid fa-caret-down pill-caret"></i>
                 </button>
                 <div class="composer-dropdown-menu" id="comments-menu">
                   <span class="dropdown-section-label">Quem pode comentar</span>
-                  <button type="button" class="dropdown-option-item selected" data-comm-label="Comentários: qualquer ..." onclick="selectCommentsPermission(this)">
+                  <button type="button" class="dropdown-option-item selected"
+                    data-comm-label="Comentários: qualquer ..." onclick="selectCommentsPermission(this)">
                     <div class="dropdown-option-left">
                       <div class="dropdown-option-icon"><i class="fa-solid fa-globe"></i></div>
                       <div class="dropdown-option-texts">
@@ -2416,7 +3141,8 @@
                     </div>
                     <i class="fa-solid fa-check dropdown-option-check"></i>
                   </button>
-                  <button type="button" class="dropdown-option-item" data-comm-label="Comentários: membros" onclick="selectCommentsPermission(this)">
+                  <button type="button" class="dropdown-option-item" data-comm-label="Comentários: membros"
+                    onclick="selectCommentsPermission(this)">
                     <div class="dropdown-option-left">
                       <div class="dropdown-option-icon"><i class="fa-solid fa-users"></i></div>
                       <div class="dropdown-option-texts">
@@ -2439,7 +3165,8 @@
       <!-- Unified Filter Pills Pattern: Destino (Conta em Geral ou Comunidade Específica) -->
       <div class="composer-pills-row" style="padding: 2px 0;">
         <div class="composer-pill-wrap">
-          <button type="button" class="composer-pill-btn" id="pill-dest-btn" onclick="toggleComposerDropdown('dest-menu', event)">
+          <button type="button" class="composer-pill-btn" id="pill-dest-btn"
+            onclick="toggleComposerDropdown('dest-menu', event)">
             <i class="fa-solid fa-layer-group pill-lead-icon" id="pill-dest-icon"></i>
             <span id="pill-dest-label">Destino: Conta em geral</span>
             <i class="fa-solid fa-caret-down pill-caret"></i>
@@ -2447,11 +3174,14 @@
 
           <div class="composer-dropdown-menu" id="dest-menu">
             <span class="dropdown-section-label">Publicar na sua conta em geral</span>
-            <button type="button" class="dropdown-option-item selected" data-dest-type="account" data-dest-id="public" data-dest-label="Destino: Conta em geral" data-dest-short="Conta Geral" data-dest-icon="fa-solid fa-user" onclick="selectPostDestination(this)">
+            <button type="button" class="dropdown-option-item selected" data-dest-type="account" data-dest-id="public"
+              data-dest-label="Destino: Conta em geral" data-dest-short="Conta Geral" data-dest-icon="fa-solid fa-user"
+              onclick="selectPostDestination(this)">
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon"><i class="fa-solid fa-user"></i></div>
                 <div class="dropdown-option-texts">
-                  <span class="dropdown-option-title" data-sr-user="account-dest-title">Sua Conta em Geral (@gabriel)</span>
+                  <span class="dropdown-option-title" data-sr-user="account-dest-title">Sua Conta em Geral
+                    (@gabriel)</span>
                   <span class="dropdown-option-sub">Publicar no feed principal e no seu perfil</span>
                 </div>
               </div>
@@ -2459,7 +3189,9 @@
             </button>
 
             <span class="dropdown-section-label" style="margin-top:4px;">Ou em uma Comunidade específica</span>
-            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="gymrats_br" data-dest-label="Destino: GymRats Elite" data-dest-short="🏋️‍♂️ GymRats Elite" data-dest-icon="fa-solid fa-dumbbell" onclick="selectPostDestination(this)">
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="gymrats_br"
+              data-dest-label="Destino: GymRats Elite" data-dest-short="🏋️‍♂️ GymRats Elite"
+              data-dest-icon="fa-solid fa-dumbbell" onclick="selectPostDestination(this)">
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon">🏋️‍♂️</div>
                 <div class="dropdown-option-texts">
@@ -2469,7 +3201,9 @@
               </div>
               <i class="fa-solid fa-check dropdown-option-check"></i>
             </button>
-            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="devs_foco" data-dest-label="Destino: Programação Devs" data-dest-short="💻 Programação Devs" data-dest-icon="fa-solid fa-code" onclick="selectPostDestination(this)">
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="devs_foco"
+              data-dest-label="Destino: Programação Devs" data-dest-short="💻 Programação Devs"
+              data-dest-icon="fa-solid fa-code" onclick="selectPostDestination(this)">
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon">💻</div>
                 <div class="dropdown-option-texts">
@@ -2479,7 +3213,9 @@
               </div>
               <i class="fa-solid fa-check dropdown-option-check"></i>
             </button>
-            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="calistenia" data-dest-label="Destino: Calistenia & Street" data-dest-short="🤸 Calistenia & Street" data-dest-icon="fa-solid fa-person-running" onclick="selectPostDestination(this)">
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="calistenia"
+              data-dest-label="Destino: Calistenia & Street" data-dest-short="🤸 Calistenia & Street"
+              data-dest-icon="fa-solid fa-person-running" onclick="selectPostDestination(this)">
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon">🤸</div>
                 <div class="dropdown-option-texts">
@@ -2489,7 +3225,9 @@
               </div>
               <i class="fa-solid fa-check dropdown-option-check"></i>
             </button>
-            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="madrugada" data-dest-label="Destino: Corredores Madrugada" data-dest-short="🏃 Corredores da Madrugada" data-dest-icon="fa-solid fa-fire" onclick="selectPostDestination(this)">
+            <button type="button" class="dropdown-option-item" data-dest-type="community" data-dest-id="madrugada"
+              data-dest-label="Destino: Corredores Madrugada" data-dest-short="🏃 Corredores da Madrugada"
+              data-dest-icon="fa-solid fa-fire" onclick="selectPostDestination(this)">
               <div class="dropdown-option-left">
                 <div class="dropdown-option-icon">🏃</div>
                 <div class="dropdown-option-texts">
@@ -2503,7 +3241,8 @@
         </div>
       </div>
 
-      <textarea class="create-post-textarea" id="new-post-content" placeholder="Compartilhe suas ideias..." oninput="handleProfilePostInput(this)"></textarea>
+      <textarea class="create-post-textarea" id="new-post-content" placeholder="Compartilhe suas ideias..."
+        oninput="handleProfilePostInput(this)"></textarea>
 
       <div class="composer-tools-bar">
         <div class="composer-tools-left" style="flex-wrap:wrap;">
@@ -2511,14 +3250,19 @@
             <i class="fa-solid fa-wand-magic-sparkles" style="color:var(--color-accent-pink); font-size:12px;"></i>
             <span>Revise</span>
           </button>
-          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji('🔥')"><i class="fa-regular fa-face-smile"></i></button>
-          <button type="button" class="btn-composer-icon" onclick="showToast('Galeria de mídia aberta!')"><i class="fa-regular fa-image"></i></button>
-          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji(' 🏆 #NovoPR ')"><i class="fa-solid fa-certificate"></i></button>
-          <button type="button" class="btn-composer-icon" onclick="showToast('Mais opções da publicação')"><i class="fa-solid fa-plus"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji('🔥')"><i
+              class="fa-regular fa-face-smile"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="showToast('Galeria de mídia aberta!')"><i
+              class="fa-regular fa-image"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="insertProfileEmoji(' 🏆 #NovoPR ')"><i
+              class="fa-solid fa-certificate"></i></button>
+          <button type="button" class="btn-composer-icon" onclick="showToast('Mais opções da publicação')"><i
+              class="fa-solid fa-plus"></i></button>
 
           <!-- Colaboradores ao lado do + -->
           <div class="composer-pill-wrap">
-            <button type="button" class="composer-pill-btn" onclick="showToast('Selecione parceiros de treino para colaborar!')">
+            <button type="button" class="composer-pill-btn"
+              onclick="showToast('Selecione parceiros de treino para colaborar!')">
               <i class="fa-solid fa-user-plus pill-lead-icon"></i>
               <span>Adicionar colaboradores</span>
             </button>
@@ -2530,7 +3274,8 @@
       <div class="composer-bottom-footer">
         <div></div>
         <div class="composer-footer-actions">
-          <button type="button" class="btn-schedule-post" onclick="showToast('Publicação agendada para hoje às 19:00 ⏰')">
+          <button type="button" class="btn-schedule-post"
+            onclick="showToast('Publicação agendada para hoje às 19:00 ⏰')">
             <i class="fa-regular fa-clock"></i>
           </button>
           <button type="button" class="btn-submit-post" id="btn-submit-post" onclick="submitProfilePost()" disabled>
@@ -2544,15 +3289,20 @@
   <!-- ═══════════════════════════════════════════════════════════════
        INSTAGRAM-STYLE BOTTOM SHEET: MULTI-ACCOUNT SWITCHER
        ═══════════════════════════════════════════════════════════════ -->
-  <div class="account-sheet-overlay" id="account-switcher-menu" role="dialog" aria-modal="true" aria-label="Trocar de conta" onclick="closeAccountSwitcherOnBackdrop(event)">
+  <div class="account-sheet-overlay" id="account-switcher-menu" role="dialog" aria-modal="true"
+    aria-label="Trocar de conta" onclick="closeAccountSwitcherOnBackdrop(event)">
     <div class="account-sheet-card" onclick="event.stopPropagation()">
       <div class="account-sheet-handle"></div>
 
       <div class="account-list-box">
         <!-- Conta 1 (Ativa) -->
-        <button type="button" class="account-option-btn active" data-handle="gabriel" data-name="Gabriel Silva" data-avatar="../../../assets/images/avatar-your-story.png" data-bio="Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥" data-badge="🏅 Rato Alfa · Nível 14" onclick="switchProfileAccount(this)">
+        <button type="button" class="account-option-btn active" data-handle="gabriel" data-name="Gabriel Silva"
+          data-avatar="../../../assets/images/avatar-your-story.png"
+          data-bio="Focado na evolução diária 💪 Treino pesado, consistência e disciplina. Quem falha paga a multa! 🐀🔥"
+          data-badge="🏅 Rato Alfa · Nível 14" onclick="switchProfileAccount(this)">
           <div class="account-option-left">
-            <img src="../../../assets/images/avatar-your-story.png" alt="gabriel" class="account-option-avatar" id="switcher-primary-avatar">
+            <img src="../../../assets/images/avatar-your-story.png" alt="gabriel" class="account-option-avatar"
+              id="switcher-primary-avatar">
             <div class="account-option-texts">
               <span class="account-option-handle" id="switcher-primary-handle">gabriel</span>
             </div>
@@ -2561,7 +3311,10 @@
         </button>
 
         <!-- Conta 2 -->
-        <button type="button" class="account-option-btn" data-handle="gabriel_" data-name="Gabriel · Estudos & Code" data-avatar="../../../assets/images/avatar-lucas.png" data-bio="Full-Stack Developer & IA 💻 Construindo sistemas de alta performance na madrugada." data-badge="💻 Líder Devs · Nível 19" onclick="switchProfileAccount(this)">
+        <button type="button" class="account-option-btn" data-handle="gabriel_" data-name="Gabriel · Estudos & Code"
+          data-avatar="../../../assets/images/avatar-lucas.png"
+          data-bio="Full-Stack Developer & IA 💻 Construindo sistemas de alta performance na madrugada."
+          data-badge="💻 Líder Devs · Nível 19" onclick="switchProfileAccount(this)">
           <div class="account-option-left">
             <img src="../../../assets/images/avatar-lucas.png" alt="gabriel_" class="account-option-avatar">
             <div class="account-option-texts">
@@ -2576,7 +3329,10 @@
         </button>
 
         <!-- Conta 3 -->
-        <button type="button" class="account-option-btn" data-handle="gabriel.rats" data-name="Gabriel · Gym Rats" data-avatar="../../../assets/images/avatar-rafael.png" data-bio="Calistenia, PRs pesados e rotina de atleta 🏋️‍♂️🔥 Sem desculpas." data-badge="🔥 Lenda da Arena · Nível 22" onclick="switchProfileAccount(this)">
+        <button type="button" class="account-option-btn" data-handle="gabriel.rats" data-name="Gabriel · Gym Rats"
+          data-avatar="../../../assets/images/avatar-rafael.png"
+          data-bio="Calistenia, PRs pesados e rotina de atleta 🏋️‍♂️🔥 Sem desculpas."
+          data-badge="🔥 Lenda da Arena · Nível 22" onclick="switchProfileAccount(this)">
           <div class="account-option-left">
             <img src="../../../assets/images/avatar-rafael.png" alt="gabriel.rats" class="account-option-avatar">
             <div class="account-option-texts">
@@ -2677,7 +3433,7 @@
       } else {
         try {
           localStorage.setItem('socialrats_user', handle);
-        } catch (e) {}
+        } catch (e) { }
       }
 
       closeAccountSwitcher();
@@ -2747,7 +3503,7 @@
         navigator.share({
           title: 'Perfil de Gabriel no SocialRats',
           url: window.location.href
-        }).catch(() => {});
+        }).catch(() => { });
       } else {
         showToast('Link do perfil copiado para a área de transferência! 📋');
       }
@@ -2770,7 +3526,7 @@
     function handleLogout() {
       try {
         localStorage.removeItem('socialrats_user');
-      } catch (e) {}
+      } catch (e) { }
       showToast('Desconectando...');
       setTimeout(() => {
         window.location.href = '../auth/login.html';
@@ -2832,9 +3588,15 @@
       if (btn.classList.contains('following')) {
         btn.classList.remove('following');
         btn.textContent = 'Seguir';
+        if (window.SocialRatsMetrics && window.SocialRatsMetrics.updateFollowingCount) {
+          window.SocialRatsMetrics.updateFollowingCount(-1);
+        }
       } else {
         btn.classList.add('following');
         btn.textContent = 'Seguindo';
+        if (window.SocialRatsMetrics && window.SocialRatsMetrics.updateFollowingCount) {
+          window.SocialRatsMetrics.updateFollowingCount(1);
+        }
         showToast('Você agora segue este usuário!');
       }
     }
@@ -3049,4 +3811,3 @@
 </body>
 
 </html>
-
