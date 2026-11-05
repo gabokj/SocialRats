@@ -252,9 +252,34 @@
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      background: var(--gradient-story);
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
       padding: 2px;
       flex-shrink: 0;
+      transition: transform 0.15s ease;
+    }
+
+    .chat-avatar-wrap.has-story {
+    /* Viewed Story: Gray Ring (Idêntico ao feed: #4b4958) */
+    .chat-avatar-wrap.has-story.story-viewed {
+      background: #4b4958;
+    }
+
+    .sidebar-avatar-wrap.has-story.story-viewed {
+      background: #4b4958;
+    }
+
+    .dm-hero-avatar-wrap.has-story.story-viewed {
+      background: #4b4958;
+    }
+
+      background: var(--gradient-story);
+      border: none;
+      cursor: pointer;
+    }
+
+    .chat-avatar-wrap.has-story:hover {
+      transform: scale(1.06);
     }
 
     .chat-avatar-inner {
@@ -439,13 +464,12 @@
     }
 
     .message-bubble-group.sent .message-bubble {
-      background: var(--dm-sent-bg, var(--gradient-brand-diagonal));
+      background: var(--dm-sent-bg, var(--color-accent-purple));
       color: #ffffff;
       border-top-left-radius: var(--radius-lg);
       border-top-right-radius: 4px;
       border-bottom-right-radius: var(--radius-lg);
       border-bottom-left-radius: var(--radius-lg);
-      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.25);
     }
 
     .message-bubble {
@@ -637,9 +661,24 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: var(--gradient-story);
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
       padding: 3px;
       margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .sidebar-avatar-wrap.has-story {
+      background: var(--gradient-story);
+      border: none;
+      cursor: pointer;
+    }
+
+    .sidebar-avatar-wrap.has-story:hover {
+      transform: scale(1.04);
     }
 
     .sidebar-avatar-wrap img {
@@ -810,13 +849,38 @@
       padding: 4px 0 20px;
     }
 
+    .dm-hero-avatar-wrap {
+      position: relative;
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid var(--color-border-subtle);
+      padding: 3px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .dm-hero-avatar-wrap.has-story {
+      background: var(--gradient-story);
+      border: none;
+      cursor: pointer;
+    }
+
+    .dm-hero-avatar-wrap.has-story:hover {
+      transform: scale(1.04);
+    }
+
     .dm-hero-avatar {
-      width: 92px;
-      height: 92px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid var(--color-border-subtle);
-      margin-bottom: 12px;
+      display: block;
+      background: var(--color-background);
     }
 
     .dm-hero-name {
@@ -1423,6 +1487,21 @@
       display: block;
     }
 
+    .dm-group-mode .dm-quick-btn.dm-only-group {
+      display: flex;
+    }
+
+    .dm-quick-btn.dm-quick-leave {
+      color: var(--color-error);
+    }
+
+    mark.dm-mark {
+      background: var(--color-warning, #fbbf24);
+      color: #0b0913;
+      border-radius: 3px;
+      padding: 0 2px;
+    }
+
     .dm-focusable:focus-visible,
     .dm-row:focus-visible,
     .dm-quick-btn:focus-visible,
@@ -1448,6 +1527,129 @@
         border-left: none;
         border-right: none;
       }
+    }
+
+    /* Story Viewer Modal */
+    .story-viewer-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(8px);
+      z-index: 3000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0s linear 0.25s;
+    }
+
+    .story-viewer-modal.active {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.25s ease, visibility 0s;
+    }
+
+    .story-viewer-card {
+      width: 100%;
+      max-width: 400px;
+      height: 82vh;
+      max-height: 720px;
+      background-color: #12131a;
+      border-radius: 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .story-top-progress {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      overflow: hidden;
+      z-index: 30;
+    }
+
+    .story-top-fill {
+      height: 100%;
+      width: 0%;
+      background: #ffffff;
+      transition: width 0.08s linear;
+    }
+
+    .story-top-header {
+      position: absolute;
+      top: 22px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 30;
+    }
+
+    .story-top-user {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-top-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid #ffffff;
+      object-fit: cover;
+    }
+
+    .story-top-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .story-top-time {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .btn-close-story-viewer {
+      background: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .story-media-view {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #090a0f;
+    }
+
+    .story-media-view img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
   </style>
 </head>
@@ -1543,7 +1745,7 @@
           <div class="chat-contact-info" role="button" tabindex="0" aria-label="Abrir informações da conversa"
             onclick="DM.open('info')"
             onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DM.open('info');}">
-            <div class="chat-avatar-wrap">
+            <div class="chat-avatar-wrap" id="chat-avatar-wrap" onclick="handleChatAvatarClick(event)">
               <div class="chat-avatar-inner">
                 <img src="../../../assets/images/avatar-lucas.png" alt="Avatar" class="chat-avatar-img"
                   id="chat-avatar">
@@ -1679,7 +1881,8 @@
         </div>
         <div class="dm-screen-body">
           <div class="dm-hero">
-            <img class="dm-hero-avatar" id="dm-info-avatar" src="" alt="">
+            <div class="dm-hero-avatar-wrap" id="dm-hero-avatar-wrap" onclick="handleChatAvatarClick(event)"><img
+                class="dm-hero-avatar" id="dm-info-avatar" src="" alt=""></div>
             <h1 class="dm-hero-name" id="dm-info-name"></h1>
             <span class="dm-hero-handle" id="dm-info-handle"></span>
           </div>
@@ -1696,6 +1899,9 @@
             </button>
             <button type="button" class="dm-quick-btn" onclick="DM.openModal('menu')">
               <i class="fa-solid fa-ellipsis"></i><span>Opções</span>
+            </button>
+            <button type="button" class="dm-quick-btn dm-only-group dm-quick-leave" onclick="DM.openModal('leave')">
+              <i class="fa-solid fa-right-from-bracket"></i><span>Sair</span>
             </button>
           </div>
 
@@ -1735,6 +1941,15 @@
                 <i class="fa-regular fa-flag dm-row-icon"></i>
                 <span class="dm-row-text"><span class="dm-row-label">Reportar um problema</span></span>
                 <span class="dm-row-end"><i class="fa-solid fa-chevron-right"></i></span>
+              </button>
+            </li>
+          </ul>
+
+          <ul class="dm-list dm-only-group" style="margin-top:12px;">
+            <li>
+              <button type="button" class="dm-row danger" onclick="DM.openModal('leave')">
+                <i class="fa-solid fa-right-from-bracket dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label">Sair do grupo</span></span>
               </button>
             </li>
           </ul>
@@ -1785,7 +2000,7 @@
               </div>
             </li>
           </ul>
-          
+
 
           <h2 class="dm-section-title">Segurança</h2>
           <ul class="dm-list">
@@ -1825,7 +2040,8 @@
            ═══════════════════════════════════════════════════════════ -->
       <section class="dm-screen" id="dm-screen-group" aria-label="Criar grupo" aria-hidden="true" style="z-index:70;">
         <div class="dm-screen-top">
-          <button type="button" class="btn-chat-back" aria-label="Voltar para informações da conversa" onclick="DM.back()">
+          <button type="button" class="btn-chat-back" aria-label="Voltar para informações da conversa"
+            onclick="DM.back()">
             <i class="fa-solid fa-chevron-left"></i>
           </button>
           <span class="dm-screen-title">Criar grupo</span>
@@ -1840,15 +2056,18 @@
             </label>
             <div style="flex:1; min-width:0;">
               <label class="dm-label" for="grp-name" style="margin-top:0;">Nome do grupo</label>
-              <input type="text" class="dm-input" id="grp-name" maxlength="40" placeholder="Ex.: Treino da manhã" autocomplete="off">
+              <input type="text" class="dm-input" id="grp-name" maxlength="40" placeholder="Ex.: Treino da manhã"
+                autocomplete="off">
             </div>
           </div>
           <label class="dm-label" for="grp-desc">Descrição (opcional)</label>
-          <textarea class="dm-textarea" id="grp-desc" maxlength="200" placeholder="Sobre o que é este grupo?"></textarea>
+          <textarea class="dm-textarea" id="grp-desc" maxlength="200"
+            placeholder="Sobre o que é este grupo?"></textarea>
 
           <h2 class="dm-section-title">Participantes<span class="grp-count" id="grp-count"></span></h2>
           <div class="chat-input-field-wrap" style="margin-bottom:12px;">
-            <input type="text" id="grp-search" class="chat-native-input" placeholder="Pesquisar usuários" autocomplete="off" aria-label="Pesquisar usuários">
+            <input type="text" id="grp-search" class="chat-native-input" placeholder="Pesquisar usuários"
+              autocomplete="off" aria-label="Pesquisar usuários">
           </div>
           <ul class="dm-list" id="grp-users" role="group" aria-label="Usuários disponíveis"></ul>
           <p class="dm-note" id="grp-empty" style="display:none;">Nenhum usuário encontrado.</p>
@@ -1865,10 +2084,14 @@
         <div class="dm-modal" id="dm-modal-menu" role="dialog" aria-modal="true" aria-label="Opções da conversa"
           style="padding:8px 0 calc(8px + env(safe-area-inset-bottom));">
           <ul class="dm-list" style="border:none; background:transparent; border-radius:0;">
+            <li class="dm-only-group"><button type="button" class="dm-row danger" onclick="DM.swap('leave')"><i
+                  class="fa-solid fa-right-from-bracket dm-row-icon"></i><span class="dm-row-label">Sair do
+                  grupo</span></button></li>
             <li class="dm-only-1to1"><button type="button" class="dm-row danger" onclick="DM.swap('report')"><i
                   class="fa-regular fa-flag dm-row-icon"></i><span class="dm-row-label">Denunciar</span></button></li>
-            <li class="dm-only-1to1"><button type="button" class="dm-row danger" id="dm-menu-block" onclick="DM.menuBlock()"><i
-                  class="fa-solid fa-ban dm-row-icon"></i><span class="dm-row-label">Bloquear</span></button></li>
+            <li class="dm-only-1to1"><button type="button" class="dm-row danger" id="dm-menu-block"
+                onclick="DM.menuBlock()"><i class="fa-solid fa-ban dm-row-icon"></i><span
+                  class="dm-row-label">Bloquear</span></button></li>
             <li><button type="button" class="dm-row" id="dm-menu-mute" onclick="DM.menuMute()"><i
                   class="fa-regular fa-bell-slash dm-row-icon"></i><span class="dm-row-label">Silenciar
                   notificações</span></button></li>
@@ -1940,19 +2163,35 @@
           </div>
         </div>
 
+        <!-- Sair do grupo -->
+        <div class="dm-modal" id="dm-modal-leave" role="dialog" aria-modal="true" aria-labelledby="dm-leave-title">
+          <h2 class="dm-modal-title" id="dm-leave-title">Sair do grupo?</h2>
+          <p class="dm-modal-text" style="margin-bottom:16px;">Você deixará de participar de <strong data-dm="name"
+              style="color:var(--color-text-primary);"></strong> e a conversa sairá da sua lista do Direct.</p>
+          <div class="dm-modal-actions">
+            <button type="button" class="dm-btn dm-btn-danger" onclick="DM.confirmLeave()">Sair do grupo</button>
+            <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Cancelar</button>
+          </div>
+        </div>
+
         <!-- SocialRats Pro -->
         <div class="dm-modal" id="dm-modal-pro" role="dialog" aria-modal="true" aria-labelledby="dm-pro-title">
           <div style="text-align:center; margin-bottom:12px;">
-            <span class="dm-pro-tag" style="font-size:12px; padding:5px 12px;"><i class="fa-solid fa-crown"></i>SocialRats PRO</span>
+            <span class="dm-pro-tag" style="font-size:12px; padding:5px 12px;"><i
+                class="fa-solid fa-crown"></i>SocialRats PRO</span>
           </div>
           <h2 class="dm-modal-title" id="dm-pro-title" style="text-align:center;">Personalização é exclusiva do Pro</h2>
-          <p class="dm-modal-text" style="text-align:center; margin-bottom:16px;">Deixe cada conversa com a sua cara. Este benefício está disponível apenas para assinantes do plano Pro.</p>
+          <p class="dm-modal-text" style="text-align:center; margin-bottom:16px;">Deixe cada conversa com a sua cara.
+            Este benefício está disponível apenas para assinantes do plano Pro.</p>
           <ul class="dm-bullets">
-            <li><i class="fa-solid fa-palette"></i><span>Escolha as cores das suas mensagens em cada conversa.</span></li>
+            <li><i class="fa-solid fa-palette"></i><span>Escolha as cores das suas mensagens em cada conversa.</span>
+            </li>
             <li><i class="fa-solid fa-crown"></i><span>Junto com os demais benefícios do plano Pro.</span></li>
           </ul>
           <div class="dm-modal-actions">
-            <a class="dm-btn dm-btn-primary" href="../marketing/pricing.html" style="display:flex; align-items:center; justify-content:center; text-decoration:none;">Conhecer o SocialRats Pro</a>
+            <a class="dm-btn dm-btn-primary" href="../marketing/pricing.html"
+              style="display:flex; align-items:center; justify-content:center; text-decoration:none;">Conhecer o
+              SocialRats Pro</a>
             <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Agora não</button>
           </div>
         </div>
@@ -2029,6 +2268,7 @@
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
   <script src="../../../assets/js/user-profile.js"></script>
+  <script src="../../../assets/js/stories-engine.js"></script>
   <script>
     // 1. Contact Presets Database (Matching Direct screen exactly!)
     const contactsData = {
@@ -2038,6 +2278,7 @@
         avatar: '../../../assets/images/avatar-lucas.png',
         online: true,
         streak: 12,
+        hasStory: true,
         initialMsg: 'Mano, bora jogar mais tarde? 🎮',
         reply: 'Fechou demais! Te chamo por volta das 20h então. 🚀'
       },
@@ -2047,6 +2288,7 @@
         avatar: '../../../assets/images/avatar-ana.png',
         online: true,
         streak: 8,
+        hasStory: true,
         initialMsg: 'Mandei o link do vídeo que você pediu!',
         reply: 'Depois me diz o que achou da técnica de agachamento! 💪'
       },
@@ -2056,6 +2298,7 @@
         avatar: '../../../assets/images/avatar-rafael.png',
         online: true,
         streak: 21,
+        hasStory: true,
         initialMsg: 'Fechou! Então amanhã a gente se fala.',
         reply: 'Combinado! Treino de peito às 07h pontual! 🔥'
       },
@@ -2065,6 +2308,7 @@
         avatar: '../../../assets/images/avatar-carol.png',
         online: true,
         streak: 5,
+        hasStory: false,
         initialMsg: 'Kkkkkkkk real demais',
         reply: 'Ninguém aguenta o treino de perna do coach kkkkk 😂'
       },
@@ -2074,6 +2318,7 @@
         avatar: '../../../assets/images/avatar-matheus.png',
         online: true,
         streak: 14,
+        hasStory: false,
         initialMsg: 'Qual vai ser o plano de hoje?',
         reply: 'Bora focar em costas e bíceps hoje na arena!'
       },
@@ -2083,6 +2328,7 @@
         avatar: '../../../assets/images/avatar-gabriela.png',
         online: false,
         streak: 6,
+        hasStory: false,
         initialMsg: 'Boa! Qualquer coisa me chama.',
         reply: 'Pode deixar! Bons treinos por aí ✨'
       },
@@ -2092,6 +2338,7 @@
         avatar: '../../../assets/images/avatar-pedro.png',
         online: false,
         streak: 9,
+        hasStory: false,
         initialMsg: 'Tamo junto! 👊',
         reply: 'É nós irmão, rumo ao topo do ranking!'
       },
@@ -2101,6 +2348,7 @@
         avatar: '../../../assets/images/avatar-juliana.png',
         online: false,
         streak: 3,
+        hasStory: false,
         initialMsg: 'Hahaha pode deixar! 😃',
         reply: 'Até amanhã no box de treino!'
       }
@@ -2124,13 +2372,94 @@
     } : (contactsData[contactKey] || contactsData.lucas);
     if (isGroup) document.getElementById('app-viewport').classList.add('dm-group-mode');
 
+
+    // Story Viewer in Chat
+    let chatStoryTimer = null;
+    let chatStoryProgress = 0;
+
+    function openChatStoryViewer(key) {
+      if (window.SocialRatsStories) {
+        window.SocialRatsStories.open(key);
+        return;
+      }
+      if (window.SocialRatsUser && window.SocialRatsUser.markStoryAsViewed) {
+        window.SocialRatsUser.markStoryAsViewed(key);
+      }
+      const u = window.SocialRatsUser;
+      const story = u && u.getStory ? u.getStory(key) : null;
+      if (!story) return;
+
+      document.getElementById('chat-story-avatar').src = story.avatar;
+      document.getElementById('chat-story-author').textContent = story.author;
+      document.getElementById('chat-story-time').textContent = story.time || 'Recente';
+      document.getElementById('chat-story-img').src = story.media;
+
+      const modal = document.getElementById('chat-story-modal');
+      modal.classList.add('active');
+
+      const fill = document.getElementById('chat-story-fill');
+      chatStoryProgress = 0;
+      fill.style.width = '0%';
+      if (chatStoryTimer) clearInterval(chatStoryTimer);
+      chatStoryTimer = setInterval(() => {
+        chatStoryProgress += 2;
+        fill.style.width = chatStoryProgress + '%';
+        if (chatStoryProgress >= 100) {
+          closeChatStoryViewer();
+        }
+      }, 80);
+    }
+
+    function closeChatStoryViewer() {
+      if (chatStoryTimer) clearInterval(chatStoryTimer);
+      const modal = document.getElementById('chat-story-modal');
+      if (modal) modal.classList.remove('active');
+    }
+
+    function handleChatAvatarClick(e) {
+      const hasStory = !isGroup && (contact.hasStory || (window.SocialRatsUser && window.SocialRatsUser.hasStory(contactKey)));
+      if (hasStory) {
+        if (e) e.stopPropagation();
+        openChatStoryViewer(contactKey);
+      }
+    }
+
+    function syncContactStoryUI() {
+      const u = window.SocialRatsUser;
+      const hasStory = !isGroup && (contact.hasStory || (u && u.hasStory(contactKey)));
+      const isViewed = hasStory && u && u.isStoryViewed && u.isStoryViewed(contactKey);
+
+      const headWrap = document.getElementById('chat-avatar-wrap');
+      if (headWrap) {
+        headWrap.classList.toggle('has-story', hasStory);
+        headWrap.classList.toggle('story-viewed', isViewed);
+        if (hasStory) headWrap.title = isViewed ? 'Story já visualizado' : ('Ver story de ' + contact.name);
+        else headWrap.removeAttribute('title');
+      }
+      const sideWrap = document.getElementById('sidebar-avatar-wrap');
+      if (sideWrap) {
+        sideWrap.classList.toggle('has-story', hasStory);
+        sideWrap.classList.toggle('story-viewed', isViewed);
+        if (hasStory) sideWrap.title = isViewed ? 'Story já visualizado' : ('Ver story de ' + contact.name);
+        else sideWrap.removeAttribute('title');
+      }
+      const heroWrap = document.getElementById('dm-hero-avatar-wrap');
+      if (heroWrap) {
+        heroWrap.classList.toggle('has-story', hasStory);
+        heroWrap.classList.toggle('story-viewed', isViewed);
+        if (hasStory) heroWrap.title = isViewed ? 'Story já visualizado' : ('Ver story de ' + contact.name);
+        else heroWrap.removeAttribute('title');
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
+      syncContactStoryUI();
       // Set Header info
       document.getElementById('chat-contact-name').textContent = contact.name;
       document.getElementById('chat-avatar').src = contact.avatar;
       document.getElementById('chat-online-dot').style.display = contact.online ? 'block' : 'none';
       document.getElementById('chat-status-text').textContent = contact.online ? 'Online agora' : 'Offline recentemente';
-      document.getElementById('chat-streak-text').textContent = `🔥 ${contact.streak} dias`;
+      document.getElementById('chat-streak-text').textContent = `🔥 ${contact.streak}`;
 
       // Set Banner (if present)
       const bannerEl = document.getElementById('banner-streak-title');
@@ -2250,7 +2579,7 @@
         ['default', 'Padrão SocialRats', null],
         ['sunset', 'Pôr do sol', 'linear-gradient(135deg, #ff713f 0%, #ff32b8 100%)'],
         ['violet', 'Violeta', 'linear-gradient(135deg, #ff32b8 0%, #923bff 100%)'],
-        ['purple', 'Roxo', '#923bff']
+        ['pink', 'Rosa', '#ff32b8']
       ];
 
       function applyTheme() {
@@ -2306,7 +2635,7 @@
       }
 
       function openModal(name) {
-        ['menu', 'report', 'block', 'pro', 'customize'].forEach((n) => $('dm-modal-' + n).classList.toggle('show', n === name));
+        ['menu', 'report', 'block', 'pro', 'customize', 'leave'].forEach((n) => $('dm-modal-' + n).classList.toggle('show', n === name));
         lastFocus = document.activeElement;
         if (name === 'report') resetReport();
         if (name === 'customize') renderThemes();
@@ -2367,6 +2696,14 @@
         showToast(`${contact.name} foi bloqueado`);
       }
 
+      function confirmLeave() {
+        if (!isGroup) return;
+        window.SocialRatsUser.dm.leaveGroup(groupId);
+        closeModal();
+        showToast('Você saiu do grupo');
+        setTimeout(() => { location.href = 'direct.html'; }, 600);
+      }
+
       function unblock() {
         store.updateSettings(key, { blocked: false });
         render();
@@ -2405,17 +2742,59 @@
         filterMessages('');
       }
 
+      function clearMarks(root) {
+        root.querySelectorAll('mark.dm-mark').forEach((m) => m.replaceWith(document.createTextNode(m.textContent)));
+        root.normalize();
+      }
+
+      function highlight(bubble, q) {
+        const walker = document.createTreeWalker(bubble, NodeFilter.SHOW_TEXT, {
+          acceptNode: (n) => (n.parentElement.closest('.message-meta-row') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT)
+        });
+        const nodes = [];
+        while (walker.nextNode()) nodes.push(walker.currentNode);
+        nodes.forEach((node) => {
+          const text = node.nodeValue;
+          const lower = text.toLowerCase();
+          let idx = lower.indexOf(q);
+          if (idx < 0) return;
+          const frag = document.createDocumentFragment();
+          let last = 0;
+          while (idx >= 0) {
+            frag.append(text.slice(last, idx));
+            const mark = document.createElement('mark');
+            mark.className = 'dm-mark';
+            mark.textContent = text.slice(idx, idx + q.length);
+            frag.append(mark);
+            last = idx + q.length;
+            idx = lower.indexOf(q, last);
+          }
+          frag.append(text.slice(last));
+          node.replaceWith(frag);
+        });
+      }
+
       function filterMessages(term) {
         const q = term.trim().toLowerCase();
+        let first = null;
         all('#chat-stream .message-bubble-group').forEach((g) => {
-          g.classList.toggle('dm-hidden', !!q && !g.textContent.toLowerCase().includes(q));
+          const bubble = g.querySelector('.message-bubble');
+          if (bubble) clearMarks(bubble);
+          const match = !q || g.textContent.toLowerCase().includes(q);
+          g.classList.toggle('dm-hidden', !match);
+          if (q && match && bubble) {
+            highlight(bubble, q);
+            if (!first) first = g;
+          }
         });
+        if (first) first.scrollIntoView({ block: 'nearest' });
       }
 
       function isBlocked() { return settings().blocked; }
 
       window.addEventListener('hashchange', syncScreens);
       window.addEventListener('sr:dm-updated', render);
+      window.addEventListener('sr:stories-updated', syncContactStoryUI);
       document.addEventListener('keydown', (e) => {
         if (e.key !== 'Escape') return;
         if ($('dm-overlay').classList.contains('open')) closeModal();
@@ -2430,11 +2809,11 @@
 
       return {
         open, back, openModal, closeModal, swap, submitReport, confirmBlock, unblock, toggleBlock,
-        customize, menuBlock, menuMute, menuPrivacy, toggleMute, openProfile, startSearch, closeSearch, isBlocked
+        customize, confirmLeave, menuBlock, menuMute, menuPrivacy, toggleMute, openProfile, startSearch, closeSearch, isBlocked
       };
     })();
 
-// ═══════════════════════════════════════════════════════════════
+    // ═══════════════════════════════════════════════════════════════
     // Criar grupo (usa SocialRatsUser.dm: usuários do Direct, bloqueios e grupos)
     // ═══════════════════════════════════════════════════════════════
     (function () {
@@ -2676,6 +3055,9 @@
       }
     }
   </script>
+
+  
+
 </body>
 
 </html>

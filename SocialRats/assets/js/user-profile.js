@@ -612,6 +612,119 @@
     return getPlan().tier === 'pro';
   }
 
+  /* ═══════════════════════════════════════════════════════════════
+     STORIES (SocialRats Direct & Feed Stories Central State)
+     ═══════════════════════════════════════════════════════════════ */
+  const DEFAULT_CONTACT_STORIES = {
+    lucas: {
+      id: 'lucas',
+      author: 'Lucas Mendes',
+      avatar: '../../../assets/images/avatar-lucas.png',
+      media: '../../../assets/images/post-blue-orange.png',
+      time: '2h atrás'
+    },
+    ana: {
+      id: 'ana',
+      author: 'Ana Costa',
+      avatar: '../../../assets/images/avatar-ana.png',
+      media: '../../../assets/images/post-sunset.png',
+      time: '4h atrás'
+    },
+    rafael: {
+      id: 'rafael',
+      author: 'Rafael Souza',
+      avatar: '../../../assets/images/avatar-rafael.png',
+      media: '../../../assets/images/challenges.jpg',
+      time: '6h atrás'
+    }
+  };
+
+  function hasStory(key) {
+    if (window.SocialRatsStories) return window.SocialRatsStories.hasStory(key);
+    if (!key) return false;
+    const cleanKey = String(key).toLowerCase().replace(/^@/, '');
+    if (cleanKey === 'your-story' || cleanKey === 'me') {
+      try {
+        return !!localStorage.getItem('socialrats_my_story');
+      } catch (e) { return false; }
+    }
+    return Boolean(DEFAULT_CONTACT_STORIES[cleanKey]);
+  }
+
+  function getStory(key) {
+    if (window.SocialRatsStories) return window.SocialRatsStories.getStory(key);
+    if (!key) return null;
+    const cleanKey = String(key).toLowerCase().replace(/^@/, '');
+    if (cleanKey === 'your-story' || cleanKey === 'me') {
+      try {
+        const raw = localStorage.getItem('socialrats_my_story');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return null;
+    }
+    return DEFAULT_CONTACT_STORIES[cleanKey] || null;
+  }
+
+  const VIEWED_STORIES_STORAGE_KEY = 'socialrats_viewed_stories_v1';
+
+  function getViewedStories() {
+    try {
+      const raw = localStorage.getItem(VIEWED_STORIES_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed)) return new Set(parsed);
+      }
+    } catch (e) {}
+    return new Set();
+  }
+
+  function isStoryViewed(storyId) {
+    if (window.SocialRatsStories) return window.SocialRatsStories.isViewed(storyId);
+    if (!storyId) return false;
+    const cleanId = String(storyId).toLowerCase().replace(/^@/, '');
+    return getViewedStories().has(cleanId);
+  }
+
+  function markStoryAsViewed(storyId) {
+    if (window.SocialRatsStories) return window.SocialRatsStories.markAsViewed(storyId);
+    if (!storyId) return;
+    const cleanId = String(storyId).toLowerCase().replace(/^@/, '');
+    const viewed = getViewedStories();
+    viewed.add(cleanId);
+    try {
+      localStorage.setItem(VIEWED_STORIES_STORAGE_KEY, JSON.stringify([...viewed]));
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('sr:stories-updated'));
+  }
+
+  function unmarkStoryAsViewed(storyId) {
+    if (!storyId) return;
+    const cleanId = String(storyId).toLowerCase().replace(/^@/, '');
+    const viewed = getViewedStories();
+    viewed.delete(cleanId);
+    try {
+      localStorage.setItem(VIEWED_STORIES_STORAGE_KEY, JSON.stringify([...viewed]));
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('sr:stories-updated'));
+  }
+
+  function publishMyStory(mediaUrl) {
+    if (window.SocialRatsStories) return window.SocialRatsStories.publishUserStory(mediaUrl);
+    const p = getProfile();
+    const story = {
+      id: 'your-story',
+      author: p.name || 'Você',
+      avatar: p.avatar || DESIGN_SYSTEM_DEFAULT_AVATAR_SVG,
+      media: mediaUrl || '../../../assets/images/post-sunset-crop.png',
+      time: 'Agora'
+    };
+    try {
+      localStorage.setItem('socialrats_my_story', JSON.stringify(story));
+    } catch (e) {}
+    window.dispatchEvent(new CustomEvent('sr:stories-updated'));
+    return story;
+  }
+
   const dm = {
     getSettings(contactKey) {
       const store = readDmStore();
@@ -659,6 +772,14 @@
       writeDmGroups(store);
       return group;
     },
+    leaveGroup(id) {
+      const store = readDmGroups();
+      store.groups = store.groups.filter((g) => g.id !== id);
+      writeDmGroups(store);
+      const dmStore = readDmStore();
+      delete dmStore.conversations['group:' + id];
+      writeDmStore(dmStore);
+    },
     getGroups() {
       return readDmGroups().groups;
     },
@@ -678,6 +799,12 @@
     dm,
     getPlan,
     hasProAccess,
+    hasStory,
+    getStory,
+    publishMyStory,
+    isStoryViewed,
+    markStoryAsViewed,
+    unmarkStoryAsViewed,
     DEFAULT_AVATAR: DESIGN_SYSTEM_DEFAULT_AVATAR_SVG,
     DEFAULT_PROFILE,
     getProfile,

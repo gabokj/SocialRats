@@ -3438,6 +3438,7 @@
        ═══════════════════════════════════════════════════════════════ -->
   <script src="../../../assets/js/metrics-engine.js"></script>
   <script src="../../../assets/js/user-profile.js"></script>
+  <script src="../../../assets/js/stories-engine.js"></script>
   <script>
     // 1. Recover Logged User & Sync Global Profile Data
     document.addEventListener('DOMContentLoaded', () => {
@@ -3789,6 +3790,10 @@
     }
 
     function openStoryViewer(author, avatarSrc, mediaSrc, isYourStory = false) {
+      if (window.SocialRatsStories) {
+        window.SocialRatsStories.open(isYourStory ? 'your-story' : author);
+        return;
+      }
       buildStoryProgressSegments();
 
       let foundIndex = storiesList.findIndex(
@@ -3825,6 +3830,12 @@
     }
 
     function publishUserStory(e) {
+      if (e) e.stopPropagation();
+      if (window.SocialRatsStories) {
+        window.SocialRatsStories.publishUserStory();
+        showToast('Novo Story publicado no seu perfil! 📸');
+        return;
+      }
       if (e) e.stopPropagation();
       unmarkStoryAsViewed('your-story');
       if (window.SocialRatsMetrics) {
