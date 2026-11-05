@@ -2136,6 +2136,59 @@
         showToast('Você agora segue este usuário!');
       }
     }
+
+    // Sincroniza bloqueio e silêncio (configurações do Direct) com a lista de conversas
+    function syncConversationSettings() {
+      const dm = window.SocialRatsUser && window.SocialRatsUser.dm;
+      if (!dm) return;
+      document.querySelectorAll('a.conversation-row[href*="contact="]').forEach((row) => {
+        const key = new URL(row.getAttribute('href'), location.href).searchParams.get('contact');
+        const s = dm.getSettings(key);
+        const preview = row.querySelector('.conv-preview');
+        const nameRow = row.querySelector('.conv-name-row');
+        if (preview && preview.dataset.original === undefined) preview.dataset.original = preview.textContent;
+        row.style.opacity = s.blocked ? '0.6' : '';
+        if (preview) preview.textContent = s.blocked ? 'Você bloqueou este contato' : preview.dataset.original;
+        const badge = row.querySelector('.conv-unread-badge');
+        if (badge) badge.style.display = s.blocked || s.muted ? 'none' : '';
+        let mutedIcon = row.querySelector('.conv-muted-icon');
+        if (nameRow && s.muted && !mutedIcon) {
+          mutedIcon = document.createElement('i');
+          mutedIcon.className = 'fa-solid fa-bell-slash conv-muted-icon';
+          mutedIcon.setAttribute('aria-label', 'Notificações silenciadas');
+          mutedIcon.style.cssText = 'font-size:11px; color:var(--color-text-secondary);';
+          nameRow.appendChild(mutedIcon);
+        } else if (mutedIcon && !s.muted) {
+          mutedIcon.remove();
+        }
+      });
+    }
+    // Conversas em grupo criadas pelo usuário (SocialRatsUser.dm)
+    function renderGroupConversations() {
+      const dm = window.SocialRatsUser && window.SocialRatsUser.dm;
+      const list = document.getElementById('conv-list');
+      if (!dm || !list) return;
+      list.querySelectorAll('.group-row').forEach((el) => el.remove());
+      dm.getGroups().slice().reverse().forEach((g) => {
+        const row = document.createElement('a');
+        row.className = 'conversation-row group-row';
+        row.href = 'chat.html?group=' + encodeURIComponent(g.id);
+        row.dataset.name = g.name.toLowerCase();
+        row.innerHTML = '<div class="conversation-left"><div class="conv-avatar-wrap"><div class="conv-avatar-inner"><img class="conv-avatar-img" alt=""></div></div>' +
+          '<div class="conv-details"><div class="conv-name-row"><span class="conv-name"></span></div><span class="conv-preview"></span></div></div>' +
+          '<div class="conversation-right"><i class="fa-solid fa-chevron-right conv-chevron"></i></div>';
+        row.querySelector('img').src = g.photo || window.SocialRatsUser.DEFAULT_AVATAR;
+        row.querySelector('.conv-name').textContent = g.name;
+        row.querySelector('.conv-preview').textContent = (g.members.length + 1) + ' participantes';
+        list.insertBefore(row, list.firstChild);
+      });
+    }
+    document.addEventListener('DOMContentLoaded', renderGroupConversations);
+    window.addEventListener('sr:dm-updated', renderGroupConversations);
+    window.addEventListener('pageshow', renderGroupConversations);
+    document.addEventListener('DOMContentLoaded', syncConversationSettings);
+    window.addEventListener('sr:dm-updated', syncConversationSettings);
+    window.addEventListener('pageshow', syncConversationSettings);
   </script>
 </body>
 

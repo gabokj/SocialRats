@@ -607,3 +607,6 @@ Ao revisar, registre as inconsistências por categoria (cor, tipografia, espaça
 | 1.0 | — | Criação inicial a partir da referência da tela Home |
 | 1.1 | 2026-10-30 | Padronização completa de tokens, componentes, dimensões e navegação entre todas as 5 abas (Home, Buscar, Métricas, Direct, Perfil) e telas de autenticação |
 | 1.2 | 2026-11-01 | Padronização do Modal de Criação de Publicação (Composer) com seletor e filtro de destino (Conta Geral vs. Comunidades específicas), permissões de comentários, colaboradores e barra de ferramentas |
+
+| 1.3 | 2026-11-05 | Direct: tela de informações da conversa, privacidade e segurança (`dm-screen`, `dm-list`/`dm-row`), bottom sheet de opções e modais de denúncia/bloqueio (`dm-overlay`/`dm-modal`). Estado em `SocialRatsUser.dm` (`socialrats_dm_settings_v1`). |
+| 1.4 | 2026-11-05 | Direct: tela de informações simplificada; Personalizar marcado com selo PRO (`dm-pro-tag`) e modal de apresentação do Pro; tela Criar grupo (`dm-screen`, seleção em `dm-row` com `grp-user-check`). |

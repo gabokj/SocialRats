@@ -557,7 +557,127 @@
     }
   });
 
+  /* ═══════════════════════════════════════════════════════════════
+     DIRECT · Configurações por conversa, bloqueios e denúncias
+     Persistido em localStorage, vinculado ao usuário logado (handle).
+     ═══════════════════════════════════════════════════════════════ */
+  const DM_STORAGE_KEY = 'socialrats_dm_settings_v1';
+  const DM_DEFAULT_SETTINGS = Object.freeze({ blocked: false, muted: false, theme: 'default' });
+
+  function readDmStore() {
+    try {
+      const parsed = JSON.parse(localStorage.getItem(DM_STORAGE_KEY) || '{}');
+      const owner = getProfile().handle;
+      if (parsed && parsed.owner === owner && parsed.conversations) return parsed;
+      return { owner, conversations: {}, reports: [] };
+    } catch (e) {
+      return { owner: getProfile().handle, conversations: {}, reports: [] };
+    }
+  }
+
+  function writeDmStore(store) {
+    try {
+      localStorage.setItem(DM_STORAGE_KEY, JSON.stringify(store));
+    } catch (e) { /* storage indisponível */ }
+    window.dispatchEvent(new CustomEvent('sr:dm-updated'));
+  }
+
+  const DM_GROUPS_KEY = 'socialrats_dm_groups_v1';
+
+  function readDmGroups() {
+    const owner = getProfile().handle;
+    try {
+      const parsed = JSON.parse(localStorage.getItem(DM_GROUPS_KEY) || '{}');
+      if (parsed && parsed.owner === owner && Array.isArray(parsed.groups)) return parsed;
+    } catch (e) { /* ignora */ }
+    return { owner, groups: [] };
+  }
+
+  function writeDmGroups(store) {
+    localStorage.setItem(DM_GROUPS_KEY, JSON.stringify(store));
+    window.dispatchEvent(new CustomEvent('sr:dm-updated'));
+  }
+
+  // Entitlement do plano (SocialRats Pro). Somente leitura: a ativação virá do fluxo de assinatura.
+  const PLAN_STORAGE_KEY = 'socialrats_plan';
+  function getPlan() {
+    try {
+      const plan = JSON.parse(localStorage.getItem(PLAN_STORAGE_KEY) || 'null');
+      if (plan && plan.tier === 'pro' && plan.status === 'active' &&
+        (!plan.expiresAt || new Date(plan.expiresAt) > new Date())) return plan;
+    } catch (e) { /* ignora */ }
+    return { tier: 'free', status: 'active' };
+  }
+  function hasProAccess() {
+    return getPlan().tier === 'pro';
+  }
+
+  const dm = {
+    getSettings(contactKey) {
+      const store = readDmStore();
+      return Object.assign({}, DM_DEFAULT_SETTINGS, store.conversations[contactKey] || {});
+    },
+    updateSettings(contactKey, partial) {
+      const store = readDmStore();
+      store.conversations[contactKey] = Object.assign(
+        {}, DM_DEFAULT_SETTINGS, store.conversations[contactKey] || {}, partial
+      );
+      writeDmStore(store);
+      return store.conversations[contactKey];
+    },
+    isBlocked(contactKey) {
+      return !!dm.getSettings(contactKey).blocked;
+    },
+    addReport(report) {
+      const store = readDmStore();
+      const entry = Object.assign({
+        id: 'rep_' + Date.now().toString(36),
+        reporter: store.owner,
+        createdAt: new Date().toISOString(),
+        status: 'enviada'
+      }, report);
+      store.reports.push(entry);
+      writeDmStore(store);
+      return entry;
+    },
+    createGroup({ name, description, photo, members }) {
+      const cleanName = String(name || '').trim();
+      const ids = Array.from(new Set(members || []));
+      if (!cleanName) throw new Error('Informe o nome do grupo.');
+      if (!ids.length) throw new Error('Selecione ao menos um participante.');
+      const store = readDmGroups();
+      const group = {
+        id: 'g' + Date.now().toString(36),
+        name: cleanName.slice(0, 40),
+        description: String(description || '').trim().slice(0, 200),
+        photo: photo || '',
+        members: ids,
+        createdBy: store.owner,
+        createdAt: new Date().toISOString()
+      };
+      store.groups.unshift(group);
+      writeDmGroups(store);
+      return group;
+    },
+    getGroups() {
+      return readDmGroups().groups;
+    },
+    getGroup(id) {
+      return readDmGroups().groups.find((g) => g.id === id) || null;
+    },
+    getReports(contactKey) {
+      return readDmStore().reports.filter((r) => !contactKey || r.contactKey === contactKey);
+    }
+  };
+
+  window.addEventListener('storage', (event) => {
+    if (event.key === DM_STORAGE_KEY || event.key === DM_GROUPS_KEY || event.key === PLAN_STORAGE_KEY) window.dispatchEvent(new CustomEvent('sr:dm-updated'));
+  });
+
   window.SocialRatsUser = {
+    dm,
+    getPlan,
+    hasProAccess,
     DEFAULT_AVATAR: DESIGN_SYSTEM_DEFAULT_AVATAR_SVG,
     DEFAULT_PROFILE,
     getProfile,

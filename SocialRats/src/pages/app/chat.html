@@ -40,6 +40,7 @@
       --color-accent-purple: #923bff;
       --color-accent-orange: #ff713f;
       --color-online-green: #34d399;
+      --color-error: #ff4d6d;
 
       --gradient-brand: linear-gradient(90deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
       --gradient-brand-diagonal: linear-gradient(135deg, #ff713f 0%, #ff32b8 55%, #923bff 100%);
@@ -172,6 +173,7 @@
       display: flex;
       flex-direction: column;
       position: relative;
+      overflow: hidden;
       border-left: 1px solid var(--color-border-subtle);
       border-right: 1px solid var(--color-border-subtle);
     }
@@ -437,7 +439,7 @@
     }
 
     .message-bubble-group.sent .message-bubble {
-      background: var(--gradient-brand-diagonal);
+      background: var(--dm-sent-bg, var(--gradient-brand-diagonal));
       color: #ffffff;
       border-top-left-radius: var(--radius-lg);
       border-top-right-radius: 4px;
@@ -756,6 +758,690 @@
       }
     }
 
+    /* ═══════════════════════════════════════════════════════════════
+       DIRECT · INFORMAÇÕES DA CONVERSA, PRIVACIDADE, MODAIS
+       (reutiliza tokens do DESIGN_SYSTEM.md)
+       ═══════════════════════════════════════════════════════════════ */
+    .dm-screen {
+      position: absolute;
+      inset: 0;
+      background-color: var(--color-background);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      visibility: hidden;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s linear 0.25s;
+    }
+
+    .dm-screen.open {
+      transform: translateX(0);
+      visibility: visible;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), visibility 0s;
+    }
+
+    .dm-screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 16px;
+      flex-shrink: 0;
+    }
+
+    .dm-screen-title {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .dm-screen-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 32px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--color-border-subtle) transparent;
+    }
+
+    .dm-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 4px 0 20px;
+    }
+
+    .dm-hero-avatar {
+      width: 92px;
+      height: 92px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--color-border-subtle);
+      margin-bottom: 12px;
+    }
+
+    .dm-hero-name {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .dm-hero-handle {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    .dm-quick-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 0 0 20px;
+    }
+
+    .dm-quick-btn {
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-height: 64px;
+      padding: 8px 0;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .dm-quick-btn i {
+      font-size: 20px;
+      height: 22px;
+    }
+
+    .dm-quick-btn:hover {
+      background-color: var(--color-surface);
+    }
+
+    .dm-quick-btn.active {
+      color: var(--color-accent-pink);
+    }
+
+    .dm-section-title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      margin: 24px 4px 8px;
+    }
+
+    .dm-section-title:first-child {
+      margin-top: 4px;
+    }
+
+    .dm-list {
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      list-style: none;
+    }
+
+    .dm-row {
+      width: 100%;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      text-align: left;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .dm-list>li+li>.dm-row,
+    .dm-list>.dm-row+.dm-row {
+      border-top: 1px solid var(--color-border-subtle);
+    }
+
+    .dm-row:hover {
+      background-color: var(--color-surface-elevated);
+    }
+
+    .dm-row-icon {
+      width: 22px;
+      font-size: 17px;
+      text-align: center;
+      color: var(--color-text-primary);
+      flex-shrink: 0;
+    }
+
+    .dm-row-text {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .dm-row-label {
+      font-size: 14.5px;
+      font-weight: 500;
+    }
+
+    .dm-row-sub {
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--color-text-secondary);
+    }
+
+    .dm-row-end {
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .dm-row.danger,
+    .dm-row.danger .dm-row-icon {
+      color: var(--color-error, #ff4d6d);
+    }
+
+    .dm-note {
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+      margin: 10px 4px 0;
+    }
+
+    .dm-info-card {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-lg);
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    .dm-info-card i {
+      color: var(--color-accent-purple);
+      font-size: 16px;
+      margin-top: 2px;
+    }
+
+    .dm-info-card strong {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+
+    .dm-btn-inline {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      font-weight: 600;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+    }
+
+    /* Overlay / modais */
+    .dm-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+    }
+
+    .dm-overlay.open {
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 0.2s ease, visibility 0s;
+    }
+
+    .dm-modal {
+      display: none;
+      width: 100%;
+      max-width: 440px;
+      max-height: 92%;
+      overflow-y: auto;
+      background-color: var(--color-surface-elevated);
+      border-radius: 24px 24px 0 0;
+      padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      transform: translateY(24px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dm-overlay.open .dm-modal.show {
+      transform: translateY(0);
+    }
+
+    .dm-modal.show {
+      display: block;
+    }
+
+    @media (min-width: 560px) {
+      .dm-overlay {
+        align-items: center;
+        padding: 16px;
+      }
+
+      .dm-modal {
+        border-radius: 24px;
+      }
+    }
+
+    .dm-modal-title {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .dm-modal-text {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: var(--color-text-secondary);
+    }
+
+    .dm-modal-user {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .dm-modal-user img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .dm-modal-user-name {
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .dm-modal-user-handle {
+      font-size: 12.5px;
+      color: var(--color-text-secondary);
+    }
+
+    .dm-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 0 0 20px;
+      font-size: 13.5px;
+      line-height: 1.45;
+      color: var(--color-text-secondary);
+    }
+
+    .dm-bullets li {
+      display: flex;
+      gap: 10px;
+    }
+
+    .dm-bullets i {
+      color: var(--color-text-primary);
+      width: 16px;
+      margin-top: 3px;
+      text-align: center;
+    }
+
+    .dm-modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .dm-btn {
+      height: 48px;
+      border-radius: var(--radius-full);
+      border: 1px solid transparent;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+    }
+
+    .dm-btn:active {
+      transform: scale(0.98);
+    }
+
+    .dm-btn:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .dm-btn-primary {
+      background: var(--gradient-brand);
+      color: #fff;
+    }
+
+    .dm-btn-danger {
+      background: var(--color-error, #ff4d6d);
+      color: #fff;
+    }
+
+    .dm-btn-secondary {
+      background: transparent;
+      border-color: var(--color-border-subtle);
+      color: var(--color-text-primary);
+    }
+
+    .dm-reason-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin: 14px 0;
+    }
+
+    .dm-reason {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 46px;
+      padding: 0 16px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      font-family: var(--font-body);
+      font-size: 14px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .dm-reason i {
+      opacity: 0;
+      color: var(--color-accent-pink);
+    }
+
+    .dm-reason[aria-checked="true"] {
+      border-color: var(--color-accent-pink);
+      background: rgba(255, 50, 184, 0.1);
+      font-weight: 600;
+    }
+
+    .dm-reason[aria-checked="true"] i {
+      opacity: 1;
+    }
+
+    .dm-textarea {
+      width: 100%;
+      min-height: 84px;
+      resize: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 16px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .dm-textarea:focus {
+      border-color: var(--color-accent-pink);
+    }
+
+    .dm-label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+      margin: 12px 0 6px;
+    }
+
+    .dm-success {
+      text-align: center;
+      padding: 12px 0 4px;
+    }
+
+    .dm-success i {
+      font-size: 34px;
+      color: var(--color-online-green);
+      margin-bottom: 12px;
+    }
+
+    .dm-blocked-bar {
+      flex: 1;
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      padding: 6px 0;
+    }
+
+    .dm-blocked-bar button {
+      margin-top: 8px;
+    }
+
+    .dm-search-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .dm-search-bar.show {
+      display: flex;
+    }
+
+    .dm-search-bar .chat-input-field-wrap {
+      height: 40px;
+    }
+
+    .message-bubble-group.dm-hidden {
+      display: none;
+    }
+
+    .dm-pro-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #fff;
+      background: var(--gradient-brand);
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .dm-top-action {
+      background: transparent;
+      border: none;
+      min-width: 44px;
+      height: 44px;
+      padding: 0 8px;
+      color: var(--color-accent-pink);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+    }
+
+    .dm-top-action:disabled {
+      opacity: 0.4;
+      cursor: default;
+    }
+
+    .dm-input {
+      width: 100%;
+      height: 46px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border-subtle);
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 16px;
+      padding: 0 14px;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .dm-input:focus {
+      border-color: var(--color-accent-pink);
+    }
+
+    .grp-identity {
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+
+    .grp-photo {
+      position: relative;
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      overflow: hidden;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .grp-photo img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .grp-photo:focus-within {
+      outline: 2px solid var(--color-accent-pink);
+      outline-offset: 2px;
+    }
+
+    .grp-count {
+      font-weight: 500;
+      text-transform: none;
+      letter-spacing: 0;
+      margin-left: 6px;
+    }
+
+    .grp-user-check {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: transparent;
+      flex-shrink: 0;
+      transition: all 0.15s ease;
+    }
+
+    .dm-row[aria-checked="true"] .grp-user-check {
+      background: var(--color-accent-pink);
+      border-color: var(--color-accent-pink);
+      color: #fff;
+    }
+
+    .grp-user-avatar {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .dm-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: dmSpin 0.7s linear infinite;
+      vertical-align: -2px;
+      margin-right: 8px;
+    }
+
+    @keyframes dmSpin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .dm-error {
+      color: var(--color-error);
+      font-size: 12.5px;
+      margin: 10px 4px 0;
+      min-height: 0;
+    }
+
+    .dm-group-mode .dm-only-1to1 {
+      display: none;
+    }
+
+    .dm-only-group {
+      display: none;
+    }
+
+    .dm-group-mode .dm-only-group {
+      display: block;
+    }
+
+    .dm-focusable:focus-visible,
+    .dm-row:focus-visible,
+    .dm-quick-btn:focus-visible,
+    .dm-reason:focus-visible,
+    .dm-btn:focus-visible,
+    .dm-btn-inline:focus-visible {
+      outline: 2px solid var(--color-accent-pink);
+      outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .dm-screen,
+      .dm-overlay,
+      .dm-modal {
+        transition: none;
+      }
+    }
+
     @media (max-width: 768px) {
       .chat-center-container {
         max-width: 100%;
@@ -826,7 +1512,9 @@
           <img src="../../../assets/images/avatar-your-story.png" alt="Seu Perfil" data-sr-user="avatar"
             style="width:36px; height:36px; border-radius:50%; object-fit:cover; flex-shrink:0; border:1px solid var(--color-border-subtle);">
           <div style="min-width:0; display:flex; flex-direction:column;">
-            <span style="font-size:13px; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" data-sr-user="name">Gabriel Silva</span>
+            <span
+              style="font-size:13px; font-weight:700; color:#ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"
+              data-sr-user="name">Gabriel Silva</span>
             <span style="font-size:11.5px; color:var(--color-text-secondary);" data-sr-user="handle">@gabriel</span>
           </div>
         </div>
@@ -852,10 +1540,13 @@
             <i class="fa-solid fa-chevron-left"></i>
           </a>
 
-          <div class="chat-contact-info" onclick="showToast('Abrindo perfil do contato...')">
+          <div class="chat-contact-info" role="button" tabindex="0" aria-label="Abrir informações da conversa"
+            onclick="DM.open('info')"
+            onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();DM.open('info');}">
             <div class="chat-avatar-wrap">
               <div class="chat-avatar-inner">
-                <img src="../../../assets/images/avatar-lucas.png" alt="Avatar" class="chat-avatar-img" id="chat-avatar">
+                <img src="../../../assets/images/avatar-lucas.png" alt="Avatar" class="chat-avatar-img"
+                  id="chat-avatar">
               </div>
               <span class="chat-online-badge" id="chat-online-dot"></span>
             </div>
@@ -879,12 +1570,23 @@
             onclick="showToast('Iniciando chamada de vídeo...')">
             <i class="fa-solid fa-video"></i>
           </button>
-          <button type="button" class="btn-header-action" title="Detalhes do chat"
-            onclick="showToast('Informações da conversa')">
-            <i class="fa-solid fa-circle-info"></i>
+          <button type="button" class="btn-header-action" title="Opções da conversa" aria-label="Opções da conversa"
+            onclick="DM.openModal('menu')">
+            <i class="fa-solid fa-ellipsis"></i>
           </button>
         </div>
       </header>
+
+      <!-- Pesquisa de mensagens na conversa -->
+      <div class="dm-search-bar" id="dm-search-bar">
+        <div class="chat-input-field-wrap">
+          <input type="text" id="dm-search-input" class="chat-native-input" placeholder="Pesquisar nesta conversa"
+            autocomplete="off" aria-label="Pesquisar mensagens">
+        </div>
+        <button type="button" class="btn-header-action" aria-label="Fechar pesquisa" onclick="DM.closeSearch()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
 
       <!-- 2. Chat Messages Stream (Rolagem de mensagens) -->
       <section class="chat-messages-stream" id="chat-stream" aria-label="Mensagens da conversa">
@@ -935,7 +1637,7 @@
       </section>
 
       <!-- 3. Bottom Chat Input Dock (Oculta barra inferior de abas) -->
-      <footer class="chat-input-dock">
+      <footer class="chat-input-dock" id="chat-input-dock">
         <button type="button" class="chat-btn-circle" title="Enviar mídia"
           onclick="showToast('Selecionar imagem ou vídeo...')">
           <i class="fa-regular fa-image"></i>
@@ -956,6 +1658,315 @@
           <i class="fa-solid fa-paper-plane"></i>
         </button>
       </footer>
+
+      <!-- Dock alternativa quando o contato está bloqueado -->
+      <footer class="chat-input-dock" id="chat-blocked-dock" style="display:none;">
+        <div class="dm-blocked-bar" role="status">
+          <span id="dm-blocked-text">Você bloqueou este contato.</span><br>
+          <button type="button" class="dm-btn-inline" onclick="DM.unblock()">Desbloquear</button>
+        </div>
+      </footer>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           INFORMAÇÕES DA CONVERSA
+           ═══════════════════════════════════════════════════════════ -->
+      <section class="dm-screen" id="dm-screen-info" aria-label="Informações da conversa" aria-hidden="true">
+        <div class="dm-screen-top">
+          <button type="button" class="btn-chat-back" aria-label="Voltar para a conversa" onclick="DM.back()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <span class="dm-screen-title" style="position:absolute; left:-9999px;">Informações da conversa</span>
+        </div>
+        <div class="dm-screen-body">
+          <div class="dm-hero">
+            <img class="dm-hero-avatar" id="dm-info-avatar" src="" alt="">
+            <h1 class="dm-hero-name" id="dm-info-name"></h1>
+            <span class="dm-hero-handle" id="dm-info-handle"></span>
+          </div>
+
+          <div class="dm-quick-actions">
+            <button type="button" class="dm-quick-btn dm-only-1to1" onclick="DM.openProfile()">
+              <i class="fa-regular fa-user"></i><span>Perfil</span>
+            </button>
+            <button type="button" class="dm-quick-btn" onclick="DM.startSearch()">
+              <i class="fa-solid fa-magnifying-glass"></i><span>Pesquisar</span>
+            </button>
+            <button type="button" class="dm-quick-btn" id="dm-quick-mute" onclick="DM.toggleMute()">
+              <i class="fa-regular fa-bell"></i><span>Silenciar</span>
+            </button>
+            <button type="button" class="dm-quick-btn" onclick="DM.openModal('menu')">
+              <i class="fa-solid fa-ellipsis"></i><span>Opções</span>
+            </button>
+          </div>
+
+          <div class="dm-only-group" style="margin-bottom:20px;">
+            <h2 class="dm-section-title">Participantes</h2>
+            <ul class="dm-list" id="dm-members-list"></ul>
+          </div>
+
+          <ul class="dm-list">
+            <li>
+              <button type="button" class="dm-row" onclick="DM.customize()">
+                <i class="fa-solid fa-palette dm-row-icon"></i>
+                <span class="dm-row-text">
+                  <span class="dm-row-label">Personalizar conversa</span>
+                  <span class="dm-row-sub">Cores das suas mensagens</span>
+                </span>
+                <span class="dm-row-end"><span class="dm-pro-tag"><i class="fa-solid fa-crown"></i>PRO</span><i
+                    class="fa-solid fa-chevron-right"></i></span>
+              </button>
+            </li>
+            <li class="dm-only-1to1">
+              <button type="button" class="dm-row" onclick="DM.open('privacy')">
+                <i class="fa-solid fa-lock dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label">Privacidade e segurança</span></span>
+                <span class="dm-row-end"><i class="fa-solid fa-chevron-right"></i></span>
+              </button>
+            </li>
+            <li class="dm-only-1to1">
+              <button type="button" class="dm-row" onclick="DM.open('group')">
+                <i class="fa-solid fa-user-plus dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label">Criar conversa em grupo</span></span>
+                <span class="dm-row-end"><i class="fa-solid fa-chevron-right"></i></span>
+              </button>
+            </li>
+            <li class="dm-only-1to1">
+              <button type="button" class="dm-row" onclick="DM.openModal('report')">
+                <i class="fa-regular fa-flag dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label">Reportar um problema</span></span>
+                <span class="dm-row-end"><i class="fa-solid fa-chevron-right"></i></span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           PRIVACIDADE E SEGURANÇA
+           ═══════════════════════════════════════════════════════════ -->
+      <section class="dm-screen" id="dm-screen-privacy" aria-label="Privacidade e segurança" aria-hidden="true"
+        style="z-index:70;">
+        <div class="dm-screen-top">
+          <button type="button" class="btn-chat-back" aria-label="Voltar para informações da conversa"
+            onclick="DM.back()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <span class="dm-screen-title">Privacidade e segurança</span>
+          <span style="width:36px;"></span>
+        </div>
+        <div class="dm-screen-body">
+          <h2 class="dm-section-title">Privacidade da conversa</h2>
+          <div class="dm-info-card">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span><strong>Conversa privada.</strong> Somente você e <span data-dm="name"></span> participam desta
+              conversa no Direct. Denúncias enviam apenas o necessário para análise.</span>
+          </div>
+
+          <ul class="dm-list" style="margin-top:12px;">
+            <li>
+              <div class="dm-row" style="cursor:default;">
+                <i class="fa-regular fa-comments dm-row-icon"></i>
+                <span class="dm-row-text">
+                  <span class="dm-row-label">Quem pode interagir</span>
+                  <span class="dm-row-sub" data-dm="interaction-sub"></span>
+                </span>
+                <span class="dm-row-end" data-dm="interaction-label"></span>
+              </div>
+            </li>
+            <li>
+              <div class="dm-row" style="cursor:default;">
+                <i class="fa-solid fa-ban dm-row-icon"></i>
+                <span class="dm-row-text">
+                  <span class="dm-row-label">Bloqueio e restrições</span>
+                  <span class="dm-row-sub" data-dm="block-sub"></span>
+                </span>
+                <span class="dm-row-end"><button type="button" class="dm-btn-inline" data-dm="block-inline"
+                    onclick="DM.toggleBlock()">Bloquear</button></span>
+              </div>
+            </li>
+          </ul>
+          
+
+          <h2 class="dm-section-title">Segurança</h2>
+          <ul class="dm-list">
+            <li>
+              <div class="dm-row" style="cursor:default;">
+                <img id="dm-priv-avatar" src="" alt=""
+                  style="width:40px; height:40px; border-radius:50%; object-fit:cover;">
+                <span class="dm-row-text">
+                  <span class="dm-row-label" data-dm="name"></span>
+                  <span class="dm-row-sub"><span data-dm="handle"></span> · <span data-dm="presence"></span> · 🔥 <span
+                      data-dm="streak"></span> dias de conexão</span>
+                </span>
+              </div>
+            </li>
+            <li>
+              <button type="button" class="dm-row danger" data-dm="block-row" onclick="DM.toggleBlock()">
+                <i class="fa-solid fa-ban dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label" data-dm="block-label">Bloquear</span></span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="dm-row danger" onclick="DM.openModal('report')">
+                <i class="fa-regular fa-flag dm-row-icon"></i>
+                <span class="dm-row-text"><span class="dm-row-label">Denunciar</span></span>
+              </button>
+            </li>
+          </ul>
+          <p class="dm-note"><strong style="color:var(--color-text-primary); font-weight:600;">Ao bloquear:</strong>
+            vocês não poderão trocar mensagens e você pode desbloquear aqui quando quiser. <strong
+              style="color:var(--color-text-primary); font-weight:600;">Ao denunciar:</strong> a equipe do SocialRats
+            analisa a conversa; o contato não é avisado e a denúncia não bloqueia automaticamente.</p>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           CRIAR CONVERSA EM GRUPO
+           ═══════════════════════════════════════════════════════════ -->
+      <section class="dm-screen" id="dm-screen-group" aria-label="Criar grupo" aria-hidden="true" style="z-index:70;">
+        <div class="dm-screen-top">
+          <button type="button" class="btn-chat-back" aria-label="Voltar para informações da conversa" onclick="DM.back()">
+            <i class="fa-solid fa-chevron-left"></i>
+          </button>
+          <span class="dm-screen-title">Criar grupo</span>
+          <button type="button" class="dm-top-action" id="grp-submit" disabled>Criar</button>
+        </div>
+        <div class="dm-screen-body">
+          <div class="grp-identity">
+            <label class="grp-photo" for="grp-photo-input" title="Adicionar foto do grupo">
+              <i class="fa-solid fa-camera" id="grp-photo-icon"></i>
+              <img id="grp-photo-preview" alt="Foto do grupo" hidden>
+              <input type="file" id="grp-photo-input" accept="image/*" hidden>
+            </label>
+            <div style="flex:1; min-width:0;">
+              <label class="dm-label" for="grp-name" style="margin-top:0;">Nome do grupo</label>
+              <input type="text" class="dm-input" id="grp-name" maxlength="40" placeholder="Ex.: Treino da manhã" autocomplete="off">
+            </div>
+          </div>
+          <label class="dm-label" for="grp-desc">Descrição (opcional)</label>
+          <textarea class="dm-textarea" id="grp-desc" maxlength="200" placeholder="Sobre o que é este grupo?"></textarea>
+
+          <h2 class="dm-section-title">Participantes<span class="grp-count" id="grp-count"></span></h2>
+          <div class="chat-input-field-wrap" style="margin-bottom:12px;">
+            <input type="text" id="grp-search" class="chat-native-input" placeholder="Pesquisar usuários" autocomplete="off" aria-label="Pesquisar usuários">
+          </div>
+          <ul class="dm-list" id="grp-users" role="group" aria-label="Usuários disponíveis"></ul>
+          <p class="dm-note" id="grp-empty" style="display:none;">Nenhum usuário encontrado.</p>
+          <p class="dm-error" id="grp-error" role="alert"></p>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           MODAIS / BOTTOM SHEETS
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="dm-overlay" id="dm-overlay" onclick="if(event.target===this)DM.closeModal()">
+
+        <!-- Menu de três pontinhos -->
+        <div class="dm-modal" id="dm-modal-menu" role="dialog" aria-modal="true" aria-label="Opções da conversa"
+          style="padding:8px 0 calc(8px + env(safe-area-inset-bottom));">
+          <ul class="dm-list" style="border:none; background:transparent; border-radius:0;">
+            <li class="dm-only-1to1"><button type="button" class="dm-row danger" onclick="DM.swap('report')"><i
+                  class="fa-regular fa-flag dm-row-icon"></i><span class="dm-row-label">Denunciar</span></button></li>
+            <li class="dm-only-1to1"><button type="button" class="dm-row danger" id="dm-menu-block" onclick="DM.menuBlock()"><i
+                  class="fa-solid fa-ban dm-row-icon"></i><span class="dm-row-label">Bloquear</span></button></li>
+            <li><button type="button" class="dm-row" id="dm-menu-mute" onclick="DM.menuMute()"><i
+                  class="fa-regular fa-bell-slash dm-row-icon"></i><span class="dm-row-label">Silenciar
+                  notificações</span></button></li>
+            <li class="dm-only-1to1"><button type="button" class="dm-row" onclick="DM.menuPrivacy()"><i
+                  class="fa-solid fa-lock dm-row-icon"></i><span class="dm-row-label">Privacidade e
+                  segurança</span></button></li>
+          </ul>
+        </div>
+
+        <!-- Denúncia -->
+        <div class="dm-modal" id="dm-modal-report" role="dialog" aria-modal="true" aria-labelledby="dm-report-title">
+          <div id="dm-report-form">
+            <h2 class="dm-modal-title" id="dm-report-title">Denunciar</h2>
+            <p class="dm-modal-text">Nada é enviado até você confirmar. O contato não será avisado.</p>
+            <div class="dm-modal-user">
+              <img data-dm="avatar" src="" alt="">
+              <div>
+                <div class="dm-modal-user-name" data-dm="name"></div>
+                <div class="dm-modal-user-handle" data-dm="handle"></div>
+              </div>
+            </div>
+            <div class="dm-modal-text" style="font-weight:600; color:var(--color-text-primary);" id="dm-reason-label">
+              Motivo da denúncia</div>
+            <div class="dm-reason-list" role="radiogroup" aria-labelledby="dm-reason-label" id="dm-reason-list"></div>
+            <label class="dm-label" for="dm-report-details">Descrição (opcional)</label>
+            <textarea class="dm-textarea" id="dm-report-details" maxlength="500"
+              placeholder="Conte o que aconteceu"></textarea>
+            <div class="dm-modal-actions">
+              <button type="button" class="dm-btn dm-btn-danger" id="dm-report-confirm" disabled
+                onclick="DM.submitReport()">Enviar denúncia</button>
+              <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Cancelar</button>
+            </div>
+          </div>
+          <div id="dm-report-done" class="dm-success" style="display:none;" role="status">
+            <i class="fa-solid fa-circle-check"></i>
+            <h2 class="dm-modal-title">Denúncia enviada</h2>
+            <p class="dm-modal-text">Obrigado por avisar. Nossa equipe vai analisar a conversa com <span
+                data-dm="name"></span>.</p>
+            <div class="dm-modal-actions">
+              <button type="button" class="dm-btn dm-btn-primary" onclick="DM.closeModal()">Concluir</button>
+              <button type="button" class="dm-btn dm-btn-secondary" id="dm-report-block-too"
+                onclick="DM.swap('block')">Também bloquear</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bloqueio -->
+        <div class="dm-modal" id="dm-modal-block" role="dialog" aria-modal="true" aria-labelledby="dm-block-title">
+          <h2 class="dm-modal-title" id="dm-block-title">Bloquear este contato?</h2>
+          <div class="dm-modal-user">
+            <img data-dm="avatar" src="" alt="">
+            <div>
+              <div class="dm-modal-user-name" data-dm="name"></div>
+              <div class="dm-modal-user-handle" data-dm="handle"></div>
+            </div>
+          </div>
+          <p class="dm-modal-text" style="margin-bottom:14px;">O bloqueio restringe a interação entre vocês dois.</p>
+          <ul class="dm-bullets">
+            <li><i class="fa-regular fa-comment-dots"></i><span>Vocês não poderão enviar mensagens um ao outro neste
+                Direct.</span></li>
+            <li><i class="fa-regular fa-bell-slash"></i><span>Você deixa de receber notificações desta conversa.</span>
+            </li>
+            <li><i class="fa-solid fa-rotate-left"></i><span>Você pode desbloquear depois em Privacidade e
+                segurança.</span></li>
+          </ul>
+          <div class="dm-modal-actions">
+            <button type="button" class="dm-btn dm-btn-danger" onclick="DM.confirmBlock()">Bloquear</button>
+            <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Cancelar</button>
+          </div>
+        </div>
+
+        <!-- SocialRats Pro -->
+        <div class="dm-modal" id="dm-modal-pro" role="dialog" aria-modal="true" aria-labelledby="dm-pro-title">
+          <div style="text-align:center; margin-bottom:12px;">
+            <span class="dm-pro-tag" style="font-size:12px; padding:5px 12px;"><i class="fa-solid fa-crown"></i>SocialRats PRO</span>
+          </div>
+          <h2 class="dm-modal-title" id="dm-pro-title" style="text-align:center;">Personalização é exclusiva do Pro</h2>
+          <p class="dm-modal-text" style="text-align:center; margin-bottom:16px;">Deixe cada conversa com a sua cara. Este benefício está disponível apenas para assinantes do plano Pro.</p>
+          <ul class="dm-bullets">
+            <li><i class="fa-solid fa-palette"></i><span>Escolha as cores das suas mensagens em cada conversa.</span></li>
+            <li><i class="fa-solid fa-crown"></i><span>Junto com os demais benefícios do plano Pro.</span></li>
+          </ul>
+          <div class="dm-modal-actions">
+            <a class="dm-btn dm-btn-primary" href="../marketing/pricing.html" style="display:flex; align-items:center; justify-content:center; text-decoration:none;">Conhecer o SocialRats Pro</a>
+            <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Agora não</button>
+          </div>
+        </div>
+
+        <!-- Personalização (Pro) -->
+        <div class="dm-modal" id="dm-modal-customize" role="dialog" aria-modal="true" aria-labelledby="dm-cus-title">
+          <h2 class="dm-modal-title" id="dm-cus-title">Personalizar conversa</h2>
+          <p class="dm-modal-text">Escolha a cor das suas mensagens nesta conversa.</p>
+          <div class="dm-reason-list" role="radiogroup" aria-labelledby="dm-cus-title" id="dm-theme-list"></div>
+          <div class="dm-modal-actions">
+            <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Fechar</button>
+          </div>
+        </div>
+      </div>
 
     </main>
 
@@ -1098,7 +2109,20 @@
     // 2. Load Contact from URL params
     const urlParams = new URLSearchParams(window.location.search);
     const contactKey = (urlParams.get('contact') || 'lucas').toLowerCase();
-    const contact = contactsData[contactKey] || contactsData.lucas;
+    const groupId = urlParams.get('group');
+    const groupData = groupId ? window.SocialRatsUser.dm.getGroup(groupId) : null;
+    const isGroup = !!groupData;
+    const memberKeys = isGroup ? groupData.members.filter((k) => contactsData[k]) : [];
+    const contact = isGroup ? {
+      name: groupData.name,
+      handle: (memberKeys.length + 1) + ' participantes',
+      avatar: groupData.photo || window.SocialRatsUser.DEFAULT_AVATAR,
+      online: false,
+      streak: 0,
+      initialMsg: '',
+      reply: ''
+    } : (contactsData[contactKey] || contactsData.lucas);
+    if (isGroup) document.getElementById('app-viewport').classList.add('dm-group-mode');
 
     document.addEventListener('DOMContentLoaded', () => {
       // Set Header info
@@ -1128,6 +2152,411 @@
       scrollToBottom();
     });
 
+    // ═══════════════════════════════════════════════════════════════
+    // DIRECT · Informações da conversa, privacidade, bloqueio e denúncia
+    // Estado persistido via SocialRatsUser.dm (localStorage, por usuário)
+    // ═══════════════════════════════════════════════════════════════
+    const DM = (function () {
+      const store = window.SocialRatsUser.dm;
+      const key = isGroup ? 'group:' + groupId : (contactsData[contactKey] ? contactKey : 'lucas');
+      const REASONS = ['Spam', 'Assédio ou bullying', 'Conteúdo inapropriado', 'Golpe ou fraude', 'Falsa identidade', 'Outro'];
+      let selectedReason = null;
+      let lastFocus = null;
+
+      const $ = (id) => document.getElementById(id);
+      const all = (sel) => document.querySelectorAll(sel);
+      const settings = () => store.getSettings(key);
+
+      function renderChoices(container, items, selected, onPick) {
+        container.innerHTML = '';
+        items.forEach(([value, label]) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'dm-reason';
+          btn.setAttribute('role', 'radio');
+          btn.setAttribute('aria-checked', String(value === selected));
+          const span = document.createElement('span');
+          span.textContent = label;
+          const icon = document.createElement('i');
+          icon.className = 'fa-solid fa-check';
+          icon.setAttribute('aria-hidden', 'true');
+          btn.append(span, icon);
+          btn.addEventListener('click', () => onPick(value));
+          container.appendChild(btn);
+        });
+      }
+
+      function render() {
+        const s = settings();
+        all('[data-dm="name"]').forEach((el) => (el.textContent = contact.name));
+        all('[data-dm="handle"]').forEach((el) => (el.textContent = contact.handle));
+        all('[data-dm="avatar"]').forEach((el) => { el.src = contact.avatar; el.alt = contact.name; });
+        all('[data-dm="streak"]').forEach((el) => (el.textContent = contact.streak));
+        all('[data-dm="presence"]').forEach((el) => (el.textContent = contact.online ? 'Online' : 'Offline'));
+
+        const info = $('dm-info-avatar'); info.src = contact.avatar; info.alt = contact.name;
+        $('dm-info-name').textContent = contact.name;
+        $('dm-info-handle').textContent = contact.handle;
+        $('dm-priv-avatar').src = contact.avatar;
+
+        const mute = $('dm-quick-mute');
+        mute.classList.toggle('active', s.muted);
+        mute.querySelector('i').className = s.muted ? 'fa-solid fa-bell-slash' : 'fa-regular fa-bell';
+        mute.querySelector('span').textContent = s.muted ? 'Silenciada' : 'Silenciar';
+        $('dm-menu-mute').querySelector('span').textContent = s.muted ? 'Reativar notificações' : 'Silenciar notificações';
+        $('dm-menu-block').querySelector('span').textContent = s.blocked ? 'Desbloquear' : 'Bloquear';
+
+        all('[data-dm="block-label"]').forEach((el) => (el.textContent = s.blocked ? 'Desbloquear' : 'Bloquear'));
+        all('[data-dm="block-inline"]').forEach((el) => (el.textContent = s.blocked ? 'Desbloquear' : 'Bloquear'));
+        all('[data-dm="block-sub"]').forEach((el) => (el.textContent = s.blocked
+          ? 'Você bloqueou este contato. Nenhuma mensagem pode ser enviada.'
+          : 'Contato não bloqueado. Você pode bloquear quando quiser.'));
+        all('[data-dm="interaction-label"]').forEach((el) => (el.textContent = s.blocked ? 'Restrita' : 'Todos'));
+        all('[data-dm="interaction-sub"]').forEach((el) => (el.textContent = s.blocked
+          ? 'O bloqueio impede mensagens entre vocês.'
+          : `Você e ${contact.name} podem trocar mensagens.`));
+        const blockRow = document.querySelector('[data-dm="block-row"]');
+        blockRow.classList.toggle('danger', !s.blocked);
+
+        // Chat: dock, cabeçalho e status
+        $('chat-input-dock').style.display = s.blocked ? 'none' : 'flex';
+        $('chat-blocked-dock').style.display = s.blocked ? 'flex' : 'none';
+        $('dm-blocked-text').textContent = `Você bloqueou ${contact.name}. Desbloqueie para voltar a conversar.`;
+        $('chat-status-text').textContent = s.blocked ? 'Bloqueado' : (contact.online ? 'Online agora' : 'Offline recentemente');
+        $('chat-online-dot').style.display = !s.blocked && contact.online ? 'block' : 'none';
+        applyTheme();
+        if (isGroup) {
+          const me = window.SocialRatsUser.getProfile();
+          $('chat-status-text').textContent = contact.handle;
+          $('chat-streak-text').style.display = 'none';
+          $('dm-info-handle').textContent = groupData.description || contact.handle;
+          const list = $('dm-members-list');
+          list.innerHTML = '';
+          const people = [{ name: me.name + ' (você)', handle: '@' + String(me.handle).replace(/^@/, ''), avatar: me.avatar }]
+            .concat(memberKeys.map((k) => contactsData[k]));
+          people.forEach((u) => {
+            const li = document.createElement('li');
+            li.innerHTML = '<div class="dm-row" style="cursor:default;"><img class="grp-user-avatar" alt=""><span class="dm-row-text"><span class="dm-row-label"></span><span class="dm-row-sub"></span></span></div>';
+            li.querySelector('img').src = u.avatar;
+            li.querySelector('.dm-row-label').textContent = u.name;
+            li.querySelector('.dm-row-sub').textContent = u.handle;
+            list.appendChild(li);
+          });
+        }
+      }
+
+      // Personalização (exclusiva Pro)
+      const THEMES = [
+        ['default', 'Padrão SocialRats', null],
+        ['sunset', 'Pôr do sol', 'linear-gradient(135deg, #ff713f 0%, #ff32b8 100%)'],
+        ['violet', 'Violeta', 'linear-gradient(135deg, #ff32b8 0%, #923bff 100%)'],
+        ['purple', 'Roxo', '#923bff']
+      ];
+
+      function applyTheme() {
+        const t = THEMES.find((x) => x[0] === settings().theme);
+        const root = document.documentElement.style;
+        if (window.SocialRatsUser.hasProAccess() && t && t[2]) root.setProperty('--dm-sent-bg', t[2]);
+        else root.removeProperty('--dm-sent-bg');
+      }
+
+      function renderThemes() {
+        renderChoices($('dm-theme-list'), THEMES.map((t) => [t[0], t[1]]), settings().theme, (v) => {
+          if (!window.SocialRatsUser.hasProAccess()) { openModal('pro'); return; }
+          store.updateSettings(key, { theme: v });
+          render();
+          renderThemes();
+          showToast('Personalização aplicada');
+        });
+      }
+
+      function customize() {
+        // Verifica a assinatura no momento do clique
+        openModal(window.SocialRatsUser.hasProAccess() ? 'customize' : 'pro');
+      }
+
+      function initGroupChat() {
+        all('#chat-stream .message-bubble-group').forEach((g) => g.remove());
+        const chip = document.createElement('div');
+        chip.className = 'date-separator-chip';
+        chip.textContent = 'Você criou o grupo ' + contact.name;
+        $('chat-stream').insertBefore(chip, $('typing-indicator'));
+      }
+
+      function syncScreens() {
+        const h = location.hash.replace('#', '');
+        const infoOpen = h === 'info' || h === 'privacy' || h === 'group';
+        $('dm-screen-info').classList.toggle('open', infoOpen);
+        $('dm-screen-group').classList.toggle('open', h === 'group');
+        $('dm-screen-group').setAttribute('aria-hidden', String(h !== 'group'));
+        if (h === 'group') window.dispatchEvent(new CustomEvent('sr:group-screen-open'));
+        $('dm-screen-privacy').classList.toggle('open', h === 'privacy');
+        $('dm-screen-info').setAttribute('aria-hidden', String(!infoOpen));
+        $('dm-screen-privacy').setAttribute('aria-hidden', String(h !== 'privacy'));
+      }
+
+      function open(name) {
+        closeModal();
+        if (name !== 'info' && !location.hash.includes('info')) location.hash = 'info';
+        location.hash = name;
+      }
+
+      function back() {
+        location.hash = (location.hash === '#privacy' || location.hash === '#group') ? 'info' : '';
+      }
+
+      function openModal(name) {
+        ['menu', 'report', 'block', 'pro', 'customize'].forEach((n) => $('dm-modal-' + n).classList.toggle('show', n === name));
+        lastFocus = document.activeElement;
+        if (name === 'report') resetReport();
+        if (name === 'customize') renderThemes();
+        $('dm-overlay').classList.add('open');
+        const first = $('dm-modal-' + name).querySelector('button:not([disabled])');
+        if (first) first.focus();
+      }
+
+      function closeModal() {
+        $('dm-overlay').classList.remove('open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+        lastFocus = null;
+      }
+
+      function swap(name) {
+        const keep = lastFocus;
+        openModal(name);
+        lastFocus = keep;
+      }
+
+      function resetReport() {
+        selectedReason = null;
+        $('dm-report-form').style.display = 'block';
+        $('dm-report-done').style.display = 'none';
+        $('dm-report-details').value = '';
+        $('dm-report-confirm').disabled = true;
+        $('dm-report-block-too').style.display = settings().blocked ? 'none' : 'block';
+        renderChoices($('dm-reason-list'), REASONS.map((r) => [r, r]), null, pickReason);
+      }
+
+      function pickReason(r) {
+        selectedReason = r;
+        $('dm-report-confirm').disabled = false;
+        renderChoices($('dm-reason-list'), REASONS.map((x) => [x, x]), r, pickReason);
+      }
+
+      function submitReport() {
+        if (!selectedReason) return;
+        store.addReport({
+          contactKey: key,
+          contactName: contact.name,
+          contactHandle: contact.handle,
+          conversationId: 'dm:' + key,
+          reason: selectedReason,
+          details: $('dm-report-details').value.trim()
+        });
+        $('dm-report-form').style.display = 'none';
+        $('dm-report-done').style.display = 'block';
+        $('dm-report-block-too').style.display = settings().blocked ? 'none' : 'block';
+        showToast('Denúncia enviada');
+      }
+
+      function confirmBlock() {
+        store.updateSettings(key, { blocked: true });
+        closeSearch();
+        render();
+        closeModal();
+        showToast(`${contact.name} foi bloqueado`);
+      }
+
+      function unblock() {
+        store.updateSettings(key, { blocked: false });
+        render();
+        showToast(`${contact.name} foi desbloqueado`);
+      }
+
+      function toggleBlock() {
+        if (settings().blocked) unblock(); else openModal('block');
+      }
+
+      function menuBlock() {
+        if (settings().blocked) { closeModal(); unblock(); } else openModal('block');
+      }
+
+      function toggleMute() {
+        const next = !settings().muted;
+        store.updateSettings(key, { muted: next });
+        render();
+        showToast(next ? 'Notificações silenciadas' : 'Notificações reativadas');
+      }
+
+      function menuMute() { closeModal(); toggleMute(); }
+      function menuPrivacy() { closeModal(); open('privacy'); }
+      function openProfile() { showToast('O perfil público de contatos estará disponível em breve'); }
+
+      // Pesquisa dentro da conversa (filtra as mensagens já carregadas)
+      function startSearch() {
+        location.hash = '';
+        $('dm-search-bar').classList.add('show');
+        $('dm-search-input').focus();
+      }
+
+      function closeSearch() {
+        $('dm-search-bar').classList.remove('show');
+        $('dm-search-input').value = '';
+        filterMessages('');
+      }
+
+      function filterMessages(term) {
+        const q = term.trim().toLowerCase();
+        all('#chat-stream .message-bubble-group').forEach((g) => {
+          g.classList.toggle('dm-hidden', !!q && !g.textContent.toLowerCase().includes(q));
+        });
+      }
+
+      function isBlocked() { return settings().blocked; }
+
+      window.addEventListener('hashchange', syncScreens);
+      window.addEventListener('sr:dm-updated', render);
+      document.addEventListener('keydown', (e) => {
+        if (e.key !== 'Escape') return;
+        if ($('dm-overlay').classList.contains('open')) closeModal();
+        else if (location.hash) back();
+      });
+      document.addEventListener('DOMContentLoaded', () => {
+        $('dm-search-input').addEventListener('input', (e) => filterMessages(e.target.value));
+        if (isGroup) initGroupChat();
+        render();
+        syncScreens();
+      });
+
+      return {
+        open, back, openModal, closeModal, swap, submitReport, confirmBlock, unblock, toggleBlock,
+        customize, menuBlock, menuMute, menuPrivacy, toggleMute, openProfile, startSearch, closeSearch, isBlocked
+      };
+    })();
+
+// ═══════════════════════════════════════════════════════════════
+    // Criar grupo (usa SocialRatsUser.dm: usuários do Direct, bloqueios e grupos)
+    // ═══════════════════════════════════════════════════════════════
+    (function () {
+      const dmStore = window.SocialRatsUser.dm;
+      const selected = new Set();
+      let photo = '';
+      let busy = false;
+      const $ = (id) => document.getElementById(id);
+
+      // Apenas usuários disponíveis para conversar (exclui bloqueados)
+      const available = () => Object.keys(contactsData).filter((k) => !dmStore.isBlocked(k));
+
+      function validate() {
+        const ok = $('grp-name').value.trim().length > 0 && selected.size > 0 && !busy;
+        $('grp-submit').disabled = !ok;
+        $('grp-count').textContent = selected.size ? selected.size + ' selecionado' + (selected.size > 1 ? 's' : '') : '';
+      }
+
+      function renderUsers() {
+        const q = $('grp-search').value.trim().toLowerCase();
+        const list = $('grp-users');
+        list.innerHTML = '';
+        const keys = available().filter((k) => {
+          const u = contactsData[k];
+          return !q || u.name.toLowerCase().includes(q) || u.handle.toLowerCase().includes(q);
+        });
+        keys.forEach((k) => {
+          const u = contactsData[k];
+          const li = document.createElement('li');
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'dm-row';
+          btn.setAttribute('role', 'checkbox');
+          btn.setAttribute('aria-checked', String(selected.has(k)));
+          btn.innerHTML = '<img class="grp-user-avatar" alt=""><span class="dm-row-text"><span class="dm-row-label"></span><span class="dm-row-sub"></span></span><span class="grp-user-check"><i class="fa-solid fa-check"></i></span>';
+          btn.querySelector('img').src = u.avatar;
+          btn.querySelector('.dm-row-label').textContent = u.name;
+          btn.querySelector('.dm-row-sub').textContent = u.handle;
+          btn.addEventListener('click', () => {
+            if (selected.has(k)) selected.delete(k); else selected.add(k);
+            btn.setAttribute('aria-checked', String(selected.has(k)));
+            $('grp-error').textContent = '';
+            validate();
+          });
+          li.appendChild(btn);
+          list.appendChild(li);
+        });
+        $('grp-empty').style.display = keys.length ? 'none' : 'block';
+      }
+
+      function reset() {
+        selected.clear();
+        photo = '';
+        busy = false;
+        $('grp-name').value = '';
+        $('grp-desc').value = '';
+        $('grp-search').value = '';
+        $('grp-error').textContent = '';
+        $('grp-photo-preview').hidden = true;
+        $('grp-photo-icon').hidden = false;
+        $('grp-submit').textContent = 'Criar';
+        renderUsers();
+        validate();
+      }
+
+      // Redimensiona a foto para não estourar o localStorage
+      function loadPhoto(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = new Image();
+          img.onload = () => {
+            const size = 256;
+            const c = document.createElement('canvas');
+            c.width = c.height = size;
+            const side = Math.min(img.width, img.height);
+            c.getContext('2d').drawImage(img, (img.width - side) / 2, (img.height - side) / 2, side, side, 0, 0, size, size);
+            photo = c.toDataURL('image/jpeg', 0.85);
+            $('grp-photo-preview').src = photo;
+            $('grp-photo-preview').hidden = false;
+            $('grp-photo-icon').hidden = true;
+          };
+          img.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function submit() {
+        if ($('grp-submit').disabled) return;
+        const members = Array.from(selected).filter((k) => available().includes(k));
+        if (!members.length) { $('grp-error').textContent = 'Selecione ao menos um participante válido.'; return; }
+        busy = true;
+        $('grp-submit').disabled = true;
+        $('grp-submit').innerHTML = '<span class="dm-spinner"></span>Criando';
+        setTimeout(() => {
+          try {
+            const group = dmStore.createGroup({
+              name: $('grp-name').value,
+              description: $('grp-desc').value,
+              photo,
+              members
+            });
+            showToast('Grupo criado');
+            setTimeout(() => { location.href = 'chat.html?group=' + encodeURIComponent(group.id); }, 500);
+          } catch (err) {
+            busy = false;
+            $('grp-submit').textContent = 'Criar';
+            $('grp-error').textContent = err.message || 'Não foi possível criar o grupo.';
+            validate();
+          }
+        }, 600);
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        $('grp-name').addEventListener('input', validate);
+        $('grp-search').addEventListener('input', renderUsers);
+        $('grp-photo-input').addEventListener('change', (e) => loadPhoto(e.target.files[0]));
+        $('grp-submit').addEventListener('click', submit);
+        window.addEventListener('sr:group-screen-open', () => { if (!busy) reset(); });
+      });
+    })();
+
     // 3. Send Message Functionality
     const chatInput = document.getElementById('chat-input-field');
     const chatStream = document.getElementById('chat-stream');
@@ -1136,6 +2565,7 @@
     function sendChatMessage() {
       const text = chatInput.value.trim();
       if (!text) return;
+      if (DM.isBlocked()) { showToast('Desbloqueie o contato para enviar mensagens'); return; }
 
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -1173,6 +2603,7 @@
         if (icon) icon.className = 'fa-solid fa-check-double';
       }, 600);
 
+      if (isGroup) return; // grupos não simulam respostas
       // Simulate Contact Reply
       setTimeout(() => {
         typingIndicator.classList.add('active');
@@ -1180,6 +2611,7 @@
 
         setTimeout(() => {
           typingIndicator.classList.remove('active');
+          if (DM.isBlocked()) return;
           const replyGroup = document.createElement('div');
           replyGroup.className = 'message-bubble-group received';
           replyGroup.innerHTML = `
