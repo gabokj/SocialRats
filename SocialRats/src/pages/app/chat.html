@@ -1651,6 +1651,338 @@
       height: 100%;
       object-fit: cover;
     }
+
+    /* ═══════════════════════════════════════════════════════════════
+       DIRECT · MÍDIAS, CÂMERA & VISUALIZAÇÃO ÚNICA
+       ═══════════════════════════════════════════════════════════════ */
+    .chat-btn-circle.active {
+      color: var(--color-accent-pink);
+      background-color: var(--color-surface-elevated);
+    }
+
+    /* Foto normal enviada/recebida na bolha */
+    .dm-photo-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      max-width: 240px;
+      cursor: pointer;
+    }
+
+    .dm-photo-thumb-wrap {
+      position: relative;
+      width: 100%;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      background: #000;
+      aspect-ratio: 4 / 5;
+    }
+
+    .dm-photo-thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.2s ease;
+    }
+
+    .dm-photo-card:hover .dm-photo-thumb-wrap img {
+      transform: scale(1.02);
+    }
+
+    /* Bolha de foto de visualização única (estilo Instagram Direct) */
+    .dm-viewonce-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    /* Quando pendente (ainda não visualizada pelo destinatário) */
+    .dm-viewonce-pill.unopened {
+      background: linear-gradient(135deg, rgba(255, 50, 184, 0.18), rgba(0, 240, 255, 0.18));
+      border: 1px solid rgba(255, 50, 184, 0.45);
+      color: #ffffff;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.15);
+    }
+
+    .dm-viewonce-pill.unopened:hover {
+      transform: scale(1.02);
+      border-color: var(--color-accent-pink);
+    }
+
+    .dm-viewonce-icon-badge {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gradient-brand-diagonal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    /* Quando visualizada / expirada */
+    .dm-viewonce-pill.opened {
+      background: var(--color-surface-elevated);
+      border: 1px solid var(--color-border-subtle);
+      color: var(--color-text-muted);
+      cursor: default;
+      opacity: 0.8;
+    }
+
+    .dm-viewonce-pill.opened .dm-viewonce-icon-badge {
+      background: var(--color-border-subtle);
+      color: var(--color-text-secondary);
+    }
+
+    /* Modais de Câmera, Preview, Visualização Única e Lightbox */
+    .dm-media-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 6, 10, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 1200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    .dm-media-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .dm-media-modal-container {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      height: 100%;
+      max-height: 840px;
+      display: flex;
+      flex-direction: column;
+      background: #000;
+      overflow: hidden;
+    }
+
+    @media (min-width: 768px) {
+      .dm-media-modal-container {
+        border-radius: var(--radius-xl);
+        border: 1px solid var(--color-border-subtle);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+      }
+    }
+
+    .dm-camera-view-area {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      background: #05060a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .dm-camera-video,
+    .dm-camera-preview-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .dm-camera-video.mirrored {
+      transform: scaleX(-1);
+    }
+
+    .dm-modal-header-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      z-index: 10;
+      background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+    }
+
+    .dm-modal-header-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease, transform 0.15s ease;
+    }
+
+    .dm-modal-header-btn:hover {
+      background: rgba(255, 50, 184, 0.4);
+      transform: scale(1.05);
+    }
+
+    .dm-camera-bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 24px 20px calc(24px + env(safe-area-inset-bottom));
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+    }
+
+    .dm-shutter-btn {
+      width: 74px;
+      height: 74px;
+      border-radius: 50%;
+      background: transparent;
+      border: 4px solid #ffffff;
+      padding: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.15s ease;
+    }
+
+    .dm-shutter-btn-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: #ffffff;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .dm-shutter-btn:active .dm-shutter-btn-inner {
+      transform: scale(0.9);
+      background: var(--color-accent-pink);
+    }
+
+    .dm-preview-controls-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 20px 20px calc(20px + env(safe-area-inset-bottom));
+      z-index: 10;
+      background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
+    }
+
+    .dm-viewonce-toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .dm-viewonce-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-full);
+      font-size: 13.5px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.55);
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .dm-viewonce-toggle-btn.active {
+      background: var(--gradient-brand-diagonal);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 18px rgba(255, 50, 184, 0.45);
+    }
+
+    .dm-preview-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .dm-preview-btn-retake {
+      flex: 1;
+      height: 46px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.15s ease;
+    }
+
+    .dm-preview-btn-retake:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .dm-preview-btn-send {
+      flex: 1.5;
+      height: 46px;
+      border-radius: var(--radius-full);
+      background: var(--gradient-brand-diagonal);
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(255, 50, 184, 0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .dm-preview-btn-send:hover {
+      transform: scale(1.02);
+      box-shadow: 0 6px 20px rgba(255, 50, 184, 0.55);
+    }
+
+    /* Lightbox para fotos normais */
+    .dm-lightbox-img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: var(--radius-md);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
+    }
   </style>
 </head>
 
@@ -1819,6 +2151,19 @@
           </div>
         </div>
 
+        <!-- Exemplo Demo de Foto com Visualização Única recebida de Lucas -->
+        <div class="message-bubble-group received" id="demo-viewonce-group">
+          <div class="message-bubble" style="padding:4px; background:transparent; box-shadow:none;">
+            <button type="button" class="dm-viewonce-pill unopened" id="pill-demo-viewonce" onclick="DirectMedia.openViewOnce('demo-viewonce', 'lucas')" aria-label="Abrir foto de visualização única enviada por Lucas">
+              <span class="dm-viewonce-icon-badge"><i class="fa-solid fa-bomb"></i></span>
+              <span id="label-demo-viewonce">Foto · 1 visualização</span>
+            </button>
+            <div class="message-meta-row" style="padding: 2px 8px 0;">
+              <span>12:51</span>
+            </div>
+          </div>
+        </div>
+
         <!-- Message 3 (Received - The exact message from reference image!) -->
         <div class="message-bubble-group received" id="initial-contact-msg">
           <div class="message-bubble">
@@ -1840,10 +2185,20 @@
 
       <!-- 3. Bottom Chat Input Dock (Oculta barra inferior de abas) -->
       <footer class="chat-input-dock" id="chat-input-dock">
-        <button type="button" class="chat-btn-circle" title="Enviar mídia"
-          onclick="showToast('Selecionar imagem ou vídeo...')">
+        <!-- Botão Câmera (Tirar foto diretamente) -->
+        <button type="button" class="chat-btn-circle" id="btn-camera" title="Tirar foto" aria-label="Tirar foto com a câmera"
+          onclick="DirectMedia.openCamera()">
+          <i class="fa-solid fa-camera"></i>
+        </button>
+
+        <!-- Botão Galeria (Enviar foto da galeria) -->
+        <button type="button" class="chat-btn-circle" id="btn-gallery" title="Escolher foto da galeria" aria-label="Enviar foto da galeria"
+          onclick="DirectMedia.openGallery()">
           <i class="fa-regular fa-image"></i>
         </button>
+
+        <!-- Input de arquivo oculto para seleção de imagens -->
+        <input type="file" id="dm-file-input" accept="image/*" style="display:none;" onchange="DirectMedia.handleFileSelected(event)">
 
         <div class="chat-input-field-wrap">
           <input type="text" id="chat-input-field" class="chat-native-input" placeholder="Mensagem..."
@@ -2205,6 +2560,118 @@
             <button type="button" class="dm-btn dm-btn-secondary" onclick="DM.closeModal()">Fechar</button>
           </div>
         </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           MODAL 1: CÂMERA AO VIVO NO DIRECT (FOTO DIRETA)
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="dm-media-modal-backdrop" id="dm-camera-modal" role="dialog" aria-modal="true" aria-label="Câmera do Direct">
+        <div class="dm-media-modal-container">
+          <header class="dm-modal-header-bar">
+            <button type="button" class="dm-modal-header-btn" onclick="DirectMedia.closeCamera()" title="Fechar câmera" aria-label="Fechar câmera">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span style="font-size:14px; font-weight:700; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.8);">Câmera Direct</span>
+            <button type="button" class="dm-modal-header-btn" id="dm-camera-flip-btn" onclick="DirectMedia.toggleCameraFacing()" title="Alternar câmera frontal/traseira" aria-label="Alternar câmera">
+              <i class="fa-solid fa-camera-rotate"></i>
+            </button>
+          </header>
+
+          <div class="dm-camera-view-area">
+            <video id="dm-camera-video" class="dm-camera-video mirrored" autoplay playsinline muted></video>
+            <canvas id="dm-camera-canvas" style="display:none;"></canvas>
+          </div>
+
+          <footer class="dm-camera-bottom-bar">
+            <button type="button" class="dm-modal-header-btn" onclick="DirectMedia.openGalleryFromCamera()" title="Abrir da galeria" aria-label="Abrir da galeria">
+              <i class="fa-regular fa-images"></i>
+            </button>
+
+            <button type="button" class="dm-shutter-btn" onclick="DirectMedia.takePhoto()" title="Tirar foto" aria-label="Tirar foto">
+              <div class="dm-shutter-btn-inner"></div>
+            </button>
+
+            <div style="width:40px; height:40px;"></div> <!-- Espaçador para simetria -->
+          </footer>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           MODAL 2: PRÉ-VISUALIZAÇÃO DA FOTO & OPÇÃO DE VISUALIZAÇÃO ÚNICA
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="dm-media-modal-backdrop" id="dm-preview-modal" role="dialog" aria-modal="true" aria-label="Pré-visualização da foto">
+        <div class="dm-media-modal-container">
+          <header class="dm-modal-header-bar">
+            <button type="button" class="dm-modal-header-btn" onclick="DirectMedia.closePreview()" title="Cancelar" aria-label="Cancelar pré-visualização">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span style="font-size:14px; font-weight:700; color:#fff; text-shadow:0 1px 3px rgba(0,0,0,0.8);">Prévia do Direct</span>
+            <div style="width:40px; height:40px;"></div>
+          </header>
+
+          <div class="dm-camera-view-area">
+            <img id="dm-preview-img" class="dm-camera-preview-img" alt="Foto capturada">
+          </div>
+
+          <footer class="dm-preview-controls-bar">
+            <!-- Botão de alternância: Normal vs Visualização Única -->
+            <div class="dm-viewonce-toggle-row">
+              <button type="button" class="dm-viewonce-toggle-btn" id="btn-toggle-viewonce" onclick="DirectMedia.toggleViewOnceMode()">
+                <i class="fa-solid fa-bomb" id="icon-toggle-viewonce"></i>
+                <span id="text-toggle-viewonce">Visualização única: Desativada</span>
+              </button>
+            </div>
+
+            <!-- Botões Tirar Novamente / Enviar -->
+            <div class="dm-preview-actions-row">
+              <button type="button" class="dm-preview-btn-retake" onclick="DirectMedia.retakePhoto()">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Tirar de novo</span>
+              </button>
+              <button type="button" class="dm-preview-btn-send" onclick="DirectMedia.sendPhoto()">
+                <span>Enviar</span>
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </footer>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           MODAL 3: VISUALIZADOR DE VISUALIZAÇÃO ÚNICA (VIEW-ONCE VIEWER)
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="dm-media-modal-backdrop" id="dm-viewonce-viewer-modal" role="dialog" aria-modal="true" aria-label="Visualizador de foto única">
+        <div class="dm-media-modal-container">
+          <header class="dm-modal-header-bar">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="dm-viewonce-icon-badge" style="width:24px; height:24px; font-size:11px;"><i class="fa-solid fa-bomb"></i></span>
+              <span style="font-size:13.5px; font-weight:700; color:#fff;" id="dm-viewonce-author-title">Foto de Lucas</span>
+            </div>
+            <button type="button" class="dm-modal-header-btn" onclick="DirectMedia.closeViewOnceViewer()" title="Fechar visualização (o conteúdo será destruído)" aria-label="Fechar e destruir foto">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </header>
+
+          <div class="dm-camera-view-area">
+            <img id="dm-viewonce-display-img" class="dm-camera-preview-img" alt="Foto de visualização única">
+          </div>
+
+          <div style="position:absolute; bottom:20px; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
+            <span style="display:inline-block; padding:6px 14px; border-radius:var(--radius-full); background:rgba(0,0,0,0.65); color:rgba(255,255,255,0.85); font-size:12px; font-weight:600;">
+              <i class="fa-solid fa-shield-halved" style="color:var(--color-accent-pink); margin-right:5px;"></i> Conteúdo expira ao fechar
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════════════════════
+           MODAL 4: LIGHTBOX PARA FOTOS NORMAIS
+           ═══════════════════════════════════════════════════════════ -->
+      <div class="dm-media-modal-backdrop" id="dm-lightbox-modal" role="dialog" aria-modal="true" aria-label="Visualizador de imagem" onclick="if(event.target===this)DirectMedia.closeLightbox()">
+        <button type="button" class="dm-modal-header-btn" onclick="DirectMedia.closeLightbox()" style="position:absolute; top:20px; right:20px; z-index:1300;" title="Fechar imagem">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <img id="dm-lightbox-img" class="dm-lightbox-img" alt="Visualização de mídia ampliada">
       </div>
 
     </main>
@@ -3037,6 +3504,406 @@
         toast.classList.remove('show');
       }, 3000);
     }
+
+    // ═══════════════════════════════════════════════════════════════
+    // 4. DIRECT MEDIA ENGINE: CÂMERA, GALERIA E VISUALIZAÇÃO ÚNICA
+    // ═══════════════════════════════════════════════════════════════
+    const DirectMedia = (function () {
+      let cameraStream = null;
+      let facingMode = 'user'; // 'user' ou 'environment'
+      let currentPhotoDataUrl = null;
+      let isViewOnceActive = false;
+      let originMode = 'camera'; // 'camera' ou 'gallery'
+      let activeViewingMsgId = null;
+
+      const $ = (id) => document.getElementById(id);
+
+      // Status de visualização única persistente por msgId
+      function getViewOnceStatus(msgId) {
+        try {
+          const raw = localStorage.getItem('socialrats_viewonce_status_' + msgId);
+          return raw ? JSON.parse(raw) : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function setViewOnceStatus(msgId, status) {
+        try {
+          localStorage.setItem('socialrats_viewonce_status_' + msgId, JSON.stringify(status));
+        } catch (e) {}
+      }
+
+      function getViewOnceMedia(msgId) {
+        try {
+          return localStorage.getItem('socialrats_viewonce_data_' + msgId);
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function setViewOnceMedia(msgId, dataUrl) {
+        try {
+          localStorage.setItem('socialrats_viewonce_data_' + msgId, dataUrl);
+        } catch (e) {}
+      }
+
+      function purgeViewOnceMedia(msgId) {
+        try {
+          localStorage.removeItem('socialrats_viewonce_data_' + msgId);
+        } catch (e) {}
+      }
+
+      // Câmera do dispositivo real com getUserMedia
+      async function openCamera() {
+        if (DM.isBlocked()) {
+          showToast('Desbloqueie o contato para enviar fotos');
+          return;
+        }
+
+        originMode = 'camera';
+        $('dm-camera-modal').classList.add('active');
+
+        try {
+          if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            throw new Error('Navegador sem suporte direto à câmera.');
+          }
+
+          if (cameraStream) {
+            cameraStream.getTracks().forEach((track) => track.stop());
+          }
+
+          const constraints = {
+            video: {
+              facingMode: facingMode,
+              width: { ideal: 1280 },
+              height: { ideal: 720 }
+            },
+            audio: false
+          };
+
+          cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
+          const video = $('dm-camera-video');
+          video.srcObject = cameraStream;
+          video.classList.toggle('mirrored', facingMode === 'user');
+          await video.play();
+        } catch (err) {
+          console.warn('Falha ao acessar câmera real:', err);
+          showToast('Câmera indisponível. Selecione uma foto da galeria.');
+          closeCamera();
+          openGallery();
+        }
+      }
+
+      function closeCamera() {
+        if (cameraStream) {
+          cameraStream.getTracks().forEach((track) => track.stop());
+          cameraStream = null;
+        }
+        $('dm-camera-modal').classList.remove('active');
+      }
+
+      async function toggleCameraFacing() {
+        facingMode = facingMode === 'user' ? 'environment' : 'user';
+        await openCamera();
+      }
+
+      function openGalleryFromCamera() {
+        closeCamera();
+        openGallery();
+      }
+
+      function takePhoto() {
+        const video = $('dm-camera-video');
+        const canvas = $('dm-camera-canvas');
+        if (!video.videoWidth || !video.videoHeight) {
+          showToast('Aguarde a câmera iniciar...');
+          return;
+        }
+
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext('2d');
+
+        if (facingMode === 'user') {
+          ctx.translate(canvas.width, 0);
+          ctx.scale(-1, 1);
+        }
+
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.88);
+
+        closeCamera();
+        openPreview(dataUrl, 'camera');
+      }
+
+      // Galeria
+      function openGallery() {
+        if (DM.isBlocked()) {
+          showToast('Desbloqueie o contato para enviar fotos');
+          return;
+        }
+        const fileInput = $('dm-file-input');
+        fileInput.value = '';
+        fileInput.click();
+      }
+
+      function handleFileSelected(event) {
+        const file = event.target.files && event.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith('image/')) {
+          showToast('Por favor, selecione um arquivo de imagem válido.');
+          return;
+        }
+
+        if (file.size > 12 * 1024 * 1024) {
+          showToast('A imagem excede o tamanho máximo de 12MB.');
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          openPreview(e.target.result, 'gallery');
+        };
+        reader.onerror = function () {
+          showToast('Erro ao carregar imagem selecionada.');
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Pré-visualização e opções
+      function openPreview(dataUrl, origin) {
+        currentPhotoDataUrl = dataUrl;
+        originMode = origin;
+        isViewOnceActive = false;
+
+        updateViewOnceToggleUI();
+        $('dm-preview-img').src = dataUrl;
+        $('dm-preview-modal').classList.add('active');
+      }
+
+      function closePreview() {
+        currentPhotoDataUrl = null;
+        $('dm-preview-modal').classList.remove('active');
+      }
+
+      function retakePhoto() {
+        closePreview();
+        if (originMode === 'camera') {
+          openCamera();
+        } else {
+          openGallery();
+        }
+      }
+
+      function toggleViewOnceMode() {
+        isViewOnceActive = !isViewOnceActive;
+        updateViewOnceToggleUI();
+        if (isViewOnceActive) {
+          showToast('Modo de Visualização Única ativado! 💣');
+        } else {
+          showToast('Modo normal ativado (foto visível na conversa).');
+        }
+      }
+
+      function updateViewOnceToggleUI() {
+        const btn = $('btn-toggle-viewonce');
+        const icon = $('icon-toggle-viewonce');
+        const text = $('text-toggle-viewonce');
+
+        if (isViewOnceActive) {
+          btn.classList.add('active');
+          icon.className = 'fa-solid fa-bomb';
+          text.textContent = '1 visualização ativada';
+        } else {
+          btn.classList.remove('active');
+          icon.className = 'fa-solid fa-repeat';
+          text.textContent = 'Manter na conversa';
+        }
+      }
+
+      // Confirmação de envio
+      function sendPhoto() {
+        if (!currentPhotoDataUrl) return;
+        if (DM.isBlocked()) {
+          showToast('Desbloqueie o contato para enviar fotos');
+          closePreview();
+          return;
+        }
+
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const msgId = 'dm_media_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7);
+
+        const sentGroup = document.createElement('div');
+        sentGroup.className = 'message-bubble-group sent';
+
+        if (isViewOnceActive) {
+          setViewOnceMedia(msgId, currentPhotoDataUrl);
+          setViewOnceStatus(msgId, { opened: false, sentAt: Date.now() });
+
+          sentGroup.innerHTML = `
+            <div class="message-bubble" style="padding:4px; background:transparent; box-shadow:none;">
+              <div class="dm-viewonce-pill unopened" id="pill-${msgId}" onclick="DirectMedia.openViewOnce('${msgId}', 'Eu')" title="Foto de visualização única enviada" aria-label="Foto de visualização única enviada">
+                <span class="dm-viewonce-icon-badge"><i class="fa-solid fa-bomb"></i></span>
+                <span id="label-${msgId}">Foto · 1 visualização</span>
+              </div>
+              <div class="message-meta-row" style="padding: 2px 8px 0;">
+                <span>${timeStr}</span>
+                <i class="fa-solid fa-check" id="check-${msgId}"></i>
+              </div>
+            </div>
+          `;
+        } else {
+          sentGroup.innerHTML = `
+            <div class="message-bubble" style="padding: 6px; max-width: 260px;">
+              <div class="dm-photo-card" onclick="DirectMedia.openLightbox('${escapeHtml(currentPhotoDataUrl)}')">
+                <div class="dm-photo-thumb-wrap">
+                  <img src="${escapeHtml(currentPhotoDataUrl)}" alt="Foto enviada">
+                </div>
+              </div>
+              <div class="message-meta-row" style="padding: 4px 6px 0;">
+                <span>${timeStr}</span>
+                <i class="fa-solid fa-check"></i>
+              </div>
+            </div>
+          `;
+        }
+
+        chatStream.insertBefore(sentGroup, typingIndicator);
+        scrollToBottom();
+        closePreview();
+
+        if (window.SocialRatsMetrics) {
+          window.SocialRatsMetrics.recordActivity('DIRECT_INTERACTION', {
+            label: isViewOnceActive ? `Foto de visualização única enviada no Direct` : `Foto compartilhada no Direct`
+          });
+        }
+
+        setTimeout(() => {
+          const check = sentGroup.querySelector('.fa-check');
+          if (check) check.className = 'fa-solid fa-check-double';
+        }, 600);
+
+        if (isViewOnceActive && !isGroup) {
+          setTimeout(() => {
+            const check = document.getElementById('check-' + msgId);
+            const label = document.getElementById('label-' + msgId);
+            const pill = document.getElementById('pill-' + msgId);
+            if (check) check.style.color = 'var(--color-accent-pink)';
+            if (label) label.textContent = 'Visualizada';
+            if (pill) {
+              pill.classList.remove('unopened');
+              pill.classList.add('opened');
+            }
+          }, 4000);
+        }
+
+        showToast(isViewOnceActive ? 'Foto enviada (1 visualização) 📸' : 'Foto enviada com sucesso! 📷');
+      }
+
+      function openViewOnce(msgId, senderName) {
+        const status = getViewOnceStatus(msgId);
+        if (status && status.opened) {
+          showToast('Esta foto já foi visualizada e expirou.');
+          return;
+        }
+
+        activeViewingMsgId = msgId;
+        const authorTitle = senderName ? `Foto de ${senderName}` : 'Foto de visualização única';
+        $('dm-viewonce-author-title').textContent = authorTitle;
+
+        let imgSrc = getViewOnceMedia(msgId);
+        if (!imgSrc && msgId === 'demo-viewonce') {
+          imgSrc = '../../../assets/images/post-blue-orange.png';
+        }
+
+        if (!imgSrc) {
+          showToast('Conteúdo expirado e indisponível.');
+          markViewOnceAsOpened(msgId);
+          return;
+        }
+
+        $('dm-viewonce-display-img').src = imgSrc;
+        $('dm-viewonce-viewer-modal').classList.add('active');
+      }
+
+      function closeViewOnceViewer() {
+        if (activeViewingMsgId) {
+          const msgId = activeViewingMsgId;
+          markViewOnceAsOpened(msgId);
+          purgeViewOnceMedia(msgId);
+          activeViewingMsgId = null;
+        }
+        $('dm-viewonce-viewer-modal').classList.remove('active');
+        showToast('Foto de visualização única encerrada e expirada.');
+      }
+
+      function markViewOnceAsOpened(msgId) {
+        setViewOnceStatus(msgId, { opened: true, openedAt: Date.now() });
+
+        const pill = document.getElementById('pill-' + msgId);
+        const label = document.getElementById('label-' + msgId);
+
+        if (pill) {
+          pill.classList.remove('unopened');
+          pill.classList.add('opened');
+          pill.setAttribute('aria-disabled', 'true');
+        }
+        if (label) {
+          label.textContent = 'Visualizada';
+        }
+      }
+
+      function openLightbox(src) {
+        $('dm-lightbox-img').src = src;
+        $('dm-lightbox-modal').classList.add('active');
+      }
+
+      function closeLightbox() {
+        $('dm-lightbox-modal').classList.remove('active');
+        $('dm-lightbox-img').src = '';
+      }
+
+      function initPersistentStates() {
+        const demoStatus = getViewOnceStatus('demo-viewonce');
+        if (demoStatus && demoStatus.opened) {
+          const pill = document.getElementById('pill-demo-viewonce');
+          const label = document.getElementById('label-demo-viewonce');
+          if (pill) {
+            pill.classList.remove('unopened');
+            pill.classList.add('opened');
+          }
+          if (label) {
+            label.textContent = 'Visualizada';
+          }
+        }
+      }
+
+      return {
+        openCamera,
+        closeCamera,
+        toggleCameraFacing,
+        openGalleryFromCamera,
+        takePhoto,
+        openGallery,
+        handleFileSelected,
+        closePreview,
+        retakePhoto,
+        toggleViewOnceMode,
+        sendPhoto,
+        openViewOnce,
+        closeViewOnceViewer,
+        openLightbox,
+        closeLightbox,
+        initPersistentStates
+      };
+    })();
+
+    document.addEventListener('DOMContentLoaded', () => {
+      DirectMedia.initPersistentStates();
+    });
 
     // View mode toggle
     const appViewport = document.getElementById('app-viewport');
