@@ -349,6 +349,43 @@
       display: none;
     }
 
+    /* Landing Header Navigation (Voltar para o Search / Feed) */
+    .landing-nav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 18px 6px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 60;
+    }
+
+    .btn-landing-back {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(14, 11, 22, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--color-border-subtle);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-landing-back:hover {
+      background: rgba(255, 50, 184, 0.2);
+      border-color: var(--color-accent-pink);
+      transform: scale(1.05);
+    }
+
     /* Top Phone Status & Floating Grid */
     .landing-top-showcase {
       width: 100%;
@@ -358,7 +395,7 @@
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      padding-top: 14px;
+      padding-top: 52px;
       background: radial-gradient(circle at 50% 10%, rgba(146, 59, 255, 0.15), transparent 70%);
     }
 
@@ -1448,6 +1485,16 @@
         border-right: none;
       }
       .bottom-nav-dock { max-width: 100%; }
+      .landing-title-main,
+      .landing-title-gradient {
+        font-size: 34px;
+      }
+      .landing-bottom-content {
+        padding: 16px 20px 24px;
+      }
+      .landing-top-showcase {
+        height: 330px;
+      }
     }
   </style>
 </head>
@@ -1538,6 +1585,15 @@
            ═══════════════════════════════════════════════════════════ -->
       <div class="screen-view hidden" id="screen-landing">
         
+        <!-- Navigation Header back to Search/Origin -->
+        <header class="landing-nav-header">
+          <button type="button" class="btn-landing-back" onclick="goBackFromCommunities()" title="Voltar para a Busca" aria-label="Voltar">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+          <div style="font-size:12px; font-weight:700; color:var(--color-text-secondary); text-transform:uppercase; letter-spacing:0.8px;">SocialRats</div>
+          <div style="width:38px;"></div>
+        </header>
+
         <!-- Staggered Floating Matrix Showcase -->
         <div class="landing-top-showcase">
           <div class="landing-phone-header">
@@ -2458,7 +2514,7 @@
     // Initialize
     window.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const initialScreen = urlParams.get('screen') || 'explore';
+      const initialScreen = urlParams.get('screen') || 'landing';
       showScreen(initialScreen);
     });
   </script>
